@@ -155,6 +155,7 @@ Route::put('/users/{user}/change-password', [RegisterController::class, 'changeP
 // Route to store the product data
 //Route::post('/product/store', [ProductController::class, 'store'])->name('products.store');
 Route::resource('products', ProductController::class);
+Route::get('products/download/csv', [ProductController::class, 'download_csv']);
 // Route to display the form
 //Route::get('/product_create', [ProductController::class, 'create'])->name('products.create');
 //Route::get('products_{id}', [ProductController::class, 'show'])->name('products.show');

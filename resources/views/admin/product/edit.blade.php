@@ -7,7 +7,7 @@
     <form action="{{ route('products.update', $product->id ?? '') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="productForm">
         @csrf
         @if(isset($product))
-            @method('PUT') <!-- To use the PUT method for updating -->
+        @method('PUT') <!-- To use the PUT method for updating -->
         @endif
         <div class="dataOverview mt-3">
             <h6 class="m-0">{{ isset($product) ? 'Edit Product' : 'Add New Product' }}</h6>
@@ -18,11 +18,11 @@
                     <select name="product_name" id="product_name" class="form-select w-100 select2" required>
                         <option value="opt1">Select</option>
                         @foreach ($productTypes as $productType)
-                            <option value="{{ $productType->id }}" 
-                                {{ ($product->product_name == $productType->id) ? 'selected' : '' }}>
-                                <!-- {{ isset($product) && is_string($product->product_name) && in_array($productType->product_type, explode(',', $product->product_name)) ? 'selected' : '' }}> -->
-                                {{ $productType->product_type }}
-                            </option>
+                        <option value="{{ $productType->id }}"
+                            {{ ($product->product_name == $productType->id) ? 'selected' : '' }}>
+                            <!-- {{ isset($product) && is_string($product->product_name) && in_array($productType->product_type, explode(',', $product->product_name)) ? 'selected' : '' }}> -->
+                            {{ $productType->product_type }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -46,7 +46,7 @@
                     <select name="supplier_name" id="supplier_name" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}" {{ isset($product) && $product->supplier_name == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
+                        <option value="{{ $supplier->id }}" {{ isset($product) && $product->supplier_name == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -55,7 +55,7 @@
                     <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollections as $supplierCollection)
-                            <option value="{{ $supplierCollection->id }}" {{ isset($product) && $product->supplier_collection == $supplierCollection->id ? 'selected' : '' }}>{{ $supplierCollection->collection_name }}</option>
+                        <option value="{{ $supplierCollection->id }}" {{ isset($product) && $product->supplier_collection == $supplierCollection->id ? 'selected' : '' }}>{{ $supplierCollection->collection_name }}</option>
                         @endforeach
                         <!-- Populate based on selected supplier -->
                     </select>
@@ -65,13 +65,13 @@
                     <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollectionDesigns as $supplierCollectionDesign)
-                            <option value="{{ $supplierCollectionDesign->id }}" {{ isset($product) && $product->supplier_collection_design == $supplierCollectionDesign->id ? 'selected' : '' }}>{{ $supplierCollectionDesign->design_name }}</option>
+                        <option value="{{ $supplierCollectionDesign->id }}" {{ isset($product) && $product->supplier_collection_design == $supplierCollectionDesign->id ? 'selected' : '' }}>{{ $supplierCollectionDesign->design_name }}</option>
                         @endforeach
                         <!-- Populate based on selected collection -->
                     </select>
                 </div>
             </div>
-            
+
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="mb-1 w-100">
@@ -92,14 +92,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Image Upload -->
             <div class="mb-2 w-100 d-flex justify-content-start">
                 <img src="{{ isset($product) && $product->image ? asset('storage/' . $product->image) : asset('admin/images/image.jpg') }}" class="rounded" id="imagePreview" alt="" width="140" height="140">
                 <div class="w-100 ms-3">
                     <div>
                         <label for="image" class="form-label mb-1">Image <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control w-100" id="image" name="image" onchange="previewImage(event)">
+                        <input type="file" class="form-control w-100" id="image" name="image" value="{{ isset($product) && $product->image ? asset('storage/' . $product->image) : '' }}" onchange="previewImage(event)">
                     </div>
                     <div>
                         <label for="image_alt" class="form-label mb-1">Image Alt <span class="text-danger">*</span></label>
@@ -114,10 +114,14 @@
                     <label for="usage" class="form-label m-0 mb-1">Usage <span class="text-danger">*</span></label>
                     <select name="usage[]" id="usage" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($usages as $usage)
-                            <option value="{{ $usage->id }}" 
-                                {{ in_array($usage->id, $product->usage) ? 'selected' : '' }}>
-                                {{ $usage->usages }}
-                            </option>
+                        <option value="{{ $usage->id }}"
+                            @if(is_array($product->usage))
+                            {{ in_array($usage->id, $product->usage) ? 'selected' : '' }}
+                            @else
+                            {{ $usage->id == $product->usage ? 'selected' : '' }}
+                            @endif>
+                            {{ $usage->usages }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -125,21 +129,26 @@
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs) <span class="text-danger">*</span></label>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $type)
-                            <option value="{{ $type->id }}" 
-                                {{ isset($product) && is_array($product->type) && in_array($type->id, $product->type) ? 'selected' : '' }}>
-                                {{ $type->type }}
-                            </option>
+                        <option value="{{ $usage->id }}"
+                            @if(is_array($product->type))
+                            {{ in_array($type->id, $product->type) ? 'selected' : '' }}
+                            @else
+                            {{ $type->id == $product->type ? 'selected' : '' }}
+                            @endif>
+                            {{ $usage->usages }}
+                        </option>
                         @endforeach
+
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="design_type" class="form-label m-0 mb-1">Design Type <span class="text-danger">*</span></label>
                     <select name="design_type[]" id="design_type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($designTypes as $designType)
-                            <option value="{{ $designType->id }}" 
-                                {{ isset($product) && is_array($product->design_type) && in_array($designType->id, $product->design_type) ? 'selected' : '' }}>
-                                {{ $designType->design_type }}
-                            </option>
+                        <option value="{{ $designType->id }}"
+                            {{ isset($product) && is_array($product->design_type) && in_array($designType->id, $product->design_type) ? 'selected' : '' }}>
+                            {{ $designType->design_type }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -151,34 +160,34 @@
                     <label for="colour" class="form-label m-0 mb-1">Colour <span class="text-danger">*</span></label>
                     <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($colours as $colour)
-                            <option value="{{ $colour->color }}" 
-                                {{ isset($product) && is_array($product->colour) && in_array($colour->color, $product->colour) ? 'selected' : '' }}>
-                                {{ $colour->color }}
-                            </option>
+                        <option value="{{ $colour->id }}"
+                            {{ isset($product) && is_array($product->colour) && in_array($colour->id, $product->colour) ? 'selected' : '' }}>
+                            {{ $colour->color }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
                     <select name="composition[]" id="composition" class="mySelect for" multiple="multiple" style="width: 100%">
-                          @foreach ($compositions as $composition)
-                                <option value="{{ $composition->composition }}" 
-                                    {{ isset($product) && is_array($product->composition) && in_array($composition->composition, $product->composition) ? 'selected' : '' }}>
-                                    {{ $composition->composition }}
-                                </option>
-                            @endforeach
+                        @foreach ($compositions as $composition)
+                        <option value="{{ $composition->id }}"
+                            {{ isset($product) && is_array($product->composition) && in_array($composition->id, $product->composition) ? 'selected' : '' }}>
+                            {{ $composition->composition }}
+                        </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
         </div>
         <div class="row mb-2">
-                <div class="col-md-12">
-                    <label for="noteInput" class="form-label mb-1">Note</label>
-                    <textarea name="note" id="noteInput" class="form-control w-100">{{ old('note', isset($product) ? $product->note : '') }}</textarea>
-                </div>
+            <div class="col-md-12">
+                <label for="noteInput" class="form-label mb-1">Note</label>
+                <textarea name="note" id="noteInput" class="form-control w-100">{{ old('note', isset($product) ? $product->note : '') }}</textarea>
             </div>
-            <hr class="m-0 mt-4 mb-2">
-            <div class="row mb-2">
+        </div>
+        <hr class="m-0 mt-4 mb-2">
+        <div class="row mb-2">
             <div class="col-md-3">
                 <div class="mb-1 w-100">
                     <label for="CostPriceInput" class="form-label mb-1">Cost Price <span class="text-danger">*</span></label>
@@ -216,67 +225,87 @@
         </div>
 
         <div class="mt-3 d-flex gap-3 mb-4">
-                <button type="submit" class="btn primary-btn">Update Product</button>
-                <button type="reset" class="btn secondary-btn">Cancel</button>
-            </div>
+            <button type="submit" class="btn primary-btn">Update Product</button>
+            <button type="reset" class="btn secondary-btn">Cancel</button>
         </div>
-    </form>
+</div>
+</form>
 </div>
 
-@endsection
-@section('scripts')
 <script>
     // Image Preview
     function previewImage(event) {
         const reader = new FileReader();
-        reader.onload = function () {
+        reader.onload = function() {
             const output = document.getElementById('imagePreview');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // jQuery Form Validation
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#productForm').validate({
                 rules: {
-                    type: { required: true },
-                    file_number: { required: true },
-                    supplier_name: { required: true },
-                    supplier_collection: { required: true },
-                    supplier_collection_design: { required: true },
-                    image: { required: true },
-                    image_alt: { required: true }
+                    type: {
+                        required: true
+                    },
+                    file_number: {
+                        required: true
+                    },
+                    supplier_name: {
+                        required: true
+                    },
+                    supplier_collection: {
+                        required: true
+                    },
+                    supplier_collection_design: {
+                        required: true
+                    },
+                    image_alt: {
+                        required: true
+                    }
                 },
                 messages: {
-                    type: { required: "Please select a type." },
-                    file_number: { required: "Please enter the file number." },
-                    supplier_name: { required: "Please select a supplier." },
-                    supplier_collection: { required: "Please select a supplier collection." },
-                    supplier_collection_design: { required: "Please select a supplier collection design." },
-                    image: { required: "Please upload an image." },
-                    image_alt: { required: "Please enter an image alt text." }
+                    type: {
+                        required: "Please select a type."
+                    },
+                    file_number: {
+                        required: "Please enter the file number."
+                    },
+                    supplier_name: {
+                        required: "Please select a supplier."
+                    },
+                    supplier_collection: {
+                        required: "Please select a supplier collection."
+                    },
+                    supplier_collection_design: {
+                        required: "Please select a supplier collection design."
+                    },
+                    image_alt: {
+                        required: "Please enter an image alt text."
+                    }
                 },
                 errorElement: "div",
-                errorPlacement: function (error, element) {
+                errorPlacement: function(error, element) {
                     error.addClass("form-text text-danger xsmall");
                     error.insertAfter(element);
                 },
-                highlight: function (element) {
+                highlight: function(element) {
                     $(element).addClass("is-invalid").removeClass("is-valid");
                 },
-                unhighlight: function (element) {
+                unhighlight: function(element) {
                     $(element).removeClass("is-invalid").addClass("is-valid");
                 },
-                submitHandler: function (form) {
+                submitHandler: function(form) {
                     form.submit();
                 }
             });
         });
 
         // Supplier Name Change Handler
-        $('#supplier_name').change(function () {
+        $('#supplier_name').change(function() {
             const supplierId = $(this).val();
 
             // Clear dependent dropdowns
@@ -289,7 +318,7 @@
                     url: `/supplier-collection/${supplierId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data); // Check the server response
                         if (data.length === 0) {
                             $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
@@ -299,7 +328,7 @@
                             });
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Error occurred: " + error);
                         console.error("Response: " + xhr.responseText);
                         alert('Error retrieving collections');
@@ -309,7 +338,7 @@
         });
 
         // Supplier Collection Change Handler
-        $('#supplier_collection').change(function () {
+        $('#supplier_collection').change(function() {
             const collectionId = $(this).val();
             const supplierId = $('#supplier_name').val();
 
@@ -322,7 +351,7 @@
                     url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data); // Check the server response
                         if (data.length === 0) {
                             $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
@@ -332,7 +361,7 @@
                             });
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Error occurred: " + error);
                         console.error("Response: " + xhr.responseText);
                         alert('Error retrieving designs');
@@ -376,8 +405,6 @@
 
     // Initialize the calculation on page load
     window.onload = calculateMRP;
-
 </script>
 
 @endsection
-

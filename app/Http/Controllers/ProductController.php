@@ -93,11 +93,11 @@ public function store(Request $request)
         'width' => $request->input('width'),
         'image' => $imagePath,
         'image_alt' => $request->input('image_alt'),
-        'colour' => implode(',', $request->input('colour', [])), // Convert array to comma-separated string
-        'composition' => implode(',', $request->input('composition', [])), // Convert array to comma-separated string
-        'design_type' => implode(',', $request->input('design_type', [])), // Convert array to comma-separated string
-        'usage' => implode(',', $request->input('usage', [])), // Convert array to comma-separated string
-        'type' => implode(',', $request->input('type', [])), // Convert array to comma-separated string
+        'colour' => json_encode($request->input('colour')), // Convert array to comma-separated string
+        'composition' => json_encode($request->input('composition')), // Convert array to comma-separated string
+        'design_type' => json_encode($request->input('design_type')), // Convert array to comma-separated string
+        'usage' => json_encode($request->input('usage')), // Convert array to comma-separated string
+        'type' => json_encode($request->input('type')), // Convert array to comma-separated string
         'note' => $request->input('note'),
         'currency' => $request->input('currency'),
         'supplier_price' => $request->input('supplier_price'),
@@ -109,10 +109,6 @@ public function store(Request $request)
         'unit' => $request->input('unit'),
     ];
 
-    // Debug prepared data if needed
-    // dd($productData);
-
-    // Create the product
     Product::create($productData);
 
     // Return a response, redirecting or showing a success message
@@ -137,8 +133,13 @@ public function store(Request $request)
  public function index()
  {
      $products = Product::with('ProductType','Supplier','SupplierCollection','SupplierCollectionDesign')->paginate(10); // You can adjust the pagination size
-    //  $products = Product::paginate(10); // You can adjust the pagination size
-     return view('admin.product.index', compact('products'));
+     $usages = Usage::all();
+     $colors = Color::all();
+     $compositions = Composition::all();
+     $designTypes = DesignType::all(); // You can adjust the pagination size
+     $types = Type::all();
+
+     return view('admin.product.index', compact('products','usages','colors','compositions','designTypes','types'));
  }
 
  // Show the form for editing the product
@@ -170,6 +171,7 @@ public function store(Request $request)
     $productTypes=ProductType::all();
     $types=Type::all();
     $usages=Usage::all();
+
      return view('admin.product.edit', compact('product','suppliers','supplierCollections','supplierCollectionDesigns','colours','compositions','designTypes','productTypes','types','usages'));
  }
 
@@ -186,6 +188,7 @@ public function store(Request $request)
  {
      $product = Product::findOrFail($id);
      $product->delete();
+
      return redirect()->route('products.index')->with('success', 'Product deleted successfully');
  }
  public function show($id)
@@ -217,6 +220,127 @@ public function getProductDetails($productId)
     // Return product details as JSON
     return response()->json($product);
 }
+
+    public function download_csv()
+    {
+        // Fetch the required data from the database
+        $query = Product::with('ProductType',
+            'Supplier',
+            'SupplierCollection',
+            'SupplierCollectionDesign'
+        );
+        $products = $query->get();
+
+       
+        // Prepare the CSV data
+        $header = [
+                'Date',
+                'Product Name',
+                'Type',
+                'Tally Code',
+                'File Number',
+                'Supplier Name',
+                'Supplier Collection',
+                'Supplier Collection Design',
+                'Design SKU',
+                'Rubs Martendale',
+                'Width',
+                'Composition',
+                'Design_type',
+                'Usage',
+                'Note',
+                'Currency',
+                'Supplier Price',
+                'Freight',
+                'Duty Percentage',
+                'Profit Percentage',
+                'GST Percentage',
+                'MRP',
+                'Unit'
+            ];
+
+        // Create an array for CSV rows, starting with the header
+        $data[] = $header;
+
+        // Populate CSV rows with product data
+        if(!empty($products)){
+            foreach ($products as $product) {
+                $row = [
+                    date('d M Y', strtotime($product->created_at)), // Format the date
+                    $product->product_name,
+                    optional($product->ProductType)->name, // Get related data safely using optional
+                    $product->tally_code,
+                    $product->file_number,
+                    optional($product->Supplier)->name, // Get related data safely using optional
+                    optional($product->SupplierCollection)->name, // Get related data safely using optional
+                    optional($product->SupplierCollectionDesign)->name, // Get related data safely using optional
+                    $product->design_sku,
+                    $product->rubs_martendale,
+                    $product->width,
+                    $product->composition,
+                    $product->design_type,
+                    $product->usage,
+                    $product->note,
+                    $product->currency,
+                    $product->supplier_price,
+                    $product->freight,
+                    $product->duty_percentage,
+                    $product->profit_percentage,
+                    $product->gst_percentage,
+                    $product->mrp,
+                    $product->unit
+                ];
+    
+                $data[] = $row;
+            }
+
+        }else{
+            $data[] = array();
+        }
+    
+        // Call helper function to generate and download the CSV file
+        return $this->array_to_csv($data, 'Products.csv');
+    }
+
+    public function array_to_csv($array,
+        $download = ""
+    ) {
+        if ($download != "") {
+            // Set the headers for CSV file download
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $download . '"');
+        }
+
+        // Open output stream to write the CSV data
+        ob_start();
+        $f = fopen('php://output', 'w');
+
+        if ($f === false) {
+            // Handle the error if fopen fails
+            return response()->json(['error' => 'Unable to open output stream for CSV'], 500);
+        }
+
+        // Write each line of the array into the CSV file
+        foreach ($array as $line) {
+            if (fputcsv($f, $line) === false) {
+                fclose($f);
+                // Handle the error if fputcsv fails
+                return response()->json(['error' => 'Error writing CSV data'], 500);
+            }
+        }
+
+        // Close the file and get the output content
+        fclose($f);
+        $csvData = ob_get_contents();
+        ob_end_clean();
+
+        // Output or return the CSV data
+        if ($download == "") {
+            return $csvData; // For internal usage or tests
+        } else {
+            echo $csvData; // For download
+        }
+    }
 
 
 

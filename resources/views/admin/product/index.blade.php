@@ -12,7 +12,7 @@
     </div>
     <div class="dataOverview mt-3">
         <div class="d-flex align-items-center justify-content-end mb-3">
-            <a class="secondary-btn me-2 addBtn" href="#"><i class="bi bi-cloud-arrow-down me-2"></i>
+            <a class="secondary-btn me-2 addBtn" href="{{ url('products/download/csv') }}"><i class="bi bi-cloud-arrow-down me-2"></i>
                 Export Data</a>
             <a class="secondary-btn addBtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"><i class="bi bi-filter me-2"></i> Filter</a>
@@ -91,82 +91,91 @@
                         <tbody>
                             <tr>
                                 <th>Type</th>
-                                <td>{{ $product->productType->product_type}}</td>
+                                <td>{{ $product->productType->product_type ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Code</th>
-                                <td>{{ $product->tally_code}}</td>
+                                <td>{{ $product->tally_code ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>File Number</th>
-                                <td>{{ $product->file_number}}</td>
+                                <td>{{ $product->file_number ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Supplier Name</th>
-                                <td>{{ $product->Supplier->name}}</td>
+                                <td>{{ $product->Supplier->name ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Supplier Collection</th>
-                                <td>{{ $product->SupplierCollection->collection_name}}</td>
+                                <td>{{ $product->SupplierCollection->collection_name ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Supplier Collection Design</th>
-                                <td>{{ $product->SupplierCollectionDesign->design_name}}</td>
+                                <td>{{ $product->SupplierCollectionDesign->design_name ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Design SKU</th>
-                                <td>{{ $product->design_sku }}</td>
+                                <td>{{ $product->design_sku ??'' }}</td>
                             </tr>
+                            @if(!empty($product->width))
                             <tr>
                                 <th>Width</th>
-                                <td>{{ $product->width }}</td>
+                                <td>{{ $product->width ?? '' }}</td>
                             </tr>
+                            @endif
+
+                            @if(!empty($product->rubs_martendale))
                             <tr>
                                 <th>Rubs Martendale</th>
-                                <td>{{ $product->rubs_martendale }} </td>
+                                <td>{{ $product->rubs_martendale ?? '' }} </td>
                             </tr>
+                            @endif
                             <tr>
                                 <th>Usage</th>
-                                <td>{{ $product->rubs_martendale }}</td>
+                                <td>
+                                    {{ $product->usage ?? '' }}
+                                </td>
                             </tr>
                             <tr>
                                 <th>Type (Technical specs)</th>
-                                <td>Type Technical specs Value</td>
+                                <td>{{ $product->type  ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Design Type</th>
-                                <td>Design Type Value</td>
+                                <td>{{ $product->design_type  ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Color</th>
-                                <td>Color Value</td>
+                                <td>{{ $product->colour  ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Composition</th>
-                                <td>Composition Value</td>
+                                <td>{{ $product->composition  ?? ''}}</td>
                             </tr>
                             <tr>
                                 <th>Note</th>
-                                <td>{{ $product->note }}</td>
+                                <td>{{ $product->note  ?? ''}}</td>
                             </tr>
 
                             <tr>
                                 <th>Image Gallery</th>
                                 <td>
+                                    @if(!empty($product))
                                     <a href="{{ asset('storage/' . $product->image) }}" data-fancybox
                                         data-caption="{{ $product->tally_code }}">
                                         <img class="tabelImage" src="{{ asset('storage/' . $product->image) }}"
                                             alt="{{ $product->image_alt }}" />
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <th>Created At</th>
-                                <td>{{ $product->created_at }}</td>
+                                <td>{{ $product->created_at ?? '' }}</td>
                             </tr>
                             <tr>
                                 <th>Updated At</th>
-                                <td>{{ $product->updated_at }}</td>
+                                <td>{{ $product->updated_at  ?? ''}}</td>
                             </tr>
                         </tbody>
                     </table>
