@@ -178,7 +178,6 @@ public function store(Request $request)
 
  function data_log()
  {
-    echo 'tetisnfafd'; die;
         $post = $_POST;
     
         // Retrieve status from request, defaulting to empty string if not provided

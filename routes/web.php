@@ -99,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('franchise_approval', [FranchiseTempController::class, 'index'])->name('franchise.temp.index');
+    Route::get('/franchise/details/{id}/{type}', [FranchiseTempController::class, 'getFranchiseDetails'])->name('franchise.details');
 
     // Route to approve franchise
 
@@ -129,6 +130,8 @@ Route::get('franchise_approval', [FranchiseTempController::class, 'index'])->nam
 
 // Route to approve franchise
 Route::get('franchise/{id}/approve', [FranchiseTempController::class, 'approve'])->name('franchise.approve');
+// Route::get('franchise/{id}/reject', [FranchiseTempController::class, 'reject'])->name('franchise.reject');
+Route::put('franchise/{id}/reject', [FranchiseTempController::class, 'reject'])->name('franchise.reject');
 
 
 Route::post('/custom-register', [RegisterController::class, 'register'])

@@ -55,6 +55,8 @@
                                 <th>City</th>
                                 <th>State</th>
                                 <th>Country</th>
+                                <th>Action</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +72,17 @@
                                 <td>{{ $franchise->city }}</td>
                                 <td>{{ $franchise->state }}</td>
                                 <td>{{ $franchise->country }}</td>
-
+                                <td>
+                                    <div>
+                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:" id="open-franchise-details-{{ $franchise->id }}" class="dropdown-item" data-id="{{ $franchise->id }}" data-checkType="confirm">View</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -90,11 +102,8 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Address</th>
                                 <th>Pincode</th>
                                 <th>City</th>
-                                <th>State</th>
-                                <th>Country</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -107,26 +116,28 @@
                                 <td>{{ $franchisePending->name }}</td>
                                 <td>{{ $franchisePending->email }}</td>
                                 <td>{{ $franchisePending->mobile }}</td>
-                                <td>{{ $franchisePending->address }}</td>
                                 <td>{{ $franchisePending->pincode }}</td>
                                 <td>{{ $franchisePending->city }}</td>
-                                <td>{{ $franchisePending->state }}</td>
-                                <td>{{ $franchisePending->country }}</td>
                                 <td><span class="badge badge-pending">Pending</span></td>
                                 <td>
                                     <div class="dropdown">
                                         <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
                                             aria-expanded="false"></i>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" data-bs-toggle="offcanvas"
-                                                    href="#FranciseView" role="button"
-                                                    aria-controls="FranciseView">View</a></li>
+                                            <li>
+                                                <a href="javascript:" id="open-franchise-details-{{ $franchisePending->id }}" class="dropdown-item" data-id="{{ $franchisePending->id }}" data-checkType="pending">View</a>
+                                            </li>
                                             <li>
                                                 <a href="javascript:" class="dropdown-item small approve-franchise-btn"
-                                                    data-franchise-id="{{ $franchisePending->id }}">Approve Franchise</a>
+                                                    data-franchise-id="{{ $franchisePending->id }}">Confirm</a>
                                             </li>
-                                            {{-- <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal">Reject</a></li> --}}
+
+                                            <li>
+                                                <a href="javascript:" class="dropdown-item small reject-franchise-btn"
+                                                    data-franchise-id="{{ $franchisePending->id }}">Reject</a>
+                                            </li>
+                                            <!-- <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal">Reject</a></li> -->
                                         </ul>
                                     </div>
 
@@ -140,7 +151,7 @@
 
 
 
-            <!-- for pending -->
+            <!-- for reject -->
             <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab"
                 tabindex="0">
                 <div class="table-responsive">
@@ -156,6 +167,7 @@
                                 <th scope="col">Pincode</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Action</th>
 
                             </tr>
                         </thead>
@@ -170,6 +182,17 @@
                                 <td>{{ $franchiseReject->pincode }}</td>
                                 <td>{{ $franchiseReject->city }}</td>
                                 <td><span class="badge badge-inactive">Rejected</span></td>
+                                <td>
+                                    <div>
+                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:" id="open-franchise-details-{{ $franchiseReject->id }}" class="dropdown-item" data-id="{{ $franchiseReject->id }}" data-checkType="reject">View</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
 
@@ -179,75 +202,19 @@
             </div>
 
             <!-- View franchise details Offcanvas -->
-            <div class="offcanvas FranciseViewSidebar offcanvas-start" tabindex="-1" id="FranciseView"
-                aria-labelledby="FranciseViewLabel">
+            <div class="offcanvas FranciseViewSidebar offcanvas-start" tabindex="-1" id="FranciseView" aria-labelledby="FranciseViewLabel">
                 <div class="offcanvas-header border-bottom">
-                    <h5 class="offcanvas-title fw-bold" id="FranciseViewLabel">Franchise Details</h5>
+                    <h5 class="offcanvas-title fw-bold" id="FranciseViewLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <table class="table table-hover">
-                        <tbody>
-
-                        <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <td>Ramesh Kumar</td>
-                            </tr>
-                            <tr>
-                                <th>Email Id</th>
-                                <td>test@gmail.com</td>
-                            </tr>
-                            <tr>
-                                <th>Contact Number</th>
-                                <td>+91 9876543211</td>
-                            </tr>
-                            <tr>
-                                <th>Alternate Contact Number</th>
-                                <td>+91 8826543211</td>
-                            </tr>
-                            <tr>
-                                <th>Registration Type</th>
-                                <td>Individual / Proprietor / Company</td>
-                            </tr>
-                            <!-- If user selects Proprietor or Company then only Company Name & Number of Employee will be visible -->
-                            <tr>
-                                <th>Company Name</th>
-                                <td>XYZ Pvt. Ltd</td>
-                            </tr>
-                            <tr>
-                                <th>Number of Employee</th>
-                                <td>12</td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td>D-134, New Delhi, Delhi 110002</td>
-                            </tr>
-                            <tr>
-                                <th>Pincode</th>
-                                <td>
-                                    <span>110002</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Country</th>
-                                <td>India</td>
-                            </tr>
-                            <tr>
-                                <th>State</th>
-                                <td>Delhi</td>
-                            </tr>
-                            <tr>
-                                <th>City</th>
-                                <td>New Delhi</td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
                 <div class="offcanvas-footer">
                     <div class="d-flex justify-content-start p-3 border-top">
-                        <button type="button" class="secondary-btn me-2 addBtn"
-                            data-bs-dismiss="offcanvas">Reject</button>
+                        <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Reject</button>
                         <button type="button" class="primary-btn addBtn">Approve</button>
                     </div>
                 </div>
@@ -274,6 +241,31 @@
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="primary-btn">Approve</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectFranchiseModal" tabindex="-1" aria-labelledby="rejectFranchiseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="rejectFranchiseForm" method="POST"
+                action="{{ route('franchise.reject', ['id' => '__franchise_id__']) }}" autocomplete="off">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="rejectFranchiseModalLabel">Reject Franchise</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to approve this franchise?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Reject</button>
                 </div>
             </form>
         </div>
@@ -429,51 +421,99 @@
 @endsection
 
 @section('script')
+
 <script>
-    // $(document).ready(function() {
-    // $('#pincode').on('blur', function() {
-    //     var pincode = $(this).val();
-    //     if (pincode) {
-    //         $.ajax({
-    //             url: '/get-location',
-    //             method: 'POST',
-    //             data: {
-    //                 pincode: pincode,
-    //                 _token: '{{ csrf_token() }}'
-    //             },
-    //             success: function(response) {
-    //                 $('#country').val(response.country);
-    //                 $('#state').val(response.state);
-    //                 $('#city').val(response.city);
-    //             },
-    //             error: function() {
-    //                 alert('Location not found!');
-    //             }
-    //         });
-    //     }
-    // });
-    // });
-</script>
-<script>
-    // Function to trigger the approval modal and set the franchise ID dynamically
+
     function showApproveFranchiseModal(franchiseId) {
         var form = document.getElementById('approveFranchiseForm');
         var actionUrl = form.action.replace('__franchise_id__', franchiseId); // Replace the placeholder with the actual franchise ID
         form.action = actionUrl; // Update the form action URL
 
-        // Show the modal
         $('#approveFranchiseModal').modal('show');
     }
 
-    // Trigger the modal when the approve button is clicked
     $(document).on('click', '.approve-franchise-btn', function(e) {
         e.preventDefault();
         var franchiseId = $(this).data('franchise-id'); // Get the franchise ID from the button's data attribute
         showApproveFranchiseModal(franchiseId); // Trigger the modal
     });
+
+    function showRejectFranchiseModal(franchiseId) {
+        var form = document.getElementById('rejectFranchiseForm');
+        var actionUrl = form.action.replace('__franchise_id__', franchiseId); // Replace the placeholder with the actual franchise ID
+        form.action = actionUrl; // Update the form action URL
+
+        $('#rejectFranchiseModal').modal('show');
+    }
+
+    $(document).on('click', '.reject-franchise-btn', function(e) {
+        e.preventDefault();
+        var franchiseId = $(this).data('franchise-id'); // Get the franchise ID from the button's data attribute
+        showRejectFranchiseModal(franchiseId); // Trigger the modal
+    });
 </script>
 <script>
+    
     $(document).ready(function() {
+        $(document).on('click', '[id^="open-franchise-details-"]', function () {
+        var franchiseId = $(this).data('id'); // Get franchise ID dynamically
+        var franchiseType = $(this).data('checktype'); // Get franchise ID dynamically
+        
+        console.log('Franchise ID:', franchiseId);
+        console.log('Check Type:', franchiseType);
+
+        // Ajax request to get franchise details
+        $.ajax({
+            url: '/franchise/details/' + franchiseId +'/'+ franchiseType,  // Make sure the URL is correct
+            method: 'GET',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var franchise = response.data;
+                    // Populate table data dynamically
+                    if(franchiseType == 'confirm'){
+                        $('#FranciseViewLabel').text(franchise.user.name);
+
+                        $('#FranciseView .offcanvas-body table tbody').html(`
+                        <tr><th>Company Name</th><td>${franchise.company_name}</td></tr>
+                        <tr><th>Email Id</th><td>${franchise.user.email}</td></tr>
+                        <tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>
+                        <tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>
+                        <tr><th>Address</th><td>${franchise.address}</td></tr>
+                        <tr><th>Pincode</th><td>${franchise.pincode}</td></tr>
+                        <tr><th>Country</th><td>${franchise.country}</td></tr>
+                        <tr><th>State</th><td>${franchise.state}</td></tr>
+                        <tr><th>City</th><td>${franchise.city}</td></tr>
+                    `);
+                    }else{
+                        $('#FranciseViewLabel').text(franchise.name);
+
+                        $('#FranciseView .offcanvas-body table tbody').html(`
+                        <tr><th>Company Name</th><td>${franchise.company_name}</td></tr>
+                        <tr><th>Email Id</th><td>${franchise.email}</td></tr>
+                        <tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>
+                        <tr><th>Alternate Mobile Number</th><td>${franchise.alt_mobile}</td></tr>
+                        <tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>
+                        <tr><th>Address</th><td>${franchise.address}</td></tr>
+                        <tr><th>Pincode</th><td>${franchise.pincode}</td></tr>
+                        <tr><th>Country</th><td>${franchise.country}</td></tr>
+                        <tr><th>State</th><td>${franchise.state}</td></tr>
+                        <tr><th>City</th><td>${franchise.city}</td></tr>
+                    `);
+                    }
+                    
+
+                    // Show the off-canvas modal
+                    $('#FranciseView').offcanvas('show');
+                } else {
+                    alert('Franchise details not found.');
+                }
+            },
+            error: function () {
+                alert('An error occurred while fetching the data.');
+            }
+        });
+    });
+        
         $(".dt-responsive").dataTable({
             responsive: true,
             columnDefs: [{
