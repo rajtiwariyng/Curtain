@@ -5,19 +5,21 @@
 @section('content')
 <div class="dataOverviewSection mt-3 mb-3">
     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="productForm">
-       @csrf 
-       <div class="dataOverview mt-3">
+        @csrf
+        <div class="dataOverview mt-3">
             <h6 class="m-0">Add New Product</h6>
             <hr class="m-0 mt-2 mb-2">
             <div class="row mb-2">
                 <div class="col-md-4">
-                    <label class="form-label m-0 mb-1" for="type">Type <span class="text-danger">*</span></label>
-                    <select name="product_name" id="product_name" class="form-select w-100 select2" required>
-                        <option value="opt1">Select</option>
-                        @foreach ($productTypes as $productType)
-                          <option value="{{ $productType->id }}">{{ $productType->product_type }}</option>
-                        @endforeach
-                    </select>
+                    <div class="mb-1 w-100">
+                        <label class="form-label m-0 mb-1" for="type">Type <span class="text-danger">*</span></label>
+                        <select name="product_name" id="product_name" class="form-select w-100 select2" required>
+                            <option value="opt1">Select</option>
+                            @foreach ($productTypes as $productType)
+                            <option value="{{ $productType->id }}">{{ $productType->product_type }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-1 w-100">
@@ -39,7 +41,7 @@
                     <select name="supplier_name" id="supplier_name" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -96,17 +98,17 @@
                 <div class="col-md-4">
                     <label for="usage" class="form-label m-0 mb-1">Usage<span class="text-danger">*</span></label>
                     <select name="usage[]" id="usage" class="mySelect for" multiple="multiple" style="width: 100%">
-                         @foreach ($usages as $ug => $usage)
-                            <option value="{{ $usage->id }}">{{ $usage->usages }}</option>
-                            @endforeach
+                        @foreach ($usages as $ug => $usage)
+                        <option value="{{ $usage->id }}">{{ $usage->usages }}</option>
+                        @endforeach
                     </select>
                 </div>
-                
+
                 <div class="col-md-4">
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs)<span class="text-danger">*</span></label>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $tp => $type)
-                            <option value="{{ $type->id }}">{{ $type->type }}</option>
+                        <option value="{{ $type->id }}">{{ $type->type }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -114,9 +116,9 @@
                 <div class="col-md-4">
                     <label for="design_type" class="form-label m-0 mb-1">Design Type<span class="text-danger">*</span></label>
                     <select name="design_type[]" id="design_type" class="mySelect for" multiple="multiple" style="width: 100%">
-                          @foreach ($designTypes as $dt => $designType)
-                                <option  value="{{ $designType->id }}"> {{ $designType->design_type }}</option>
-                            @endforeach
+                        @foreach ($designTypes as $dt => $designType)
+                        <option value="{{ $designType->id }}"> {{ $designType->design_type }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -125,17 +127,17 @@
                 <div class="col-md-4">
                     <label for="colour" class="form-label m-0 mb-1">Colour<span class="text-danger">*</span></label>
                     <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
-                          @foreach ($colours as $colour)
-                                <option value="{{ $colour->id }}">{{ $colour->color }} </option>
-                            @endforeach
+                        @foreach ($colours as $colour)
+                        <option value="{{ $colour->id }}">{{ $colour->color }} </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
                     <select name="composition[]" id="composition" class="mySelect for" multiple="multiple" style="width: 100%">
-                          @foreach ($compositions as $composition)
-                                <option value="{{ $composition->id }}">{{ $composition->composition }}</option>
-                            @endforeach
+                        @foreach ($compositions as $composition)
+                        <option value="{{ $composition->id }}">{{ $composition->composition }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -150,41 +152,41 @@
 
 
             <div class="row mb-2">
-    <div class="col-md-3">
-        <div class="mb-1 w-100">
-            <label for="CostPriceInput" class="form-label mb-1">Cost Price <span class="text-danger">*</span></label>
-            <input type="text" class="form-control w-100" id="supplierPriceInput" name="supplier_price">
-        </div>
-    </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="CostPriceInput" class="form-label mb-1">Cost Price <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="supplierPriceInput" name="supplier_price">
+                    </div>
+                </div>
 
-    <div class="col-md-3">
-        <div class="mb-1 w-100">
-            <label for="freightInput" class="form-label mb-1">Freight <span class="text-danger">*</span></label>
-            <input type="text" class="form-control w-100" id="freightInput" name="freight">
-        </div>
-    </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="freightInput" class="form-label mb-1">Freight <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="freightInput" name="freight">
+                    </div>
+                </div>
 
-    <div class="col-md-3">
-        <div class="mb-1 w-100">
-            <label for="profitInput" class="form-label mb-1">Profit % <span class="text-danger">*</span></label>
-            <input type="text" class="form-control w-100" id="profitInput" name="profit_percentage">
-        </div>
-    </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="profitInput" class="form-label mb-1">Profit % <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="profitInput" name="profit_percentage">
+                    </div>
+                </div>
 
-    <div class="col-md-3">
-        <div class="mb-1 w-100">
-            <label for="gstInput" class="form-label mb-1">GST % <span class="text-danger">*</span></label>
-            <input type="text" class="form-control w-100" id="gstInput" name="gst_percentage">
-        </div>
-    </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="gstInput" class="form-label mb-1">GST % <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="gstInput" name="gst_percentage">
+                    </div>
+                </div>
 
-    <div class="col-md-3">
-        <div class="mb-1 w-100">
-            <label for="mrpInput" class="form-label mb-1">MRP <span class="text-danger">*</span></label>
-            <input type="number" class="form-control w-100" id="mrpInput" name="mrp" value="0" readonly>
-        </div>
-    </div>
-</div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="mrpInput" class="form-label mb-1">MRP <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control w-100" id="mrpInput" name="mrp" value="0" readonly>
+                    </div>
+                </div>
+            </div>
 
             <div class="mt-3 d-flex gap-3 mb-4">
                 <button type="submit" class="btn primary-btn">Create Product</button>
@@ -202,17 +204,17 @@
     // Image Preview
     function previewImage(event) {
         const reader = new FileReader();
-        reader.onload = function () {
+        reader.onload = function() {
             const output = document.getElementById('imagePreview');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Handle dropdown filtering
         document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keyup', function () {
+            input.addEventListener('keyup', function() {
                 const filter = this.value.toLowerCase();
                 const options = this.closest('.dropdown-menu').querySelectorAll('.options-list .dropdown-item');
 
@@ -225,52 +227,80 @@
 
         // Update dropdown button text
         document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 const button = this.closest('.dropdown').querySelector('.dropdown-toggle');
                 button.textContent = this.textContent;
             });
         });
 
         // jQuery Form Validation
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#productForm').validate({
                 rules: {
-                    type: { required: true },
-                    file_number: { required: true },
-                    supplier_name: { required: true },
-                    supplier_collection: { required: true },
-                    supplier_collection_design: { required: true },
-                    image: { required: true },
-                    image_alt: { required: true }
+                    type: {
+                        required: true
+                    },
+                    file_number: {
+                        required: true
+                    },
+                    supplier_name: {
+                        required: true
+                    },
+                    supplier_collection: {
+                        required: true
+                    },
+                    supplier_collection_design: {
+                        required: true
+                    },
+                    image: {
+                        required: true
+                    },
+                    image_alt: {
+                        required: true
+                    }
                 },
                 messages: {
-                    type: { required: "Please select a type." },
-                    file_number: { required: "Please enter the file number." },
-                    supplier_name: { required: "Please select a supplier." },
-                    supplier_collection: { required: "Please select a supplier collection." },
-                    supplier_collection_design: { required: "Please select a supplier collection design." },
-                    image: { required: "Please upload an image." },
-                    image_alt: { required: "Please enter an image alt text." }
+                    type: {
+                        required: "Please select a type."
+                    },
+                    file_number: {
+                        required: "Please enter the file number."
+                    },
+                    supplier_name: {
+                        required: "Please select a supplier."
+                    },
+                    supplier_collection: {
+                        required: "Please select a supplier collection."
+                    },
+                    supplier_collection_design: {
+                        required: "Please select a supplier collection design."
+                    },
+                    image: {
+                        required: "Please upload an image."
+                    },
+                    image_alt: {
+                        required: "Please enter an image alt text."
+                    }
                 },
                 errorElement: "div",
-                errorPlacement: function (error, element) {
+                errorPlacement: function(error, element) {
                     error.addClass("form-text text-danger xsmall");
                     error.insertAfter(element);
                 },
-                highlight: function (element) {
+                highlight: function(element) {
                     $(element).addClass("is-invalid").removeClass("is-valid");
                 },
-                unhighlight: function (element) {
+                unhighlight: function(element) {
                     $(element).removeClass("is-invalid").addClass("is-valid");
                 },
-                submitHandler: function (form) {
+                submitHandler: function(form) {
                     form.submit();
                 }
             });
         });
 
         // Supplier Name Change Handler
-        $('#supplier_name').change(function () {
+        $('#supplier_name').change(function() {
             const supplierId = $(this).val();
 
             // Clear dependent dropdowns
@@ -283,7 +313,7 @@
                     url: `/supplier-collection/${supplierId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (data.length === 0) {
                             $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
                         } else {
@@ -292,7 +322,7 @@
                             });
                         }
                     },
-                    error: function () {
+                    error: function() {
                         alert('Error retrieving collections');
                     }
                 });
@@ -300,7 +330,7 @@
         });
 
         // Supplier Collection Change Handler
-        $('#supplier_collection').change(function () {
+        $('#supplier_collection').change(function() {
             const collectionId = $(this).val();
             const supplierId = $('#supplier_name').val();
 
@@ -313,7 +343,7 @@
                     url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         if (data.length === 0) {
                             $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
                         } else {
@@ -322,7 +352,7 @@
                             });
                         }
                     },
-                    error: function () {
+                    error: function() {
                         alert('Error retrieving designs');
                     }
                 });
@@ -330,38 +360,37 @@
         });
     });
 
-// Function to calculate MRP dynamically
-function calculateMRP() {
-    // Get the input values
-    var supplierPrice = parseFloat(document.getElementById("supplierPriceInput").value) || 0;
-    var freight = parseFloat(document.getElementById("freightInput").value) || 0;
-    var profitPercentage = parseFloat(document.getElementById("profitInput").value) || 0;
-    var gstPercentage = parseFloat(document.getElementById("gstInput").value) || 0;
+    // Function to calculate MRP dynamically
+    function calculateMRP() {
+        // Get the input values
+        var supplierPrice = parseFloat(document.getElementById("supplierPriceInput").value) || 0;
+        var freight = parseFloat(document.getElementById("freightInput").value) || 0;
+        var profitPercentage = parseFloat(document.getElementById("profitInput").value) || 0;
+        var gstPercentage = parseFloat(document.getElementById("gstInput").value) || 0;
 
-    // Validate inputs
-    if (supplierPrice <= 0 || freight < 0 || profitPercentage < 0 || gstPercentage < 0) {
-        document.getElementById("mrpInput").value = "";
-        return; // Return early if any value is invalid
+        // Validate inputs
+        if (supplierPrice <= 0 || freight < 0 || profitPercentage < 0 || gstPercentage < 0) {
+            document.getElementById("mrpInput").value = "";
+            return; // Return early if any value is invalid
+        }
+        // Calculate CPF (Cost Plus Freight)
+        var cpf = supplierPrice + freight;
+        var profit = cpf * (profitPercentage / 100);
+        var mrpBeforeGST = cpf + profit;
+        var gstAmount = mrpBeforeGST * (gstPercentage / 100);
+        var finalMRP = mrpBeforeGST + gstAmount;
+        finalMRP = Math.round(finalMRP);
+        document.getElementById("mrpInput").value = finalMRP;
     }
-    // Calculate CPF (Cost Plus Freight)
-    var cpf = supplierPrice + freight;
-    var profit = cpf * (profitPercentage / 100);
-    var mrpBeforeGST = cpf + profit;
-    var gstAmount = mrpBeforeGST * (gstPercentage / 100);
-    var finalMRP = mrpBeforeGST + gstAmount;
-    finalMRP = Math.round(finalMRP);
-    document.getElementById("mrpInput").value = finalMRP;
-}
 
-// Attach event listeners to inputs to trigger MRP calculation
-document.getElementById("supplierPriceInput").addEventListener("input", calculateMRP);
-document.getElementById("freightInput").addEventListener("input", calculateMRP);
-document.getElementById("profitInput").addEventListener("input", calculateMRP);
-document.getElementById("gstInput").addEventListener("input", calculateMRP);
+    // Attach event listeners to inputs to trigger MRP calculation
+    document.getElementById("supplierPriceInput").addEventListener("input", calculateMRP);
+    document.getElementById("freightInput").addEventListener("input", calculateMRP);
+    document.getElementById("profitInput").addEventListener("input", calculateMRP);
+    document.getElementById("gstInput").addEventListener("input", calculateMRP);
 
-// Initialize the calculation on page load
-window.onload = calculateMRP;
-
+    // Initialize the calculation on page load
+    window.onload = calculateMRP;
 </script>
 
 @endsection

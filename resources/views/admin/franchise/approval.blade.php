@@ -6,7 +6,7 @@
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
         <h6 class="fw-bold m-0">All Franchise <span
-                class="fw-normal text-muted">({{ count($franchiseTemps) + count($franchises) }})</span></h6>
+                class="fw-normal text-muted">({{ count($franchises) }})</span></h6>
         <a href="#" class="primary-btn addBtn" data-bs-toggle="modal" data-bs-target="#addFranchiseModal1">+ Add
             Franchise</a>
     </div>
@@ -15,30 +15,72 @@
         <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending"
+                    <button class="nav-link active" id="pills-confirm-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-confirm" type="button" role="tab" aria-controls="pills-confirm"
                         aria-selected="false">Confirmed <span
                             class="fw-normal small">({{ count($franchises) }})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-confirm-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-confirm" type="button" role="tab" aria-controls="pills-confirm"
+                    <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending"
                         aria-selected="true">Pending <span
-                            class="fw-normal small">({{ count($franchiseTemps) }})</span></button>
+                            class="fw-normal small">({{ count($franchiseTempsPending) }})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="pills-rejected-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-rejected" type="button" role="tab" aria-controls="pills-rejected"
-                        aria-selected="false">Rejected <span class="fw-normal small">(5)</span></button>
+                        aria-selected="false">Rejected <span class="fw-normal small">({{ count($franchiseTempsReject) }})</span></button>
                 </li>
 
             </ul>
         </div>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-confirm" role="tabpanel"
-                aria-labelledby="pills-confirm-tab" tabindex="0">
+            <!-- for configm -->
+            <div class="tab-pane fade show active" id="pills-confirm" role="tabpanel" aria-labelledby="pills-confirm-tab"
+                tabindex="0">
+                <div class="table-responsive">
+                    <table class="table" id="confirmFranchise">
+                        <thead>
+                            <tr>
+
+                                <th>S/N</th>
+                                <th>Company Name</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Pincode</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($franchises  as $idx => $franchise)
+                            <tr>
+                                <td>{{ $idx + 1 }}</td>
+                                <td>{{ $franchise->company_name }}</td>
+                                <td>{{ $franchise->user->name }}</td>
+                                <td>{{ $franchise->user->email }}</td>
+                                <td>{{ $franchise->mobile }}</td>
+                                <td>{{ $franchise->address }}</td>
+                                <td>{{ $franchise->pincode }}</td>
+                                <td>{{ $franchise->city }}</td>
+                                <td>{{ $franchise->state }}</td>
+                                <td>{{ $franchise->country }}</td>
+
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- for pending -->
+            <div class="tab-pane fade" id="pills-pending" role="tabpanel"
+                aria-labelledby="pills-pending-tab" tabindex="0">
                 <div class="table-responsive">
                     <table class="table" id="projectsTable">
                         <thead>
@@ -53,22 +95,24 @@
                                 <th>City</th>
                                 <th>State</th>
                                 <th>Country</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($franchiseTemps as $idx => $franchise)
+                            @foreach($franchiseTempsPending as $idx => $franchisePending)
                             <tr>
                                 <td>{{ $idx + 1 }}</td>
-                                <td>{{ $franchise->company_name }}</td>
-                                <td>{{ $franchise->name }}</td>
-                                <td>{{ $franchise->email }}</td>
-                                <td>{{ $franchise->mobile }}</td>
-                                <td>{{ $franchise->address }}</td>
-                                <td>{{ $franchise->pincode }}</td>
-                                <td>{{ $franchise->city }}</td>
-                                <td>{{ $franchise->state }}</td>
-                                <td>{{ $franchise->country }}</td>
+                                <td>{{ $franchisePending->company_name }}</td>
+                                <td>{{ $franchisePending->name }}</td>
+                                <td>{{ $franchisePending->email }}</td>
+                                <td>{{ $franchisePending->mobile }}</td>
+                                <td>{{ $franchisePending->address }}</td>
+                                <td>{{ $franchisePending->pincode }}</td>
+                                <td>{{ $franchisePending->city }}</td>
+                                <td>{{ $franchisePending->state }}</td>
+                                <td>{{ $franchisePending->country }}</td>
+                                <td><span class="badge badge-pending">Pending</span></td>
                                 <td>
                                     <div class="dropdown">
                                         <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
@@ -79,7 +123,7 @@
                                                     aria-controls="FranciseView">View</a></li>
                                             <li>
                                                 <a href="javascript:" class="dropdown-item small approve-franchise-btn"
-                                                    data-franchise-id="{{ $franchise->id }}">Approve Franchise</a>
+                                                    data-franchise-id="{{ $franchisePending->id }}">Approve Franchise</a>
                                             </li>
                                             {{-- <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal">Reject</a></li> --}}
@@ -89,6 +133,46 @@
                                 </td>
                             </tr>
                             @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <!-- for pending -->
+            <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab"
+                tabindex="0">
+                <div class="table-responsive">
+                    <table class="table" id="projectsTable">
+                        <thead>
+                            <tr>
+                                <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N
+                                </th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Individual/Company</th>
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Number</th>
+                                <th scope="col">Pincode</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($franchiseTempsReject as $idx => $franchiseReject)
+                            <tr>
+                                <td>{{ $idx + 1 }}</td>
+                                <td>{{ $franchiseReject->name }}</td>
+                                <td>{{ $franchiseReject->email }}</td>
+                                <td>{{ $franchiseReject->company_name }}</td>
+                                <td>{{ $franchiseReject->mobile }}</td>
+                                <td>{{ $franchiseReject->pincode }}</td>
+                                <td>{{ $franchiseReject->city }}</td>
+                                <td><span class="badge badge-inactive">Rejected</span></td>
+                            </tr>
+                            @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -166,187 +250,6 @@
                             data-bs-dismiss="offcanvas">Reject</button>
                         <button type="button" class="primary-btn addBtn">Approve</button>
                     </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab"
-                tabindex="0">
-                <div class="table-responsive">
-                    <table class="table" id="pendingFranchise">
-                        <thead>
-                            <tr>
-
-                                <th>S/N</th>
-                                <th>Company Name</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Address</th>
-                                <th>Pincode</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Country</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($franchises as $franchise)
-                            <tr>
-                                <td>{{ $idx + 1 }}</td>
-                                <td>{{ $franchise->company_name }}</td>
-                                <td>{{ $franchise->user->name }}</td>
-                                <td>{{ $franchise->user->email }}</td>
-                                <td>{{ $franchise->mobile }}</td>
-                                <td>{{ $franchise->address }}</td>
-                                <td>{{ $franchise->pincode }}</td>
-                                <td>{{ $franchise->city }}</td>
-                                <td>{{ $franchise->state }}</td>
-                                <td>{{ $franchise->country }}</td>
-
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab"
-                tabindex="0">
-                <div class="table-responsive">
-                    <table class="table" id="projectsTable">
-                        <thead>
-                            <tr>
-                                <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N
-                                </th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Individual/Company</th>
-                                <th scope="col">Company Name</th>
-                                <th scope="col">Number</th>
-                                <th scope="col">Pincode</th>
-                                <th scope="col">City</th>
-                                <th scope="col">Status</th>
-                                <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;" scope="col">
-                                    Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>01</td>
-                                <td>Ramesh Kumar</td>
-                                <td>Campany</td>
-                                <td>abc pvt ltd</td>
-                                <td>+91 9876543211</td>
-                                <td>110059</td>
-                                <td>New Delhi</td>
-                                <td><span class="badge badge-inactive">Rejected</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" href="#">View</a></li>
-                                            <li><a class="dropdown-item small" href="#">Confirm</a>
-                                            </li>
-                                            <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Reject</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>Ramesh Kumar</td>
-                                <td>Campany</td>
-                                <td>abc pvt ltd</td>
-                                <td>+91 9876543211</td>
-                                <td>110059</td>
-                                <td>New Delhi</td>
-                                <td><span class="badge badge-inactive">Rejected</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" href="#">View</a></li>
-                                            <li><a class="dropdown-item small" href="#">Confirm</a>
-                                            </li>
-                                            <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Reject</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>Ramesh Kumar</td>
-                                <td>Campany</td>
-                                <td>abc pvt ltd</td>
-                                <td>+91 9876543211</td>
-                                <td>110059</td>
-                                <td>New Delhi</td>
-                                <td><span class="badge badge-inactive">Rejected</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" href="#">View</a></li>
-                                            <li><a class="dropdown-item small" href="#">Confirm</a>
-                                            </li>
-                                            <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Reject</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>Ramesh Kumar</td>
-                                <td>Campany</td>
-                                <td>abc pvt ltd</td>
-                                <td>+91 9876543211</td>
-                                <td>110059</td>
-                                <td>New Delhi</td>
-                                <td><span class="badge badge-inactive">Rejected</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" href="#">View</a></li>
-                                            <li><a class="dropdown-item small" href="#">Confirm</a>
-                                            </li>
-                                            <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Reject</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01</td>
-                                <td>Ramesh Kumar</td>
-                                <td>Campany</td>
-                                <td>abc pvt ltd</td>
-                                <td>+91 9876543211</td>
-                                <td>110059</td>
-                                <td>New Delhi</td>
-                                <td><span class="badge badge-inactive">Rejected</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></i>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item small" href="#">View</a></li>
-                                            <li><a class="dropdown-item small" href="#">Confirm</a>
-                                            </li>
-                                            <li><a class="dropdown-item small" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Reject</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

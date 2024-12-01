@@ -34,41 +34,41 @@
                 </thead>
                 <tbody>
                     @foreach($products as $product)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td class="w-10">
-                                <a href="{{ asset('storage/' . $product->image) }}" data-fancybox
-                                    data-caption="{{ $product->tally_code }}">
-                                    <img class="tabelImage" src="{{ asset('storage/' . $product->image) }}"
-                                        alt="{{ $product->image_alt }}" />
-                                </a>
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td class="w-10">
+                            <a href="{{ asset('storage/' . $product->image) }}" data-fancybox
+                                data-caption="{{ $product->tally_code }}">
+                                <img class="tabelImage" src="{{ asset('storage/' . $product->image) }}"
+                                    alt="{{ $product->image_alt }}" />
+                            </a>
 
-                            </td>
-                            <!-- <td>{{ $product->product_name }}</td> -->
-                            <td>{{ $product->tally_code }}</td>
-                            <td>{{ $product->design_sku }}</td>
-                            <td>{{ $product->mrp }}</td>
-                            <!-- <td>{{ $product->unit }}</td> -->
-                            <td>
-                                <div class="dropdown">
-                                    <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false"></i>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item small"
-                                                href="{{ route('products.edit', $product->id) }}">Edit</a></li>
-                                        <li>
-                                            <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
-                                                href="#ProductView" role="button" aria-controls="ProductView"
-                                                data-product-id="{{ $product->id }}">
-                                                View
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item small" href="javascript:"
-                                                onclick="openDeleteModal({{ $product->id }})">Delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                        </td>
+                        <!-- <td>{{ $product->product_name }}</td> -->
+                        <td>{{ $product->tally_code }}</td>
+                        <td>{{ $product->design_sku }}</td>
+                        <td>{{ $product->mrp }}</td>
+                        <!-- <td>{{ $product->unit }}</td> -->
+                        <td>
+                            <div class="dropdown">
+                                <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item small"
+                                            href="{{ route('products.edit', $product->id) }}">Edit</a></li>
+                                    <li>
+                                        <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
+                                            href="#ProductView" role="button" aria-controls="ProductView"
+                                            data-product-id="{{ $product->id }}">
+                                            View
+                                        </a>
+                                    </li>
+                                    <li><a class="dropdown-item small" href="javascript:"
+                                            onclick="openDeleteModal({{ $product->id }})">Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -191,94 +191,91 @@
         <h6 class="offcanvas-title" id="FilterSidebarLabel">Add Filters</h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Type</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Supplier Name</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Supplier Collection</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Supplier Collection Design</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-1 w-100">
-            <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
-            <input type="range" class="w-100" id="TallyCodeInput">
-            <div class="values d-flex justify-content-between">
-                <span class="text-muted">₹100</span>
-                <span class="text-muted">₹1000</span>
+    <form action="{{ url('products') }}" method="get" id="fiter_form">
+        <div class="offcanvas-body">
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Type</label>
+                <select class="form-select w-100" id="type" name="type" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($types as $type)
+                    <option value="{{ $type->id }}">{{$type->type}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Supplier Name</label>
+                <select name="supplier_name" id="supplier_name" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Supplier Collection</label>
+                <select name="supplier_collection" id="supplier_collection" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Supplier Collection Design</label>
+                <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100" aria-label="Default select example">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="mb-1 w-100">
+                <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
+                <input type="range" class="w-100" id="TallyCodeInput">
+                <div class="values d-flex justify-content-between">
+                    <span class="text-muted">₹100</span>
+                    <span class="text-muted">₹1000</span>
+                </div>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Colour</label>
+                <select name="colour" id="colour" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($colours as $colour)
+                    <option value="{{ $colour->id }}">{{ $colour->color }} </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Composition</label>
+                <select name="composition" id="composition" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($compositions as $composition)
+                    <option value="{{ $composition->id }}">{{ $composition->composition }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Usage</label>
+                <select name="usage" id="usage" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($usages as $ug => $usage)
+                    <option value="{{ $usage->id }}">{{ $usage->usages }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2 w-100">
+                <label class="form-label m-0 mb-1">Design Type</label>
+                <select name="design_type" id="design_type" class="form-select w-100" aria-label="Default select example">
+                    <option selected>Select</option>
+                    @foreach ($designTypes as $dt => $designType)
+                    <option value="{{ $designType->id }}"> {{ $designType->design_type }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Colour</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
+        <div class="offcanvas-footer">
+            <div class="d-flex justify-content-start p-3 border-top">
+                <!-- <button type="button" class="secondary-btn me-2 addBtn" id="clearBtn" name="clearBtn" data-bs-dismiss="offcanvas">Clear</button> -->
+                <button type="button" class="secondary-btn me-2 addBtn" id="clearBtn" name="clearBtn" data-bs-dismiss="offcanvas">Clear</button>
+                <button type="submit" class="primary-btn addBtn">Apply</button>
+            </div>
         </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Composition</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Usage</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-        <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Design Type</label>
-            <select class="form-select w-100" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Blinds</option>
-                <option value="2">Carpet Tiles</option>
-                <option value="3">Wood Flooring</option>
-            </select>
-        </div>
-    </div>
-    <div class="offcanvas-footer">
-        <div class="d-flex justify-content-start p-3 border-top">
-            <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Clear</button>
-            <button type="button" class="primary-btn addBtn">Apply</button>
-        </div>
-    </div>
+    </form>
 </div>
 <!-- Filter Sidebar end -->
 
@@ -324,8 +321,8 @@
     }
 </script>
 <script>
-    $(document).ready(function () {
-        $('.viewProductLink').on('click', function () {
+    $(document).ready(function() {
+        $('.viewProductLink').on('click', function() {
             var productId = $(this).data('product-id');
 
             // Send AJAX request to fetch product details
@@ -333,7 +330,7 @@
                 url: '/product/' + productId + '/details', // Change this URL to your actual endpoint
                 type: 'GET',
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response) {
                         var product = response;
 
@@ -371,11 +368,70 @@
                         alert('Product not found');
                     }
                 },
-                error: function () {
+                error: function() {
                     alert('Error loading product details.');
                 }
             });
         });
+    });
+
+    $('#supplier_name').change(function() {
+        const supplierId = $(this).val();
+
+        // Clear dependent dropdowns
+        $('#supplier_collection').empty().append('<option value="">Select Supplier Collection</option>');
+        $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+
+        if (supplierId) {
+            // Fetch Supplier Collections
+            $.ajax({
+                url: `/supplier-collection/${supplierId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.length === 0) {
+                        $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
+                    } else {
+                        data.forEach(item => {
+                            $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Error retrieving collections');
+                }
+            });
+        }
+    });
+
+    // Supplier Collection Change Handler
+    $('#supplier_collection').change(function() {
+        const collectionId = $(this).val();
+        const supplierId = $('#supplier_name').val();
+
+        // Clear dependent dropdown
+        $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+
+        if (collectionId && supplierId) {
+            // Fetch Supplier Collection Designs
+            $.ajax({
+                url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.length === 0) {
+                        $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
+                    } else {
+                        data.forEach(item => {
+                            $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Error retrieving designs');
+                }
+            });
+        }
     });
 </script>
 @endsection

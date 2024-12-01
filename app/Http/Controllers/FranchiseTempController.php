@@ -17,8 +17,6 @@ class FranchiseTempController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all()); 
-        // Define validation rules
         $rules = [
             // 'company_name' => 'required|string|max:255',
             'name' => 'nullable|string|max:255',
@@ -94,15 +92,24 @@ class FranchiseTempController extends Controller
     }
     public function index()
     {
-        // Fetch franchise temp data
-        $franchiseTemps = FranchiseTemp::orderBy('id', 'desc')->get();
-        $franchises = Franchise::with('user')->get(); // Eager load the associated user if necessary
-        return view('admin.franchise.approval', compact('franchiseTemps','franchises'));
+        // Fetch FranchiseTemp data for 'pending' and 'reject' statuses in one query
+            $franchiseTemps = FranchiseTemp::whereIn('status', ['pending', 'reject'])
+            ->orderBy('id', 'desc')
+            ->get()
+            ->groupBy('status'); // Group the results by 'status' (pending or reject)
+
+        // Fetch franchises with associated users (eager load user relationship)
+        $franchises = Franchise::with('user')->get();
+
+        // Return view with the fetched data
+        return view('admin.franchise.approval', [
+        'franchiseTempsPending' => $franchiseTemps->get('pending', collect()),
+        'franchiseTempsReject' => $franchiseTemps->get('reject', collect()),
+        'franchises' => $franchises,
+        ]);
     }
     public function generateSecurePassword($length = 8) {
         // Ensure the length is at least 8
-        
-    
         $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $lowercase = 'abcdefghijklmnopqrstuvwxyz';
         $numbers = '0123456789';
@@ -131,10 +138,10 @@ class FranchiseTempController extends Controller
     
     // Example usage
     
-    public function approve($id)
+    public function approve_old($id)
     {
         $franchiseTemp = FranchiseTemp::findOrFail($id);
-        //echo $franchiseTemp->mobile;die;
+        // echo '<pre>';echo $franchiseTemp;die;
         $password = $this->generateSecurePassword(8);
         // Create a new user based on the franchise temp details
         $user = User::create([
@@ -171,4 +178,55 @@ class FranchiseTempController extends Controller
 
         return redirect()->back()->with('success', 'Franchise approved and user created successfully.');
     }
+
+    public function approve($id)
+{
+    $franchiseTemp = FranchiseTemp::findOrFail($id);
+
+    // Check if the email already exists in the 'users' table
+    $existingUser = User::where('email', $franchiseTemp->email)->first();
+
+    if ($existingUser) {
+        // If the email exists, you can either skip or handle the logic here
+        // Optionally, you can return an error or update the existing user
+        return redirect()->back()->with('error', 'A user with this email already exists.');
+    }
+
+    $password = $this->generateSecurePassword(8);
+    
+    // Create a new user based on the franchise temp details
+    $user = User::create([
+        'name' => $franchiseTemp->name,
+        'email' => $franchiseTemp->email,
+        'password' => Hash::make($password), // Use a secure method for passwords
+    ]);
+
+    // Assign franchise role to the user
+    $user->assignRole('Franchise');
+
+    // Save additional franchise data
+    Franchise::create([
+        'user_id' => $user->id,
+        'company_name' => $franchiseTemp->company_name,
+        'address' => $franchiseTemp->address,
+        'pincode' => $franchiseTemp->pincode,
+        'city' => $franchiseTemp->city,
+        'state' => $franchiseTemp->state,
+        'country' => $franchiseTemp->country,
+        'mobile' => $franchiseTemp->mobile,
+    ]);
+
+    // Optionally, delete or mark the franchise temp record as approved
+    $franchiseTemp->delete();
+
+    // Send email notification
+    $data = [
+        "name" => $franchiseTemp->name,
+        "username" => $franchiseTemp->email,
+        "password" => $password
+    ];
+    Mail::to($franchiseTemp->email)->send(new FranchiseRegistrationMail($data));
+
+    return redirect()->back()->with('success', 'Franchise approved and user created successfully.');
+}
 }

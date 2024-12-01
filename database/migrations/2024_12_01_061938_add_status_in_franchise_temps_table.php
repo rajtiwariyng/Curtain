@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_types', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('franchise_temps', function (Blueprint $table) {
+            $table->string('status')->after('country')->nullable();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_types');
+        Schema::table('franchise_temps', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };
