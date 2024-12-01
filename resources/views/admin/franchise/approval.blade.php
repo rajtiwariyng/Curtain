@@ -214,8 +214,8 @@
                 </div>
                 <div class="offcanvas-footer">
                     <div class="d-flex justify-content-start p-3 border-top">
-                        <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Reject</button>
-                        <button type="button" class="primary-btn addBtn">Approve</button>
+                        <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Cancel</button>
+                        <!-- <button type="button" class="primary-btn addBtn">Approve</button> -->
                     </div>
                 </div>
             </div>

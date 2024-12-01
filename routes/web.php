@@ -87,6 +87,12 @@ Route::get('/user_create', function () {
 })->name('user_create');
 Auth::routes();
 Route::get('appointments_list', [AppointmentController::class, 'index'])->name('appointments.list.index');
+Route::get('/appointment/data', [AppointmentController::class, 'getAppointmentData']);
+Route::get('/appointment/details/{id}/{type}', [AppointmentController::class, 'getAppointmentDetails'])->name('appointment.details');
+Route::get('appointment/{id}/assign', [AppointmentController::class, 'assign'])->name('appointment.assign');
+// Route::get('franchise/{id}/reject', [FranchiseTempController::class, 'reject'])->name('franchise.reject');
+Route::put('appointment/{id}/reject', [AppointmentController::class, 'reject'])->name('appointment.reject');
+
 // web.php
 Route::post('/appointments/assign', [AppointmentController::class, 'assign'])->name('appointments.assign');
 
