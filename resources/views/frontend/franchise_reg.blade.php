@@ -86,102 +86,159 @@
             </div>
         @endif
 
-        <form action="{{ route('franchise_temp.store') }}" method="POST" class="mt-4" id="contact-form1">
-            @csrf
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <label for="pincode" class="form-label">Pincode<span class="requried">*</span></label>
-                        <input type="number" class="form-control" id="pincode" name="pincode"
-                            placeholder="Enter Pincode">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <label for="city" class="form-label">City<span class="requried">*</span></label>
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter City">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <label for="state" class="form-label">State<span class="requried">*</span></label>
-                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter State">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Country<span class="requried">*</span></label>
-                        <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country"
-                            value="India">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name<span class="requried">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="registerationType" class="form-label">Registration Type<span
-                                class="requried">*</span></label>
-                        <select name="registerationType" class="form-control form-select" id="registerationType">
-                            <option value="">Select Registration Type</option>
-                            <option value="Indiviual">Individual</option>
-                            <option value="Company">Company</option>
-                            <option value="proprietor">Proprietor</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="company_name" class="form-label">Company Name <span
-                                class="requried">*</span></label>
-                        <input type="text" class="form-control" id="company_name" name="company_name"
-                            placeholder="Enter Company Name">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="employees" class="form-label">Number of Employees<span
-                                class="requried">*</span></label>
-                        <input type="number" class="form-control" id="employees" name="employees"
-                            placeholder="Enter Number of Employees">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email ID<span class="requried">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="mobile" class="form-label col-md-12">
-                            Mobile Number<span class="requried">*</span>
-                        </label>
-                        <input type="tel" class="form-control" id="mobile" name="mobile"
-                            placeholder="Enter Mobile Number" required>
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="alt_mobile" class="form-label">Alternate Number</label>
-                        <input type="number" class="form-control" id="alt_mobile" name="alt_mobile"
-                            placeholder="Enter Alternate Number">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address<span class="requried">*</span></label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
-                    </div>
-                </div>
+        <form action="{{ route('franchise_temp.store') }}" method="POST" class="mt-4" id="franchise_temp" novalidate>
+    @csrf
+    <div class="row">
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="pincode" class="form-label">Pincode<span class="requried">*</span></label>
+                <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode" required min="100000" max="999999">
+                <div class="invalid-feedback">Please enter a valid 6-digit pincode.</div>
             </div>
-            <button type="submit" class="primary-btn mt-2">Submit</button>
-        </form>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="state" class="form-label">State<span class="requried">*</span></label>
+                 <select name="state" id="state" class="form-control">
+                            <option value="">Select State</option>
+                            @foreach ($groupedCityStateData as $state => $cities)
+                                <option value="{{ $state }}">{{ $state }}</option>
+                            @endforeach
+                        </select>
+                <div class="invalid-feedback">Please enter a valid state name.</div>
+            </div>
+        </div>
+	<div class="col-md-3">
+            <div class="mb-3">
+                <label for="city" class="form-label">City<span class="requried">*</span></label>
+                <select name="city" id="city" class="form-control">
+                            <option value="">Select City</option>
+                            <!-- Cities will be populated dynamically based on the selected state -->
+                        </select>
+                <div class="invalid-feedback">Please enter a valid city name.</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="country" class="form-label">Country<span class="requried">*</span></label>
+                <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country" value="India" required readonly>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name<span class="requried">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="registerationType" class="form-label">Registration Type<span class="requried">*</span></label>
+                <select name="registerationType" class="form-control form-select" id="registerationType" required>
+                    <option value="">Select Registration Type</option>
+                    <option value="Indiviual">Individual</option>
+                    <option value="Company">Company</option>
+                    <option value="proprietor">Proprietor</option>
+                </select>
+                <div class="invalid-feedback">Please select a registration type.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="company_name" class="form-label">Company Name <span class="requried">*</span></label>
+                <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Enter Company Name">
+                <div class="invalid-feedback">Please enter your company name.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="employees" class="form-label">Number of Employees<span class="requried">*</span></label>
+                <input type="text" class="form-control" id="employees" name="employees" placeholder="Enter Number of Employees" min="1">
+                <div class="invalid-feedback">Please enter a valid number of employees.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email ID<span class="requried">*</span></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile Number<span class="requried">*</span></label>
+                <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" required pattern="^[6-9]\d{9}$">
+                <div class="invalid-feedback">Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="alt_mobile" class="form-label">Alternate Number</label>
+                <input type="tel" class="form-control" id="alt_mobile" name="alt_mobile" placeholder="Enter Alternate Number" pattern="^[6-9]\d{9}$">
+                <div class="invalid-feedback">Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="address" class="form-label">Address<span class="requried">*</span></label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
+                <div class="invalid-feedback">Please enter your address.</div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="primary-btn mt-2">Submit</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+
+        $('#company_name').prop('required', false);
+        $('#employees').prop('required', false);
+
+        // Monitor the registration type change
+        $('#registerationType').on('change', function() {
+            var registrationType = $(this).val();
+            
+            if (registrationType === "Company" || registrationType === "proprietor") {
+                // Make company name and employees fields required if Company or Proprietor is selected
+                $('#company_name').prop('required', true);
+                $('#employees').prop('required', true);
+            } else {
+                // Otherwise, remove the required attribute
+                $('#company_name').prop('required', false);
+                $('#employees').prop('required', false);
+            }
+        });
+
+        
+        var cityStateData = @json($groupedCityStateData);
+
+        // Handle state change
+        $('#state').on('change', function() {
+            var selectedState = $(this).val();
+            var cities = cityStateData[selectedState] || [];  
+
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+
+            $.each(cities, function(index, city) {
+                $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
+            });
+        });
+    });
+
+    // Enable client-side validation styles
+    document.getElementById('franchise_temp').addEventListener('submit', function (event) {
+        const form = event.target;
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
+</script>
+
 
 
         <div id="thankYouMessage1" style=" margin-top: 20px; display: none;">
@@ -216,34 +273,10 @@
         </div>
     </div>
 </section>
-<script>
+
+<!-- <script>
     $(document).ready(function () {
-        // $('#pincode').on('blur', function () {
-        //     var pincode = $(this).val();
-        //     if (pincode) {
-        //         $.ajax({
-        //             url: '/get-location',
-        //             method: 'POST',
-        //             data: {
-        //                 pincode: pincode,
-        //                 _token: '{{ csrf_token() }}'
-        //             },
-        //             success: function (response) {
-        //                 $('#country').val(response.country);
-        //                 $('#state').val(response.state);
-        //                 $('#city').val(response.city);
-        //             },
-        //             error: function () {
-        //                 alert('Location not found!');
-        //             }
-        //         });
-        //     }
-        // });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $("#contact-form1").validate({
+        $("#franchise_temp").validate({
             rules: {
                 company_name: "required",
                 name: "required",
@@ -252,16 +285,18 @@
                     email: true
                 },
                 mobile: {
-                    required: true,
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
-                alt_mobile: {
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10,
+                pattern: /^[6-9][0-9]{9}$/
+            },
+            alt_mobile: {
+                digits: true,
+                minlength: 10,
+                maxlength: 10,
+                pattern: /^[6-9][0-9]{9}$/
+            }
                 employees: {
                     required: true,
                     digits: true
@@ -285,8 +320,18 @@
                     email: "Please enter a valid email address"
                 },
                 mobile: {
-                    required: "Please enter your mobile number",
-                    digits: "Please enter a valid mobile number"
+                    required: "Please enter your mobile number.",
+                    digits: "Please enter only numeric digits.",
+                    minlength: "Mobile number must be exactly 10 digits.",
+                    maxlength: "Mobile number must be exactly 10 digits.",
+                    pattern: "Mobile number must start with 6, 7, 8, or 9."
+                },
+                alt_mobile:{
+                    required: "Please enter your mobile number.",
+                    digits: "Please enter only numeric digits.",
+                    minlength: "Mobile number must be exactly 10 digits.",
+                    maxlength: "Mobile number must be exactly 10 digits.",
+                    pattern: "Mobile number must start with 6, 7, 8, or 9."
                 },
                 employees: "Please enter the number of employees",
                 address: "Please enter your address",
@@ -303,7 +348,7 @@
             }
         });
     });
-</script>
+</script> -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const registrationType = document.getElementById("registerationType");

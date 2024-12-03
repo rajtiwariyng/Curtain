@@ -61,12 +61,12 @@
                         <tbody></tbody>
                     </table>
                 </div>
-                <div class="offcanvas-footer">
+                <!-- <div class="offcanvas-footer">
                     <div class="d-flex justify-content-start p-3 border-top">
                         <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Reject</button>
                         <button type="button" class="primary-btn addBtn">Approve</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -266,13 +266,13 @@
                         <select id="franchise" name="franchise_id" class="form-select w-100" required>
                             <option value="">Select Franchise</option>
                             @foreach($franchises as $franchise)
-                            <option value="{{ $franchise->id }}">{{ $franchise->company_name }}</option>
+                            <option value="{{ $franchise->id }}">{{ $franchise->id }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Appointment Date</label>
-                        <input type="date" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
+                        <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
                     </div>
                 </div>

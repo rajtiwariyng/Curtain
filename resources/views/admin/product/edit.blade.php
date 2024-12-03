@@ -114,11 +114,11 @@
                     <label for="usage" class="form-label m-0 mb-1">Usage <span class="text-danger">*</span></label>
                     <select name="usage[]" id="usage" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($usages as $usage)
-                        <option value="{{ $usage->id }}"
+                        <option value="{{ $usage->usages }}"
                             @if(is_array($product->usage))
-                            {{ in_array($usage->id, $product->usage) ? 'selected' : '' }}
+                            {{ in_array($usage->usages, $product->usage) ? 'selected' : '' }}
                             @else
-                            {{ $usage->id == $product->usage ? 'selected' : '' }}
+                            {{ $usage->usages == $product->usage ? 'selected' : '' }}
                             @endif>
                             {{ $usage->usages }}
                         </option>
@@ -129,11 +129,11 @@
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs) <span class="text-danger">*</span></label>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $type)
-                        <option value="{{ $usage->id }}"
+                        <option value="{{ $type->type }}"
                             @if(is_array($product->type))
-                            {{ in_array($type->id, $product->type) ? 'selected' : '' }}
+                            {{ in_array($type->type, $product->type) ? 'selected' : '' }}
                             @else
-                            {{ $type->id == $product->type ? 'selected' : '' }}
+                            {{ $type->type == $product->type ? 'selected' : '' }}
                             @endif>
                             {{ $usage->usages }}
                         </option>
@@ -145,8 +145,8 @@
                     <label for="design_type" class="form-label m-0 mb-1">Design Type <span class="text-danger">*</span></label>
                     <select name="design_type[]" id="design_type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($designTypes as $designType)
-                        <option value="{{ $designType->id }}"
-                            {{ isset($product) && is_array($product->design_type) && in_array($designType->id, $product->design_type) ? 'selected' : '' }}>
+                        <option value="{{ $designType->design_type }}"
+                            {{ isset($product) && is_array($product->design_type) && in_array($designType->design_type, $product->design_type) ? 'selected' : '' }}>
                             {{ $designType->design_type }}
                         </option>
                         @endforeach
@@ -160,8 +160,8 @@
                     <label for="colour" class="form-label m-0 mb-1">Colour <span class="text-danger">*</span></label>
                     <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($colours as $colour)
-                        <option value="{{ $colour->id }}"
-                            {{ isset($product) && is_array($product->colour) && in_array($colour->id, $product->colour) ? 'selected' : '' }}>
+                        <option value="{{ $colour->color }}"
+                            {{ isset($product) && is_array($product->colour) && in_array($colour->color, $product->colour) ? 'selected' : '' }}>
                             {{ $colour->color }}
                         </option>
                         @endforeach
@@ -171,8 +171,8 @@
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
                     <select name="composition[]" id="composition" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($compositions as $composition)
-                        <option value="{{ $composition->id }}"
-                            {{ isset($product) && is_array($product->composition) && in_array($composition->id, $product->composition) ? 'selected' : '' }}>
+                        <option value="{{ $composition->composition }}"
+                            {{ isset($product) && is_array($product->composition) && in_array($composition->composition, $product->composition) ? 'selected' : '' }}>
                             {{ $composition->composition }}
                         </option>
                         @endforeach
