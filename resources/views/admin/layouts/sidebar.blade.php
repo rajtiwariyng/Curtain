@@ -34,6 +34,11 @@
                             <i class="bi bi-journal"></i><span class="text">Appointments</span>
                         </a>
                     </li>
+                    <li class="{{ request()->is('querybooked/list') ? 'active' : '' }}">
+                        <a href="{{ route('querybooked.list') }}">
+                            <i class="bi bi-journal"></i><span class="text">Query Booked</span>
+                        </a>
+                    </li>
                     <li class="{{ request()->is('quotations') ? 'active' : '' }}">
                         <a href="">
                             <i class="bi bi-receipt-cutoff"></i><span class="text">Quotations</span>

@@ -37,3 +37,7 @@
     position: relative;
     top: -42px;
 }
+
+.blogView{
+    background-color: var(--bg-color) !important;
+}

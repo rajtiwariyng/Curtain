@@ -315,7 +315,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3 w-100">
                                 <label for="registerationType" class="form-label">Registration Type<span
                                         class="requried">*</span></label>

@@ -179,8 +179,7 @@
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="row mb-2">
+            <div class="row mb-2">
             <div class="col-md-12">
                 <label for="noteInput" class="form-label mb-1">Note</label>
                 <textarea name="note" id="noteInput" class="form-control w-100">{{ old('note', isset($product) ? $product->note : '') }}</textarea>
@@ -223,6 +222,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        
 
         <div class="mt-3 d-flex gap-3 mb-4">
             <button type="submit" class="btn primary-btn">Update Product</button>

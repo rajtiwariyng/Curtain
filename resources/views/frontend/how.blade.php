@@ -2,10 +2,10 @@
 
 @section('title', 'HOW DO WE WORK')
 @section('header_img')
-<img class="header-img" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
+<img class="header-img wow animate__animated animate__fadeIn" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
 @endsection
 @section('hero')
-<div class="page-title-section m-auto">
+<div class="page-title-section m-auto wow animate__animated animate__fadeIn">
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
@@ -18,33 +18,43 @@
 <section class="request_call wrapper" style="margin-top:142px;">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6 content">
-                <h4>Request an in-house consultation with our experts:</h4>
-                <p>Simply fill in the request form and let our experts take care of the rest. Get ready for a
-                    hassle-free experience in window dressing! Don’t forget to check your PIN code to ensure we service
-                    your area.</p>
+            <!--<div class="col-md-6 content wow animate__animated animate__fadeIn">-->
+            <!--    <h4>Request an in-house consultation with our experts:</h4>-->
+            <!--    <p>Simply fill in the request form and let our experts take care of the rest. Get ready for a-->
+            <!--        hassle-free experience in window dressing! Don’t forget to check your PIN code to ensure we service-->
+            <!--        your area.</p>-->
+            <!--</div>-->
+
+            <!--<div class="col-md-6 wow animate__animated animate__fadeIn">-->
+            <!--    <div class="request-form p-4">-->
+            <!--        <div id="checkzipCode">-->
+            <!--            <h4 class="NewKansas-medium text-white mb-3 border-bottom pb-2">Your Info</h4>-->
+            <!--            <div class="mb-3">-->
+            <!--                <label for="ZipCodeInput" class="form-label text-white">Zip Code*</label>-->
+            <!--                <input type="text" class="form-control" id="ZipCodeInput" placeholder="Enter Zip Code"-->
+            <!--                    required>-->
+            <!--                <label for="error" id="ZipCodeInput-error"-->
+            <!--                    class="text-danger p-0 ps-2 pe-2 pt-2 pb-1 m-0 d-none">Please enter a Zip Code.</label>-->
+            <!--            </div>-->
+            <!--            <button type="submit" class="btn gradient-btn" onclick="toggleSections()">Submit</button>-->
+            <!--        </div>-->
+
+            <!--        <div id="redirectMsg" class="d-flex justify-content-center align-items-start flex-column d-none">-->
+            <!--            <h4 class="text-white fs-4 NewKansas-medium m-0 mb-2">Awesome! You are in our service area 🎉-->
+            <!--            </h4>-->
+            <!--            <p class="text-white m-0">Redirecting you to our booking page...</p>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+            
+            <div class="col-md-6 wow animate__animated animate__fadeIn">
+                <img src="{{ asset('frontend/images/18.png') }}" class="img-fluid" alt="">
             </div>
-
-            <div class="col-md-6">
-                <div class="request-form p-4">
-                    <div id="checkzipCode">
-                        <h4 class="NewKansas-medium text-white mb-3 border-bottom pb-2">Your Info</h4>
-                        <div class="mb-3">
-                            <label for="ZipCodeInput" class="form-label text-white">Zip Code*</label>
-                            <input type="text" class="form-control" id="ZipCodeInput" placeholder="Enter Zip Code"
-                                required>
-                            <label for="error" id="ZipCodeInput-error"
-                                class="text-danger p-0 ps-2 pe-2 pt-2 pb-1 m-0 d-none">Please enter a Zip Code.</label>
-                        </div>
-                        <button type="submit" class="btn gradient-btn" onclick="toggleSections()">Submit</button>
-                    </div>
-
-                    <div id="redirectMsg" class="d-flex justify-content-center align-items-start flex-column d-none">
-                        <h4 class="text-white fs-4 NewKansas-medium m-0 mb-2">Awesome! You are in our service area 🎉
-                        </h4>
-                        <p class="text-white m-0">Redirecting you to our booking page...</p>
-                    </div>
-                </div>
+            <div class="col-md-6 content wow animate__animated animate__fadeIn">
+                <h4>Transform Your Personal Space Effortlessly With Our In-house Consultation Service!</h4>
+                <p>By simply filling out our request form, you're one step closer to achieving your transformed home.</p>
+                <p>Selecting the perfect color palette and fabric can feel overwhelming and ensuring timely execution adds to the challenge.</p>
+                <p>Our experts are here to make the entire process seamless and enjoyable. At Curtains and Blinds, we guide you through every step, from selection to stitching and delivery, with utmost care and precision. Let us bring your dream to life!</p>
             </div>
         </div>
     </div>
@@ -56,7 +66,7 @@
     <section class="order-process container wrapper">
         <h2 class="NewKansas-medium text-center">Connect With Us</h2>
         <div class="row mt-4 p-4">
-            <div class="col-md-6">
+            <div class="col-md-6 wow animate__animated animate__fadeIn">
                 <div class="accordion" id="customAccordionExample">
                     <div class="accordion-item custom-accordion-item mb-3 border-0 border-bottom active">
                         <h2 class="accordion-header">
@@ -132,17 +142,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="images/HOW1.png" class="img-fluid accordionSideImage" style="max-width: 100%;" alt="">
+            <div class="col-md-6 d-flex justify-content-center align-items-center wow animate__animated animate__fadeIn">
+                <img src="{{ asset('frontend/images/HOW1.png') }}" class="img-fluid accordionSideImage" style="max-width: 100%;" alt="">
             </div>
         </div>
     </section>
 </div>
 
-<section class="faq wrapper">
+<section class="faq wrapper pt-0">
     <div class="container">
         <h2 class="NewKansas-medium text-center mb-4">Frequently Asked Questions</h2>
-        <div class="w-75 m-auto">
+        <div class="w-75 m-auto wow animate__animated animate__fadeIn">
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item mb-3">
                     <h2 class="accordion-header">
@@ -203,10 +213,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                         <div class="accordion-body">
-                            At CAB, we believe in sharing is caring. As a gesture of goodwill and as a part of our
-                            client-first policy, we cover a significant portion of the shipping cost. We only charge
-                            [———] per kg, compared to the regular price of [———]. This is our way of ensuring you get
-                            the best value with no hidden delivery fees.
+                            At CAB, we believe sharing is caring. As a gesture of goodwill and a reflection of our client-first policy, we are excited to announce a special promotional offer. For a limited time, enjoy Complimentary Delivery across India with no additional charges.
                         </div>
                     </div>
                 </div>
@@ -290,8 +297,17 @@
                 </div>
             </div>
         </div>
-        <div class="text-center"><button class="primary-btn mt-3">See All FAQ’s</button></div>
+        <div class="w1-100 d-flex align-items-center wow animate__animated animate__fadeIn"><a href="/faq" class="primary-btn m-auto mt-4">See All FAQ’s</a></div>
     </div>
 </section>
-
+<section class="container wrapper wow animate__animated animate__fadeIn" style="padding-top:0px !important;">
+    <div class="CTABanner">
+        <div class="w-50">
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
+            <p>Schedule your design consultation today - let's bring your vision to life!</p>
+        </div>
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+            Appointment</a>
+    </div>
+</section>
 @endsection

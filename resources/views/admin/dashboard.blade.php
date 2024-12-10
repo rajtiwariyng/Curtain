@@ -85,9 +85,9 @@
                                     <th>City</th>
                                     <th>State</th>
                                     <th>Country</th>
-                                    <th>Status</th>
-                                <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;"
-                                    scope="col">Action</th>
+                                <!--    <th>Status</th>-->
+                                <!--<th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;"-->
+                                <!--    scope="col">Action</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -102,21 +102,21 @@
                                     <td>{{ $appointments->city }}</td>
                                     <td>{{ $appointments->state }}</td>
                                     <td>{{ $appointments->country }}</td>
-                                    <td><span class="badge badge-active">{{ $appointments->status }}</span></td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <i class="bi bi-three-dots-vertical" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                            <ul class="dropdown-menu">
-                                                {{-- <li><a class="dropdown-item small" href="#">View</a></li> --}}
-                                                <li><a class="dropdown-item small" href="javascript:" onclick="confirmAssign('{{ $appointments->id }}')">Assign Franchise</a>
-                                                </li>
-                                                {{-- <li><a class="dropdown-item small" href="#"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal">Rejected</a></li> --}}
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    <!--<td><span class="badge badge-active">{{ $appointments->status }}</span></td>-->
+                                    <!--<td>-->
+                                    <!--    <div class="dropdown">-->
+                                    <!--        <i class="bi bi-three-dots-vertical" type="button"-->
+                                    <!--            data-bs-toggle="dropdown" aria-expanded="false"></i>-->
+                                    <!--        <ul class="dropdown-menu">-->
+                                    <!--            {{-- <li><a class="dropdown-item small" href="#">View</a></li> --}}-->
+                                    <!--            <li><a class="dropdown-item small" href="javascript:" onclick="confirmAssign('{{ $appointments->id }}')">Assign Franchise</a>-->
+                                    <!--            </li>-->
+                                    <!--            {{-- <li><a class="dropdown-item small" href="#"-->
+                                    <!--                    data-bs-toggle="modal"-->
+                                    <!--                    data-bs-target="#deleteModal">Rejected</a></li> --}}-->
+                                    <!--        </ul>-->
+                                    <!--    </div>-->
+                                    <!--</td>-->
                                 </tr>
                             @endforeach
                             

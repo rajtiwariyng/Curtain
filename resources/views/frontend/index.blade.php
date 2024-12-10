@@ -2,17 +2,16 @@
 
 @section('title', 'Home')
 @section('header_img')
-<img class="header-img homeBanner" src="{{ asset('frontend/images/header-image.png') }}" alt="">
+<img class="header-img homeBanner wow animate__animated animate__fadeIn" src="{{ asset('frontend/images/header-image.png') }}" alt="">
 @endsection
 @section('hero')
 <!-- hero-section -->
 <section class="hero">
-    <div class="hero-content">
-        <h1>Experience Stylish Curtains and Blinds at most genuine and affordable
-            prices</h1>
-        <p>crafted with elegance and functionality in the comfort of your home</p>
-        <div class="hero-cta d-flex justify-content-start">
-            <a href="/appointments" class="primary-btn me-3">Book Your Appointment</a>
+    <div class="hero-content wow animate__animated animate__fadeIn">
+        <h1>Choose Designer, Trendy and Budget-Friendly Curtains, Stitched and Delivered in the comfort of your home!</h1>
+        <!--<p>crafted with elegance and functionality in the comfort of your home</p>-->
+        <div class="hero-cta d-flex justify-content-start wow animate__animated animate__fadeIn">
+            <!--<a href="/appointments" class="primary-btn me-3">Book Your Appointment</a>-->
             <!-- <button class="primary-btn" data-bs-toggle="modal" data-bs-target="#BookHomeModal">Book for
                 Office</button> -->
         </div>
@@ -22,35 +21,65 @@
 @section('content')
 
 <section class="cab-usp container-fluid bg-white wrapper">
-    <div class="container">
-        <h2 class="NewKansas-medium text-center mb-4">The CAB strengths</h2>
+    <div class="container wow animate__animated animate__fadeIn">
+        <h2 class="NewKansas-medium text-center mb-4 wow animate__animated animate__fadeIn">THE CAB STRENGTH</h2>
+        <!--<div class="row">-->
+        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
+        <!--        <div class="card uspCard d-flex justify-content-center align-items-center flex-column">-->
+        <!--            <img src="{{ asset('frontend/images/design.svg') }}" class="mb-4" alt="">-->
+        <!--            <h4>In-house design team</h4>-->
+        <!--            <p>In-house design team creating stylish yet budget friendly curtains</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
+        <!--        <div class="card uspCard d-flex justify-content-center align-items-center flex-column">-->
+        <!--            <img src="{{ asset('frontend/images/machine.svg')}}" class="mb-4" alt="">-->
+        <!--            <h4>Fabrication unit</h4>-->
+        <!--            <p>State of the art Fabrication unit</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
+        <!--        <div class="card uspCard d-flex justify-content-center align-items-center flex-column">-->
+        <!--            <img src="{{ asset('frontend/images/material.svg') }}" class="mb-4" alt="">-->
+        <!--            <h4>Global sourcing</h4>-->
+        <!--            <p>Strong material sourcing for better pricing</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
+        <!--        <div class="card uspCard d-flex justify-content-center align-items-center flex-column">-->
+        <!--            <img src="{{ asset('frontend/images/tech.svg') }}" class="mb-4" alt="">-->
+        <!--            <h4>Technology backed</h4>-->
+        <!--            <p>Technology backed order fulfilment process.</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</div>-->
         <div class="row">
-            <div class="col-md-3 mb-3">
-                <div class="card uspCard d-flex justify-content-center align-items-center flex-column">
-                    <img src="{{ asset('frontend/images/design.svg') }}" class="mb-4" alt="">
-                    <h4>In-house design team</h4>
-                    <p>In-house design team creating stylish yet budget friendly curtains</p>
+            <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
+                <div class="card uspCard d-flex justify-content-start align-items-center flex-column">
+                    <img src="{{ asset('frontend/images/usp1.png') }}" class="mb-4" alt="">
+                    <h4>IN-HOUSE DESIGN TEAM</h4>
+                    <p class="m-0">In-house design team creating stylish yet budget friendly curtains</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card uspCard d-flex justify-content-center align-items-center flex-column">
-                    <img src="{{ asset('frontend/images/machine.svg')}}" class="mb-4" alt="">
-                    <h4>Fabrication unit</h4>
-                    <p>State of the art Fabrication unit</p>
+            <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
+                <div class="card uspCard d-flex justify-content-start align-items-center flex-column">
+                    <img src="{{ asset('frontend/images/usp14.png')}}" class="mb-4" alt="">
+                    <h4>FABRICATION UNIT</h4>
+                    <p class="m-0">State of the art Fabrication unit</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card uspCard d-flex justify-content-center align-items-center flex-column">
-                    <img src="{{ asset('frontend/images/material.svg') }}" class="mb-4" alt="">
-                    <h4>Global sourcing</h4>
-                    <p>Strong material sourcing for better pricing</p>
+            <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
+                <div class="card uspCard d-flex justify-content-start align-items-center flex-column">
+                    <img src="{{ asset('frontend/images/usp2.png') }}" class="mb-4" alt="">
+                    <h4>GLOBAL SOURCING</h4>
+                    <p class="m-0">Strong material sourcing for better pricing</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <div class="card uspCard d-flex justify-content-center align-items-center flex-column">
-                    <img src="{{ asset('frontend/images/tech.svg') }}" class="mb-4" alt="">
-                    <h4>Technology backed</h4>
-                    <p>Technology backed order fulfilment process.</p>
+            <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
+                <div class="card uspCard d-flex justify-content-start align-items-center flex-column">
+                    <img src="{{ asset('frontend/images/usp4.png') }}" class="mb-4" alt="">
+                    <h4>TECHNOLOGY BACKED</h4>
+                    <p class="m-0">Technology backed order fulfilment process.</p>
                 </div>
             </div>
         </div>
@@ -246,13 +275,14 @@
 
 <section class="showcase-product wrapper">
     <div class="container">
-        <h2 class="NewKansas-medium text-center mb-4">Now, selecting and ordering curtains and blinds from the comfort
-            of your home or office has never been easier.</h2>
+        <h2 class="NewKansas-medium text-center mb-4 wow animate__animated animate__fadeIn">NOW, SELECTING AND ORDERING CURTAINS AND BLINDS
+FROM THE COMFORT OF YOUR HOME OR OFFICE
+HAS NEVER BEEN EASIER</h2>
         <div class="product-collection">
             <div class="row" style="margin-top: 42px;">
-                <div class="col-md-4">
+                <div class="col-md-4 wow animate__animated animate__fadeIn">
                     <div class="card product-card">
-                        <img src="images/pro-1.png" alt="">
+                        <img src="{{ asset('frontend/images/pro-1.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>We spoil you for choice</h4>
                             <p class="m-0 text-color">With over 800 SKUs, we offer plenty of options while keeping the
@@ -260,10 +290,10 @@
                                 tailored just for you.</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
+                </div> 
+                <div class="col-md-4 wow animate__animated animate__fadeIn">
                     <div class="card product-card">
-                        <img src="images/pro-2.png" alt="">
+                        <img src="{{ asset('frontend/images/pro-5.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>Find your perfect match</h4>
                             <p class="m-0 text-color">Make informed decisions by experiencing our products firsthand.
@@ -272,9 +302,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 wow animate__animated animate__fadeIn">
                     <div class="card product-card">
-                        <img src="images/pro-3.png" alt="">
+                        <img src="{{ asset('frontend/images/pro-3.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>Affordable and budget-friendly</h4>
                             <p class="m-0 text-color">At CAB, we ensure genuine pricing with no haggling and zero
@@ -486,20 +516,46 @@
 <!-- testimonial-section -->
 <section class="testimonial bg-dark wrapper">
     <div class="container">
-        <h2 class="NewKansas-medium text-center text-white">What do our customers say</h2>
-        <p class="text-center text-white mb-4">We have to provide the material for this. We should be able to manage the
-            blog part on our own</p>
-        <div class="testimonial-carousel owl-carousel owl-theme">
-            <div class="item">
+        <h2 class="NewKansas-medium text-center text-white wow animate__animated animate__fadeIn mb-4">What do our customers say</h2>
+        <!-- <p class="text-center text-white mb-4">We have to provide the material for this. We should be able to manage the
+            blog part on our own</p> -->
+        <div class="testimonial-carousel owl-carousel owl-theme wow animate__animated animate__fadeIn">
+            <div class="item wow animate__animated animate__fadeIn">
                 <div class="card testimonial-card">
-                    <h4>These guys are well priced</h4>
-                    <p>"Best experience EVER! From the quote to the installation! These guys are well priced,
-                        have
-                        great staff and installers, and are fast and efficient!"</p>
+                    <!--<h4>These guys are well priced</h4>-->
+                    <p>"Different yet exciting concept. From start to finish, the team provided a competitive quote, and working with the designers was an absolute pleasure. The installation process was seamless, fast, and incredibly efficient. Highly recommend these guys for their professionalism and outstanding service!"</p>
                     <div class="user-info d-flex justify-content-start align-items-center">
-                        <img src="images/user.png" alt="user" class="img-fluid me-3" style="max-width: 62px;">
+                        <img src="{{ asset('frontend/images/user1.png') }}" alt="user" class="img-fluid me-3" style="max-width: 62px;">
                         <div>
-                            <p class="NewKansas-medium m-0">John Doe</p>
+                            <p class="NewKansas-medium m-0">Geetanjali</p>
+                            <p class="m-0"><i class="bi bi-geo-alt"></i> Delhi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item wow animate__animated animate__fadeIn">
+                <div class="card testimonial-card">
+                    <!--<h4>These guys are well priced</h4>-->
+                    <p>"I had an amazing experience buying curtains for my new house. The  entire team is highly experienced, offering mindful consultation to help me choose curtains that perfectly matched my home's theme and color palette. They lived up to my expectation on fabric knowledge, pricing and timely delivery. I must recommend their name for their expertise and exceptional customer experience!"</p>
+                    <div class="user-info d-flex justify-content-start align-items-center">
+                        <img src="{{ asset('frontend/images/user2.png') }}" alt="user" class="img-fluid me-3" style="max-width: 62px;">
+                        <div>
+                            <p class="NewKansas-medium m-0">Sangeeta Joshua</p>
+                            <p class="m-0"><i class="bi bi-geo-alt"></i> Delhi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item wow animate__animated animate__fadeIn">
+                <div class="card testimonial-card">
+                    <!--<h4>These guys are well priced</h4>-->
+                    <p>
+                        "Let me start with a big thank you! Their timely visit was such a relief, as they brought their entire collection right to my home—I absolutely loved the concept, everything in one bag. I didn’t have to step out to make my selection! We were thoroughly impressed by their value-for-money pricing and professionalism. A special thanks to the designer for her professional approach, extensive product knowledge, and for helping us choose curtains that look absolutely stunning. The installers were equally impressive—skilled and knowledgeable. They did an outstanding job.We couldn’t be happier!"
+                    </p>
+                    <div class="user-info d-flex justify-content-start align-items-center">
+                        <img src="{{ asset('frontend/images/user3.png') }}" alt="user" class="img-fluid me-3" style="max-width: 62px;">
+                        <div>
+                            <p class="NewKansas-medium m-0">Supriya Scott</p>
                             <p class="m-0"><i class="bi bi-geo-alt"></i> Delhi</p>
                         </div>
                     </div>
@@ -508,16 +564,16 @@
         </div>
     </div>
 </section>
-<section class="container wrapper">
-    <div class="CTABanner">
-        <div class="w-50">
-            <h2 class="NewKansas-medium text-white">Transform Your Space with Perfect Curtains & Blinds!</h2>
-            <p class="text-white">Schedule Your Free Design Consultation Today – Let’s Bring Your Vision to Life!</p>
-        </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
-            Appointment</a>
-    </div>
-</section>
+<!--<section class="container wrapper">-->
+<!--    <div class="CTABanner">-->
+<!--        <div class="w-50">-->
+<!--            <h2 class="NewKansas-medium text-white">Transform Your Space with Perfect Curtains & Blinds!</h2>-->
+<!--            <p class="text-white">Schedule Your Free Design Consultation Today – Let’s Bring Your Vision to Life!</p>-->
+<!--        </div>-->
+<!--        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your-->
+<!--            Appointment</a>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!-- DIY section -->
 <!-- <section class="wrapper diyProducts">
@@ -652,5 +708,14 @@
     </div>
 </div>
 </section> -->
-
+<section class="container wrapper wow animate__animated animate__fadeIn">
+    <div class="CTABanner">
+        <div class="w-50">
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
+            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+        </div>
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+            Appointment</a>
+    </div>
+</section>
 @endsection

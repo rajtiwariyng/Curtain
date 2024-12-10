@@ -2,10 +2,10 @@
 
 @section('title', 'About Us')
 @section('header_img')
-<img class="header-img" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
+<img class="header-img wow animate__animated animate__fadeIn" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
 @endsection
 @section('hero')
-<div class="page-title-section m-auto">
+<div class="page-title-section m-auto wow animate__animated animate__fadeIn">
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
@@ -17,13 +17,13 @@
 @section('content')
 
 
-<section class="mki wrapper container-fluid" style="margin-top:148px;">
+<section class="mki bg-transparent wrapper container-fluid" style="margin-top:148px;">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="images/india-map.svg" class="img-fluid" alt="">
+            <div class="col-md-6 d-flex justify-content-center align-items-center wow animate__animated animate__fadeIn">
+                <img src="{{ asset('frontend/images/india-map.svg') }}" class="img-fluid" alt="">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-medium">Make in India</h2>
                 <p>With an unwavering commitment to customer satisfaction, exceptional craftsmanship, and seamless
                     installation, you are assured that your order is crafted with precision and care by some of India’s
@@ -43,8 +43,8 @@
 
 <section class="services wrapper bg-white">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-5">
+        <div class="row align-items-center ">
+            <div class="col-md-5 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-medium">A Legacy of 30 years</h2>
                 <p>For three generations, we have been at the heart of the furnishing industry's evolution. From our
                     modest beginnings as a single store on a vibrant Delhi street, we have grown into a proud PAN-India
@@ -60,7 +60,7 @@
                     <a class="NewKansas-regular" href="#" data-target="office">Office</a>
                 </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 wow animate__animated animate__fadeIn">
                 <div class="service-carousel owl-carousel owl-theme">
                     <!-- Carousel items will be dynamically inserted here -->
                 </div>
@@ -90,11 +90,11 @@
 <!-- our story section -->
 <section class="ourstory wrapper">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <img src="images/storyLeftImg.png" class="img-fluid" alt="">
+        <div class="row wow animate__animated animate__fadeIn">
+            <div class="col-md-6 wow animate__animated animate__fadeIn">
+                <img src="{{ asset('frontend/images/storyLeftImg.png') }}" class="img-fluid" alt="">
             </div>
-            <div class="col-md-6 d-flex justify-content-start align-items-center">
+            <div class="col-md-6 d-flex justify-content-start align-items-center wow animate__animated animate__fadeIn">
                 <div class="card storycard">
                     <h4>Our story</h4>
                     <p>At Curtains and Blinds (CAB), we are your ultimate destination for trendy and hassle-free Curtain
@@ -106,7 +106,6 @@
                         sophistication, bold patterns, or a blend of both, we have something to match every aesthetic.
                     </p>
                     <p>At CAB, we don’t just provide furnishings; we create spaces you’ll love to live in.</p>
-                    <a href="#" class="primary-btn">About Us</a>
                 </div>
             </div>
         </div>
@@ -151,66 +150,63 @@
     </div>
 </section> -->
 
-
-<section class="ourTeam wrapper container">
-    <h2 class="NewKansas-medium text-center mb-4">Our Team</h2>
-    <p class="w-75 m-auto text-center">Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-        printer took a galley of type and scrambled it to make a type specimen book.</p>
-    <div class="row mt-4 justify-content-center">
-        <div class="col-md-3">
+<div class="bg-white">
+    <section class="ourTeam wrapper container ">
+    <h2 class="NewKansas-medium text-center mb-4 wow animate__animated animate__fadeIn">OUR FOUNDERS</h2>
+    <div class="row mt-4 justify-content-center ">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p1.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Devesh Sharma</h4>
+                    <p class="mt-2 NewKansas-medium mb-1">Devesh Sharma</p>
                     <p class="m-0">Founder</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p2.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Raghav Sharma</h4>
+                    <p class="mt-2 mb-1 NewKansas-medium">Raghav Sharma</p>
                     <p class="m-0">Co-Founder</p>
                 </div>
             </div>
         </div>
     </div>
-
+    <h4 class="w-100 m-auto text-center wow animate__animated animate__fadeIn">STRATEGIC ADVISORS, INDUSTRY LEADERS AND INNOVATORS – OUR CONSULTANTS</h4>
     <div class="row mt-4">
-        <div class="col-md-3">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p3.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Puneet Nikore</h4>
+                    <p class="mt-2 mb-1 NewKansas-medium">Amit Aurora</p>
                     <p class="m-0">Our consultants and advisors</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p4.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Rajeev Chugh</h4>
+                    <p class="mt-2 mb-1 NewKansas-medium">Atul Vashishth</p>
                     <p class="m-0">Our consultants and advisors</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p5.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Suraj Mallik</h4>
+                    <p class="mt-2 mb-1 NewKansas-medium">Suraj Mallik</p>
                     <p class="m-0">Our consultants and advisors</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
-                <img src="images/teamPhoto.png" alt="" class="img-fluid">
+                <img src="{{ asset('frontend/images/p6.png') }}" alt="" class="img-fluid">
                 <div class="card-content text-center">
-                    <h4 class="mt-3">Amit Aurora</h4>
+                    <p class="mt-2 mb-1 NewKansas-medium">Moksh Juneja</p>
                     <p class="m-0">Our consultants and advisors</p>
                 </div>
             </div>
@@ -225,4 +221,17 @@
                     </div>
                 </div> -->
 </section>
+</div>
+
+<section class="container wrapper wow animate__animated animate__fadeIn">
+    <div class="CTABanner">
+        <div class="w-50">
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
+            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+        </div>
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+            Appointment</a>
+    </div>
+</section>
+
 @endsection

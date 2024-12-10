@@ -1,5 +1,5 @@
 
-<header class="nav-header desktop_menu d-flex justify-content-between align-items-start">
+<header class="nav-header desktop_menu d-flex justify-content-between align-items-start wow animate__animated animate__fadeIn">
     <a href="/" class="logo"><img src="{{ asset('frontend/images/logo.svg') }}" alt=""></a>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -12,16 +12,16 @@
                         <a class="nav-link" href="/about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/our_products">Our Products</a>
+                        <a class="nav-link" href="/our-products">Our Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact Us</a>
+                        <a class="nav-link" href="/how">How do we work</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/franchise_registration" class="nav-link primary-btn pe-4 ps-4">Franchise Registration</a>
+                        <a href="/franchise_registration" class="nav-link primary-btn pe-4 ps-4 text-white">Franchise Registration</a>
                     </li>
                 </ul>
             </div>

@@ -309,3 +309,17 @@
       transform: scale(50, 50);
     }
   }
+
+  .selectMultiple .search-input {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.selectMultiple ul {
+    max-height: 150px;
+    overflow-y: auto;
+}

@@ -15,3 +15,10 @@ $(".menu-btn").click(function () {
     // Toggle the 'active' class on the sidebar
     $(".sidebar").toggleClass("active");
 });
+
+
+setTimeout(function () { 
+  
+            // Closing the alert 
+            $('.alert').alert('close'); 
+        }, 3000); 
