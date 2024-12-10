@@ -3,7 +3,7 @@
 @section('content')
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
-        <h6 class="fw-bold m-0">All Zip Code <span class="fw-normal text-muted">(5)</span></h6>
+        <h6 class="fw-bold m-0">All Zip Code <span class="fw-normal text-muted">({{ $zipCodes->count() }})</span></h6>
         <div class="d-flex align-items-center">
             <a class="dropdown-item small me-2" href="/zipcodes.xlsx"><i class="bi bi-file-earmark-arrow-down"></i> Download Template</a>
             <form action="{{ route('zipcode.import') }}" method="POST" enctype="multipart/form-data" id="import_form" style="display: inline-flex;">
@@ -54,6 +54,48 @@
                         <div class="mb-1 w-100">
                             <label for="ZIPCodeInput" class="form-label mb-1">ZIP Code <span class="text-danger">*</span></label>
                             <input type="number" class="form-control w-100" id="ZIPCodeInput" name="zip_code" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-btn addBtn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="primary-btn addBtn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add User Modal End -->
+
+        <!-- Add User Modal Start -->
+    <div class="modal fade" id="editZipcodeModal" tabindex="-1" aria-labelledby="editZipcodeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editZipcodeModalLabel">Add Zip Code</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form  method="POST" id="editzipcodeForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="_method" value="POST" id="editmethodField"> 
+                    <div class="modal-body">
+                        <div class="mb-1 w-100">
+                            <label for="CountryInput" class="form-label mb-1">Country <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control w-100" id="editCountryInput" name="country" required>
+                        </div>
+                        <div class="mb-1 w-100">
+                            <label for="StateInput" class="form-label mb-1">State <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control w-100" id="editStateInput" name="state" required>
+                        </div>
+                        <div class="mb-1 w-100">
+                            <label for="CityInput" class="form-label mb-1">City <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control w-100" id="editCityInput" name="city" required>
+                        </div>
+                        <div class="mb-1 w-100">
+                            <label for="ZIPCodeInput" class="form-label mb-1">ZIP Code <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control w-100" id="editZIPCodeInput" name="zip_code" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -117,23 +159,23 @@
         fetch(`/zipcodes/${id}/edit`)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('CountryInput').value = data.country;
-                document.getElementById('StateInput').value = data.state;
-                document.getElementById('CityInput').value = data.city;
-                document.getElementById('ZIPCodeInput').value = data.zip_code;
+                document.getElementById('editCountryInput').value = data.country;
+                document.getElementById('editStateInput').value = data.state;
+                document.getElementById('editCityInput').value = data.city;
+                document.getElementById('editZIPCodeInput').value = data.zip_code;
 
-                document.getElementById('methodField').value = 'PUT'; // This sets the hidden _method field to PUT
+                document.getElementById('editmethodField').value = 'PUT'; // This sets the hidden _method field to PUT
                 // Set the form action dynamically (the URL with the id of the resource)
-                const form = document.querySelector('#zipcodeForm');
+                const form = document.querySelector('#editzipcodeForm');
                             form.action = `/zipcodes/${id}`;
 
                 // Optionally, you can update the modal title to reflect the action
-                const modalTitle = document.querySelector('#addZipcodeModalLabel');
+                const modalTitle = document.querySelector('#editZipcodeModalLabel');
                 modalTitle.textContent = 'Edit Zip Code';
                 });
 
         // Show modal
-        new bootstrap.Modal(document.getElementById('addZipcodeModal')).show();
+        new bootstrap.Modal(document.getElementById('editZipcodeModal')).show();
     }
 </script>
 <script>

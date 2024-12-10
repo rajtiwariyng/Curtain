@@ -99,7 +99,7 @@
                     <label for="usage" class="form-label m-0 mb-1">Usage<span class="text-danger">*</span></label>
                     <select name="usage[]" id="usage" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($usages as $ug => $usage)
-                        <option value="{{ $usage->id }}">{{ $usage->usages }}</option>
+                        <option value="{{ $usage->usages }}">{{ $usage->usages }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -108,7 +108,7 @@
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs)<span class="text-danger">*</span></label>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $tp => $type)
-                        <option value="{{ $type->id }}">{{ $type->type }}</option>
+                        <option value="{{ $type->type }}">{{ $type->type }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -117,7 +117,7 @@
                     <label for="design_type" class="form-label m-0 mb-1">Design Type<span class="text-danger">*</span></label>
                     <select name="design_type[]" id="design_type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($designTypes as $dt => $designType)
-                        <option value="{{ $designType->id }}"> {{ $designType->design_type }}</option>
+                        <option value="{{ $designType->design_type }}"> {{ $designType->design_type }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -128,7 +128,7 @@
                     <label for="colour" class="form-label m-0 mb-1">Colour<span class="text-danger">*</span></label>
                     <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($colours as $colour)
-                        <option value="{{ $colour->id }}">{{ $colour->color }} </option>
+                        <option value="{{ $colour->color }}">{{ $colour->color }} </option>
                         @endforeach
                     </select>
                 </div>
@@ -136,7 +136,7 @@
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
                     <select name="composition[]" id="composition" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($compositions as $composition)
-                        <option value="{{ $composition->id }}">{{ $composition->composition }}</option>
+                        <option value="{{ $composition->composition }}">{{ $composition->composition }}</option>
                         @endforeach
                     </select>
                 </div>

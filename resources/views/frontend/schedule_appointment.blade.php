@@ -51,7 +51,8 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile"  maxlength="10" placeholder="Enter Mobile Number">
+                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number">
+                        
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -60,12 +61,6 @@
                         <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
                     </div>
                 </div>
-                <!-- <div class="col-md-6">
-                    <div class="mb-3 checkPincode">
-                        <label for="pincode" class="form-label">Pincode</label>
-                        <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter Pincode">
-                    </div>
-                </div> -->
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="city" class="form-label">City</label>
@@ -126,10 +121,30 @@
         event.target.value = event.target.value.replace(/[^0-9]/g, '');
     });
 
-    document.getElementById('mobile').addEventListener('input', function(event) {
-        // Allow only numeric values: Replace anything that's not a digit
-        event.target.value = event.target.value.replace(/[^0-9]/g, '');
-    });
+    document.getElementById('mobile').addEventListener('input', function (event) {
+    const errorMsg = document.getElementById('mobile-error'); // Reference to the error message element
+    let input = event.target.value;
+
+    // Allow only digits
+    input = input.replace(/[^0-9]/g, '');
+
+    // Limit to 10 digits
+    if (input.length > 10) {
+        input = input.slice(0, 10);
+    }
+
+    // Check if the number starts with 6, 7, 8, or 9
+    if (input.length > 0 && !/^[6-9]/.test(input)) {
+        errorMsg.textContent = "Mobile number must start with 6, 7, 8, or 9.";
+        errorMsg.style.display = "block";
+    } else {
+        errorMsg.style.display = "none"; // Hide error message if valid
+    }
+
+    // Set the sanitized value back to the input
+    event.target.value = input;
+});
+
 
     $(document).ready(function() {
         $("#contact-form1").validate({
@@ -143,7 +158,7 @@
                     required: true,
                     digits: true,
                     minlength: 10,
-                    maxlength: 15
+                    maxlength: 10,
                 },
                 address: "required",
                 pincode: {
@@ -164,7 +179,7 @@
                 },
                 mobile: {
                     required: "Please enter your mobile number",
-                    digits: "Please enter a valid mobile number"
+                    digits: "Please enter a valid mobile number",
                 },
                 address: "Please enter your address",
                 pincode: {

@@ -22,38 +22,40 @@ class ZipCodeController extends Controller
             'country' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'zip_code' => 'required|numeric|unique:zip_codes,zip_code', // Ensure zip_code is unique
+            'zip_code' => 'required|numeric|unique:zip_codes,zip_code',
         ]);
 
         ZipCode::create($request->all());
-
         return redirect()->route('zipcodes.index')->with('success', 'Zip Code added successfully.');
     }
 
 
     public function edit($id)
     {
-        // echo $id;die;
-        $zipCode=ZipCode::find($id);
+        $zipCode = ZipCode::findOrFail($id);
         return response()->json($zipCode);
     }
 
-    public function update(Request $request, ZipCode $zipCode)
+    public function update(Request $request, $id)
     {
+        $zipCode = ZipCode::findOrFail($id);
+
         $request->validate([
             'country' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'zip_code' => 'required|numeric|unique:zip_codes,zip_code',
+            'zip_code' => 'required|numeric|unique:zip_codes,zip_code,' . $id,
         ]);
 
         $zipCode->update($request->all());
         return redirect()->route('zipcodes.index')->with('success', 'Zip Code updated successfully.');
     }
 
-    public function destroy(ZipCode $zipCode)
+    public function destroy($id)
     {
+        $zipCode = ZipCode::findOrFail($id);
         $zipCode->delete();
+
         return redirect()->route('zipcodes.index')->with('success', 'Zip Code deleted successfully.');
     }
 

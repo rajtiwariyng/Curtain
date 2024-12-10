@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MasterCity extends Model
 {
     use HasFactory;
+
+    protected $table = 'master_city_state';
 }

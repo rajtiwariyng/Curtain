@@ -156,8 +156,8 @@
                 <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
                 <input type="range" class="w-100" id="TallyCodeInput">
                 <div class="values d-flex justify-content-between">
-                    <span class="text-muted">₹100</span>
-                    <span class="text-muted">₹1000</span>
+                    <span class="text-muted">?100</span>
+                    <span class="text-muted">?1000</span>
                 </div>
             </div>
             <div class="mb-2 w-100">
