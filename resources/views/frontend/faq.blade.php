@@ -9,13 +9,13 @@
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
-        <a class="text-white" href="/appointments" class="active">FQA</a>
+        <a class="text-white" href="/faq" class="active">FQA</a>
     </div>
     <h1 class="text-white NewKansas-medium">Frequently Asked Questions</h1>
 </div>
 @endsection
 @section('content')
-<section class="container wrapper">
+<section class="container wrapper m-100">
     <div class="faqSection">
         <select class="form-select faq-select-mob" aria-label="Default select example">
             <option selected>Payment & Delivery</option>
@@ -566,6 +566,16 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+<section class="container wrapper" style="padding-top:0px;">
+    <div class="CTABanner">
+        <div class="w-50">
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
+            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+        </div>
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+            Appointment</a>
     </div>
 </section>
 @endsection

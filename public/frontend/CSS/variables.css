@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap');
 :root {
     scroll-behavior: smooth;
     --black-color: #1d1615;
@@ -15,24 +15,24 @@
     );
     --secondary-font: "DM Sans", sans-serif;
 }
-
+/* 
 @font-face {
     font-family: "New kansas Regular";
-    src: url(/fonts/NewKansasRegular.otf);
+    src: url(/public/fonts/NewKansasRegular.otf);
     font-family: "Avenir Next Regular";
-    src: url(/fonts/avenir-next-regular.ttf);
-    font-family: "New kansas Medium";
-    src: url(/fonts/NewKansasMedium.otf);
+    src: url(/public/fonts/avenir-next-regular.ttf);
+    font-family: "Faculty Glyphic";
+    src: url(/public/fonts/NewKansasMedium.otf);
     font-family: "New kansas Semibold";
-    src: url(/fonts/NewKansasSemiBold.otf);
+    src: url(/public/fonts/NewKansasSemiBold.otf);
     font-family: "New kansas Bold";
-    src: url(/fonts/NewKansasBold.otf);
+    src: url(/public/fonts/NewKansasBold.otf);
     font-family: "AvenirNext Bold";
-    src: url(/fonts/AvenirNext-Bold.otf);
-}
+    src: url(/public/fonts/AvenirNext-Bold.otf);
+} */
 
 .NewKansas-regular {
-    font-family: "New kansas Regular";
+    font-family: "Faculty Glyphic";
     font-weight: 400;
     font-style: normal;
 }
@@ -43,19 +43,19 @@
 }
 
 .NewKansas-medium {
-    font-family: "New kansas Medium";
+    font-family: "Faculty Glyphic";
     font-weight: 500;
     font-style: normal;
 }
 
 .NewKansas-semibold {
-    font-family: "New kansas Semibold";
+    font-family: "Faculty Glyphic";
     font-weight: 600;
     font-style: normal;
 }
 
 .NewKansas-bold {
-    font-family: "New kansas Bold";
+    font-family: "Faculty Glyphic";
     font-weight: 700;
     font-style: normal;
 }
@@ -72,7 +72,7 @@
 }
 .scrollToTopBtn {
     position: fixed;
-    border: 1px solid var(--light-yellow);
+    /* border: 1px solid var(--light-yellow); */
     bottom: 2rem;
     right: 24px;
     text-decoration: none;
@@ -88,7 +88,8 @@
     z-index: 24;
     animation: showButton linear forwards;
     animation-timeline: view();
-    animation-range-start: calc(80vh + var(--animationStartsAfter));
+    /*animation-range-start: calc(80vh + var(--animationStartsAfter));*/
+    animation-range-start: 80vh;
     animation-range-end: calc(
         80vh + var(--animationStartsAfter) + var(--animationDistance)
     );
@@ -109,20 +110,22 @@
     }
 }
 .ctaBtn{
-    width: 3rem;
-    aspect-ratio: 1;
-    color: var(--black-color);
+    width: 238px;
+    color: var(--white-color);
     position: fixed;
     right: 82px;
-    background-color: var(--light-yellow);
-    background: var(--gradient-color);
+    background-color: var(--black-color);
+    /* background: var(--gradient-color); */
     border-radius: 32px;
     bottom: 2rem;
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: 500;
     display: grid;
     place-items: center;
     z-index: 24;
     box-shadow: 0px 0px 16px #00000015;
+    height: 48px;
+    font-family: var(--secondary-font);
 }
 .primary-btn {
     padding: 10px 32px;
@@ -175,19 +178,19 @@ a {
 }
 
 h1 {
-    font-size: 38px;
-    font-family: "New kansas Medium";
+    font-size: 36px;
+    font-family: "Faculty Glyphic";
 }
 
 h2 {
-    font-size: 30px;
-    font-family: "New kansas Medium";
+    font-size: 28px;
+    font-family: "Faculty Glyphic";
     line-height: 45px;
 }
 
 h4 {
-    font-size: 22px;
-    font-family: "New kansas Medium";
+    font-size: 18px;
+    font-family: "Faculty Glyphic";
 }
 
 p {

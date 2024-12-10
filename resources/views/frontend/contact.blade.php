@@ -2,10 +2,10 @@
 
 @section('title', 'Contact Us')
 @section('header_img')
-<img class="header-img" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
+<img class="header-img wow animate__animated animate__fadeIn" src="{{ asset('frontend/images/franchise-bg.jpg') }}" style="width: 100% !important;" alt="">
 @endsection
 @section('hero')
-<div class="page-title-section m-auto">
+<div class="page-title-section m-auto wow animate__animated animate__fadeIn">
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
@@ -19,14 +19,14 @@
 <section class="container wrapper">
     <div class="contact">
         <div class="row">
-            <div class="col-md-5 contact-info">
+            <div class="col-md-5 contact-info wow animate__animated animate__fadeIn">
                 <div class="contact-title">
                     <h3 class="NewKansas-medium text-white mb-1">Contact Information</h3>
                     <p class="text-white">Feel free to connect with us.</p>
                 </div>
                 <div class="d-flex flex-column justify-content-end">
                     <a class="p-2 d-flex align-items-center text-white" href="https://wa.link/7m1rva"><img class="me-2"
-                            src="{{ asset('frontend/images/whatsapp-w.svg') }}" alt="">7838357850</a>
+                            src="{{ asset('frontend/images/whatsapp-w.svg') }}" alt="">+91 7838357850</a>
                     <a class="p-2 d-flex align-items-center text-white" href="mailto:support@curtainsandblinds.in"><img
                             class="me-2" src="{{ asset('frontend/images/support-w.svg') }}"
                             alt="">support@curtainsandblinds.in</a>
@@ -35,14 +35,14 @@
                             alt="">info@curtainsandblinds.in</a>
                 </div>
                 <div class="social-link mt-4">
-                    <a href="#" class="pe-3"><img src="frontend/images/facebook-w.svg" alt=""></a>
-                    <a href="#" class="pe-3"><img src="frontend/images/instagram-w.svg" alt=""></a>
-                    <a href="#" class="pe-3"><img src="frontend/images/linkedin-w.svg" alt=""></a>
-                    <a href="#" class="pe-3"><img src="frontend/images/twitter-w.svg" alt=""></a>
+                    <a href="#" class="pe-3"><img src="{{ asset('frontend/images/facebook-w.svg') }}" alt=""></a>
+                    <a href="#" class="pe-3"><img src="{{ asset('frontend/images/instagram-w.svg') }}" alt=""></a>
+                    <a href="#" class="pe-3"><img src="{{ asset('frontend/images/linkedin-w.svg') }}" alt=""></a>
+                    <a href="#" class="pe-3"><img src="{{ asset('frontend/images/twitter-w.svg') }}" alt=""></a>
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <div class="col-md-7 wow animate__animated animate__fadeIn">
                 <form action="#" class="contactForm">
                     <div class="row">
                         <div class="col-md-6">
@@ -84,6 +84,16 @@
                 </form>
             </div>
         </div>
+    </div>
+</section>
+<section class="container wrapper wow animate__animated animate__fadeIn" style="padding-top:0px !important;">
+    <div class="CTABanner">
+        <div class="w-50">
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
+            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+        </div>
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+            Appointment</a>
     </div>
 </section>
 @endsection

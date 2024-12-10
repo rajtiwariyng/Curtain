@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\ZipCode;
 use App\Mail\AppointmentSuccessMail;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
@@ -13,27 +14,50 @@ use Carbon\Carbon;
 class AppointmentController extends Controller
 {
     public function index()
-{
-    // Fetch appointments with status 'Pending'
-    $appointments = Appointment::all();
-    
-    $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
-        return $appointments->count();
-    });
+    {
+        // Fetch appointments with status 'Pending'
+        $appointments = Appointment::where('status', '!=', 'Query Booked')->get();
+        
+        $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
+            return $appointments->count();
+        });
 
-    
-    // Now you can access the counts like so:
-    $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
-    $assignedCount = $statusCounts->get('Franchise Assigned', 0);
-    $completedCount = $statusCounts->get('Franchise Completed', 0);
-    $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
+        
+        // Now you can access the counts like so:
+        $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
+        $assignedCount = $statusCounts->get('Franchise Assigned', 0);
+        $completedCount = $statusCounts->get('Franchise Completed', 0);
+        $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
 
-    // Fetch appointments with status 'Assigned'
-    $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
-    $franchises=Franchise::orderby('id','desc')->get();
-    
-    return view('admin.appointments', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
-}
+        // Fetch appointments with status 'Assigned'
+        $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
+        $franchises=Franchise::orderby('id','desc')->get();
+        
+        return view('admin.appointments', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
+    }
+
+   public function querybooked()
+    {
+        // Fetch appointments with status 'Pending'
+        $appointments = Appointment::where('status', '=', 'Query Booked')->get();
+        
+        $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
+            return $appointments->count();
+        });
+
+        
+        // Now you can access the counts like so:
+        $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
+        $assignedCount = $statusCounts->get('Franchise Assigned', 0);
+        $completedCount = $statusCounts->get('Franchise Completed', 0);
+        $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
+
+        // Fetch appointments with status 'Assigned'
+        $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
+        $franchises=Franchise::orderby('id','desc')->get();
+        
+        return view('admin.query-booked', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
+    }
 
     public function getAppointmentData(Request $request)
     {
@@ -68,6 +92,7 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        $zipCodes = ZipCode::pluck('zip_code')->toArray();
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
@@ -80,7 +105,13 @@ class AppointmentController extends Controller
         ]);
 
 
-        $validatedData['status'] = 'Appointment Booked';
+        if (in_array($validatedData['pincode'], $zipCodes)) {
+            $validatedData['status'] = 'Appointment Booked';
+            $responseMessage = 'Appointment created successfully!';
+        } else {
+            $validatedData['status'] = 'Query Booked';
+            $responseMessage = 'Query created successfully!';
+        }
         $validatedData['franchise_id'] = 'APNT'.rand(1000,9999);
     
         $appointment = Appointment::create($validatedData);
@@ -88,7 +119,7 @@ class AppointmentController extends Controller
         // Send success email
         Mail::to($appointment->email)->send(new AppointmentSuccessMail($appointment));
     
-        return response()->json(['message' => 'Appointment created successfully!'], 201);
+        return response()->json(['message' => $responseMessage], 201);
     }
 
     public function assign(Request $request)

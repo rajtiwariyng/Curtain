@@ -6,7 +6,7 @@ $('.testimonial-carousel').owlCarousel({
     nav: false,
     autoplay: true,
     margin: 20,
-    autoplayTimeout: 1000,
+    autoplayTimeout: 5000,
     autoplayHoverPause: true,
     responsive: {
         0: {
@@ -16,7 +16,7 @@ $('.testimonial-carousel').owlCarousel({
             items: 2,
         },
         1000: {
-            items: 3,
+            items: 2,
         }
     }
 })
@@ -95,10 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Define images corresponding to each accordion item
     const accordionImages = {
-        1: 'images/HOW1.png', // Image for Accordion Item #1
-        2: 'images/HOW2.png', // Image for Accordion Item #2
-        3: 'images/HOW1.png', // Image for Accordion Item #3
-        4: 'images/HOW2.png', // Image for Accordion Item #4
+        1: 'public/frontend/images/HOW1.png', // Image for Accordion Item #1
+        2: 'public/frontend/images/HOW2.png', // Image for Accordion Item #2
+        3: 'public/frontend/images/HOW1.png', // Image for Accordion Item #3
+        4: 'public/frontend/images/HOW2.png', // Image for Accordion Item #4
     };
 
     // Listen for when a new accordion item is opened
@@ -118,17 +118,16 @@ $(document).ready(function () {
     // Carousel data for each tab
     const carouselData = {
         livingRoom: [
-            `<div class="item"><div class="card product-card"><img src="frontend/images/livingroom1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">We help you Create a stylish and trendy living spaces that impresses and amazes your guests.</p></div></div></div>`,
-            `<div class="item"><div class="card product-card"><img src="frontend/images/livingroom2.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">We at curtains and blinds have perfect solutions for your formal areas. Creating those perfect combinations of main and sheer curtains.</p></div></div></div>`,
-            `<div class="item"><div class="card product-card"><img src="frontend/images/livingroom3.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">The lounge part of the living area deserves the perfect quite drapes. And we have just the right solutions for you</p></div></div></div>`
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/livingroom1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">We help you Create a stylish and trendy living spaces that impresses and amazes your guests.</p></div></div></div>`,
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/livingroom3.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">The lounge part of the living area deserves the perfect quite drapes. And we have just the right solutions for you</p></div></div></div>`
         ],
         bedroom: [
-            `<div class="item"><div class="card product-card"><img src="frontend/images/bedroom1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Eyelet curtains over the French windows bring the perfect touch of flair to your bedrooms.</p></div></div></div>`,
-            `<div class="item"><div class="card product-card"><img src="frontend/images/bedroom2.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Four-poster beds require matching curtains and sheers to elevate their style. At Curtains and Blinds, we offer fabrics that perfectly complement and complete the Mediterranean aesthetic.</p></div></div></div>`
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/bedroom1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Eyelet curtains over the French windows bring the perfect touch of flair to your bedrooms.</p></div></div></div>`,
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/bedroom2.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Four-poster beds require matching curtains and sheers to elevate their style. At Curtains and Blinds, we offer fabrics that perfectly complement and complete the Mediterranean aesthetic.</p></div></div></div>`
         ],
         office: [
-            `<div class="item"><div class="card product-card"><img src="frontend/images/office1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">At CAB we have tailor made solutions for your conference areas. A perfect combination of curtains and blinds</p></div></div></div>`,
-            `<div class="item"><div class="card product-card"><img src="frontend/images/office2.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Home offices are becoming an important part of our personal spaces. At curtains and blinds we ensure the correct colours and textures are used to ensure enhanced productivity.</p></div></div></div>`
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/office1.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">At CAB we have tailor made solutions for your conference areas. A perfect combination of curtains and blinds</p></div></div></div>`,
+            `<div class="item"><div class="card product-card"><img src="public/frontend/images/office2.png" alt=""><div class="card-body p-4"><p class="m-0 text-color">Home offices are becoming an important part of our personal spaces. At curtains and blinds we ensure the correct colours and textures are used to ensure enhanced productivity.</p></div></div></div>`
         ]
     };
 
@@ -137,12 +136,10 @@ $(document).ready(function () {
         $(".service-carousel").owlCarousel({
             loop: true,
             responsiveClass: true,
-            dots: true,
+            dots: false,
             nav: false,
-            autoplay: true,
+            autoplay: false,
             margin: 20,
-            autoplayTimeout: 4000,
-            autoplayHoverPause: true,
             responsive: {
                 0: {
                     items: 1,

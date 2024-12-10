@@ -1,4 +1,4 @@
-<footer class="container-fluid w-100">
+<footer class="container-fluid w-100 wow animate__animated animate__fadeIn">
     <div class="container">
         <div class="footerTop">
             <div class="row d-flex justify-content-between">
@@ -7,7 +7,7 @@
                         location</a> -->
                     <a class="p-2 d-flex align-items-center" href="https://wa.link/7m1rva"><img class="me-2"
                          src="{{ asset('frontend/images/whatsapp.svg') }}"
-                            alt="">7838357850</a>
+                            alt="">+91 7838357850</a>
                     <a class="p-2 d-flex align-items-center" href="mailto:support@curtainsandblinds.in"><img class="me-2"
                          src="{{ asset('frontend/images/support.svg') }}"
                             alt="">support@curtainsandblinds.in</a>
@@ -19,10 +19,10 @@
                     <div>
                         <h4>Follow Us</h4>
                         <div class="social-links d-flex justify-content-start">
-                            <a href="#" class="pe-3"><img src="frontend/images/facebook.svg" alt=""></a>
-                            <a href="#" class="pe-3"><img src="frontend/images/instagram.svg" alt=""></a>
-                            <a href="#" class="pe-3"><img src="frontend/images/linkedin.svg" alt=""></a>
-                            <a href="#" class="pe-3"><img src="frontend/images/twitter.svg" alt=""></a>
+                            <a href="#" class="pe-3"><img src="{{ asset('frontend/images/facebook.svg') }}" alt=""></a>
+                            <a href="#" class="pe-3"><img src="{{ asset('frontend/images/instagram.svg') }}" alt=""></a>
+                            <a href="#" class="pe-3"><img src="{{ asset('frontend/images/linkedin.svg') }}" alt=""></a>
+                            <a href="#" class="pe-3"><img src="{{ asset('frontend/images/twitter.svg') }}" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         <a class="nav-link" href="/about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/our_products">Our Products</a>
+                        <a class="nav-link" href="/our-products">Our Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/services">Services</a>
@@ -63,9 +63,7 @@
         </div>
 
         <div class="footer-content mt-4 w-75 m-auto">
-            <p class="text-center text-color">©2024 Curtains And Blinds, LLP, All Rights Reserved. Curtains And Blinds
-                is a trademark of Curtains And Blinds, LLP. Each franchise is independently owned and operated and may
-                not offer all products represented on this website.</p>
+            <p class="text-center text-color">©2024 Curtains And Blinds. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

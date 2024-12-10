@@ -96,10 +96,14 @@ Route::get('/how', function () {
 
 });
 
-Route::get('/privacy_policy', function () {
+Route::get('/privacy-policy', function () {
 
     return view('frontend.privacy_policy');
 
+});
+
+Route::get('/faq', function () {
+    return view('frontend.faq');
 });
 
 Route::get('/services', function () {
@@ -108,7 +112,7 @@ Route::get('/services', function () {
 
 });
 
-Route::get('/our_products', function () {
+Route::get('/our-products', function () {
 
     return view('frontend.our_products');
 
@@ -158,6 +162,7 @@ Route::get('/user_create', function () {
 Auth::routes();
 
 Route::get('appointments_list', [AppointmentController::class, 'index'])->name('appointments.list.index');
+Route::get('querybooked', [AppointmentController::class, 'querybooked'])->name('querybooked.list');
 
 Route::get('/appointment/data', [AppointmentController::class, 'getAppointmentData']);
 
