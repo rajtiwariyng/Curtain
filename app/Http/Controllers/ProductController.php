@@ -362,28 +362,15 @@ public function store(Request $request)
     return view('admin.product.view', compact('product')); // Pass the product data to the view
 }
 
-public function getProductDetails($productId)
+public function getProductDetails($id)
 {
-    // Fetch the product with related data
-    $product = Product::with([
-        'ProductType',
-        'Supplier',
-        'SupplierCollection', // Corrected the relationship name
-        'SupplierCollectionDesign',
-        'Type',
-        'Color',
-        'Composition',
-        'DesignType',
-        'Usage'
-    ])->find($productId);
+    $product = Product::with(['productType', 'supplier', 'supplierCollection', 'supplierCollectionDesign'])->find($id);
 
-    // Check if the product exists
-    if (!$product) {
-        return response()->json(['error' => 'Product not found'], 404);
+    if ($product) {
+        return response()->json(['product' => $product]);
+    } else {
+        return response()->json(['message' => 'Product not found'], 404);
     }
-
-    // Return product details as JSON
-    return response()->json($product);
 }
 
     public function download_csv()

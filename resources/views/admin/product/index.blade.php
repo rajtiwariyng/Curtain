@@ -57,14 +57,14 @@
                                     <li><a class="dropdown-item small"
                                             href="{{ route('products.edit', $product->id) }}">Edit</a></li>
                                     <li>
-                                        <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
-                                            href="#ProductView" role="button" aria-controls="ProductView"
-                                            data-product-id="{{ $product->id }}">
-                                            View
-                                        </a>
+                                    <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
+                                        href="#ProductView" role="button" aria-controls="ProductView"
+                                        data-product-id="{{ $product->id }}">
+                                        View
+                                    </a>
                                     </li>
                                     <li><a class="dropdown-item small" href="javascript:"
-                                            onclick="openDeleteModal({{ $product->id }})">Delete</a></li>
+                                            onclick="openDeleteModal('{{ $product->id }}')">Delete</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -77,8 +77,7 @@
 </div>
 
 <!-- Offcanvas Sidebar -->
-<div class="offcanvas ProductViewSidebar offcanvas-start" tabindex="-1" id="ProductView"
-    aria-labelledby="ProductViewLabel">
+<div class="offcanvas ProductViewSidebar offcanvas-start" tabindex="-1" id="ProductView" aria-labelledby="ProductViewLabel">
     <div class="offcanvas-header border-bottom">
         <h5 class="offcanvas-title fw-bold" id="ProductViewLabel">Product Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -89,94 +88,24 @@
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <th>Type</th>
-                                <td>{{ $product->productType->product_type ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Code</th>
-                                <td>{{ $product->tally_code ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>File Number</th>
-                                <td>{{ $product->file_number ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Supplier Name</th>
-                                <td>{{ $product->Supplier->name ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Supplier Collection</th>
-                                <td>{{ $product->SupplierCollection->collection_name ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Supplier Collection Design</th>
-                                <td>{{ $product->SupplierCollectionDesign->design_name ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Design SKU</th>
-                                <td>{{ $product->design_sku ??'' }}</td>
-                            </tr>
-                            @if(!empty($product->width))
-                            <tr>
-                                <th>Width</th>
-                                <td>{{ $product->width ?? '' }}</td>
-                            </tr>
-                            @endif
-
-                            @if(!empty($product->rubs_martendale))
-                            <tr>
-                                <th>Rubs Martendale</th>
-                                <td>{{ $product->rubs_martendale ?? '' }} </td>
-                            </tr>
-                            @endif
-                            <tr>
-                                <th>Usage</th>
-                                <td>
-                                    {{ $product->usage ?? '' }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Type (Technical specs)</th>
-                                <td>{{ $product->type  ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Design Type</th>
-                                <td>{{ $product->design_type  ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Color</th>
-                                <td>{{ $product->colour  ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Composition</th>
-                                <td>{{ $product->composition  ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <th>Note</th>
-                                <td>{{ $product->note  ?? ''}}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Image Gallery</th>
-                                <td>
-                                    @if(!empty($product))
-                                    <a href="{{ asset('storage/' . $product->image) }}" data-fancybox
-                                        data-caption="{{ $product->tally_code }}">
-                                        <img class="tabelImage" src="{{ asset('storage/' . $product->image) }}"
-                                            alt="{{ $product->image_alt }}" />
-                                    </a>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Created At</th>
-                                <td>{{ $product->created_at ?? '' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Updated At</th>
-                                <td>{{ $product->updated_at  ?? ''}}</td>
-                            </tr>
+                            <tr><th>Type</th><td id="product-type"></td></tr>
+                            <tr><th>Code</th><td id="product-code"></td></tr>
+                            <tr><th>File Number</th><td id="file-number"></td></tr>
+                            <tr><th>Supplier Name</th><td id="supplier-name"></td></tr>
+                            <tr><th>Supplier Collection</th><td id="supplier-collection"></td></tr>
+                            <tr><th>Supplier Collection Design</th><td id="supplier-design"></td></tr>
+                            <tr><th>Design SKU</th><td id="design-sku"></td></tr>
+                            <tr><th>Width</th><td id="width"></td></tr>
+                            <tr><th>Rubs Martendale</th><td id="rubs-martendale"></td></tr>
+                            <tr><th>Usage</th><td id="usage"></td></tr>
+                            <tr><th>Type (Technical specs)</th><td id="type"></td></tr>
+                            <tr><th>Design Type</th><td id="design-type"></td></tr>
+                            <tr><th>Color</th><td id="colour"></td></tr>
+                            <tr><th>Composition</th><td id="composition"></td></tr>
+                            <tr><th>Note</th><td id="note"></td></tr>
+                            <tr><th>Image Gallery</th><td id="image-gallery"></td></tr>
+                            <tr><th>Created At</th><td id="created-at"></td></tr>
+                            <tr><th>Updated At</th><td id="updated-at"></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -323,49 +252,50 @@
 <script>
     $(document).ready(function() {
         $('.viewProductLink').on('click', function() {
-            var productId = $(this).data('product-id');
-
+            var productId = $(this).data('product-id');  // Get the product ID from the clicked link
+            
             // Send AJAX request to fetch product details
             $.ajax({
-                url: '/product/' + productId + '/details', // Change this URL to your actual endpoint
+                url: '/product/' + productId + '/details',  // Change this URL to your actual endpoint
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    if (response) {
-                        var product = response;
-
-                        // Populate the offcanvas with product details
-                        $('#ProductViewLabel').text(product.product_name);
-                        $('#offcanvas-body').html(`
-                            <tr><th class="w-25">Product Type</th><td>${product.product_type.product_type || '-'}</td></tr>
-                        <tr><th class="w-25">Tally Code</th><td>${product.tally_code || '-'}</td></tr>
-                        <tr><th class="w-25">File Number</th><td>${product.file_number || '-'}</td></tr>
-                        <tr><th class="w-25">Supplier Name</th><td>${product.supplier.name || '-'}</td></tr>
-                        <tr><th class="w-25">Supplier Collection</th><td>${product.getSupplierCollections || '-'}</td></tr>
-                        <tr><th class="w-25">Supplier Collection Design</th><td>${product.collection_design || '-'}</td></tr>
-                        <tr><th class="w-25">Image</th>
-                            <td>
-                                <a href="${product.image}" data-fancybox data-caption="Product Image">
-                                    <img class="tableImage" src="${product.image}" alt="Product Image" />
+                    if (response && response.product) {
+                        var product = response.product;  // Product data returned by the server
+                        console.log(product.supplier.name);
+                        
+                        // Populate the offcanvas with the fetched product details
+                        $('#ProductViewLabel').text(product.product_name || 'Product Details');
+                        $('#product-type').text(product.product_type?.product_type || '-');
+                        $('#product-code').text(product.tally_code || '-');
+                        $('#file-number').text(product.file_number || '-');
+                        $('#supplier-name').text(product.supplier?.name || '-');
+                        $('#supplier-collection').text(product.supplier_collection?.collection_name || '-');
+                        $('#supplier-design').text(product.supplier_collection_design?.design_name || '-');
+                        $('#design-sku').text(product.design_sku || '-');
+                        $('#width').text(product.width || '-');
+                        $('#rubs-martendale').text(product.rubs_martendale || '-');
+                        $('#usage').text(product.usage || '-');
+                        $('#type').text(product.type || '-');
+                        $('#design-type').text(product.design_type || '-');
+                        $('#colour').text(product.colour || '-');
+                        $('#composition').text(product.composition || '-');
+                        $('#note').text(product.note || '-');
+                        $('#created-at').text(product.created_at || '-');
+                        $('#updated-at').text(product.updated_at || '-');
+                        
+                        // Handle the image
+                        if (product.image) {
+                            $('#image-gallery').html(`
+                                <a href="${'/storage/' + product.image}" data-fancybox data-caption="${product.tally_code}">
+                                    <img class="tableImage" src="${'/storage/' + product.image}" alt="${product.image_alt || 'Product Image'}" / style="max-width: 150px; height: auto;">
                                 </a>
-                            </td>
-                        </tr>
-                        <tr><th class="w-25">Currency</th><td>${product.currency || '-'}</td></tr>
-                        <tr><th class="w-25">Supplier Price</th><td>${product.supplier_price || '-'}</td></tr>
-                        <tr><th class="w-25">Freight</th><td>${product.freight || '-'}</td></tr>
-                        <tr><th class="w-25">Duty %</th><td>${product.duty_percentage || '-'}</td></tr>
-                        <tr><th class="w-25">Profit %</th><td>${product.profit_percentage || '-'}</td></tr>
-                        <tr><th class="w-25">GST %</th><td>${product.gst_percentage || '-'}</td></tr>
-                        <tr><th class="w-25">MRP</th><td>${product.mrp || '-'}</td></tr>
-                        <tr><th class="w-25">Unit</th><td>${product.unit || '-'}</td></tr>
-                        <tr><th class="w-25">Colour</th><td>${product.colour || '-'}</td></tr>
-                        <tr><th class="w-25">Composition</th><td>${product.composition || '-'}</td></tr>
-                        <tr><th class="w-25">Design Type</th><td>${product.design_type || '-'}</td></tr>
-                        <tr><th class="w-25">Usage</th><td>${product.usage || '-'}</td></tr>
-                        <tr><th class="w-25">Note</th><td>${product.note || '-'}</td></tr>
-                        `);
+                            `);
+                        } else {
+                            $('#image-gallery').html('<p>No image available</p>');
+                        }
                     } else {
-                        alert('Product not found');
+                        alert('Product details not found.');
                     }
                 },
                 error: function() {
