@@ -37,4 +37,52 @@ class AdminController extends Controller
             return response()->json(['status'=> 'false','location_data' => '','message' => 'failed']);
         }
     }
+
+    public function quotation_list()
+    {
+        // Fetch appointments with status 'Pending'
+        $appointments = Appointment::where('status', '!=', 'Query Booked')->get();
+        
+        $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
+            return $appointments->count();
+        });
+
+        
+        // Now you can access the counts like so:
+        $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
+        $assignedCount = $statusCounts->get('Franchise Assigned', 0);
+        $completedCount = $statusCounts->get('Franchise Completed', 0);
+        $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
+
+        // Fetch appointments with status 'Assigned'
+        $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
+        $franchises=Franchise::orderby('id','desc')->get();
+        
+        return view('admin.quotations', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
+    }
+
+    public function getQuotationsData(Request $request)
+    {
+        // Retrieve the 'status' input from the request, default to 'pending' if not set
+        $status = $request->input('status', 'pending');
+
+        // Use a switch-case for better readability and easier status mapping
+        switch ($status) {
+            case 'pending':
+                $status = 'Appointment Booked';
+                break;
+            case 'complete':
+                $status = 'Franchise Completed';
+                break;
+            default:
+                $status = 'Appointment Booked';
+                break;
+        }
+
+        // Fetch appointments based on the mapped status
+        $quotations = Appointment::where('status','=', $status)->get();
+
+        // Return the data as JSON response
+        return response()->json(['data' => $quotations]);
+    }
 }

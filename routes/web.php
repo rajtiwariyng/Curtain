@@ -33,7 +33,7 @@ use App\Http\Controllers\DesignTypeController;
 use App\Http\Controllers\ColorController;
 
 use App\Http\Controllers\CompositionController;
-
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\SupplierCollectionController;
 
 use App\Http\Controllers\SupplierCollectionDesignController;
@@ -43,8 +43,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TypeController;
 
 use App\Http\Controllers\UsageController;
-
-
+use PHPUnit\Framework\Attributes\Group;
 
 Route::get('/clear-cache', function () {
 
@@ -387,4 +386,12 @@ Route::get('/supplier-collection-designs/{supplierId}/{collectionId}', [Supplier
 
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+Route::prefix('quotations')->group(function () {
+    Route::get('/', [QuotationController::class, 'index'])->name('quotations.list');
+    Route::get('/create', [QuotationController::class, 'create'])->name('quotations.create');
+    Route::post('/store', [QuotationController::class, 'store'])->name('quotation.store');
+    Route::get('data', [QuotationController::class, 'getQuotationsData']);
+});
+
 
