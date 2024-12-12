@@ -6,7 +6,7 @@
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
         <h6 class="fw-bold m-0">All Appointments <span class="fw-normal text-muted">({{ count($appointments) }})</span></h6>
-        <a href="{{ route('quotations.create') }}" class="primary-btn addBtn">+ Create Quotations</a>
+        <!-- <a href="{{ route('quotations.create') }}" class="primary-btn addBtn">+ Create Quotations</a> -->
 
     </div>
 

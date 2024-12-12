@@ -52,7 +52,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile Number</label>
-                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number">
+                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" maxlength="10">
                         
                     </div>
                 </div>

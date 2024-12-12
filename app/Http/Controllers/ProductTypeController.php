@@ -22,9 +22,10 @@ class ProductTypeController extends Controller
     {
         $request->validate([
             'product_type' => 'required|string|max:255|unique:product_types,product_type',
+            'product_unit' => 'required|string|max:255',
         ]);
 
-        ProductType::create($request->only('product_type'));
+        ProductType::create($request->only('product_type','product_unit'));
 
         return redirect()->route('product-types.index')->with('success', 'Product Type added successfully.');
     }
@@ -37,11 +38,12 @@ class ProductTypeController extends Controller
 
     public function update(Request $request, ProductType $productType)
     {
-        $request->validate([
-            'product_type' => 'required|string|max:255|unique:product_types,product_type',
-        ]);
+        // $request->validate([
+        //     'product_type' => 'required|string|max:255|unique:product_types,product_type',
+        //     'product_unit' => 'required|string|max:255',
+        // ]);
 
-        $productType->update($request->only('product_type'));
+        $productType->update($request->only('product_type','product_unit'));
 
         return redirect()->route('product-types.index')->with('success', 'Product Type updated successfully.');
     }

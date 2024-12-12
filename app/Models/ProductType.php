@@ -9,6 +9,6 @@ class ProductType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_type'];
+    protected $fillable = ['product_type','product_unit'];
 }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Models\Franchise;
 use Carbon\Carbon;
+use Illuminate\Validation\Rules\Unique;
 
 class AppointmentController extends Controller
 {
@@ -104,7 +105,6 @@ class AppointmentController extends Controller
             'country' => 'required|string|max:100',
         ]);
 
-
         if (in_array($validatedData['pincode'], $zipCodes)) {
             $validatedData['status'] = 'Appointment Booked';
             $responseMessage = 'Appointment created successfully!';
@@ -112,6 +112,7 @@ class AppointmentController extends Controller
             $validatedData['status'] = 'Query Booked';
             $responseMessage = 'Query created successfully!';
         }
+        $validatedData['uniqueid'] = 'APNT'. '_'. rand(1000, 9999);
         $validatedData['franchise_id'] = 'APNT'.rand(1000,9999);
     
         $appointment = Appointment::create($validatedData);

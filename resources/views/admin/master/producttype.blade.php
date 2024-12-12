@@ -26,6 +26,15 @@
                             <label for="ProductTypeInput" class="form-label mb-1">Product Type <span class="text-danger">*</span></label>
                             <input type="text" class="form-control w-100" id="ProductTypeInput" name="product_type" required>
                         </div>
+
+                        <div class="mb-1 w-100">
+                            <label for="ProductTypeInput" class="form-label mb-1">Unit <span class="text-danger">*</span></label>
+                            <select class="form-control w-100" name="product_unit" id="product_unit">
+                                <option value="" disabled selected>Select Unit</option>
+                                <option value="meter">meter</option>
+                                <option value="inches">inches</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="secondary-btn addBtn" data-bs-dismiss="modal">Close</button>
@@ -44,6 +53,7 @@
                     <tr>
                         <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N</th>
                         <th scope="col">Product Type</th>
+                        <th scope="col">Product Unit</th>
                         <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;" scope="col">Action</th>
                     </tr>
                 </thead>
@@ -52,6 +62,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $productType->product_type }}</td>
+                        <td>{{ $productType->product_unit }}</td>
                         <td>
                             <div class="dropdown">
                                 <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -96,6 +107,10 @@
         $("#productTypeForm").validate({
             rules: {
                 product_type: {
+                    required: true,
+                    maxlength: 255
+                },
+                product_unit: {
                     required: true,
                     maxlength: 255
                 }
