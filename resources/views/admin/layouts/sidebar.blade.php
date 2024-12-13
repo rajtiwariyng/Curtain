@@ -24,6 +24,13 @@
                             <i class="bi bi-building-add"></i><span class="text">Franchise</span>
                         </a>
                     </li>
+
+                    <li class="{{ request()->is('franchise/temp/index') ? 'active' : '' }}">
+                        <a href="{{ url('admin/calculator') }}">
+                            <i class="bi bi-building-add"></i><span class="text">Calculator</span>
+                        </a>
+                    </li>
+
                     <li class="{{ request()->is('products') ? 'active' : '' }}">
                         <a href="/products">
                             <i class="bi bi-box2"></i><span class="text">Products</span>

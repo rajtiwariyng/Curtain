@@ -387,6 +387,8 @@ Route::get('/supplier-collection-designs/{supplierId}/{collectionId}', [Supplier
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
+
+// Quotation Work
 Route::prefix('quotations')->group(function () {
     Route::get('/', [QuotationController::class, 'index'])->name('quotations.list');
     Route::get('/create', [QuotationController::class, 'create'])->name('quotations.create');
@@ -394,4 +396,8 @@ Route::prefix('quotations')->group(function () {
     Route::get('data', [QuotationController::class, 'getQuotationsData']);
 });
 
+
+// Calculator 
+
+Route::get('admin/calculator', [AdminController::class, 'calculator']);
 

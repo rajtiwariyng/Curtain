@@ -85,4 +85,8 @@ class AdminController extends Controller
         // Return the data as JSON response
         return response()->json(['data' => $quotations]);
     }
+
+    public function calculator(){
+        return view('admin.calculator');
+    }
 }
