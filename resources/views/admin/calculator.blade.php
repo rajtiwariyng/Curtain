@@ -25,8 +25,8 @@
                                 <button class="primary-btn addedBtn" name="curtain_calculator" id="curtain_calculator">Calculate</button>
                                 <div class="resultView mt-4 border-top border-bottom py-3">
                                     <div class="d-flex justify-content-between mb-2">
-                                        <p class="m-0 fw-normal">Total Pannel requirement: </p>
-                                        <p class="m-0 fw-bold"><span id="curtain_panel"></span> Pannels</p>
+                                        <p class="m-0 fw-normal">Total Panel requirement: </p>
+                                        <p class="m-0 fw-bold"><span id="curtain_panel"></span> Panels</p>
                                     </div>
                                     <div class="d-flex justify-content-between m-0">
                                         <p class="m-0 fw-normal">Total fabric requirement: </p>
@@ -52,8 +52,8 @@
                                 <button class="primary-btn addedBtn" name="blind_calculator" id="blind_calculator">Calculate</button>
                                 <div class="resultView mt-4 border-top border-bottom py-3">
                                     <div class="d-flex justify-content-between mb-2">
-                                        <p class="m-0 fw-normal">Total Pannel requirement: </p>
-                                        <p class="m-0 fw-bold"><span id="blind_panel"></span> Pannels</p>
+                                        <p class="m-0 fw-normal">Total Panel requirement: </p>
+                                        <p class="m-0 fw-bold"><span id="blind_panel"></span> Panels</p>
                                     </div>
                                     <div class="d-flex justify-content-between m-0">
                                         <p class="m-0 fw-normal">Total fabric requirement: </p>
@@ -70,62 +70,44 @@
 <script>
 
 $('#curtain_calculator').click(function() {
-    // Get the curtain height and width values from the input fields
+
     const height = parseFloat($('#curtain_height').val());
     const width = parseFloat($('#curtain_width').val());
 
-    // Check if the input values are valid numbers
     if (isNaN(height) || isNaN(width)) {
         alert("Please enter valid numbers for height and width.");
         return;
     }
 
-    // Calculate panel and fabric
-    const panel = height + 0.4;
-    const fabric = width / 0.5;
+    const Theight = height + 0.4;
+    const Twidth = width / 0.5;
 
-    let curtainPanel = panel;
-    if (curtainPanel > height) {
-        curtainPanel = height + 1;  // Adjust if panel exceeds height
-    } else {
-        curtainPanel = height;  // If panel is less than or equal to height, use height
-    }
-    // Update the result fields with calculated values
+    curtainPanel =Math.ceil(Twidth);
+    const curtain_fabric = (Theight * curtainPanel).toFixed(2);
+
     $('#curtain_panel').text(curtainPanel);
-    $('#curtain_fabric').text(fabric * panel);
+    $('#curtain_fabric').text(curtain_fabric);
 
-    // Optional: log the values for debugging (remove in production)
-    // console.log(`Height: ${height}, Width: ${width}`);
 });
 
 
 $('#blind_calculator').click(function() {
-    // Get the curtain height and width values from the input fields
+
     const height = parseFloat($('#blind_height').val());
     const width = parseFloat($('#blind_width').val());
 
-    // Check if the input values are valid numbers
     if (isNaN(height) || isNaN(width)) {
         alert("Please enter valid numbers for height and width.");
         return;
     }
 
-    // Calculate panel and fabric
-    const panel = height + 0.4;
-    const fabric = width / 0.3;
+    const Theight = height + 0.4;
+    const Twidth = width / 1.30;
 
-    let curtainPanel = panel;
-    if (curtainPanel > height) {
-        curtainPanel = height + 1;  // Adjust if panel exceeds height
-    } else {
-        curtainPanel = height;  // If panel is less than or equal to height, use height
-    }
-    // Update the result fields with calculated values
-    $('#blind_panel').text(curtainPanel);
-    $('#blind_fabric').text(Math.round(fabric * panel));
-
-    // Optional: log the values for debugging (remove in production)
-    // console.log(`Height: ${height}, Width: ${width}`);
+    blind_panel =Math.ceil(Twidth);
+    blind_fabric = (Theight * blind_panel).toFixed(2);
+    $('#blind_panel').text(blind_panel);
+    $('#blind_fabric').text(blind_fabric);
 });
 
 </script>
