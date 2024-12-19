@@ -1,7 +1,4 @@
-<?php //dd('rj');
-
-
-
+<?php 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FranchiseTempController;
@@ -20,10 +17,6 @@ use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\ZipCodeController;
 
-
-
-
-
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Controllers\ProductTypeController;
@@ -33,7 +26,9 @@ use App\Http\Controllers\DesignTypeController;
 use App\Http\Controllers\ColorController;
 
 use App\Http\Controllers\CompositionController;
+
 use App\Http\Controllers\QuotationController;
+
 use App\Http\Controllers\SupplierCollectionController;
 
 use App\Http\Controllers\SupplierCollectionDesignController;
@@ -43,6 +38,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TypeController;
 
 use App\Http\Controllers\UsageController;
+
 use PHPUnit\Framework\Attributes\Group;
 
 Route::get('/clear-cache', function () {
@@ -235,15 +231,15 @@ Route::middleware(['auth', 'role:Fulfillment Desk'])->group(function () {
 
 // Add similar route groups for other roles...
 
-Route::middleware(['auth', 'role:Franchise'])->group(function () {
+// Route::middleware(['auth', 'role:Franchise'])->group(function () {
 
-    Route::get('franchise/team', [FranchiseTeamController::class, 'index'])->name('franchise.team.index');
+//     Route::get('franchise/team', [FranchiseTeamController::class, 'index'])->name('franchise.team.index');
 
-    Route::get('franchise/team/create', [FranchiseTeamController::class, 'create'])->name('franchise.team.create');
+//     Route::get('franchise/team/create', [FranchiseTeamController::class, 'create'])->name('franchise.team.create');
 
-    Route::post('franchise/team/store', [FranchiseTeamController::class, 'store'])->name('franchise.team.store');
+//     Route::post('franchise/team/store', [FranchiseTeamController::class, 'store'])->name('franchise.team.store');
 
-});
+// });
 
 
 
@@ -315,11 +311,16 @@ Route::put('/users/{user}/change-password', [RegisterController::class, 'changeP
 
 //Route::post('/product/store', [ProductController::class, 'store'])->name('products.store');
 
-Route::resource('products', ProductController::class);
 
-Route::get('products/download/csv', [ProductController::class, 'download_csv']);
 
-Route::get('products/data/log', [ProductController::class, 'data_log']);
+// Route::get('products/download/csv', [ProductController::class, 'download_csv']);
+
+// Route::get('products/data/log', [ProductController::class, 'data_log']);
+// Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+// Route::get('/product/{id}/details', [ProductController::class, 'getProductDetails'])->name('product.details');
+
+
+
 
 // Route to display the form
 
@@ -327,11 +328,9 @@ Route::get('products/data/log', [ProductController::class, 'data_log']);
 
 //Route::get('products_{id}', [ProductController::class, 'show'])->name('products.show');
 
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 // web.php
 
-Route::get('/product/{id}/details', [ProductController::class, 'getProductDetails'])->name('product.details');
 
 //Route::resource('zipcodes', ZipCodeController::class);
 
@@ -339,50 +338,29 @@ Route::get('/product/{id}/details', [ProductController::class, 'getProductDetail
 
 // Manual routes instead of Route::resource for more control
 
-Route::get('zipcodes', [ZipCodeController::class, 'index'])->name('zipcodes.index');
+// Route::get('zipcodes', [ZipCodeController::class, 'index'])->name('zipcodes.index');
 
-Route::post('zipcodes', [ZipCodeController::class, 'store'])->name('zipcodes.store');
+// Route::post('zipcodes', [ZipCodeController::class, 'store'])->name('zipcodes.store');
 
-Route::get('zipcodes/{id}/edit', [ZipCodeController::class, 'edit'])->name('zipcodes.edit');
+// Route::get('zipcodes/{id}/edit', [ZipCodeController::class, 'edit'])->name('zipcodes.edit');
 
-Route::put('zipcodes/{id}', [ZipCodeController::class, 'update'])->name('zipcodes.update');
+// Route::put('zipcodes/{id}', [ZipCodeController::class, 'update'])->name('zipcodes.update');
 
-Route::delete('zipcodes/{id}', [ZipCodeController::class, 'destroy'])->name('zipcodes.destroy');
-
-
+// Route::delete('zipcodes/{id}', [ZipCodeController::class, 'destroy'])->name('zipcodes.destroy');
 
 
 
-Route::post('zipcode/import', [ZipCodeController::class, 'import'])->name('zipcode.import');
 
-Route::get('zipcode/export', [ZipCodeController::class, 'export'])->name('zipcode.export');
 
-Route::resource('product-types', ProductTypeController::class);
+// Route::post('zipcode/import', [ZipCodeController::class, 'import'])->name('zipcode.import');
 
-Route::resource('design-types', DesignTypeController::class);
+// Route::get('zipcode/export', [ZipCodeController::class, 'export'])->name('zipcode.export');
 
-Route::resource('colors', ColorController::class);
-
-Route::resource('compositions', CompositionController::class);
-
-Route::resource('supplier-collections', SupplierCollectionController::class);
-
-Route::resource('supplierCollectionDesigns', SupplierCollectionDesignController::class);
-
-Route::resource('suppliers', SupplierController::class);
-
-Route::resource('types', TypeController::class);
-
-Route::resource('usages', UsageController::class);
-
-Route::get('/supplier-collection/{supplierId}', [SupplierCollectionDesignController::class, 'getSupplierCollections']);
 
 
 
+Route::get('/supplier-collection/{supplierId}', [SupplierCollectionDesignController::class, 'getSupplierCollections']);
 Route::get('/supplier-collection-designs/{supplierId}/{collectionId}', [SupplierCollectionDesignController::class, 'getSupplierCollectionDesigns']);
-
-
-
 
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
@@ -391,13 +369,46 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 // Quotation Work
 Route::prefix('quotations')->group(function () {
     Route::get('/', [QuotationController::class, 'index'])->name('quotations.list');
-    Route::get('/create', [QuotationController::class, 'create'])->name('quotations.create');
+    Route::get('create/{appointment_id}', [QuotationController::class, 'create'])->name('quotations.create');
     Route::post('/store', [QuotationController::class, 'store'])->name('quotation.store');
     Route::get('data', [QuotationController::class, 'getQuotationsData']);
+});
+
+
+Route::prefix('zipcodes')->name('zipcodes.')->group(function() {
+    Route::get('/', [ZipCodeController::class, 'index'])->name('index');
+    Route::post('/', [ZipCodeController::class, 'store'])->name('store');
+    Route::get('{id}/edit', [ZipCodeController::class, 'edit'])->name('edit');
+    Route::put('{id}', [ZipCodeController::class, 'update'])->name('update');
+    Route::delete('{id}', [ZipCodeController::class, 'destroy'])->name('destroy');
+
+    Route::post('import', [ZipCodeController::class, 'import'])->name('import');
+    Route::get('export', [ZipCodeController::class, 'export'])->name('export');
+});
+
+// products
+Route::resource('products', ProductController::class);
+Route::prefix('products')->group(function() {
+    Route::get('download/csv', [ProductController::class, 'download_csv']);
+    Route::get('data/log', [ProductController::class, 'data_log']);
+    Route::delete('{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('{id}/details', [ProductController::class, 'getProductDetails'])->name('product.details');
 });
 
 
 // Calculator 
 
 Route::get('admin/calculator', [AdminController::class, 'calculator']);
+
+Route::resource('product-types', ProductTypeController::class);
+Route::resource('design-types', DesignTypeController::class);
+Route::resource('colors', ColorController::class);
+Route::resource('compositions', CompositionController::class);
+Route::resource('supplier-collections', SupplierCollectionController::class);
+Route::resource('supplierCollectionDesigns', SupplierCollectionDesignController::class);
+Route::resource('suppliers', SupplierController::class);
+Route::resource('types', TypeController::class);
+Route::resource('usages', UsageController::class);
+
+
 

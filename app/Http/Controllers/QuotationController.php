@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Franchise;
+use App\Models\ProductType;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use Illuminate\Http\Request;
@@ -33,9 +34,13 @@ class QuotationController extends Controller
         return view('admin.quotation.index', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
     }
 
-    public function create()
+    public function create($appointment_id)
     {   
-        return view("admin.quotation.create");
+        $data['appointment_id'] = $appointment_id;
+        $data['appointment_data'] = Appointment::where('id',$appointment_id)->first();
+        $data['product_type'] = ProductType::distinct('product_type')->get();
+        
+        return view("admin.quotation.create", $data);
     }
 
     public function store(Request $request)
