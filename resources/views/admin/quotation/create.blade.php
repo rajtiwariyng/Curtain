@@ -444,7 +444,7 @@
             <div class="mb-3 w-100">
               <label for="AddressInput" class="form-label mb-1">Address</label>
               <textarea name="address" id="AddressInput"
-                class="form-control w-100">{{$appointment_data->address }}</textarea>
+                class="form-control w-100" disabled>{{$appointment_data->address }}</textarea>
             </div>
           </div>
           <div class="col-md-6">
