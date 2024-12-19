@@ -10,31 +10,56 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Models\Franchise;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+// use Illuminate\Container\Attributes\Auth;
+
 use Illuminate\Validation\Rules\Unique;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
-        // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where('status', '!=', 'Query Booked')->get();
+        $userRole = Auth::user()->getRoleNames()[0];
+        $appointmentsQuery = Appointment::where('status', '!=', 'Query Booked');
         
-        $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
-            return $appointments->count();
-        });
+        if ($userRole == 'Franchise') {
+            $franchise = Franchise::where('user_id', Auth::user()->id)->first();
+            
+            if ($franchise) {
+                $appointments = $appointmentsQuery->where('franchise_id', $franchise->id)->get();
+                $statusCounts = $appointments->groupBy('status')->map->count();
+                
+                $pendingCount = $statusCounts->get('Franchise Assigned', 0);
+                $completedCount = $statusCounts->get('Franchise Completed', 0);
+                $holdCount = $statusCounts->get('Franchise Hold', 0);
+                $assignedCount = $rejectedCount = 0;
+            } else {
+                $pendingCount = $completedCount = $holdCount = $assignedCount = $rejectedCount = 0;
+            }
+        } elseif (in_array($userRole, ['Admin', 'Super Admin'])) {
+            $appointments = $appointmentsQuery->get();
+            $statusCounts = $appointments->groupBy('status')->map->count();
 
-        
-        // Now you can access the counts like so:
-        $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
-        $assignedCount = $statusCounts->get('Franchise Assigned', 0);
-        $completedCount = $statusCounts->get('Franchise Completed', 0);
-        $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
+            // Access counts for all statuses
+            $pendingCount = $statusCounts->get('Appointment Booked', 0);
+            $assignedCount = $statusCounts->get('Franchise Assigned', 0);
+            $completedCount = $statusCounts->get('Franchise Completed', 0);
+            $holdCount = $statusCounts->get('Franchise Hold', 0);
+            $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
+        }
 
-        // Fetch appointments with status 'Assigned'
-        $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
-        $franchises=Franchise::orderby('id','desc')->get();
+        $assignedAppointments = Appointment::join('franchises', 'appointments.franchise_id', '=', 'franchises.id')
+            ->join('users', 'users.id', '=', 'franchises.user_id')
+            ->select('appointments.*', 'users.name as franchise_name')
+            ->where('appointments.status', 'Franchise Assigned')
+            ->get();
         
-        return view('admin.appointments', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
+        $franchises = Franchise::orderBy('id', 'desc')->get();
+
+        return view('admin.appointments', compact(
+            'appointments', 'pendingCount', 'assignedCount', 'completedCount', 'holdCount', 
+            'rejectedCount', 'assignedAppointments', 'franchises'
+        ));
     }
 
    public function querybooked()
@@ -51,44 +76,63 @@ class AppointmentController extends Controller
         $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
         $assignedCount = $statusCounts->get('Franchise Assigned', 0);
         $completedCount = $statusCounts->get('Franchise Completed', 0);
+        $holdCount = $statusCounts->get('Franchise Hold', 0);
         $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
 
         // Fetch appointments with status 'Assigned'
         $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
         $franchises=Franchise::orderby('id','desc')->get();
         
-        return view('admin.query-booked', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
+        return view('admin.query-booked', compact('appointments','pendingCount','assignedCount','completedCount','holdCount','rejectedCount', 'assignedAppointments','franchises'));
     }
 
     public function getAppointmentData(Request $request)
     {
+        // Define status mapping
+        $statusMap = [
+            'pending'   => 'Appointment Booked',
+            'assign'    => 'Franchise Assigned',
+            'complete'  => 'Franchise Completed',
+            'rejected'  => 'Franchise Rejected',
+            'hold'      => 'Franchise Hold',
+        ];
+
         // Retrieve the 'status' input from the request, default to 'pending' if not set
         $status = $request->input('status', 'pending');
+        
+        // Get the mapped status from the $statusMap array or fallback to 'Appointment Booked'
+        $status = $statusMap[$status] ?? 'Appointment Booked';
 
-        // Use a switch-case for better readability and easier status mapping
-        switch ($status) {
-            case 'pending':
-                $status = 'Appointment Booked';
-                break;
-            case 'assign':
-                $status = 'Franchise Assigned';
-                break;
-            case 'complete':
-                $status = 'Franchise Completed';
-                break;
-            case 'rejected':
-                $status = 'Franchise Rejected';
-                break;
-            default:
-                $status = 'Appointment Booked';
-                break;
+        // Initialize $franchises variable to store the appointment data
+        $franchises = [];
+
+        // Check if the user is a Franchise or Admin/Super Admin
+        $userRole = Auth::user()->getRoleNames()[0];
+
+        if ($userRole === 'Franchise') {
+            // Fetch Franchise-specific appointments
+            $statusMap = [
+                'pending'   => 'Franchise Assigned',
+                'complete'  => 'Franchise Completed',
+                'hold'      => 'Franchise Hold',
+            ];
+
+            $status = $request->input('status');
+            
+            $status = $statusMap[$status] ?? 'Franchise Assigned';
+            $franchiseDetail = Franchise::where('user_id', Auth::user()->id)->first();
+            if ($franchiseDetail) {
+                $franchises = Appointment::where('status', $status)
+                                        ->where('franchise_id', $franchiseDetail->id)
+                                        ->get()
+                                        ->toArray();
+            }
+        } elseif (in_array($userRole, ['Admin', 'Super Admin'])) {
+            $franchises = Appointment::where('status', $status)->get()->toArray();
         }
 
-        // Fetch appointments based on the mapped status
-        $franchises = Appointment::where('status','=', $status)->get();
-
-        // Return the data as JSON response
-        return response()->json(['data' => $franchises]);
+        // Return the data as a JSON response
+        return response()->json(['data' => $franchises, 'role' => Auth::user()->getRoleNames()[0] ?? '']);
     }
 
     public function store(Request $request)
@@ -114,7 +158,8 @@ class AppointmentController extends Controller
         }
         $validatedData['uniqueid'] = 'APNT'. '_'. rand(1000, 9999);
         $validatedData['franchise_id'] = 'APNT'.rand(1000,9999);
-    
+        $validatedData['appointment_date'] = date('y-m-d');
+        
         $appointment = Appointment::create($validatedData);
     
         // Send success email

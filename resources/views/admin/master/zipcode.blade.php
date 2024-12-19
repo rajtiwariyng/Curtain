@@ -6,7 +6,7 @@
         <h6 class="fw-bold m-0">All Zip Code <span class="fw-normal text-muted">({{ $zipCodes->count() }})</span></h6>
         <div class="d-flex align-items-center">
             <a class="dropdown-item small me-2" href="/zipcodes.xlsx"><i class="bi bi-file-earmark-arrow-down"></i> Download Template</a>
-            <form action="{{ route('zipcode.import') }}" method="POST" enctype="multipart/form-data" id="import_form" style="display: inline-flex;">
+            <form action="{{ route('zipcodes.import') }}" method="POST" enctype="multipart/form-data" id="import_form" style="display: inline-flex;">
                 @csrf
                 <input type="file" name="file" id="fileInput" accept=".csv, .xlsx" required hidden>
                 
@@ -17,7 +17,7 @@
                 <button type="submit" class="primary-btn addBtn w-100" id="uploadBtn" style="display: none;"><i class="bi bi-cloud-arrow-up me-2"></i>Upload</button>
             </form>
             
-            <a href="{{ route('zipcode.export') }}" class="secondary-btn me-2 addBtn"><i class="bi bi-cloud-arrow-down me-2"></i>Export</a>
+            <a href="{{ route('zipcodes.export') }}" class="secondary-btn me-2 addBtn"><i class="bi bi-cloud-arrow-down me-2"></i>Export</a>
             {{-- <a class="secondary-btn me-2 addBtn" href="#"><i class="bi bi-cloud-arrow-up me-2"></i> Import</a> --}}
             {{-- <a class="secondary-btn me-2 addBtn" href="#"><i class="bi bi-cloud-arrow-down me-2"></i> Export</a> --}}
             <a href="#" class="primary-btn addBtn w-100" data-bs-toggle="modal" data-bs-target="#addZipcodeModal">+

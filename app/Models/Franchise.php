@@ -12,6 +12,7 @@ class Franchise extends Model
     // Define the fillable attributes
     protected $fillable = [
         'user_id',
+        'franchise_id',
         'company_name',
         'address',
         'pincode',

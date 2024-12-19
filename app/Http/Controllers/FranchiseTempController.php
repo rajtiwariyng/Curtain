@@ -367,15 +367,8 @@ class FranchiseTempController extends Controller
     {
 
         $franchiseTemp = FranchiseTemp::findOrFail($id);
-
-
-
         // Check if the email already exists in the 'users' table
-
         $existingUser = User::where('email', $franchiseTemp->email)->first();
-
-
-
         if ($existingUser) {
 
             // If the email exists, you can either skip or handle the logic here
@@ -417,6 +410,8 @@ class FranchiseTempController extends Controller
         Franchise::create([
 
             'user_id' => $user->id,
+
+            'franchise_id' => 'FAR0001',
 
             'company_name' => $franchiseTemp->company_name ?? '',
 
