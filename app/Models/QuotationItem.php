@@ -11,4 +11,5 @@ class QuotationItem extends Model
 
     protected $guarded = [];
     protected $table='quotation_items';
+    
 }

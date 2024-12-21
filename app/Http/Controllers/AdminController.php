@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         $franchise=Franchise::all();
         $product=Product::all();
-        $appointment = Appointment::where('status', 'Appointment Booked');
+        $appointment = Appointment::where('status', "1");
 
         if ($request->has('dateFilter')) {
             $appointment->whereDate('created_at', $request->dateFilter);
@@ -41,7 +41,7 @@ class AdminController extends Controller
     public function quotation_list()
     {
         // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where('status', '!=', 'Query Booked')->get();
+        $appointments = Appointment::where('status', '!=', "0")->get();
         
         $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
             return $appointments->count();

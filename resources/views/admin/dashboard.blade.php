@@ -11,15 +11,39 @@
     </a>
 </div>
  @elseif(auth()->user()->hasRole('Fulfillment Desk'))
-<a href="/user_list">
-        <div class="card info-card">
-            <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
-            <h2 class="fw-bold m-0 mb-1">{{ count($user) }}</h2>
-            <p class="m-0 small">Total number of Users</p>
+ <a href="/user_list">
+     <div class="card info-card">
+         <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
+         <h2 class="fw-bold m-0 mb-1">{{ count($user) }}</h2>
+         <p class="m-0 small">Total number of Users</p>
         </div>
     </a>
 </div>
- @else
+
+@elseif (Auth::user()->getRoleNames()[0] == 'Franchise')
+
+<a href="{{ route('franchise.temp.index') }}">
+        <div class="card info-card">
+            <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
+            <h2 class="fw-bold m-0 mb-1">0</h2>
+            <p class="m-0 small">Total number of Appointments</p>
+        </div>
+    </a>
+    <a href="/products">
+        <div class="card info-card">
+            <img src="{{ asset('admin/images/tab_products.svg') }}" alt="">
+            <h2 class="fw-bold m-0 mb-1">0</h2>
+            <p class="m-0 small">Total number of Quotations</p>
+        </div>
+    </a>
+    <a href="/user_list">
+        <div class="card info-card">
+            <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
+            <h2 class="fw-bold m-0 mb-1">0</h2>
+            <p class="m-0 small">Total number of Orders</p>
+        </div>
+    </a>
+    @elseif (Auth::user()->getRoleNames()[0] == 'Super Admin' || Auth::user()->getRoleNames()[0] == 'Admin')
 
     <a href="{{ route('franchise.temp.index') }}">
         <div class="card info-card">
@@ -42,6 +66,9 @@
             <p class="m-0 small">Total number of Users</p>
         </div>
     </a>
+
+ @else
+    
 </div>
 
 <div class="dataOverviewSection">

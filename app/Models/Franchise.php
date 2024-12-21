@@ -13,6 +13,11 @@ class Franchise extends Model
     protected $fillable = [
         'user_id',
         'franchise_id',
+        'name',
+        'email',
+        'alt_mobile',
+        'employees',
+        'registerationType',
         'company_name',
         'address',
         'pincode',

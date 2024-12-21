@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Validator;
 class FranchiseTempController extends Controller
 
 {
+
+    private function generateNextCode($lastCode, $prefix)
+    {
+        if (!$lastCode) {
+            return $prefix . "0001";
+        }
+        $numberPart = (int) substr($lastCode, strlen($prefix));
+        $nextNumber = str_pad($numberPart + 1, 6, "0", STR_PAD_LEFT);
+        return $prefix . $nextNumber;
+    }
+
+
+
     public function store(Request $request)
     {
         $rules = [
@@ -44,9 +57,12 @@ class FranchiseTempController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors());
+            // Return the validation errors in a JSON response for AJAX
+
         }
 
         try {
+
             $data = FranchiseTemp::create($request->all());
             if (!empty($request->email)) {
                 // Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
@@ -57,9 +73,7 @@ class FranchiseTempController extends Controller
         } catch (\Exception $e) {
 
             return redirect()->back()->with('error', 'Something Went Wrong!');
-
         }
-
     }
 
 
@@ -80,6 +94,7 @@ class FranchiseTempController extends Controller
         $data = FranchiseTemp::create($request->all());
 
         $mail = Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
+
 
         return redirect()->back()->with('success', 'Franchise created successfully.');
     }
@@ -127,82 +142,6 @@ class FranchiseTempController extends Controller
         return implode('', $password);
     }
 
-    public function approve_old($id)
-    {
-        $franchiseTemp = FranchiseTemp::findOrFail($id);
-
-        $password = $this->generateSecurePassword(8);
-
-        // Create a new user based on the franchise temp details
-
-        $user = User::create([
-
-            'name' => $franchiseTemp->name,
-
-            'email' => $franchiseTemp->email,
-
-            'password' => Hash::make($password), // Use a secure method for passwords
-
-            // Add any other fields as necessary
-
-        ]);
-
-
-
-        // Assign franchise role to the user
-
-        $user->assignRole('Franchise'); // Ensure you have a role management system in place
-
-
-
-        // Save additional franchise data
-
-        Franchise::create([
-
-            'user_id' => $user->id,
-
-            'company_name' => $franchiseTemp->company_name,
-
-            'address' => $franchiseTemp->address,
-
-            'pincode' => $franchiseTemp->pincode,
-
-            'city' => $franchiseTemp->city,
-
-            'state' => $franchiseTemp->state,
-
-            'country' => $franchiseTemp->country,
-
-            'mobile' => $franchiseTemp->mobile,
-
-            // Add any other fields as necessary
-
-        ]);
-
-
-
-        // Optionally, delete or mark the franchise temp record as approved
-
-        $franchiseTemp->delete();
-
-        $data = array(
-
-            "name" => $franchiseTemp->name,
-
-            "username" => $franchiseTemp->email,
-
-            "password" => $password
-
-        );
-
-        $mail = Mail::to($franchiseTemp->email)->send(new FranchiseRegistrationMail($data));
-
-
-
-        return redirect()->back()->with('success', 'Franchise approved and user created successfully.');
-
-    }
-
 
 
     public function approve($id)
@@ -214,21 +153,13 @@ class FranchiseTempController extends Controller
         $existingUser = User::where('email', $franchiseTemp->email)->first();
         if ($existingUser) {
 
-            // If the email exists, you can either skip or handle the logic here
-
-            // Optionally, you can return an error or update the existing user
 
             return redirect()->back()->with('error', 'A user with this email already exists.');
-
         }
 
 
 
         $password = $this->generateSecurePassword(8);
-
-
-
-        // Create a new user based on the franchise temp details
 
         $user = User::create([
 
@@ -250,11 +181,24 @@ class FranchiseTempController extends Controller
 
         // Save additional franchise data
 
+        $lastFranchiseId = Franchise::max("franchise_id");
+        $nextFranchiseId = $this->generateNextCode($lastFranchiseId, "FR");
+
         Franchise::create([
 
             'user_id' => $user->id,
 
-            'franchise_id' => 'FAR0001',
+            'franchise_id' => $nextFranchiseId,
+
+            'name'  => $franchiseTemp->name ?? '',
+
+            'email' => $franchiseTemp->email ?? '',
+
+            'alt_mobile' => $franchiseTemp->alt_mobile ?? '',
+
+            'employees' => $franchiseTemp->employees ?? '',
+
+            'registerationType' => $franchiseTemp->registerationType ?? '',
 
             'company_name' => $franchiseTemp->company_name ?? '',
 
@@ -273,8 +217,6 @@ class FranchiseTempController extends Controller
         ]);
 
 
-
-        // Optionally, delete or mark the franchise temp record as approved
 
         $franchiseTemp->delete();
 
@@ -297,7 +239,6 @@ class FranchiseTempController extends Controller
 
 
         return redirect()->back()->with('success', 'Franchise approved and user created successfully.');
-
     }
 
 
@@ -325,27 +266,22 @@ class FranchiseTempController extends Controller
 
 
         return redirect()->back()->with('success', 'Franchise rejected successfully.');
-
     }
 
 
 
-    public function getFranchiseDetails($id,$type)
+    public function getFranchiseDetails($id, $type)
 
     {
 
-        if($type == 'confirm'){
+        if ($type == 'confirm') {
 
             $franchise = Franchise::with('user')->find($id);
-
-
-
-        }else{
+        } else {
 
 
 
             $franchise = FranchiseTemp::find($id);
-
         }
 
 
@@ -359,7 +295,6 @@ class FranchiseTempController extends Controller
                 'data' => $franchise
 
             ]);
-
         } else {
 
             return response()->json([
@@ -369,12 +304,11 @@ class FranchiseTempController extends Controller
                 'message' => 'Franchise not found'
 
             ]);
-
         }
-
     }
 
-public function frontend_view(){
+    public function frontend_view()
+    {
         // Retrieve all cities from the database
         $cityStateData = MasterCity::all();
 
@@ -383,6 +317,4 @@ public function frontend_view(){
 
         return view('frontend.franchise_reg', compact('groupedCityStateData'));
     }
-
 }
-

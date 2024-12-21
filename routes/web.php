@@ -229,21 +229,6 @@ Route::middleware(['auth', 'role:Fulfillment Desk'])->group(function () {
 
 
 
-// Add similar route groups for other roles...
-
-// Route::middleware(['auth', 'role:Franchise'])->group(function () {
-
-//     Route::get('franchise/team', [FranchiseTeamController::class, 'index'])->name('franchise.team.index');
-
-//     Route::get('franchise/team/create', [FranchiseTeamController::class, 'create'])->name('franchise.team.create');
-
-//     Route::post('franchise/team/store', [FranchiseTeamController::class, 'store'])->name('franchise.team.store');
-
-// });
-
-
-
-
 
 Route::post('/franchise_temp/store', [FranchiseTempController::class, 'store'])->name('franchise_temp.store');
 
@@ -296,67 +281,6 @@ Route::post('/users/{user}/status', [RegisterController::class, 'changeStatus'])
 // Change password
 
 Route::put('/users/{user}/change-password', [RegisterController::class, 'changePassword'])->name('user.change-password');
-
-
-
-//Product
-
-
-
-
-
-
-
-// Route to store the product data
-
-//Route::post('/product/store', [ProductController::class, 'store'])->name('products.store');
-
-
-
-// Route::get('products/download/csv', [ProductController::class, 'download_csv']);
-
-// Route::get('products/data/log', [ProductController::class, 'data_log']);
-// Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-// Route::get('/product/{id}/details', [ProductController::class, 'getProductDetails'])->name('product.details');
-
-
-
-
-// Route to display the form
-
-//Route::get('/product_create', [ProductController::class, 'create'])->name('products.create');
-
-//Route::get('products_{id}', [ProductController::class, 'show'])->name('products.show');
-
-
-// web.php
-
-
-//Route::resource('zipcodes', ZipCodeController::class);
-
-
-
-// Manual routes instead of Route::resource for more control
-
-// Route::get('zipcodes', [ZipCodeController::class, 'index'])->name('zipcodes.index');
-
-// Route::post('zipcodes', [ZipCodeController::class, 'store'])->name('zipcodes.store');
-
-// Route::get('zipcodes/{id}/edit', [ZipCodeController::class, 'edit'])->name('zipcodes.edit');
-
-// Route::put('zipcodes/{id}', [ZipCodeController::class, 'update'])->name('zipcodes.update');
-
-// Route::delete('zipcodes/{id}', [ZipCodeController::class, 'destroy'])->name('zipcodes.destroy');
-
-
-
-
-
-// Route::post('zipcode/import', [ZipCodeController::class, 'import'])->name('zipcode.import');
-
-// Route::get('zipcode/export', [ZipCodeController::class, 'export'])->name('zipcode.export');
-
-
 
 
 Route::get('/supplier-collection/{supplierId}', [SupplierCollectionDesignController::class, 'getSupplierCollections']);

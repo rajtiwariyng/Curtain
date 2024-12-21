@@ -7,11 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the inputs in the new section
         newSection.querySelectorAll('input, select').forEach(input => input.value = '');
 
+        // Re-initialize the searchable select elements in the new section
+        newSection.querySelectorAll('select').forEach(select => {
+            new Select(select);  // Ensure your Select library is re-initialized
+        });
+
         // Add event listeners for buttons in the new section
         addSectionEventListeners(newSection);
 
         // Insert the new section before the "Add New Section" button
-        document.querySelector('form').insertBefore(newSection, e.target);
+        const addSectionButton = document.querySelector('.add-section-btn');
+        document.querySelector('form').insertBefore(newSection, addSectionButton);
     });
 
     // Initial call to set up event listeners for the first section
