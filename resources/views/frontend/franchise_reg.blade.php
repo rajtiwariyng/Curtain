@@ -114,6 +114,7 @@
         <form action="{{ route('franchise_temp.store') }}" method="POST"
             class="mt-4 wow animate__animated animate__fadeIn" id="contact-form1">
             @csrf
+            <input type="hidden" name="status" id="status" value="pending" >
             <div class="row wow animate__animated animate__fadeIn">
                 <div class="col-md-3">
                     <div class="mb-3">

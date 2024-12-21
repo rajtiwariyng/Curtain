@@ -22,6 +22,7 @@ class FranchiseTemp extends Model
         'city',
         'state',
         'country',
+        'status'
     ];
 }
 

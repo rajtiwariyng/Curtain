@@ -418,33 +418,34 @@
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="NameInput" class="form-label mb-1">Name</label>
-              <input type="text" name="name" value="{{$appointment_data->name}}" class="form-control w-100" id="NameInput" disabled>
-              <input type="hidden" name="appoint_id" value="{{$appointment_data->id}}" class="form-control w-100" id="NameInput" disabled>
+              <input type="text" name="name" id="name" value="{{$appointment_data->name}}" class="form-control w-100" readonly>
+              <input type="hidden" name="appoint_id" value="{{$appointment_data->id}}" class="form-control w-100" id="appoint_id" readonly>
+              <input type="hidden" name="franchise_id" value="{{$appointment_data->franchise_id}}" class="form-control w-100" id="franchise_id" readonly>
             </div>
           </div>
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="UserEmailInput" class="form-label mb-1">Email ID</label>
-              <input type="email" name="email" value="{{$appointment_data->email  }}" class="form-control w-100" id="UserEmailInput" disabled>
+              <input type="email" name="email" value="{{$appointment_data->email  }}" class="form-control w-100" id="email" readonly>
             </div>
           </div>
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="contactNumberInput" class="form-label mb-1">Contact Number</label>
-              <input type="number" name="number" class="form-control w-100" value="{{$appointment_data->mobile  }}" id="contactNumberInput" disabled>
+              <input type="number" name="number" class="form-control w-100" value="{{$appointment_data->mobile  }}" id="contact" readonly>
             </div>
           </div>
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="stateInput" class="form-label mb-1">Date</label>
-              <input type="date" name="date" class="form-control w-100" value="{{$appointment_data->appointment_date  }}" id="AssignToInput" disabled>
+              <input type="date" name="date" class="form-control w-100" value="{{$appointment_data->appointment_date  }}" id="date" readonly>
             </div>
           </div>
           <div class="col-md-12">
             <div class="mb-3 w-100">
               <label for="AddressInput" class="form-label mb-1">Address</label>
               <textarea name="address" id="AddressInput"
-                class="form-control w-100" disabled>{{$appointment_data->address }}</textarea>
+                class="form-control w-100" readonly>{{$appointment_data->address }}</textarea>
             </div>
           </div>
           <div class="col-md-6">
@@ -486,14 +487,13 @@
                   <th scope="col">Discount</th>
                   <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;"
                     scope="col"><button class="secondary-btn addBtn m-0 p-0"
-                      style="font-size: 14px !important; width: 105px;">+ Add
-                      Items</button></th>
+                      style="font-size: 14px !important; width: 105px;">+ Add Items</button></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><input type="text" class="form-control max-w-166"
-                      placeholder="Item Name"></td>
+                      placeholder="Item Name" name="item_name[]"></td>
                   <td>
                     <select class="form-select w-100 max-w-166" id="product_item" name="product_item[]">
                       <option selected>Select</option>
@@ -549,77 +549,24 @@
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
   crossorigin="anonymous"></script>
 
+
 <script>
+  $(document).ready(function() {
+    // When the product_item is selected
+    $('#product_item').change(function() {
+      // Get the selected product item ID
+      var selectedProductId = $(this).val();
 
-$(document).ready(function() {
-  // When the product_item is selected
-  $('#product_item').change(function() {
-    // Get the selected product item ID
-    var selectedProductId = $(this).val();
+      // Find the option in the product_item dropdown with the matching value
+      var selectedOption = $('#product_item option[value="' + selectedProductId + '"]');
 
-    // Find the option in the product_item dropdown with the matching value
-    var selectedOption = $('#product_item option[value="' + selectedProductId + '"]');
+      // Get the product_unit from the selected option's data attribute
+      var productUnit = selectedOption.data('unit');
 
-    // Get the product_unit from the selected option's data attribute
-    var productUnit = selectedOption.data('unit');
-
-    // Set the item_unit dropdown to match the product_unit of the selected product_item
-    $('#item_unit').val(productUnit);
-  });
-});
-
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add New Section Button
-    document.querySelector('.add-section-btn').addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent form submission
-      const newSection = document.querySelector('.newsection').cloneNode(true);
-
-      // Clear the inputs in the new section
-      newSection.querySelectorAll('input, select').forEach(input => input.value = '');
-
-      // Add event listeners for buttons in the new section
-      addSectionEventListeners(newSection);
-
-      // Insert the new section before the "Add New Section" button
-      document.querySelector('form').insertBefore(newSection, e.target);
+      // Set the item_unit dropdown to match the product_unit of the selected product_item
+      $('#item_unit').val(productUnit);
     });
-
-    // Initial call to set up event listeners for the first section
-    addSectionEventListeners(document.querySelector('.newsection'));
-
-    // Function to add event listeners to a section
-    function addSectionEventListeners(section) {
-      // Add Items to Table
-      section.querySelector('.addBtn').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent form submission
-        const row = section.querySelector('tbody tr').cloneNode(true);
-
-        // Clear input values in the new row
-        row.querySelectorAll('input').forEach(input => input.value = '');
-
-        // Attach delete row event to new row
-        row.querySelector('.icon-btn').addEventListener('click', function() {
-          row.remove();
-        });
-
-        // Append new row to the table
-        section.querySelector('tbody').appendChild(row);
-      });
-
-      // Delete Section
-      section.querySelector('#deleteSection').addEventListener('click', function() {
-        section.remove();
-      });
-
-      // Set up delete row event for each existing row in the new section
-      section.querySelectorAll('tbody .icon-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          button.closest('tr').remove();
-        });
-      });
-    }
   });
-
 
   $(".menu > ul > li").click(function(e) {
     // Remove the 'active' class from other menu items
@@ -638,6 +585,63 @@ $(document).ready(function() {
     // Toggle the 'active' class on the sidebar
     $(".sidebar").toggleClass("active");
   });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // Add New Section Button
+    document.querySelector('.add-section-btn').addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent form submission
+      const newSection = document.querySelector('.newsection').cloneNode(true);
+
+      // Clear the inputs in the new section
+      newSection.querySelectorAll('input, select').forEach(input => input.value = '');
+
+      // Add event listeners for buttons in the new section
+      addSectionEventListeners(newSection);
+
+      // Append the new section to the form (appendChild is safer than insertBefore here)
+      document.querySelector('form').appendChild(newSection);
+    });
+
+    // Initial call to set up event listeners for the first section
+    const firstSection = document.querySelector('.newsection');
+    if (firstSection) {
+      addSectionEventListeners(firstSection);
+    }
+
+  // Function to add event listeners to a section
+  function addSectionEventListeners(section) {
+    // Add Items to Table
+    section.querySelector('.addBtn').addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent form submission
+      const row = section.querySelector('tbody tr').cloneNode(true);
+
+      // Clear input values in the new row
+      row.querySelectorAll('input').forEach(input => input.value = '');
+
+      // Attach delete row event to new row
+      row.querySelector('.icon-btn').addEventListener('click', function() {
+        row.remove();
+      });
+
+      // Append new row to the table
+      section.querySelector('tbody').appendChild(row);
+    });
+
+    // Delete Section
+    section.querySelector('#deleteSection').addEventListener('click', function() {
+      section.remove();
+    });
+
+    // Set up delete row event for each existing row in the new section
+    section.querySelectorAll('tbody .icon-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        button.closest('tr').remove();
+      });
+    });
+  }
+});
 </script>
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 

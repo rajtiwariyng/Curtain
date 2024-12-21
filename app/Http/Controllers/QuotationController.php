@@ -14,7 +14,7 @@ class QuotationController extends Controller
     public function index()
     {
         // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where('status', '!=', 'Query Booked')->get();
+        $appointments = Appointment::where('status', '!=', "0")->get();
         
         $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
             return $appointments->count();
@@ -39,7 +39,8 @@ class QuotationController extends Controller
         $data['appointment_id'] = $appointment_id;
         $data['appointment_data'] = Appointment::where('id',$appointment_id)->first();
         $data['product_type'] = ProductType::distinct('product_type')->get();
-        
+
+        // dd($data['appointment_data']);
         return view("admin.quotation.create", $data);
     }
 
@@ -90,8 +91,8 @@ class QuotationController extends Controller
         // Prepare the data for insertion
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email',
+            'name' => 'string|max:255',
+            'email' => 'email',
             'number' => 'nullable|string|max:255',
             'address' => 'nullable|string',
             'quot_for' => 'nullable|string',
@@ -107,6 +108,8 @@ class QuotationController extends Controller
     
         // Prepare the quotation data
         $arrayForInsert = [
+            'appointment_id' => $request->appoint_id ?? '',
+            'franchise_id' =>$request->franchise_id,
             'name' => $request->name ?? '',
             'email' => $request->email ?? '',
             'number' => $request->number ?? '',
@@ -128,7 +131,12 @@ class QuotationController extends Controller
     
         for ($i = 0; $i < $itemCount; $i++) {
             $items[] = [
-                'quotation_id' => $quotation->id,  // Associate with the created quotation
+                'quotation_id' => $request->appoint_id,  // Associate with the created quotation
+                'appointment_id' => $request->appoint_id ?? '',
+                'franchise_id' =>$request->franchise_id,
+                'item_order' => $i+1,
+                'name' => $request->item_name[$i],
+                'item' => $request->product_item[$i],
                 'height' => $request->item_height[$i],
                 'width' => $request->item_width[$i],
                 'qty' => $request->item_qty[$i],
@@ -142,8 +150,13 @@ class QuotationController extends Controller
     
         // Insert all items into the database at once
         QuotationItem::insert($items);
+
+        $appointment = Appointment::findOrFail($request->appoint_id);
+        $appointment->status = "3"; // Set the new status value
+        $appointment->save(); // Save the changes
+
         return redirect()
-            ->route("products.index")
+            ->route("quotations.list")
             ->with("success", "Quotation created successfully!");
     }
 
