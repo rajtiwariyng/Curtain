@@ -14,17 +14,17 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 @if (Auth::user()->getRoleNames()[0] == 'Franchise')
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="true">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
-                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="true">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
+                </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-hold-tab" data-bs-toggle="pill" data-bs-target="#pills-hold" type="button" role="tab" aria-controls="pills-hold" aria-selected="false">Hold <span class="fw-normal small">({{ $holdCount }})</span></button>
-                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-hold-tab" data-bs-toggle="pill" data-bs-target="#pills-hold" type="button" role="tab" aria-controls="pills-hold" aria-selected="false">Hold <span class="fw-normal small">({{ $holdCount }})</span></button>
+                </li>
 
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{ $completedCount }})</span></button>
-                    </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{ $completedCount }})</span></button>
+                </li>
                 @else
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
@@ -43,7 +43,7 @@
                 </li>
 
                 @endif
-                
+
             </ul>
         </div>
 
@@ -312,12 +312,6 @@
         $('#appointmentId').val(appointmentId);
     }
 
-    // function rejected(appointmentId) {
-    //     // Open modal and set appointment ID
-    //     $('#rejectFranchiseModal').modal('show');
-    //     $('#appointmentId').val(appointmentId);
-    // }
-
     $(document).ready(function() {
         // Initial load for the 'pending' tab data
         loadAppointmentData(1);
@@ -350,19 +344,14 @@
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
                             row += '<td>' + appnt.name + '</td>';
-                            // row += '<td>' + appnt.email + '</td>';
                             row += '<td>' + appnt.mobile + '</td>';
-                            // row += '<td>' + appnt.address + '</td>';
                             row += '<td>' + appnt.pincode + '</td>';
                             row += '<td>' + appnt.appointment_date + '</td>';
                             row += '<td>' + appnt.franchise_id + '</td>';
-                            // row += '<td>' + appnt.city + '</td>';
-                            // row += '<td>' + appnt.state + '</td>';
-                            // row += '<td>' + appnt.country + '</td>';
 
                             var statusBadge = '';
                             var viewType = '';
-                            var actions = ''; // Store the actions that should be available
+                            var actions = '';
 
                             switch (appnt.status) {
                                 case '1':
@@ -374,16 +363,16 @@
                                     break;
                                 case '2':
                                     viewType = 'assign';
-                                    if(response.role === 'Franchise'){
+                                    if (response.role === 'Franchise') {
                                         statusBadge = '<span class="badge badge-pending">Pending</span>';
                                         actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Re-Assign</a></li>';
-                                        
-                                    }else{
+
+                                    } else {
                                         statusBadge = '<span class="badge badge-assigned">Assigned</span>';
                                     }
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
                                     actions += '<li><a href="{{url("quotations/create/")}}/' + appnt.id + '" class="dropdown-item small">Create Quote</a></li>';
-                                    
+
                                     break;
                                 case '4':
                                     viewType = 'complete';
@@ -399,11 +388,6 @@
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View Quotation</a></li>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Update Payment</a></li>';
                                     break;
-                                // case 'Franchise Rejected':
-                                //     viewType = 'reject';
-                                //     statusBadge = '<span class="badge badge-inactive">Rejected</span>';
-                                //     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                //     break;
                                 default:
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-unknown">Unknown</span>';
