@@ -438,7 +438,7 @@
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="stateInput" class="form-label mb-1">Date</label>
-              <input type="date" name="date" class="form-control w-100" value="{{$appointment_data->appointment_date  }}" id="date" readonly>
+              <input type="datetime-local" name="date" class="form-control w-100" value="{{ $appointment_data->appointment_date  }}" id="date" readonly>
             </div>
           </div>
           <div class="col-md-12">

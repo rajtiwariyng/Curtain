@@ -25,11 +25,11 @@
                         </a>
                     </li>
 
-                    <li class="{{ request()->is('admin/calculator') ? 'active' : '' }}">
+                    <!-- <li class="{{ request()->is('admin/calculator') ? 'active' : '' }}">
                         <a href="{{ url('admin/calculator') }}">
                             <i class="bi bi-building-add"></i><span class="text">Calculator</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="{{ request()->is('products') ? 'active' : '' }}">
                         <a href="/products">
