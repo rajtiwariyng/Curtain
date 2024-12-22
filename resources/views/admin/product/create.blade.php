@@ -186,6 +186,17 @@
                         <input type="number" class="form-control w-100" id="mrpInput" name="mrp" value="0" readonly>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label class="form-label m-0 mb-1" for="Unit">Unit <span class="text-danger">*</span></label>
+                        <select name="unit" id="unit" class="form-select w-100 select2" required>
+                            <option value="opt1">Select Unit</option>
+                            @foreach ($productTypes as $productType)
+                            <option value="{{ $productType->product_unit }}">{{ $productType->product_unit }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-3 d-flex gap-3 mb-4">
