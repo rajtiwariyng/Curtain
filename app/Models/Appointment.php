@@ -10,5 +10,9 @@ class Appointment extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function franchise(){
+        return $this->belongsto(Franchise::class, 'franchise_id', 'id'); 
+    }
     
 }

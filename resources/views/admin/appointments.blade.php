@@ -347,7 +347,7 @@
                             row += '<td>' + appnt.mobile + '</td>';
                             row += '<td>' + appnt.pincode + '</td>';
                             row += '<td>' + appnt.appointment_date + '</td>';
-                            row += '<td>' + appnt.franchise_id + '</td>';
+                            row += '<td>' + appnt.franchise.name + '</td>';
 
                             var statusBadge = '';
                             var viewType = '';
