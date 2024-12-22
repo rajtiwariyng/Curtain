@@ -29,7 +29,11 @@ class AppointmentController extends Controller
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
-        $appointmentsQuery = Appointment::where("status", "!=", "0");
+
+        // Initialize $appointments to avoid undefined variable error
+        $appointments = collect(); // Default to empty collection
+
+        $appointmentsQuery = Appointment::with('franchise')->where("status", "!=", "0");
 
         if ($userRole == "Franchise") {
             $franchise = Franchise::where("user_id", Auth::user()->id)->first();
@@ -68,7 +72,9 @@ class AppointmentController extends Controller
             ->join("users", "users.id", "=", "franchises.user_id")
             ->select("appointments.*", "users.name as franchise_name")
             ->where("appointments.status", "2")
+            ->with('franchise')
             ->get();
+            
 
         $franchises = Franchise::orderBy("id", "desc")->get();
 
@@ -85,6 +91,7 @@ class AppointmentController extends Controller
             )
         );
     }
+
 
     public function querybooked()
     {
@@ -169,11 +176,13 @@ class AppointmentController extends Controller
             if ($franchiseDetail) {
                 $franchises = Appointment::where("status", $status)
                     ->where("franchise_id", $franchiseDetail->id)
+                    ->with('franchise')
                     ->get()
                     ->toArray();
             }
         } elseif (in_array($userRole, ["Admin", "Super Admin"])) {
             $franchises = Appointment::where("status", $status)
+                ->with('franchise')
                 ->get()
                 ->toArray();
         }
