@@ -149,11 +149,29 @@ class QuotationController extends Controller
                 break;
         }
 
+
         // Fetch appointments based on the mapped status
-        $quotations = Quotation::with('franchise')->where('status','=', $status)->get();
+        // $quotations = Quotation::with('franchise')->where('status','=', $status)->get();
+
+        $user = Auth::user();
+        $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
+    
+        // // Constants for status values
+        // $statusPending = "0";
+        // $statusComplete = "1";
+    
+        // Initialize default query builder for all quotations
+        $quotationQuery = Quotation::query();
+    
+        // If the user is a "Franchise", filter the quotations by franchise_id
+        if ($userRole == 'Franchise') {
+            $quotationQuery->where('franchise_id', $user->id);
+        }
+
+        $quotationList = $quotationQuery->with('franchise')->where('status','=', $status)->get();
 
         // Return the data as JSON response
-        return response()->json(['data' => $quotations]);
+        return response()->json(['data' => $quotationList]);
     }
 
     public function getAppointmentDetails($id, $type)
