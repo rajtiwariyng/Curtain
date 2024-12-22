@@ -43,6 +43,7 @@
             <p class="m-0 small">Total number of Orders</p>
         </div>
     </a>
+    </div>
     @elseif (Auth::user()->getRoleNames()[0] == 'Super Admin' || Auth::user()->getRoleNames()[0] == 'Admin')
 
     <a href="{{ route('franchise.temp.index') }}">
@@ -66,9 +67,6 @@
             <p class="m-0 small">Total number of Users</p>
         </div>
     </a>
-
- @else
-    
 </div>
 
 <div class="dataOverviewSection">

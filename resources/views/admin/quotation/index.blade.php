@@ -5,19 +5,20 @@
 @section('content')
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
-        <h6 class="fw-bold m-0">All Appointments <span class="fw-normal text-muted">({{ count($appointments) }})</span></h6>
+        <h6 class="fw-bold m-0">All Quotations <span class="fw-normal text-muted">({{ count($quotationList) }})</span></h6>
         
     </div>
 
     <div class="dataOverview mt-3">
         <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{ $completedCount }})</span></button>
+                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Hold <span class="fw-normal small">({{$quotationListPending}})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Hold <span class="fw-normal small">({{ $holdCount }})</span></button>
+                    <button class="nav-link " id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{$quotationListComplete}})</span></button>
                 </li>
             </ul>
         </div>
@@ -43,6 +44,7 @@
 
 
             <!-- View franchise details Offcanvas -->
+
             <div class="offcanvas FranciseViewSidebar offcanvas-start" tabindex="-1" id="FranciseView" aria-labelledby="FranciseViewLabel">
                 <div class="offcanvas-header border-bottom">
                     <h5 class="offcanvas-title fw-bold" id="FranciseViewLabel"></h5>
@@ -53,12 +55,7 @@
                         <tbody></tbody>
                     </table>
                 </div>
-                <!-- <div class="offcanvas-footer">
-                    <div class="d-flex justify-content-start p-3 border-top">
-                        <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Reject</button>
-                        <button type="button" class="primary-btn addBtn">Approve</button>
-                    </div>
-                </div> -->
+                
             </div>
         </div>
 
@@ -67,15 +64,10 @@
                 <thead>
                     <tr>
                         <th>S/N</th>
-                        <th>Name</th>
-                        <!-- <th>Email</th> -->
-                        <th>Mobile</th>
-                        <!-- <th>Address</th> -->
-                        <th>Pincode</th>
-                        <!-- <th>City</th>
-                        <th>State</th>
-                        <th>Country</th> -->
-                        <th>Status</th>
+                        <th>Quotation ID</th>
+                        <th>Date</th>
+                        <th>Client Name</th>
+                        <th>Location</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -99,19 +91,19 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="rejectFranchiseForm" method="POST"
-                action="{{ route('appointment.reject', ['id' => '__appointment_id__']) }}" autocomplete="off">
+                action="{{ route('quotation.delete', ['id' => '__appointment_id__']) }}" autocomplete="off">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="rejectFranchiseModalLabel">Reject Appointment</h1>
+                    <h1 class="modal-title fs-5" id="rejectFranchiseModalLabel">Delete Quotation</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to approve this franchise?</p>
+                    <p>Are you sure you want to delete this quotation?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Reject</button>
+                    <button type="submit" class="primary-btn">Delete</button>
                 </div>
             </form>
         </div>
@@ -244,7 +236,7 @@
 <div class="modal fade" id="assignAppointmentModal" tabindex="-1" aria-labelledby="approveFranchiseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('appointments.assign') }}" method="POST">
+            <form action="" method="POST">
                 @csrf
 
                 <div class="modal-header">
@@ -257,9 +249,7 @@
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
                         <select id="franchise" name="franchise_id" class="form-select w-100" required>
                             <option value="">Select Franchise</option>
-                            @foreach($franchises as $franchise)
-                            <option value="{{ $franchise->id }}">{{ $franchise->id }}</option>
-                            @endforeach
+                     
                         </select>
                     </div>
                     <div class="mb-3">
@@ -298,7 +288,7 @@
 
     $(document).ready(function() {
         // Initial load for the 'pending' tab data
-        loadQuotationData('complete');
+        loadQuotationData('pending');
 
         // Handle tab change event
         $('#pills-tab button').on('click', function() {
@@ -328,42 +318,39 @@
                         $.each(response.data, function(idx, appnt) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
-                            row += '<td>' + appnt.name + '</td>';
-                            // row += '<td>' + appnt.email + '</td>';
-                            row += '<td>' + appnt.mobile + '</td>';
-                            // row += '<td>' + appnt.address + '</td>';
-                            row += '<td>' + appnt.pincode + '</td>';
-                            // row += '<td>' + appnt.city + '</td>';
-                            // row += '<td>' + appnt.state + '</td>';
-                            // row += '<td>' + appnt.country + '</td>';
-
+                            row += '<td>' + appnt.id + '</td>';
+                            row += '<td>' + appnt.date + '</td>';
+                            row += '<td>' + appnt.franchise.name + '</td>';
+                            row += '<td>' + appnt.address + '</td>';
+                            
                             var statusBadge = '';
                             var viewType = '';
                             var actions = ''; // Store the actions that should be available
 
                             switch (appnt.status) {
-                                case 'Appointment Booked':
+                                case '0':
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Assign Franchise</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Rejected</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
-                                case 'Franchise Completed':
+                                case '1':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Assign Franchise</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Rejected</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
                                 default:
-                                    viewType = 'complete';
+                                    viewType = 'pending';
                                     statusBadge = '<span class="badge badge-unknown">Unknown</span>';
                                     actions = ''; // Default to no actions
                                     break;
                             }
 
-                            row += '<td>' + statusBadge + '</td>';
                             row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';
                             row += '<ul class="dropdown-menu">';
                             // Only add the actions if there are any
@@ -417,29 +404,28 @@
 
     $(document).ready(function() {
         $(document).on('click', '[id^="open-quotation-details-"]', function() {
-            var franchiseId = $(this).data('id'); // Get franchise ID dynamically
-            var franchiseType = $(this).data('checktype'); // Get franchise ID dynamically
+            
+            var quotationId = $(this).data('id'); // Get quotation ID dynamically
+            var quotationType = $(this).data('checktype'); // Get quotation ID dynamically
 
-            // Ajax request to get franchise details
+            // Ajax request to get quotation details
             $.ajax({
-                url: '/appointment/details/' + franchiseId + '/' + franchiseType, // Make sure the URL is correct
+                url: '/quotations/details/' + quotationId + '/' + quotationType, // Make sure the URL is correct
                 method: 'GET',
                 success: function(response) {
                     if (response.status === 'success') {
-                        var franchise = response.data;
+                        var quotation = response.data;
                         // Populate table data dynamically
-                        $('#FranciseViewLabel').text(franchise.name);
+                        $('#FranciseViewLabel').text(quotation.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
-                                <tr><th>Status</th><td>${franchise.status || 'N/A'}</td></tr>
-                                <tr><th>Appointment Date</th><td>${franchise.appointment_date || 'N/A'}</td></tr>
-                                <tr><th>Mobile Number</th><td>${franchise.mobile || 'N/A'}</td></tr>
-                                <tr><th>Registration Type</th><td>${franchise.registerationType || 'N/A'}</td></tr>
-                                <tr><th>Address</th><td>${franchise.address || 'N/A'}</td></tr>
-                                <tr><th>Pincode</th><td>${franchise.pincode || 'N/A'}</td></tr>
-                                <tr><th>Country</th><td>${franchise.country || 'N/A'}</td></tr>
-                                <tr><th>State</th><td>${franchise.state || 'N/A'}</td></tr>
-                                <tr><th>City</th><td>${franchise.city || 'N/A'}</td></tr>
+                                <tr><th>Name</th><td>${quotation.name || 'N/A'}</td></tr>
+                                <tr><th>Email ID</th><td>${quotation.email || 'N/A'}</td></tr>
+                                <tr><th>Contact Number</th><td>${quotation.number || 'N/A'}</td></tr>
+                                <tr><th>Date</th><td>${quotation.date || 'N/A'}</td></tr>
+                                <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
+                                <tr><th>Quotation For</th><td>${quotation.name || 'N/A'}</td></tr>
+                                <tr><th>Cartage</th><td>${quotation.cartage || 'N/A'}</td></tr>
                             `);
 
 

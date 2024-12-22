@@ -8,31 +8,48 @@ use App\Models\ProductType;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuotationController extends Controller
 {
-    public function index()
-    {
-        // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where('status', '!=', "0")->get();
+        public function index()
+        {
+            $user = Auth::user();
+            $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
         
-        $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
-            return $appointments->count();
-        });
-
+            // Constants for status values
+            $statusPending = "0";
+            $statusComplete = "1";
         
-        // Now you can access the counts like so:
-        $pendingCount = $statusCounts->get('Appointment Booked', 0);  // Default to 0 if no 'pending' status found
-        $assignedCount = $statusCounts->get('Franchise Assigned', 0);
-        $completedCount = $statusCounts->get('Franchise Completed', 0);
-        $rejectedCount = $statusCounts->get('Franchise Rejected', 0);
-
-        // Fetch appointments with status 'Assigned'
-        $assignedAppointments = Appointment::join('franchises','appointments.franchise_id','=','franchises.id')->join('users','users.id','=','franchises.user_id')->select('appointments.*','users.name as franchise_name')->where('appointments.status', 'Franchise Assigned')->get();
-        $franchises=Franchise::orderby('id','desc')->get();
+            // Initialize default query builder for all quotations
+            $quotationQuery = Quotation::query();
         
-        return view('admin.quotation.index', compact('appointments','pendingCount','assignedCount','completedCount','rejectedCount', 'assignedAppointments','franchises'));
-    }
+            // If the user is a "Franchise", filter the quotations by franchise_id
+            if ($userRole == 'Franchise') {
+                $quotationQuery->where('franchise_id', $user->id);
+            }
+        
+            // Retrieve the quotations for the given query
+            $quotationList = $quotationQuery->get();
+        
+            // Initialize new queries for each status count to avoid interference with the main query
+            $quotationListPending = Quotation::query()
+                ->where('status', $statusPending)
+                ->when($userRole == 'Franchise', function ($query) use ($user) {
+                    return $query->where('franchise_id', $user->id);
+                })
+                ->count();
+        
+            $quotationListComplete = Quotation::query()
+                ->where('status', $statusComplete)
+                ->when($userRole == 'Franchise', function ($query) use ($user) {
+                    return $query->where('franchise_id', $user->id);
+                })
+                ->count();
+        
+            // Return view with compacted data
+            return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
+        }
 
     public function create($appointment_id)
     {   
@@ -46,50 +63,7 @@ class QuotationController extends Controller
 
     public function store(Request $request)
     {
-        // $lastTallyCode = Product::max("tally_code");
-        // $lastDesignSKU = Product::max("design_sku");
-        // $nextTallyCode = $this->generateNextCode($lastTallyCode, "CAB");
-        // $nextDesignSKU = $this->generateNextCode($lastDesignSKU, "SKU");
-        // Validate the incoming request data
-
-        // $request->validate([
-        //     "product_name" => "required|string|max:255",
-        //     "file_number" => "required|string|unique:products,file_number",
-        //     "supplier_name" => "required|integer",
-        //     "supplier_collection" => "required|integer",
-        //     "supplier_collection_design" => "required|integer",
-        //     "rubs_martendale" => "nullable|string|max:255",
-        //     "width" => "nullable|string|max:255",
-        //     "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
-        //     "image_alt" => "required|string|max:255",
-        //     "colour" => "required|array|min:1",
-        //     "colour.*" => "string|max:255",
-        //     "composition" => "required|array|min:1",
-        //     "composition.*" => "string|max:255",
-        //     "design_type" => "required|array|min:1",
-        //     "design_type.*" => "string|max:255",
-        //     "usage" => "required|array|min:1",
-        //     "usage.*" => "string|max:255",
-        //     "type" => "required|array|min:1",
-        //     "type.*" => "string|max:255",
-        //     "note" => "nullable|string|max:255",
-        //     "supplier_price" => "required|numeric|min:0",
-        //     "freight" => "required|numeric|min:0",
-        //     "profit_percentage" => "required|numeric|min:0",
-        //     "gst_percentage" => "required|numeric|min:0",
-        //     "mrp" => "required|numeric|min:0",
-        // ]);
-
-        // Handle the image upload
-
-        // $imagePath = null;
-
-        // if ($request->hasFile("image")) {
-        //     $imagePath = $request->file("image")->store("products", "public");
-        // }
-
-        // Prepare the data for insertion
-
+       
         $request->validate([
             'name' => 'string|max:255',
             'email' => 'email',
@@ -168,20 +142,60 @@ class QuotationController extends Controller
         // Use a switch-case for better readability and easier status mapping
         switch ($status) {
             case 'pending':
-                $status = 'Appointment Booked';
+                $status = '0';
                 break;
             case 'complete':
-                $status = 'Franchise Completed';
-                break;
-            default:
-                $status = 'Appointment Booked';
+                $status = '1';
                 break;
         }
 
         // Fetch appointments based on the mapped status
-        $quotations = Appointment::where('status','=', $status)->get();
+        $quotations = Quotation::with('franchise')->where('status','=', $status)->get();
 
         // Return the data as JSON response
         return response()->json(['data' => $quotations]);
+    }
+
+    public function getAppointmentDetails($id, $type)
+    {
+        // Fetch the appointment by ID
+        $quotation = Quotation::with('quotaitonItem')->findOrFail($id);
+
+        // Use a switch-case for better readability and easier status mapping
+        switch ($type) {
+            case 'pending':
+                $status = 0;
+                break;
+            case 'complete':
+                $status = 1;
+                break;
+            default:
+                $status = 0;  // Default status
+                break;
+        }
+        
+        // Check if the appointment's status matches the type passed
+        if ($quotation && $quotation->status == $status) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $quotation,
+                'message' => 'Quotations details fetched successfully.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Quotations not found or status mismatch.'
+            ]);
+        }
+    }
+
+    public function deleteQuotationsData($id){
+        $appointData = Quotation::findOrFail($id);
+    
+        // Delete the record
+        $appointData->delete();
+       
+
+        return redirect()->back()->with('success', 'Quotation deleted successfully.');
     }
 }

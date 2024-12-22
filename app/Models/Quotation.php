@@ -11,4 +11,17 @@ class Quotation extends Model
 
     protected $guarded = [];
     protected $table='quotations';
+
+    public function franchise(){
+        return $this->belongsto(Franchise::class, 'franchise_id', 'id'); 
+    }
+
+    public function quotaitonItem(){
+        return $this->belongsTo(QuotationItem::class,'id','quotation_id');
+    }
+
+    // public function quotaitonItem(){
+    //     return $this->hasMany(QuotationItem::class,'id','quotation_id');
+    // }
+
 }

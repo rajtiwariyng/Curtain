@@ -296,6 +296,9 @@ Route::prefix('quotations')->group(function () {
     Route::get('create/{appointment_id}', [QuotationController::class, 'create'])->name('quotations.create');
     Route::post('/store', [QuotationController::class, 'store'])->name('quotation.store');
     Route::get('data', [QuotationController::class, 'getQuotationsData']);
+    Route::put('delete/{id}', [QuotationController::class, 'deleteQuotationsData'])->name('quotation.delete');
+
+    Route::get('/details/{id}/{type}', [QuotationController::class, 'getAppointmentDetails'])->name('quotations.details');
 });
 
 
