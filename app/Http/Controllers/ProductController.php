@@ -100,7 +100,9 @@ class ProductController extends Controller
             "file_number" => $request->input("file_number"),
             "supplier_name" => $request->input("supplier_name"),
             "supplier_collection" => $request->input("supplier_collection"),
-            "supplier_collection_design" => $request->input("supplier_collection_design"),
+            "supplier_collection_design" => $request->input(
+                "supplier_collection_design"
+            ),
             "design_sku" => $nextDesignSKU,
             "rubs_martendale" => $request->input("rubs_martendale"),
             "width" => $request->input("width"),
@@ -108,9 +110,9 @@ class ProductController extends Controller
             "image_alt" => $request->input("image_alt"),
             "colour" => json_encode($request->input("colour")),
             "composition" => json_encode($request->input("composition")),
-            "design_type" => json_encode($request->input("design_type")), 
-            "usage" => json_encode($request->input("usage")), 
-            "type" => json_encode($request->input("type")), 
+            "design_type" => json_encode($request->input("design_type")),
+            "usage" => json_encode($request->input("usage")),
+            "type" => json_encode($request->input("type")),
             "note" => $request->input("note"),
             "currency" => $request->input("currency"),
             "supplier_price" => $request->input("supplier_price"),
@@ -120,7 +122,7 @@ class ProductController extends Controller
             "gst_percentage" => $request->input("gst_percentage"),
             "mrp" => $request->input("mrp"),
             "unit" => $request->input("unit"),
-                    ];
+        ];
 
         Product::create($productData);
 
@@ -138,7 +140,6 @@ class ProductController extends Controller
         $nextNumber = str_pad($numberPart + 1, 6, "0", STR_PAD_LEFT);
         return $prefix . $nextNumber;
     }
-
 
     public function index()
     {
@@ -166,7 +167,7 @@ class ProductController extends Controller
             $value = request()->get($key);
 
             if ($value && $value !== "Select") {
-               if (is_array($value)) {
+                if (is_array($value)) {
                     $products->whereIn($column, $value);
                 } else {
                     $products->where($column, $value);
@@ -241,11 +242,8 @@ class ProductController extends Controller
         // Default start to 0 if not provided
 
         $start = $post["start"] ?? 0;
-
         $orderColumnIndex = $post["order"][0]["column"] ?? 0;
-
         $order = $columns[$orderColumnIndex] ?? "created_at";
-
         $dir = $post["order"][0]["dir"] ?? "desc";
 
         // Fetch the distributor code
@@ -254,8 +252,10 @@ class ProductController extends Controller
 
         // Get the retailer codes for the distributor
 
-        $mapp_q = \App\Model\RetailerRmMapping::select("retailer_code")
-        ->where("distributor_code", $distri_code);
+        $mapp_q = \App\Model\RetailerRmMapping::select("retailer_code")->where(
+            "distributor_code",
+            $distri_code
+        );
 
         $retailer_array = $mapp_q->get()->pluck("retailer_code");
 
@@ -272,8 +272,7 @@ class ProductController extends Controller
             "image",
             "status",
             "created_at"
-        )
-        ->whereIn("uniquecode", $retailer_array);
+        )->whereIn("uniquecode", $retailer_array);
 
         // ->where('status', 'Approved')
 
@@ -321,13 +320,9 @@ class ProductController extends Controller
             $retailers_query->where(function ($query) use ($searchValue) {
                 $query
                     ->where("retailer_name", "LIKE", "%$searchValue%")
-
                     ->orWhere("mobile", "LIKE", "%$searchValue%")
-
                     ->orWhere("email", "LIKE", "%$searchValue%")
-
                     ->orWhere("gst", "LIKE", "%$searchValue%")
-
                     ->orWhere("pan", "LIKE", "%$searchValue%");
             });
         }
@@ -363,21 +358,21 @@ class ProductController extends Controller
 
                 $retailer["image"] !=
                     "https://redi-bucket.s3.ap-south-1.amazonaws.com/redi/users/image/Distri_109_2024-08-19%2010%3A00%3A26.png" &&
-                !empty($retailer["image"])
+                    !empty($retailer["image"])
                     ? '<a href="' .
-                        $retailer["image"] .
-                        '" class="fancybox"><img src="' .
-                        $retailer["image"] .
-                        '" height="30px"></a> ' .
-                        ucwords($retailer["retailer_name"]) .
-                        " ( " .
-                        $retailer["uniquecode"] .
-                        " )"
+                    $retailer["image"] .
+                    '" class="fancybox"><img src="' .
+                    $retailer["image"] .
+                    '" height="30px"></a> ' .
+                    ucwords($retailer["retailer_name"]) .
+                    " ( " .
+                    $retailer["uniquecode"] .
+                    " )"
                     : '<img src="" >' .
-                        ucwords($retailer["retailer_name"]) .
-                        " ( " .
-                        $retailer["uniquecode"] .
-                        " )",
+                    ucwords($retailer["retailer_name"]) .
+                    " ( " .
+                    $retailer["uniquecode"] .
+                    " )",
 
                 $retailer["gst"],
 
@@ -392,31 +387,31 @@ class ProductController extends Controller
                     : 0,
 
                 '<div class="toggle-btn ' .
-                ($retailer["status"] == "Approved" ? "active" : "") .
-                '">
+                    ($retailer["status"] == "Approved" ? "active" : "") .
+                    '">
 
                     <input type="checkbox" ' .
-                ($retailer["status"] == "Approved" ? "checked" : "") .
-                ' class="cb-value" data-id="' .
-                custom_encode($retailer["id"]) .
-                '" />
+                    ($retailer["status"] == "Approved" ? "checked" : "") .
+                    ' class="cb-value" data-id="' .
+                    custom_encode($retailer["id"]) .
+                    '" />
 
                     <span class="round-btn"></span></div>',
 
                 $retailer["time"],
 
                 '<div class="assign_edit"><a href="rm/change_mapping/' .
-                custom_encode($retailer["id"]) .
-                '" class="fancybox ajax"><button class="redi_btn xs"><i class="fa fa-edit"></i>Assign</button></a> 
+                    custom_encode($retailer["id"]) .
+                    '" class="fancybox ajax"><button class="redi_btn xs"><i class="fa fa-edit"></i>Assign</button></a> 
 
                 <a href="' .
-                "retailer/edit/" .
-                custom_encode($retailer["id"]) .
-                '" class=""><button class="redi_btn xs"><i class="fa fa-edit"></i> Edit</button></a></div>',
+                    "retailer/edit/" .
+                    custom_encode($retailer["id"]) .
+                    '" class=""><button class="redi_btn xs"><i class="fa fa-edit"></i> Edit</button></a></div>',
 
                 '<a href="field-force/rm/edit_rm_history/' .
-                custom_encode($retailer["id"]) .
-                '" class="fancybox ajax"><button class="btn btn-info btn-sm"><i class="fa fa-history"></i></button></a>',
+                    custom_encode($retailer["id"]) .
+                    '" class="fancybox ajax"><button class="btn btn-info btn-sm"><i class="fa fa-history"></i></button></a>',
             ];
         }
 
@@ -442,34 +437,19 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-
         $product->usage = json_decode($product->usage, true);
-
         $product->colour = json_decode($product->colour, true);
-
         $product->composition = json_decode($product->composition, true);
-
         $product->design_type = json_decode($product->design_type, true);
-
         $product->type = json_decode($product->type, true);
-
-
         $suppliers = Supplier::all();
-
         $supplierCollections = SupplierCollection::all();
-
         $supplierCollectionDesigns = SupplierCollectionDesign::all();
-
         $colours = Color::all();
-
         $compositions = Composition::all();
-
         $designTypes = DesignType::all();
-
         $productTypes = ProductType::all();
-
         $types = Type::all();
-
         $usages = Usage::all();
 
         return view(
@@ -508,14 +488,16 @@ class ProductController extends Controller
             "file_number" => $request->input("file_number"),
             "supplier_name" => $request->input("supplier_name"),
             "supplier_collection" => $request->input("supplier_collection"),
-            "supplier_collection_design" => $request->input("supplier_collection_design"),
+            "supplier_collection_design" => $request->input(
+                "supplier_collection_design"
+            ),
             "design_sku" => $request->input("design_sku"),
             "rubs_martendale" => $request->input("rubs_martendale"),
             "width" => $request->input("width"),
             "image" => $imagePath,
             "image_alt" => $request->input("image_alt"),
-            "colour" => json_encode($request->input("colour")), 
-            "composition" => json_encode($request->input("composition")), 
+            "colour" => json_encode($request->input("colour")),
+            "composition" => json_encode($request->input("composition")),
             "design_type" => json_encode($request->input("design_type")),
             "usage" => json_encode($request->input("usage")),
             "type" => json_encode($request->input("type")),
@@ -579,11 +561,8 @@ class ProductController extends Controller
 
         $query = Product::with(
             "ProductType",
-
             "Supplier",
-
             "SupplierCollection",
-
             "SupplierCollectionDesign"
         );
 
@@ -593,49 +572,27 @@ class ProductController extends Controller
 
         $header = [
             "Date",
-
             "Product Name",
-
             "Type",
-
             "Tally Code",
-
             "File Number",
-
             "Supplier Name",
-
             "Supplier Collection",
-
             "Supplier Collection Design",
-
             "Design SKU",
-
             "Rubs Martendale",
-
             "Width",
-
             "Composition",
-
             "Design_type",
-
             "Usage",
-
             "Note",
-
             "Currency",
-
             "Supplier Price",
-
             "Freight",
-
             "Duty Percentage",
-
             "Profit Percentage",
-
             "GST Percentage",
-
             "MRP",
-
             "Unit",
         ];
 
@@ -649,49 +606,27 @@ class ProductController extends Controller
             foreach ($products as $product) {
                 $row = [
                     date("d M Y", strtotime($product->created_at)), // Format the date
-
                     $product->product_name,
-
                     optional($product->ProductType)->name, // Get related data safely using optional
-
                     $product->tally_code,
-
                     $product->file_number,
-
                     optional($product->Supplier)->name, // Get related data safely using optional
-
                     optional($product->SupplierCollection)->name, // Get related data safely using optional
-
                     optional($product->SupplierCollectionDesign)->name, // Get related data safely using optional
-
                     $product->design_sku,
-
                     $product->rubs_martendale,
-
                     $product->width,
-
                     $product->composition,
-
                     $product->design_type,
-
                     $product->usage,
-
                     $product->note,
-
                     $product->currency,
-
                     $product->supplier_price,
-
                     $product->freight,
-
                     $product->duty_percentage,
-
                     $product->profit_percentage,
-
                     $product->gst_percentage,
-
                     $product->mrp,
-
                     $product->unit,
                 ];
 
@@ -754,9 +689,7 @@ class ProductController extends Controller
         // Close the file and get the output content
 
         fclose($f);
-
         $csvData = ob_get_contents();
-
         ob_end_clean();
 
         // Output or return the CSV data

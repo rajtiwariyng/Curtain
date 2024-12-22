@@ -180,50 +180,64 @@
                 </div>
             </div>
             <div class="row mb-2">
-            <div class="col-md-12">
-                <label for="noteInput" class="form-label mb-1">Note</label>
-                <textarea name="note" id="noteInput" class="form-control w-100">{{ old('note', isset($product) ? $product->note : '') }}</textarea>
+                <div class="col-md-12">
+                    <label for="noteInput" class="form-label mb-1">Note</label>
+                    <textarea name="note" id="noteInput" class="form-control w-100">{{ old('note', isset($product) ? $product->note : '') }}</textarea>
+                </div>
+            </div>
+            <hr class="m-0 mt-4 mb-2">
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="CostPriceInput" class="form-label mb-1">Cost Price <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="supplierPriceInput" name="supplier_price" value="{{ old('supplier_price', isset($product) ? $product->supplier_price : '') }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="freightInput" class="form-label mb-1">Freight <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="freightInput" name="freight" value="{{ old('freight', isset($product) ? $product->freight : '') }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="profitInput" class="form-label mb-1">Profit % <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="profitInput" name="profit_percentage" value="{{ old('profit_percentage', isset($product) ? $product->profit_percentage : '') }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="gstInput" class="form-label mb-1">GST % <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control w-100" id="gstInput" name="gst_percentage" value="{{ old('gst_percentage', isset($product) ? $product->gst_percentage : '') }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label for="mrpInput" class="form-label mb-1">MRP <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control w-100" id="mrpInput" name="mrp" value="{{ old('mrp', isset($product) ? $product->mrp : 0) }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-1 w-100">
+                        <label class="form-label m-0 mb-1" for="type">Unit <span class="text-danger">*</span></label>
+                        <select name="unit" id="unit" class="form-select w-100 select2" required>
+                            <option value="opt1">Select</option>
+                            @foreach ($productTypes as $productType)
+                            <option value="{{ $productType->product_unit }}"
+                                {{ ($product->unit == $productType->product_unit) ? 'selected' : '' }}>
+                                {{ $productType->product_unit }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr class="m-0 mt-4 mb-2">
-        <div class="row mb-2">
-            <div class="col-md-3">
-                <div class="mb-1 w-100">
-                    <label for="CostPriceInput" class="form-label mb-1">Cost Price <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control w-100" id="supplierPriceInput" name="supplier_price" value="{{ old('supplier_price', isset($product) ? $product->supplier_price : '') }}">
-                </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="mb-1 w-100">
-                    <label for="freightInput" class="form-label mb-1">Freight <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control w-100" id="freightInput" name="freight" value="{{ old('freight', isset($product) ? $product->freight : '') }}">
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="mb-1 w-100">
-                    <label for="profitInput" class="form-label mb-1">Profit % <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control w-100" id="profitInput" name="profit_percentage" value="{{ old('profit_percentage', isset($product) ? $product->profit_percentage : '') }}">
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="mb-1 w-100">
-                    <label for="gstInput" class="form-label mb-1">GST % <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control w-100" id="gstInput" name="gst_percentage" value="{{ old('gst_percentage', isset($product) ? $product->gst_percentage : '') }}">
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="mb-1 w-100">
-                    <label for="mrpInput" class="form-label mb-1">MRP <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control w-100" id="mrpInput" name="mrp" value="{{ old('mrp', isset($product) ? $product->mrp : 0) }}" readonly>
-                </div>
-            </div>
-        </div>
-        </div>
-        
 
         <div class="mt-3 d-flex gap-3 mb-4">
             <button type="submit" class="btn primary-btn">Update Product</button>

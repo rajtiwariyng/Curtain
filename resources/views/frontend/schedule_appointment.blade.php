@@ -31,8 +31,8 @@
                 </div> -->
             </div>
         </div>
-        
-        
+
+
         <form action="javascript:" class="mt-4 border-top pt-4" id="contact-form1">
             <p>Fill this form to schedule an appointment</p>
             @csrf
@@ -53,7 +53,7 @@
                     <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile Number</label>
                         <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" maxlength="10">
-                        
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -87,9 +87,9 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="primary-btn mt-2">Submit</button> 
+            <button type="submit" class="primary-btn mt-2">Submit</button>
         </form>
-        
+
 
         <div id="thankYouMessage1 wow animate__animated animate__fadeIn" style=" margin-top: 20px; display: none;">
             <h3 class="NewKansas-medium">Thank you for register with us!</h3>
@@ -127,12 +127,12 @@
 </section>
 
 <script>
-    document.getElementById('PincodeInput').addEventListener('input', function (event) {
+    document.getElementById('PincodeInput').addEventListener('input', function(event) {
         // Allow only numeric values: Replace anything that's not a digit
         event.target.value = event.target.value.replace(/[^0-9]/g, '');
     });
 
-    document.getElementById('mobile').addEventListener('input', function (event) {
+    document.getElementById('mobile').addEventListener('input', function(event) {
         const errorMsg = document.getElementById('mobile-error'); // Reference to the error message element
         let input = event.target.value;
 
@@ -157,7 +157,7 @@
     });
 
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#contact-form1").validate({
             rules: {
                 name: "required",
@@ -201,7 +201,7 @@
                 state: "Please enter your state",
                 country: "Please enter your country"
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 saveData();
             }
         });
@@ -224,93 +224,16 @@
             type: "POST",
             url: "{{ route('appointments.store') }}",
             data: formData,
-            success: function (response) {
+            success: function(response) {
                 $("#contact-form1").hide(); // Hide form
                 $("#thankYouMessage1").show(); // Show thank you message
                 $("#contact-form1")[0].reset(); // Reset form
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 alert("An error occurred: " + error);
             }
         });
     }
 </script>
-<!-- <script>
-    $(document).ready(function () {
-        $("#contact-form1 input, #contact-form1 button").prop("disabled", true);
-        $('#PincodeInput').on('change', function () {
-            var pincode = $(this).val();
-            if (pincode) {
-                $.ajax({
-                    url: '/get-location',
-                    method: 'POST',
-                    data: {
-                        pincode: pincode,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function (response) {
-                        $('.pin-msg').empty();
-
-                        $('#country').val('');
-                        $('#state').val('');
-                        $('#city').val('');
-                        // $('#pincode').val('');
-
-                        if (response.status === 'true') {
-                            $('#check_pincode').append(`<div id="pinAvailable" class="available-text pin-msg"><i class="bi bi-check-circle-fill"></i> We're available here.</div>`);
-
-                            $('#country').val(response.location_data.country);
-                            $('#state').val(response.location_data.state);
-                            $('#city').val(response.location_data.city);
-                            $('#pincode').val(response.location_data.zip_code);
-
-
-                            // input box enable functionality
-                            var isDisabled = $("#contact-form1 input, #contact-form1 button").first().prop("disabled");
-
-                            if (isDisabled) {
-                                // If the form is disabled, enable it
-                                $("#contact-form1 input, #contact-form1 button").not('#country, #state, #city').prop("disabled", false);
-                                $(this).text('Disable Form');
-                            } else {
-
-                                // If the form is enabled, disable it
-                                $("#contact-form1 input, #contact-form1 button").not('#country, #state, #city').prop("disabled", true);
-                                $(this).text('Enable Form');
-                            }
-                        }
-                        if (response.status === 'false') {
-                            $("#contact-form1 input, #contact-form1 button").prop("disabled", true);
-                            $('#check_pincode').append(`<div id="pinNotAvailable" class="available-text text-danger pin-msg"><i class="bi bi-x-circle-fill"></i></i> Not available here.</div>`);
-                        }
-
-                    }
-                });
-            }
-        });
-
-        $('#pincode').on('blur', function () {
-            var pincode = $(this).val();
-            if (pincode) {
-                $.ajax({
-                    url: '/get-location',
-                    method: 'POST',
-                    data: {
-                        pincode: pincode,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function (response) {
-                        $('#country').val(response.country);
-                        $('#state').val(response.state);
-                        $('#city').val(response.city);
-                    },
-                    error: function () {
-                        alert('Location not found!');
-                    }
-                });
-            }
-        });
-    });
-</script> -->
 
 @endsection

@@ -1,36 +1,20 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
-
-
 use App\Models\FranchiseTemp;
-
 use Illuminate\Http\Request;
-
 use App\Mail\FranchiseInformationMail;
-
 use App\Mail\FranchiseRegistrationMail;
-
 use Illuminate\Support\Facades\Mail;
-
 use App\Models\User;
 use App\Models\MasterCity;
-
-use App\Models\Franchise; // Ensure you have a model for the franchise table
-
+use App\Models\Franchise;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Validator;
 
-
-
 class FranchiseTempController extends Controller
-
 {
-
     private function generateNextCode($lastCode, $prefix)
     {
         if (!$lastCode) {
@@ -41,271 +25,148 @@ class FranchiseTempController extends Controller
         return $prefix . $nextNumber;
     }
 
-
-
     public function store(Request $request)
-
     {
-
         $rules = [
-
             // 'company_name' => 'required|string|max:255',
-
-            'name' => 'nullable|string|max:255',
-
-            'email' => 'nullable|email|max:255|unique:users,email',
-
-            'mobile' => 'nullable|string|max:20',
-
-            'alt_mobile' => 'nullable|string|max:20',
-
-            'address' => 'nullable|string|max:255',
-
-            'pincode' => 'nullable|integer',
-
-            'city' => 'nullable|string|max:255',
-
-            'state' => 'nullable|string|max:255',
-
-            'country' => 'nullable|string|max:255',
-
+            "name" => "nullable|string|max:255",
+            "email" => "nullable|email|max:255|unique:users,email",
+            "mobile" => "nullable|string|max:20",
+            "alt_mobile" => "nullable|string|max:20",
+            "address" => "nullable|string|max:255",
+            "pincode" => "nullable|integer",
+            "city" => "nullable|string|max:255",
+            "state" => "nullable|string|max:255",
+            "country" => "nullable|string|max:255",
         ];
-
-
-
-        // Define custom error messages (optional)
 
         $messages = [
-
-            'email.email' => 'Please enter a valid email address.',
-
-            'email.unique' => 'The email has already been taken.',
-
-            'pincode.integer' => 'Pincode must be a number.',
-
+            "email.email" => "Please enter a valid email address.",
+            "email.unique" => "The email has already been taken.",
+            "pincode.integer" => "Pincode must be a number.",
         ];
-
-
 
         // Perform validation
 
         $validator = Validator::make($request->all(), $rules, $messages);
-
-
-
-        // dd($validator);
-
-        // Check if validation fails
-
         if ($validator->fails()) {
-
-            return redirect()->back()->with('error', $validator->errors());
-            // Return the validation errors in a JSON response for AJAX
-
+            return redirect()
+                ->back()
+                ->with("error", $validator->errors());
         }
 
-
-
-        // Proceed with storing the data if validation passes
-
         try {
-
             $data = FranchiseTemp::create($request->all());
-
-
-
-            // Send email if a valid email is provided
-
             if (!empty($request->email)) {
-
                 // Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
-
             }
 
-
-
-            return redirect()->back()->with('success', 'Franchise information saved successfully!');
-
-            // Return success response
-
+            return redirect()
+                ->back()
+                ->with("success", "Franchise information saved successfully!");
         } catch (\Exception $e) {
-
-            // Handle exceptions and log errors
-
-            return redirect()->back()->with('error', 'Something Went Wrong!');
+            return redirect()
+                ->back()
+                ->with("error", "Something Went Wrong!");
         }
     }
 
-
-
-
-
     public function store_admin(Request $request)
-
     {
-
-        // Validate the form data
-
         $request->validate([
-
-            'name' => 'nullable|string|max:255',
-
-            'email' => 'nullable|email|max:255',
-
-            'mobile' => 'nullable|string|max:20',
-
-            'alt_mobile' => 'nullable|string|max:20',
-
-            'address' => 'nullable|string|max:255',
-
-            'pincode' => 'nullable|integer',
-
-            'city' => 'nullable|string|max:255',
-
-            'state' => 'nullable|string|max:255',
-
-            'country' => 'nullable|string|max:255',
-
+            "name" => "nullable|string|max:255",
+            "email" => "nullable|email|max:255",
+            "mobile" => "nullable|string|max:20",
+            "alt_mobile" => "nullable|string|max:20",
+            "address" => "nullable|string|max:255",
+            "pincode" => "nullable|integer",
+            "city" => "nullable|string|max:255",
+            "state" => "nullable|string|max:255",
+            "country" => "nullable|string|max:255",
         ]);
-
-
-
-        // Store the form data in the database
 
         $data = FranchiseTemp::create($request->all());
 
-        //if($data)
-
-        $mail = Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
-
-
-        return redirect()->back()->with('success', 'Franchise created successfully.');
+        $mail = Mail::to($request->email)->send(
+            new FranchiseInformationMail($request->all())
+        );
+        return redirect()
+            ->back()
+            ->with("success", "Franchise created successfully.");
     }
 
     public function index()
-
     {
-
-        // Fetch FranchiseTemp data for 'pending' and 'reject' statuses in one query
-
-        $franchiseTemps = FranchiseTemp::whereIn('status', ['pending', 'reject'])
-
-            ->orderBy('id', 'desc')
-
+        $franchiseTemps = FranchiseTemp::whereIn("status", [
+            "pending",
+            "reject",
+        ])
+            ->orderBy("id", "desc")
             ->get()
+            ->groupBy("status");
 
-            ->groupBy('status'); // Group the results by 'status' (pending or reject)
+        $franchises = Franchise::with("user")->get();
 
-
-
-        // Fetch franchises with associated users (eager load user relationship)
-
-        $franchises = Franchise::with('user')->get();
-
-
-        // Return view with the fetched data
-
-        return view('admin.franchise.approval', [
-
-            'franchiseTempsPending' => $franchiseTemps->get('pending', collect()),
-
-            'franchiseTempsReject' => $franchiseTemps->get('reject', collect()),
-
-            'franchises' => $franchises,
-
+        return view("admin.franchise.approval", [
+            "franchiseTempsPending" => $franchiseTemps->get(
+                "pending",
+                collect()
+            ),
+            "franchiseTempsReject" => $franchiseTemps->get("reject", collect()),
+            "franchises" => $franchises,
         ]);
     }
 
     public function generateSecurePassword($length = 8)
-
     {
-
-        // Ensure the length is at least 8
-
-        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
-
-        $numbers = '0123456789';
-
+        $uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $lowercase = "abcdefghijklmnopqrstuvwxyz";
+        $numbers = "0123456789";
         $specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
 
-
-
         // Create the password with at least one of each type
-
         $password = [
-
             $uppercase[random_int(0, strlen($uppercase) - 1)],
-
             $lowercase[random_int(0, strlen($lowercase) - 1)],
-
             $numbers[random_int(0, strlen($numbers) - 1)],
-
             $specialChars[random_int(0, strlen($specialChars) - 1)],
-
         ];
 
-
-
         // Fill the rest of the password length with random characters
-
         $allChars = $uppercase . $lowercase . $numbers . $specialChars;
-
         for ($i = 4; $i < $length; $i++) {
-
             $password[] = $allChars[random_int(0, strlen($allChars) - 1)];
         }
-
-
-
         // Shuffle the password array to ensure randomness
-
         shuffle($password);
 
-
-
-        // Convert the array to a string
-
-        return implode('', $password);
+        return implode("", $password);
     }
 
-
-
     public function approve($id)
-
     {
-
         $franchiseTemp = FranchiseTemp::findOrFail($id);
         // Check if the email already exists in the 'users' table
-        $existingUser = User::where('email', $franchiseTemp->email)->first();
+        $existingUser = User::where("email", $franchiseTemp->email)->first();
         if ($existingUser) {
-
-
-            return redirect()->back()->with('error', 'A user with this email already exists.');
+            return redirect()
+                ->back()
+                ->with("error", "A user with this email already exists.");
         }
-
-
 
         $password = $this->generateSecurePassword(8);
 
         $user = User::create([
+            "name" => $franchiseTemp->name,
 
-            'name' => $franchiseTemp->name,
+            "email" => $franchiseTemp->email,
 
-            'email' => $franchiseTemp->email,
-
-            'password' => Hash::make($password), // Use a secure method for passwords
-
+            "password" => Hash::make($password), // Use a secure method for passwords
         ]);
-
-
 
         // Assign franchise role to the user
 
-        $user->assignRole('Franchise');
-
-
+        $user->assignRole("Franchise");
 
         // Save additional franchise data
 
@@ -313,124 +174,95 @@ class FranchiseTempController extends Controller
         $nextFranchiseId = $this->generateNextCode($lastFranchiseId, "FR");
 
         Franchise::create([
+            "user_id" => $user->id,
 
-            'user_id' => $user->id,
+            "franchise_id" => $nextFranchiseId,
 
-            'franchise_id' => $nextFranchiseId,
+            "name" => $franchiseTemp->name ?? "",
 
-            'name'  => $franchiseTemp->name ?? '',
+            "email" => $franchiseTemp->email ?? "",
 
-            'email' => $franchiseTemp->email ?? '',
+            "alt_mobile" => $franchiseTemp->alt_mobile ?? "",
 
-            'alt_mobile' => $franchiseTemp->alt_mobile ?? '',
+            "employees" => $franchiseTemp->employees ?? "",
 
-            'employees' => $franchiseTemp->employees ?? '',
+            "registerationType" => $franchiseTemp->registerationType ?? "",
 
-            'registerationType' => $franchiseTemp->registerationType ?? '',
+            "company_name" => $franchiseTemp->company_name ?? "",
 
-            'company_name' => $franchiseTemp->company_name ?? '',
+            "address" => $franchiseTemp->address,
 
-            'address' => $franchiseTemp->address,
+            "pincode" => $franchiseTemp->pincode,
 
-            'pincode' => $franchiseTemp->pincode,
+            "city" => $franchiseTemp->city,
 
-            'city' => $franchiseTemp->city,
+            "state" => $franchiseTemp->state,
 
-            'state' => $franchiseTemp->state,
+            "country" => $franchiseTemp->country,
 
-            'country' => $franchiseTemp->country,
-
-            'mobile' => $franchiseTemp->mobile,
-
+            "mobile" => $franchiseTemp->mobile,
         ]);
 
-
-
         $franchiseTemp->delete();
-
-
 
         // Send email notification
 
         $data = [
-
             "name" => $franchiseTemp->name,
 
             "username" => $franchiseTemp->email,
 
-            "password" => $password
-
+            "password" => $password,
         ];
 
-        Mail::to($franchiseTemp->email)->send(new FranchiseRegistrationMail($data));
+        Mail::to($franchiseTemp->email)->send(
+            new FranchiseRegistrationMail($data)
+        );
 
-
-
-        return redirect()->back()->with('success', 'Franchise approved and user created successfully.');
+        return redirect()
+            ->back()
+            ->with(
+                "success",
+                "Franchise approved and user created successfully."
+            );
     }
 
-
-
     public function reject($id)
-
     {
-
         $franchiseTemp = FranchiseTemp::findOrFail($id);
-
-
 
         // Update the status to 'reject'
 
-        $franchiseTemp->status = 'reject';
-
-
+        $franchiseTemp->status = "reject";
 
         // Save the changes
 
         $franchiseTemp->save();
 
-
-
-
-
-        return redirect()->back()->with('success', 'Franchise rejected successfully.');
+        return redirect()
+            ->back()
+            ->with("success", "Franchise rejected successfully.");
     }
 
-
-
     public function getFranchiseDetails($id, $type)
-
     {
-
-        if ($type == 'confirm') {
-
-            $franchise = Franchise::with('user')->find($id);
+        if ($type == "confirm") {
+            $franchise = Franchise::with("user")->find($id);
         } else {
-
-
-
             $franchise = FranchiseTemp::find($id);
         }
 
-
-
         if ($franchise) {
-
             return response()->json([
+                "status" => "success",
 
-                'status' => 'success',
-
-                'data' => $franchise
-
+                "data" => $franchise,
             ]);
         } else {
-
             return response()->json([
+                "status" => "error",
 
-                'status' => 'error',
-
-                'message' => 'Franchise not found'
-
+                "message" => "Franchise not found",
             ]);
         }
     }
@@ -441,8 +273,8 @@ class FranchiseTempController extends Controller
         $cityStateData = MasterCity::all();
 
         // Group cities by state
-        $groupedCityStateData = $cityStateData->groupBy('state_name'); // Assuming 'state_name' and 'city_name' are columns in the table
+        $groupedCityStateData = $cityStateData->groupBy("state_name"); // Assuming 'state_name' and 'city_name' are columns in the table
 
-        return view('frontend.franchise_reg', compact('groupedCityStateData'));
+        return view("frontend.franchise_reg", compact("groupedCityStateData"));
     }
 }

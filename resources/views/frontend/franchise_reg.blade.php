@@ -34,41 +34,6 @@
     <div class="container">
         <h2 class="NewKansas-medium text-center text-white mb-4 wow animate__animated animate__fadeIn">4 Simple steps to
             join us</h2>
-        <!--<div class="row">-->
-        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
-        <!--        <div class="card uspCard bg-white d-flex justify-content-center align-items-center flex-column"-->
-        <!--            style="height: 314px; border-radius: 20px; padding: 30px 24px; text-align: center;">-->
-        <!--            <img src="{{ asset('frontend/images/investment.svg') }}" class="mb-4" alt="">-->
-        <!--            <p class="fs-small">#Reason 1</p>-->
-        <!--            <p>Minimum Investement and maximum returns</p>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
-        <!--        <div class="card uspCard bg-white d-flex justify-content-center align-items-center flex-column"-->
-        <!--            style="height: 314px; border-radius: 20px; padding: 30px 24px; text-align: center;">-->
-        <!--            <img src="{{ asset('frontend/images/home.svg') }}" class="mb-4" alt="">-->
-        <!--            <p class="fs-small">#Reason 2</p>-->
-        <!--            <p>No overheads of a store or office. Can easily be done from home.</p>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
-        <!--        <div class="card uspCard bg-white d-flex justify-content-center align-items-center flex-column"-->
-        <!--            style="height: 314px; border-radius: 20px; padding: 30px 24px; text-align: center;">-->
-        <!--            <img src="{{ asset('frontend/images/staff.svg') }}" class="mb-4" alt="">-->
-        <!--            <p class="fs-small">#Reason 3</p>-->
-        <!--            <p>No specialised staff is required to close the orders.</p>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <!--    <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">-->
-        <!--        <div class="card uspCard bg-white d-flex justify-content-center align-items-center flex-column"-->
-        <!--            style="height: 314px; border-radius: 20px; padding: 30px 24px; text-align: center;">-->
-        <!--            <img src="{{ asset('frontend/images/team.svg') }}" class="mb-4" alt="">-->
-        <!--            <p class="fs-small">#Reason 4</p>-->
-        <!--            <p>Basic team required for Installation and hand overs.</p>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <!--</div>-->
-        
         <div class="row">
             <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
                 <div class="card uspCard bg-white d-flex justify-content-start align-items-center flex-column"
@@ -106,15 +71,15 @@
     <div class="registrationSection pt-0 container wow animate__animated animate__fadeIn">
         <h2 class="NewKansas-medium text-center" id="form-title1">Register with us</h2>
         @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
 
         <form action="{{ route('franchise_temp.store') }}" method="POST"
             class="mt-4 wow animate__animated animate__fadeIn" id="contact-form1">
             @csrf
-            <input type="hidden" name="status" id="status" value="pending" >
+            <input type="hidden" name="status" id="status" value="pending">
             <div class="row wow animate__animated animate__fadeIn">
                 <div class="col-md-3">
                     <div class="mb-3">
@@ -130,7 +95,7 @@
                         <select name="state" id="state" class="form-control">
                             <option value="">Select State</option>
                             @foreach ($groupedCityStateData as $state => $cities)
-                                <option value="{{ $state }}">{{ $state }}</option>
+                            <option value="{{ $state }}">{{ $state }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback">Please enter a valid state name.</div>
@@ -232,13 +197,13 @@
         </form>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
 
                 $('#company_name').prop('required', false);
                 $('#employees').prop('required', false);
 
                 // Monitor the registration type change
-                $('#registerationType').on('change', function () {
+                $('#registerationType').on('change', function() {
                     var registrationType = $(this).val();
 
                     if (registrationType === "Company" || registrationType === "proprietor") {
@@ -256,21 +221,21 @@
                 var cityStateData = @json($groupedCityStateData);
 
                 // Handle state change
-                $('#state').on('change', function () {
+                $('#state').on('change', function() {
                     var selectedState = $(this).val();
                     var cities = cityStateData[selectedState] || [];
 
                     $('#city').empty();
                     $('#city').append('<option value="">Select City</option>');
 
-                    $.each(cities, function (index, city) {
+                    $.each(cities, function(index, city) {
                         $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
                     });
                 });
             });
 
             // Enable client-side validation styles
-            document.getElementById('franchise_temp').addEventListener('submit', function (event) {
+            document.getElementById('franchise_temp').addEventListener('submit', function(event) {
                 const form = event.target;
                 if (!form.checkValidity()) {
                     event.preventDefault();
@@ -415,96 +380,8 @@
     </div>
 </section>
 
-<!-- <script>
-    $(document).ready(function () {
-        $('#pincode').on('blur', function () {
-            var pincode = $(this).val();
-            if (pincode) {
-                $.ajax({
-                    url: '/get-location',
-                    method: 'POST',
-                    data: {
-                        pincode: pincode,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function (response) {
-                        $('#country').val(response.country);
-                        $('#state').val(response.state);
-                        $('#city').val(response.city);
-                    },
-                    error: function () {
-                        alert('Location not found!');
-                    }
-                });
-            }
-        });
-    });
-</script>
 <script>
-    $(document).ready(function () {
-        $("#contact-form1").validate({
-            rules: {
-                company_name: "required",
-                name: "required",
-                email: {
-                    required: true,
-                    email: true
-                },
-                mobile: {
-                    required: true,
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
-                alt_mobile: {
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
-                employees: {
-                    required: true,
-                    digits: true
-                },
-                address: "required",
-                pincode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6,
-                    maxlength: 6
-                },
-                city: "required",
-                state: "required",
-                country: "required"
-            },
-            messages: {
-                company_name: "Please enter your company name",
-                name: "Please enter your name",
-                email: {
-                    required: "Please enter your email",
-                    email: "Please enter a valid email address"
-                },
-                mobile: {
-                    required: "Please enter your mobile number",
-                    digits: "Please enter a valid mobile number"
-                },
-                employees: "Please enter the number of employees",
-                address: "Please enter your address",
-                pincode: {
-                    required: "Please enter your pincode",
-                    digits: "Please enter a valid pincode"
-                },
-                city: "Please enter your city",
-                state: "Please enter your state",
-                country: "Please enter your country"
-            },
-            submitHandler: function (form) {
-                saveData();
-            }
-        });
-    });
-</script> -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const registrationType = document.getElementById("registerationType");
         const companyNameField = document.getElementById("company_name").parentElement;
         const employeesField = document.getElementById("employees").parentElement;
@@ -514,7 +391,7 @@
         employeesField.style.display = "none";
 
         // Add event listener for change on Registration Type field
-        registrationType.addEventListener("change", function () {
+        registrationType.addEventListener("change", function() {
             const selectedValue = registrationType.value;
 
             if (selectedValue === "Company" || selectedValue === "proprietor") {
