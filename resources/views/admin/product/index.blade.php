@@ -27,7 +27,7 @@
                         <th>Tally Code</th>
                         <th>SKU</th>
                         <th>MRP</th>
-                        <!-- <th>Unit</th> -->
+                        <th>Unit</th>
 
                         <th>Actions</th>
                     </tr>
@@ -48,7 +48,7 @@
                         <td>{{ $product->tally_code }}</td>
                         <td>{{ $product->design_sku }}</td>
                         <td>{{ $product->mrp }}</td>
-                        <!-- <td>{{ $product->unit }}</td> -->
+                        <td>{{ $product->unit }}</td>
                         <td>
                             <div class="dropdown">
                                 <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
@@ -57,11 +57,11 @@
                                     <li><a class="dropdown-item small"
                                             href="{{ route('products.edit', $product->id) }}">Edit</a></li>
                                     <li>
-                                    <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
-                                        href="#ProductView" role="button" aria-controls="ProductView"
-                                        data-product-id="{{ $product->id }}">
-                                        View
-                                    </a>
+                                        <a class="dropdown-item small viewProductLink" data-bs-toggle="offcanvas"
+                                            href="#ProductView" role="button" aria-controls="ProductView"
+                                            data-product-id="{{ $product->id }}">
+                                            View
+                                        </a>
                                     </li>
                                     <li><a class="dropdown-item small" href="javascript:"
                                             onclick="openDeleteModal('{{ $product->id }}')">Delete</a></li>
@@ -88,24 +88,78 @@
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
-                            <tr><th>Type</th><td id="product-type"></td></tr>
-                            <tr><th>Code</th><td id="product-code"></td></tr>
-                            <tr><th>File Number</th><td id="file-number"></td></tr>
-                            <tr><th>Supplier Name</th><td id="supplier-name"></td></tr>
-                            <tr><th>Supplier Collection</th><td id="supplier-collection"></td></tr>
-                            <tr><th>Supplier Collection Design</th><td id="supplier-design"></td></tr>
-                            <tr><th>Design SKU</th><td id="design-sku"></td></tr>
-                            <tr><th>Width</th><td id="width"></td></tr>
-                            <tr><th>Rubs Martendale</th><td id="rubs-martendale"></td></tr>
-                            <tr><th>Usage</th><td id="usage"></td></tr>
-                            <tr><th>Type (Technical specs)</th><td id="type"></td></tr>
-                            <tr><th>Design Type</th><td id="design-type"></td></tr>
-                            <tr><th>Color</th><td id="colour"></td></tr>
-                            <tr><th>Composition</th><td id="composition"></td></tr>
-                            <tr><th>Note</th><td id="note"></td></tr>
-                            <tr><th>Image Gallery</th><td id="image-gallery"></td></tr>
-                            <tr><th>Created At</th><td id="created-at"></td></tr>
-                            <tr><th>Updated At</th><td id="updated-at"></td></tr>
+                            <tr>
+                                <th>Type</th>
+                                <td id="product-type"></td>
+                            </tr>
+                            <tr>
+                                <th>Code</th>
+                                <td id="product-code"></td>
+                            </tr>
+                            <tr>
+                                <th>File Number</th>
+                                <td id="file-number"></td>
+                            </tr>
+                            <tr>
+                                <th>Supplier Name</th>
+                                <td id="supplier-name"></td>
+                            </tr>
+                            <tr>
+                                <th>Supplier Collection</th>
+                                <td id="supplier-collection"></td>
+                            </tr>
+                            <tr>
+                                <th>Supplier Collection Design</th>
+                                <td id="supplier-design"></td>
+                            </tr>
+                            <tr>
+                                <th>Design SKU</th>
+                                <td id="design-sku"></td>
+                            </tr>
+                            <tr>
+                                <th>Width</th>
+                                <td id="width"></td>
+                            </tr>
+                            <tr>
+                                <th>Rubs Martendale</th>
+                                <td id="rubs-martendale"></td>
+                            </tr>
+                            <tr>
+                                <th>Usage</th>
+                                <td id="usage"></td>
+                            </tr>
+                            <tr>
+                                <th>Type (Technical specs)</th>
+                                <td id="type"></td>
+                            </tr>
+                            <tr>
+                                <th>Design Type</th>
+                                <td id="design-type"></td>
+                            </tr>
+                            <tr>
+                                <th>Color</th>
+                                <td id="colour"></td>
+                            </tr>
+                            <tr>
+                                <th>Composition</th>
+                                <td id="composition"></td>
+                            </tr>
+                            <tr>
+                                <th>Note</th>
+                                <td id="note"></td>
+                            </tr>
+                            <tr>
+                                <th>Image Gallery</th>
+                                <td id="image-gallery"></td>
+                            </tr>
+                            <tr>
+                                <th>Created At</th>
+                                <td id="created-at"></td>
+                            </tr>
+                            <tr>
+                                <th>Updated At</th>
+                                <td id="updated-at"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -252,18 +306,18 @@
 <script>
     $(document).ready(function() {
         $('.viewProductLink').on('click', function() {
-            var productId = $(this).data('product-id');  // Get the product ID from the clicked link
-            
+            var productId = $(this).data('product-id'); // Get the product ID from the clicked link
+
             // Send AJAX request to fetch product details
             $.ajax({
-                url: '/product/' + productId + '/details',  // Change this URL to your actual endpoint
+                url: '/product/' + productId + '/details', // Change this URL to your actual endpoint
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
                     if (response && response.product) {
-                        var product = response.product;  // Product data returned by the server
+                        var product = response.product; // Product data returned by the server
                         console.log(product.supplier.name);
-                        
+
                         // Populate the offcanvas with the fetched product details
                         $('#ProductViewLabel').text(product.product_name || 'Product Details');
                         $('#product-type').text(product.product_type?.product_type || '-');
@@ -283,7 +337,7 @@
                         $('#note').text(product.note || '-');
                         $('#created-at').text(product.created_at || '-');
                         $('#updated-at').text(product.updated_at || '-');
-                        
+
                         // Handle the image
                         if (product.image) {
                             $('#image-gallery').html(`
