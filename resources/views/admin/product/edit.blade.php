@@ -18,7 +18,7 @@
                     <select name="product_name" id="product_name" class="form-select w-100 select2" required>
                         <option value="opt1">Select</option>
                         @foreach ($productTypes as $productType)
-                        <option value="{{ $productType->id }}"
+                        <option value="{{ $productType->id }}" data-unit="{{ $productType->product_unit }}"
                             {{ ($product->product_name == $productType->id) ? 'selected' : '' }}>
                             <!-- {{ isset($product) && is_string($product->product_name) && in_array($productType->product_type, explode(',', $product->product_name)) ? 'selected' : '' }}> -->
                             {{ $productType->product_type }}
@@ -224,15 +224,16 @@
                 <div class="col-md-3">
                     <div class="mb-1 w-100">
                         <label class="form-label m-0 mb-1" for="type">Unit <span class="text-danger">*</span></label>
-                        <select name="unit" id="unit" class="form-select w-100 select2" required>
-                            <option value="opt1">Select</option>
-                            @foreach ($productTypes as $productType)
-                            <option value="{{ $productType->product_unit }}"
-                                {{ ($product->unit == $productType->product_unit) ? 'selected' : '' }}>
-                                {{ $productType->product_unit }}
-                            </option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control w-100" name="unit" id="unit" value="{{ old('unit', isset($product) ? $product->unit : '') }}" readonly>
+                        <!-- <select name="unit" id="unit" class="form-select w-100" required readonly>
+                                <option value="opt1">Select</option>
+                                @foreach ($productTypes as $productType)
+                                <option value="{{ $productType->product_unit }}"
+                                    {{ ($product->unit == $productType->product_unit) ? 'selected' : '' }}>
+                                    {{ $productType->product_unit }}
+                                </option>
+                                @endforeach
+                        </select> -->
                     </div>
                 </div>
             </div>
@@ -261,129 +262,144 @@
     document.addEventListener('DOMContentLoaded', function() {
         // jQuery Form Validation
         $(document).ready(function() {
-            $('#productForm').validate({
-                rules: {
-                    type: {
-                        required: true
-                    },
-                    file_number: {
-                        required: true
-                    },
-                    supplier_name: {
-                        required: true
-                    },
-                    supplier_collection: {
-                        required: true
-                    },
-                    supplier_collection_design: {
-                        required: true
-                    },
-                    image_alt: {
-                        required: true
+
+            $('#product_name').change(function() {
+                // Get the selected product item ID
+                var selectedProductId = $(this).val();
+
+                // Find the option in the product_item dropdown with the matching value
+                var selectedOption = $('#product_name option[value="' + selectedProductId + '"]');
+
+                // Get the product_unit from the selected option's data attribute
+                var productUnit = selectedOption.data('unit');
+
+                // Set the item_unit dropdown to match the product_unit of the selected product_name
+                $('#unit').val(productUnit);
+            });
+
+        $('#productForm').validate({
+            rules: {
+                type: {
+                    required: true
+                },
+                file_number: {
+                    required: true
+                },
+                supplier_name: {
+                    required: true
+                },
+                supplier_collection: {
+                    required: true
+                },
+                supplier_collection_design: {
+                    required: true
+                },
+                image_alt: {
+                    required: true
+                }
+            },
+            messages: {
+                type: {
+                    required: "Please select a type."
+                },
+                file_number: {
+                    required: "Please enter the file number."
+                },
+                supplier_name: {
+                    required: "Please select a supplier."
+                },
+                supplier_collection: {
+                    required: "Please select a supplier collection."
+                },
+                supplier_collection_design: {
+                    required: "Please select a supplier collection design."
+                },
+                image_alt: {
+                    required: "Please enter an image alt text."
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("form-text text-danger xsmall");
+                error.insertAfter(element);
+            },
+            highlight: function(element) {
+                $(element).addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function(element) {
+                $(element).removeClass("is-invalid").addClass("is-valid");
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+
+    // Supplier Name Change Handler
+    $('#supplier_name').change(function() {
+        const supplierId = $(this).val();
+
+        // Clear dependent dropdowns
+        $('#supplier_collection').empty().append('<option value="">Select Supplier Collection</option>');
+        $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+
+        if (supplierId) {
+            // Fetch Supplier Collections
+            $.ajax({
+                url: `/supplier-collection/${supplierId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data); // Check the server response
+                    if (data.length === 0) {
+                        $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
+                    } else {
+                        data.forEach(item => {
+                            $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
+                        });
                     }
                 },
-                messages: {
-                    type: {
-                        required: "Please select a type."
-                    },
-                    file_number: {
-                        required: "Please enter the file number."
-                    },
-                    supplier_name: {
-                        required: "Please select a supplier."
-                    },
-                    supplier_collection: {
-                        required: "Please select a supplier collection."
-                    },
-                    supplier_collection_design: {
-                        required: "Please select a supplier collection design."
-                    },
-                    image_alt: {
-                        required: "Please enter an image alt text."
-                    }
-                },
-                errorElement: "div",
-                errorPlacement: function(error, element) {
-                    error.addClass("form-text text-danger xsmall");
-                    error.insertAfter(element);
-                },
-                highlight: function(element) {
-                    $(element).addClass("is-invalid").removeClass("is-valid");
-                },
-                unhighlight: function(element) {
-                    $(element).removeClass("is-invalid").addClass("is-valid");
-                },
-                submitHandler: function(form) {
-                    form.submit();
+                error: function(xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                    console.error("Response: " + xhr.responseText);
+                    alert('Error retrieving collections');
                 }
             });
-        });
+        }
+    });
 
-        // Supplier Name Change Handler
-        $('#supplier_name').change(function() {
-            const supplierId = $(this).val();
+    // Supplier Collection Change Handler
+    $('#supplier_collection').change(function() {
+    const collectionId = $(this).val();
+    const supplierId = $('#supplier_name').val();
 
-            // Clear dependent dropdowns
-            $('#supplier_collection').empty().append('<option value="">Select Supplier Collection</option>');
-            $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+    // Clear dependent dropdown
+    $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
 
-            if (supplierId) {
-                // Fetch Supplier Collections
-                $.ajax({
-                    url: `/supplier-collection/${supplierId}`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data); // Check the server response
-                        if (data.length === 0) {
-                            $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
-                        } else {
-                            data.forEach(item => {
-                                $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error occurred: " + error);
-                        console.error("Response: " + xhr.responseText);
-                        alert('Error retrieving collections');
-                    }
-                });
+    if (collectionId && supplierId) {
+        // Fetch Supplier Collection Designs
+        $.ajax({
+            url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data); // Check the server response
+                if (data.length === 0) {
+                    $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
+                } else {
+                    data.forEach(item => {
+                        $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error occurred: " + error);
+                console.error("Response: " + xhr.responseText);
+                alert('Error retrieving designs');
             }
         });
-
-        // Supplier Collection Change Handler
-        $('#supplier_collection').change(function() {
-            const collectionId = $(this).val();
-            const supplierId = $('#supplier_name').val();
-
-            // Clear dependent dropdown
-            $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
-
-            if (collectionId && supplierId) {
-                // Fetch Supplier Collection Designs
-                $.ajax({
-                    url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data); // Check the server response
-                        if (data.length === 0) {
-                            $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
-                        } else {
-                            data.forEach(item => {
-                                $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error occurred: " + error);
-                        console.error("Response: " + xhr.responseText);
-                        alert('Error retrieving designs');
-                    }
-                });
-            }
-        });
+    }
+    });
     });
 
     // Function to calculate MRP dynamically

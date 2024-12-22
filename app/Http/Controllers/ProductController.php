@@ -13,6 +13,7 @@ use App\Models\ProductType;
 use App\Models\Type;
 use App\Models\Usage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -474,11 +475,25 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
+        
+        $imagePath = $product->image;
 
-        $imagePath = null;
-        if ($request->hasFile("image")) {
+        // if ($request->hasFile("image") || $request->hasFile("image") == 'true') {
+        //     $imagePath = $request->file("image")->store("products", "public");
+        // }
+
+        // dd($request->all(), $request->file('image'));
+        if ($request->hasFile("image") || !empty($request->file('image'))) {
+            // Optionally delete the old image if it exists
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+        
+            // Store the new image and get the path
             $imagePath = $request->file("image")->store("products", "public");
         }
+
+        
 
         // Prepare the data for insertion
 

@@ -16,7 +16,7 @@
                         <select name="product_name" id="product_name" class="form-select w-100 select2" required>
                             <option value="opt1">Select</option>
                             @foreach ($productTypes as $productType)
-                            <option value="{{ $productType->id }}">{{ $productType->product_type }}</option>
+                            <option value="{{ $productType->id }}" data-unit="{{ $productType->product_unit }}">{{ $productType->product_type }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -189,12 +189,13 @@
                 <div class="col-md-3">
                     <div class="mb-1 w-100">
                         <label class="form-label m-0 mb-1" for="Unit">Unit <span class="text-danger">*</span></label>
-                        <select name="unit" id="unit" class="form-select w-100 select2" required>
+                        <input type="text" class="form-control w-100" name="unit" id="unit" value="" readonly>
+                        <!-- <select name="unit" id="unit" class="form-select w-100 select2" required>
                             <option value="opt1">Select Unit</option>
                             @foreach ($productTypes as $productType)
                             <option value="{{ $productType->product_unit }}">{{ $productType->product_unit }}</option>
                             @endforeach
-                        </select>
+                        </select> -->
                     </div>
                 </div>
             </div>
@@ -246,6 +247,21 @@
 
         // jQuery Form Validation
         $(document).ready(function() {
+            $('#product_name').change(function() {
+                // Get the selected product item ID
+                var selectedProductId = $(this).val();
+
+                // Find the option in the product_item dropdown with the matching value
+                var selectedOption = $('#product_name option[value="' + selectedProductId + '"]');
+
+                // Get the product_unit from the selected option's data attribute
+                var productUnit = selectedOption.data('unit');
+
+                // Set the item_unit dropdown to match the product_unit of the selected product_name
+                $('#unit').val(productUnit);
+            });
+
+            
             $('#productForm').validate({
                 rules: {
                     type: {
