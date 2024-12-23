@@ -3,6 +3,10 @@
 @section('title', 'User List')
 
 @section('content')
+@php
+    $user = Auth::user();
+@endphp
+
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
         <h6 class="fw-bold m-0">All Users <span class="fw-normal text-muted">({{ count($users) }})</span></h6>
@@ -50,8 +54,14 @@
                                 <option value="Fulfillment Desk">Fulfillment Desk</option>
                                 <option value="Data Entry Operator">Data Entry Operator</option>
                                 <option value="Accounts">Accounts</option>
-                                <option value="Franchise">Franchise</option>
-                                <option value="Franchise Team Member">Franchise Team Member</option>
+                                @if ($user->hasAnyRole(['Super Admin', 'Admin']))
+                                    
+                                @else
+                                    <option value="Franchise">Franchise</option>
+                                    <option value="Franchise Team Member">Franchise Team Member</option>
+                                @endif
+                                
+                                
                             </select>
                             @error('role') <div class="form-text text-danger">{{ $message }}</div> @enderror
                         </div>

@@ -386,7 +386,7 @@
                             <div class="mb-3 w-100">
                                 <label for="countryInput" class="form-label mb-1"> Country<span
                                         class="requried">*</span></label>
-                                <input type="text" class="form-control w-100" id="country" name="country">
+                                <input type="text" class="form-control w-100" id="country" name="country" value="India" required readonly>
 
                             </div>
                         </div>
@@ -396,14 +396,22 @@
                             <div class="mb-3 w-100">
                                 <label for="countryInput" class="form-label mb-1"> State<span
                                         class="requried">*</span></label>
-                                <input type="text" class="form-control w-100" id="state" name="state">
+                                <select name="state" id="state" class="form-control w-100">
+                                    <option value="">Select State</option>
+                                    @foreach ($groupedCityStateData as $state => $cities)
+                                    <option value="{{ $state }}">{{ $state }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3 w-100">
                                 <label for="countryInput" class="form-label mb-1"> City<span
                                         class="requried">*</span></label>
-                                <input type="text" class="form-control w-100" id="city" name="city">
+                                <select name="city" id="city" class="form-control w-100">
+                            <option value="">Select City</option>
+                            <!-- Cities will be populated dynamically based on the selected state -->
+                        </select>
                             </div>
                         </div>
                     </div>
@@ -676,4 +684,52 @@
         });
     });
 </script>
+<script>
+            $(document).ready(function() {
+
+                $('#company_name').prop('required', false);
+                $('#employees').prop('required', false);
+
+                // Monitor the registration type change
+                $('#registerationType').on('change', function() {
+                    var registrationType = $(this).val();
+
+                    if (registrationType === "Company" || registrationType === "proprietor") {
+                        // Make company name and employees fields required if Company or Proprietor is selected
+                        $('#company_name').prop('required', true);
+                        $('#employees').prop('required', true);
+                    } else {
+                        // Otherwise, remove the required attribute
+                        $('#company_name').prop('required', false);
+                        $('#employees').prop('required', false);
+                    }
+                });
+
+
+                var cityStateData = @json($groupedCityStateData);
+
+                // Handle state change
+                $('#state').on('change', function() {
+                    var selectedState = $(this).val();
+                    var cities = cityStateData[selectedState] || [];
+
+                    $('#city').empty();
+                    $('#city').append('<option value="">Select City</option>');
+
+                    $.each(cities, function(index, city) {
+                        $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
+                    });
+                });
+            });
+
+            // Enable client-side validation styles
+            document.getElementById('franchise_temp').addEventListener('submit', function(event) {
+                const form = event.target;
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        </script>
 @endsection

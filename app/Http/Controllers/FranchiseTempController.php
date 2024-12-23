@@ -106,6 +106,8 @@ class FranchiseTempController extends Controller
             ->groupBy("status");
 
         $franchises = Franchise::with("user")->get();
+        $cityStateData = MasterCity::all();
+        $groupedCityStateData = $cityStateData->groupBy("state_name");
 
         return view("admin.franchise.approval", [
             "franchiseTempsPending" => $franchiseTemps->get(
@@ -114,6 +116,7 @@ class FranchiseTempController extends Controller
             ),
             "franchiseTempsReject" => $franchiseTemps->get("reject", collect()),
             "franchises" => $franchises,
+            "groupedCityStateData" => $groupedCityStateData,
         ]);
     }
 

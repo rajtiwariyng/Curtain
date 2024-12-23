@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use App\Mail\UserRegistrationMail;
+use App\Mail\ChangePasswordMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -89,14 +92,28 @@ class RegisterController extends Controller
      */
     public function register(\Illuminate\Http\Request $request)
     {
-        // Validate the incoming request
         $this->validator($request->all())->validate();
+       //$this->create($request->all());
+        //return back()->with('success', 'User has been added successfully!');
+        try {
+        // Save the data in the FranchiseTemp model
+        $data = $this->create($request->all());
 
-        // Create the user without logging them in
-        $this->create($request->all());
+        if (!empty($request->email)) {
+             Mail::to($request->email)->cc(['support@curtainsandblinds.in'])->send(new UserRegistrationMail($request->all()));
+        }
 
-        // Redirect to a thank you page or wherever you prefer
-        return back()->with('success', 'User has been added successfully!');
+        return redirect()
+            ->back()
+            ->with('success', 'User has been added successfully!');
+    } catch (\Exception $e) {
+        // Log the exception if needed
+        \Log::error('Error saving User information: ' . $e->getMessage());
+
+        return redirect()
+            ->back()
+            ->with('error', 'Something went wrong!');
+    }
 
     }
 
@@ -182,7 +199,6 @@ class RegisterController extends Controller
         'new_password' => 'required|string|min:8|confirmed', // Includes confirmation validation
     ]);
 
-    // Retrieve the authenticated user
     $user = auth()->user();
 
     // Check if the current password matches
@@ -204,6 +220,17 @@ class RegisterController extends Controller
     $user->update([
         'password' => Hash::make($validated['new_password']),
     ]);
+    // Send a password change notification email
+    try {
+        Mail::to($user->email)->cc(['support@curtainsandblinds.in'])->send(new ChangePasswordMail([
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $request->new_password,
+            'message' => 'Your password has been changed successfully.',
+        ]));
+    } catch (\Exception $e) {
+        \Log::error('Failed to send password change email: ' . $e->getMessage());
+    }
 
     // Return a success message
     return back()->with('success', 'Password changed successfully.');
