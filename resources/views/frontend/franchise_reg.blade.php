@@ -91,7 +91,9 @@
                 <div class="col-md-3">
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pincode<span class="requried">*</span></label>
-                        <input type="number" class="form-control" id="pincode" name="pincode"
+                        <!-- <input type="number" class="form-control" id="pincode" name="pincode"
+                            placeholder="Enter Pincode" required min="100000" max="999999"> -->
+                            <input type="text" class="form-control" id="pincode" name="pincode"
                             placeholder="Enter Pincode" required min="100000" max="999999">
                         <div class="invalid-feedback">Please enter a valid 6-digit pincode.</div>
                     </div>
@@ -185,7 +187,7 @@
                     <div class="mb-3">
                         <label for="alt_mobile" class="form-label">Alternate Number</label>
                         <input type="tel" class="form-control" id="alt_mobile" name="alt_mobile"
-                            placeholder="Enter Alternate Number" pattern="^[6-9]\d{9}$">
+                            placeholder="Enter Alternate Number" pattern="^[6-9]\d{9}$" maxlength="10">
                         <div class="invalid-feedback">Please enter a valid 10-digit mobile number starting with 6, 7, 8,
                             or 9.</div>
                     </div>
@@ -339,6 +341,14 @@
 </section>
 
 <script>
+    document.getElementById('pincode').addEventListener('input', function(event) {
+        // Allow only numeric values: Replace anything that's not a digit
+        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+
+        if (event.target.value.length > 6) {
+            event.target.value = event.target.value.slice(0, 6);
+        }
+    });
     document.addEventListener("DOMContentLoaded", function() {
         const registrationType = document.getElementById("registerationType");
         const companyNameField = document.getElementById("company_name").parentElement;
