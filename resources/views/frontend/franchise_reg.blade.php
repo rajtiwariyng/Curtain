@@ -67,9 +67,16 @@
     </div>
 </section>
 
-<section class="container-fluid bg-white wrapper">
+<section class="container-fluid bg-white wrapper" id="registerWithUs">
     <div class="registrationSection pt-0 container wow animate__animated animate__fadeIn">
         <h2 class="NewKansas-medium text-center" id="form-title1">Register with us</h2>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                @foreach(session('error')->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
         @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -169,7 +176,7 @@
                     <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile Number<span class="requried">*</span></label>
                         <input type="tel" class="form-control" id="mobile" name="mobile"
-                            placeholder="Enter Mobile Number" required pattern="^[6-9]\d{9}$">
+                            placeholder="Enter Mobile Number" required pattern="^[6-9]\d{9}$" maxlength="10">
                         <div class="invalid-feedback">Please enter a valid 10-digit mobile number starting with 6, 7, 8,
                             or 9.</div>
                     </div>
@@ -195,55 +202,6 @@
             </div>
             <button type="submit" class="primary-btn mt-2">Submit</button>
         </form>
-
-        <script>
-            $(document).ready(function() {
-
-                $('#company_name').prop('required', false);
-                $('#employees').prop('required', false);
-
-                // Monitor the registration type change
-                $('#registerationType').on('change', function() {
-                    var registrationType = $(this).val();
-
-                    if (registrationType === "Company" || registrationType === "proprietor") {
-                        // Make company name and employees fields required if Company or Proprietor is selected
-                        $('#company_name').prop('required', true);
-                        $('#employees').prop('required', true);
-                    } else {
-                        // Otherwise, remove the required attribute
-                        $('#company_name').prop('required', false);
-                        $('#employees').prop('required', false);
-                    }
-                });
-
-
-                var cityStateData = @json($groupedCityStateData);
-
-                // Handle state change
-                $('#state').on('change', function() {
-                    var selectedState = $(this).val();
-                    var cities = cityStateData[selectedState] || [];
-
-                    $('#city').empty();
-                    $('#city').append('<option value="">Select City</option>');
-
-                    $.each(cities, function(index, city) {
-                        $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
-                    });
-                });
-            });
-
-            // Enable client-side validation styles
-            document.getElementById('franchise_temp').addEventListener('submit', function(event) {
-                const form = event.target;
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        </script>
 
         <div id="thankYouMessage1 wow animate__animated animate__fadeIn" style=" margin-top: 20px; display: none;">
             <h3 class="NewKansas-medium">Thank you for register with us!</h3>
@@ -403,6 +361,55 @@
             }
         });
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#company_name').prop('required', false);
+        $('#employees').prop('required', false);
+
+        // Monitor the registration type change
+        $('#registerationType').on('change', function() {
+            var registrationType = $(this).val();
+
+            if (registrationType === "Company" || registrationType === "proprietor") {
+                // Make company name and employees fields required if Company or Proprietor is selected
+                $('#company_name').prop('required', true);
+                $('#employees').prop('required', true);
+            } else {
+                // Otherwise, remove the required attribute
+                $('#company_name').prop('required', false);
+                $('#employees').prop('required', false);
+            }
+        });
+
+
+        var cityStateData = @json($groupedCityStateData);
+
+        // Handle state change
+        $('#state').on('change', function() {
+            var selectedState = $(this).val();
+            var cities = cityStateData[selectedState] || [];
+
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+
+            $.each(cities, function(index, city) {
+                $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
+            });
+        });
+    });
+
+    // Enable client-side validation styles
+    document.getElementById('contact-form1').addEventListener('submit', function(event) {
+        const form = event.target;
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
 </script>
 
 @endsection
