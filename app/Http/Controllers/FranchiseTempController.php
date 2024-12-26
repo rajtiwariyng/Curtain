@@ -47,12 +47,12 @@ class FranchiseTempController extends Controller
         ];
 
         // Perform validation
-
         $validator = Validator::make($request->all(), $rules, $messages);
+        // dd($request->all());
         if ($validator->fails()) {
             return redirect()
                 ->back()
-                ->with("error", $validator->errors());
+                ->with("error", $validator->errors())->withFragment('registerWithUs');
         }
 
         try {
@@ -63,11 +63,11 @@ class FranchiseTempController extends Controller
 
             return redirect()
                 ->back()
-                ->with("success", "Franchise information saved successfully!");
+                ->with("success", "Franchise information saved successfully!")->withFragment('registerWithUs');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with("error", "Something Went Wrong!");
+                ->with("error", "Something Went Wrong!")->withFragment('registerWithUs');
         }
     }
 

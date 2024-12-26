@@ -91,12 +91,11 @@
         </form>
 
 
-        <div id="thankYouMessage1 wow animate__animated animate__fadeIn" style=" margin-top: 20px; display: none;">
-            <h3 class="NewKansas-medium">Thank you for register with us!</h3>
+        <div id="thankYouMessage1" class="wow animate__animated animate__fadeIn" style="margin-top: 20px; display: none;">
+            <h3 class="NewKansas-medium">Thank you for registering with us!</h3>
             <p class="mb-2">We will get back to you shortly.</p>
             <a href="#" id="sendAnother" onclick="resetForm()"
-                style="font-family: var(--secondary-font); text-decoration: underline;">Send another
-                response</a>
+                style="font-family: var(--secondary-font); text-decoration: underline;">Send another response</a>
         </div>
     </div>
 
@@ -125,7 +124,6 @@
         </div>
     </div>
 </section>
-
 <script>
     document.getElementById('PincodeInput').addEventListener('input', function(event) {
         // Allow only numeric values: Replace anything that's not a digit
@@ -225,9 +223,14 @@
             url: "{{ route('appointments.store') }}",
             data: formData,
             success: function(response) {
-                $("#contact-form1").hide(); // Hide form
-                $("#thankYouMessage1").show(); // Show thank you message
-                $("#contact-form1")[0].reset(); // Reset form
+                $("#form-title").hide();
+                $("#contact-form1").hide();
+    
+                // Show the thank you message with fadeIn animation
+                $("#thankYouMessage1").fadeIn();
+
+                // Reset the form
+                $("#contact-form1")[0].reset();
             },
             error: function(xhr, status, error) {
                 alert("An error occurred: " + error);
