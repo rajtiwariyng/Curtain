@@ -41,6 +41,9 @@
                             <label for="password" class=" col-form-label text-md-end required">{{ __('Password') }}</label>
 
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -53,6 +56,9 @@
                             <label for="password-confirm" class="col-form-label text-md-end required">{{ __('Confirm Password') }}</label>
 
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password_confirmation">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
                             
                         </div>
                         <div class="col-md-3 mb-3">

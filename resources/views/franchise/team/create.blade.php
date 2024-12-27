@@ -16,11 +16,17 @@
     <div class="form-group">
         <label for="password">Password</label>
         <input type="password" name="password" class="form-control" required>
+        <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
     </div>
 
     <div class="form-group">
         <label for="password_confirmation">Confirm Password</label>
         <input type="password" name="password_confirmation" class="form-control" required>
+        <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password_confirmation">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
     </div>
 
     <button type="submit" class="btn btn-primary">Add Team Member</button>

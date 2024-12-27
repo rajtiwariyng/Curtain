@@ -148,6 +148,25 @@
             minimumResultsForSearch: 5
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.toggle-password').on('click', function () {
+                // Get the target input field ID
+                const target = $(this).data('target');
+                const input = $('#' + target);
+                const icon = $(this).find('i');
+
+                // Toggle the password field type
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                }
+            });
+        });
+    </script>
     @yield('script')
 </body>
 

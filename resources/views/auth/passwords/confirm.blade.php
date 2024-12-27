@@ -18,7 +18,9 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+                                <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

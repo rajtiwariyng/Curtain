@@ -38,11 +38,17 @@
                         <div class="mb-1 w-100">
                             <label for="password" class="form-label mb-1">Password</label>
                             <input type="password" id="password" name="password" class="form-control w-100" required autocomplete="paswword_new">
+                            <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
                             @error('password') <div class="form-text text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-1 w-100">
                             <label for="password_confirmation" class="form-label mb-1">Confirm Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-control w-100" required>
+                            <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password_confirmation">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
                             @error('password_confirmation') <div class="form-text text-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-1 w-100">

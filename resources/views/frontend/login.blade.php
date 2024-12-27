@@ -122,6 +122,9 @@
               <label class="form-label" for="password">Password</label>
               <div class="input-group input-group-merge has-validation">
                 <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password">
+                <button class="btn bg-transparent border-0 toggle-password" type="button" data-target="password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div><div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
             </div>
