@@ -554,8 +554,9 @@ class ProductController extends Controller
         return view("admin.product.view", compact("product")); // Pass the product data to the view
     }
 
-    public function getProductDetails($id)
+    public function getProductDetails(Request $request, $id)
     {
+        //dd('raj');
         $product = Product::with([
             "productType",
             "supplier",

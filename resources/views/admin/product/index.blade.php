@@ -310,16 +310,22 @@
 
             // Send AJAX request to fetch product details
             $.ajax({
-                url: '/product/' + productId + '/details', // Change this URL to your actual endpoint
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: '{{ route("product.details", ":id") }}'.replace(':id', productId),
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
                     if (response && response.product) {
                         var product = response.product; // Product data returned by the server
                         console.log(product.supplier.name);
+                        var p_composition = JSON.parse(product.composition);
+                        var p_usage = JSON.parse(product.usage);
+                        var p_type = JSON.parse(product.type);
+                        var p_design_type = JSON.parse(product.design_type);
+                        var p_colour = JSON.parse(product.colour);
 
                         // Populate the offcanvas with the fetched product details
-                        $('#ProductViewLabel').text(product.product_name || 'Product Details');
+                        $('#ProductViewLabel').text(product.tally_code || 'Product Details');
                         $('#product-type').text(product.product_type?.product_type || '-');
                         $('#product-code').text(product.tally_code || '-');
                         $('#file-number').text(product.file_number || '-');
@@ -329,11 +335,11 @@
                         $('#design-sku').text(product.design_sku || '-');
                         $('#width').text(product.width || '-');
                         $('#rubs-martendale').text(product.rubs_martendale || '-');
-                        $('#usage').text(product.usage || '-');
-                        $('#type').text(product.type || '-');
-                        $('#design-type').text(product.design_type || '-');
-                        $('#colour').text(product.colour || '-');
-                        $('#composition').text(product.composition || '-');
+                        $('#usage').text(p_usage || '-');
+                        $('#type').text(p_type || '-');
+                        $('#design-type').text(p_design_type || '-');
+                        $('#colour').text(p_colour || '-');
+                        $('#composition').text(p_composition || '-');
                         $('#note').text(product.note || '-');
                         $('#created-at').text(product.created_at || '-');
                         $('#updated-at').text(product.updated_at || '-');

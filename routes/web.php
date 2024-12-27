@@ -315,7 +315,7 @@ Route::prefix('zipcodes')->name('zipcodes.')->group(function() {
 
 // products
 Route::resource('products', ProductController::class);
-Route::prefix('products')->group(function() {
+Route::prefix('products/')->group(function() {
     Route::get('download/csv', [ProductController::class, 'download_csv']);
     Route::get('data/log', [ProductController::class, 'data_log']);
     Route::delete('{product}', [ProductController::class, 'destroy'])->name('products.destroy');
