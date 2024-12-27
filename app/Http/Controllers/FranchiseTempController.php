@@ -58,7 +58,7 @@ class FranchiseTempController extends Controller
         try {
             $data = FranchiseTemp::create($request->all());
             if (!empty($request->email)) {
-                // Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
+                 Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
             }
 
             return redirect()
@@ -213,9 +213,10 @@ class FranchiseTempController extends Controller
         $data = [
             "name" => $franchiseTemp->name,
 
-            "username" => $franchiseTemp->email,
+            "email" => $franchiseTemp->email,
 
             "password" => $password,
+            "franchise_id" => $nextFranchiseId,
         ];
 
         Mail::to($franchiseTemp->email)->send(

@@ -93,14 +93,14 @@ class RegisterController extends Controller
     public function register(\Illuminate\Http\Request $request)
     {
         $this->validator($request->all())->validate();
-       //$this->create($request->all());
+       //dd($request->all());
         //return back()->with('success', 'User has been added successfully!');
         try {
         // Save the data in the FranchiseTemp model
         $data = $this->create($request->all());
 
         if (!empty($request->email)) {
-             Mail::to($request->email)->cc(['support@curtainsandblinds.in'])->send(new UserRegistrationMail($request->all()));
+             Mail::to($request->email)->cc(['rajtiwariyng@gmail.com'])->send(new UserRegistrationMail($request->all()));
         }
 
         return redirect()
@@ -222,7 +222,7 @@ class RegisterController extends Controller
     ]);
     // Send a password change notification email
     try {
-        Mail::to($user->email)->cc(['support@curtainsandblinds.in'])->send(new ChangePasswordMail([
+        Mail::to($user->email)->cc(['rajtiwariyng@gmail.com'])->send(new ChangePasswordMail([
             'name' => $user->name,
             'email' => $user->email,
             'password' => $request->new_password,
