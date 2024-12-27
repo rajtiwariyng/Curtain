@@ -26,6 +26,28 @@
                         <div class="section-title mb-4 flex-column align-items-start p-0">
                             <p class="m-0 small">Welcome back!!</p>
                             <h4 class="fw-bold">Please Sign In</h4>
+                            @if(Session::has('error'))
+                                <div class="error-message" style="color: red; font-weight: bold;">
+                                    <strong>Error!</strong> {{ Session::get('error') }}
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="error-message" style="color: red; font-weight: bold;">
+                                    <ul class="mb-0">
+                                        <strong>Error!</strong>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if(Session::has('success'))
+                                <div id="smessage" class="success-message" style="color: green; font-weight: bold;">
+                                    <strong>Success!</strong> {{ Session::get('success') }}
+                                </div>
+                            @endif
                         </div>
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
@@ -69,54 +91,7 @@
             </div>
         </div>
     </section>
-<!-- success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="thankuModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <i class="bi bi-check-circle" style="color: #181818; font-size: 40px;"></i>
-                <h6 id="successMessage">Your Message</h6>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-<!-- error Modal -->
-<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="thankuModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <i class="bi bi-x-circle" style="color: #ff3f3f; font-size: 40px;"></i>
-                <h6 id="errorMessage">Your Message</h6>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Check for success message and show modal -->
-@if(session('success'))
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let successMessage = "{{ session('success') }}";
-
-        if (successMessage) {
-            document.getElementById('successMessage').textContent = successMessage;
-            let successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-            setTimeout(function() {
-                successModal.hide();
-            }, 3000);
-        }
-    });
-</script>
-
-@endif
-
-<!-- Check for error message and show modal -->
-@if(session('error'))
-    hhhhhhhh
-@endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
         integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -126,6 +101,34 @@
         crossorigin="anonymous"></script>
 
     <script src="{{ asset('admin/JS/main.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.toggle-password').on('click', function () {
+                // Get the target input field ID
+                const target = $(this).data('target');
+                const input = $('#' + target);
+                const icon = $(this).find('i');
+
+                // Toggle the password field type
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                }
+            });
+
+            if ($('#smessage').length) {
+                setTimeout(function() {
+                    $('#smessage').fadeOut('slow', function() {
+                        $(this).remove();
+                    });
+                }, 6000);
+            }
+        });
+    </script>
+    
 </body>
 
 </html>

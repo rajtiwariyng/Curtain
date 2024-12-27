@@ -60,59 +60,6 @@
 </div>
 <!-- delete modal end -->
 
-  
-<!-- success Modal -->
-<!-- <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="thankuModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <i class="bi bi-check-circle" style="color: #181818; font-size: 40px;"></i>
-                <h6 id="successMessage">Your Message</h6>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-<!-- error Modal -->
-<!-- <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="thankuModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <i class="bi bi-x-circle" style="color: #ff3f3f; font-size: 40px;"></i>
-                <h6 id="errorMessage">Your Message</h6>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<!-- Check for success message and show modal -->
-@if(session('success'))
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Set the message
-            document.getElementById('successMessage').textContent = "{{ session('success') }}";
-
-            // Show the modal
-            let successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-        });
-    </script> -->
-@endif
-
-<!-- Check for error message and show modal -->
-@if(session('error'))
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Set the error message
-            document.getElementById('errorMessage').textContent = "{{ session('error') }}";
-
-            // Show the modal
-            let errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-            errorModal.show();
-        });
-    </script> -->
-@endif
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
