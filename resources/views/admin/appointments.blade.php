@@ -97,6 +97,7 @@
                         <th>Pincode</th>
                         <th>Assigned Date</th>
                         <th>Assigned To</th>
+                        <th>Remarks</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -289,6 +290,11 @@
                         <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control me-3 w-100" name="remarks" id="remarks" rows="3" cols="50"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
@@ -348,6 +354,7 @@
                             row += '<td>' + appnt.pincode + '</td>';
                             row += '<td>' + appnt.appointment_date + '</td>';
                             row += '<td>' + (appnt.franchise?.name || 'N/A') + '</td>';
+                            row += '<td>' + (appnt.remarks == null ? '' : appnt.remarks) + '</td>';
 
                             var statusBadge = '';
                             var viewType = '';

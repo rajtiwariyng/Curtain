@@ -317,7 +317,6 @@
                 success: function(response) {
                     if (response && response.product) {
                         var product = response.product; // Product data returned by the server
-                        console.log(product.supplier.name);
                         var p_composition = JSON.parse(product.composition);
                         var p_usage = JSON.parse(product.usage);
                         var p_type = JSON.parse(product.type);
@@ -341,7 +340,7 @@
                           else { $('#width').text('-');
                             $('#width').closest('tr').hide();
                         }
-                        if (product.rubs_martendale) { $('#width').text(product.rubs_martendale); } 
+                        if (product.rubs_martendale) { $('#rubs-martendale').text(product.rubs_martendale); } 
                           else { $('#rubs-martendale').text('-');
                             $('#rubs-martendale').closest('tr').hide();
                         }

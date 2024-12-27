@@ -247,6 +247,7 @@ class AppointmentController extends Controller
 
         // Update the franchise and status
         $appointment->franchise_id = $request->franchise_id;
+        $appointment->remarks = $request->remarks;
         $appointment->status = "2"; // Update the status
 
         // Save the appointment

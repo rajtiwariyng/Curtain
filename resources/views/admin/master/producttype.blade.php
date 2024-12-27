@@ -29,8 +29,7 @@
 
                         <div class="mb-1 w-100">
                             <label for="ProductTypeInput" class="form-label mb-1">Unit <span class="text-danger">*</span></label>
-                            <select class="form-control w-100" name="product_unit" id="product_unit">
-                                <option value="" disabled selected>Select Unit</option>
+                            <select class="form-control w-100" name="product_unit[]" id="product_unit" multiple>
                                 <option value="meter">meter</option>
                                 <option value="inches">inches</option>
                             </select>

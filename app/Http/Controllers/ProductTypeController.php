@@ -20,12 +20,17 @@ class ProductTypeController extends Controller
 
     public function store(Request $request)
     {
+        $product_unit = implode(',',$request->product_unit);
+        
         $request->validate([
             'product_type' => 'required|string|max:255|unique:product_types,product_type',
-            'product_unit' => 'required|string|max:255',
+            // 'product_unit' => 'required|string|max:255',
         ]);
 
-        ProductType::create($request->only('product_type','product_unit'));
+        ProductType::create([
+            'product_type' => $request->product_type,
+            'product_unit' => $product_unit
+        ]);
 
         return redirect()->route('product-types.index')->with('success', 'Product Type added successfully.');
     }
