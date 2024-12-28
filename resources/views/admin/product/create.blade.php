@@ -189,13 +189,9 @@
                 <div class="col-md-3">
                     <div class="mb-1 w-100">
                         <label class="form-label m-0 mb-1" for="Unit">Unit <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control w-100" name="unit" id="unit" value="" readonly>
-                        <!-- <select name="unit" id="unit" class="form-select w-100 select2" required>
-                            <option value="opt1">Select Unit</option>
-                            @foreach ($productTypes as $productType)
-                            <option value="{{ $productType->product_unit }}">{{ $productType->product_unit }}</option>
-                            @endforeach
-                        </select> -->
+                        <!-- <input type="text" class="form-control w-100" name="unit" id="unit" value="" readonly> -->
+                        <select name="unit" id="unit" class="form-select w-100" required>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -256,9 +252,23 @@
 
                 // Get the product_unit from the selected option's data attribute
                 var productUnit = selectedOption.data('unit');
+                if (typeof productUnit === 'string') {
+                    productUnit = productUnit.split(',');  // Convert "meter,inches" to ["meter", "inches"]
+                }
 
-                // Set the item_unit dropdown to match the product_unit of the selected product_name
-                $('#unit').val(productUnit);
+                // Populate the #unit dropdown dynamically
+                var unitSelect = $('#unit');
+                
+                // Clear the existing options first
+                unitSelect.empty();
+                
+                // Loop through each unit in productUnit and create an option for it
+                productUnit.forEach(function(unit) {
+                    unitSelect.append('<option value="' + unit + '">' + unit + '</option>');
+                });
+                
+                // Optionally, you can set the selected options based on productUnit
+                unitSelect.val(productUnit);
             });
 
             

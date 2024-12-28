@@ -225,7 +225,8 @@
                     <div class="mb-1 w-100">
                         <label class="form-label m-0 mb-1" for="type">Unit <span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" name="unit" id="unit" value="{{ old('unit', isset($product) ? $product->unit : '') }}" readonly>
-
+                        <select name="unit" id="unitSelect" class="form-select w-100" style="display: none;" required>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -254,7 +255,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         // jQuery Form Validation
         $(document).ready(function() {
-
             $('#product_name').change(function() {
                 // Get the selected product item ID
                 var selectedProductId = $(this).val();
@@ -264,9 +264,35 @@
 
                 // Get the product_unit from the selected option's data attribute
                 var productUnit = selectedOption.data('unit');
+                if (typeof productUnit === 'string') {
+                    productUnit = productUnit.split(',');  // Convert "meter,inches" to ["meter", "inches"]
+                }
 
-                // Set the item_unit dropdown to match the product_unit of the selected product_name
-                $('#unit').val(productUnit);
+                var inputBox = $('#unit');
+                var unitSelect = $('#unitSelect');
+
+
+                inputBox.hide();
+                unitSelect.show();
+
+                // Populate the #unit dropdown dynamically
+                unitSelect.empty();
+
+                // Loop through each unit in productUnit and create an option for it
+                productUnit.forEach(function(unit) {
+                    unitSelect.append('<option value="' + unit + '">' + unit + '</option>');
+                });
+
+                // Optionally, set the selected value based on the productUnit
+                unitSelect.val(productUnit[0]);
+            });
+
+            $('#unitSelect').change(function() {
+                var selectedUnit = $(this).val();
+                
+                // Show the input box with the selected value
+                $('#unit').val(selectedUnit).show();
+                $(this).hide();
             });
 
             $('#productForm').validate({

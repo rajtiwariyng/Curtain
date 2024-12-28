@@ -16,6 +16,10 @@ class Quotation extends Model
         return $this->belongsto(Franchise::class, 'franchise_id', 'id'); 
     }
 
+    public function appointment(){
+        return $this->belongsto(Appointment::class, 'appointment_id', 'id'); 
+    }
+
     public function quotaitonItem(){
         return $this->belongsTo(QuotationItem::class,'id','quotation_id');
     }

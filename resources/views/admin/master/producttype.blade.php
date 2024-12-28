@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="mb-1 w-100">
-                            <label for="ProductTypeInput" class="form-label mb-1">Unit <span class="text-danger">*</span></label>
+                            <label for="ProductUnitInput" class="form-label mb-1">Unit <span class="text-danger">*</span></label>
                             <select class="form-control w-100" name="product_unit[]" id="product_unit" multiple>
                                 <option value="meter">meter</option>
                                 <option value="inches">inches</option>
@@ -91,6 +91,21 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('ProductTypeInput').value = data.product_type;
+                
+                let productUnitSelect = document.getElementById('product_unit');
+            
+                // Ensure multiple options are selected based on the array returned in the data
+                let selectedUnits = data.product_unit; // Assuming this is an array of selected units
+
+                // Loop through all options and set selected if the unit is in the selectedUnits array
+                for (let option of productUnitSelect.options) {
+                    if (selectedUnits.includes(option.value)) {
+                        option.selected = true;
+                    } else {
+                        option.selected = false;
+                    }
+                }
+
                 document.getElementById('methodFieldProductType').value = 'PUT'; // For updating
                 document.querySelector('#productTypeForm').action = `/product-types/${id}`; // Set form action
 

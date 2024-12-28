@@ -333,7 +333,7 @@
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
                                     actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
                                 case '1':
@@ -341,7 +341,7 @@
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Download Quotation</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
                                     actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
                                 default:
@@ -374,6 +374,15 @@
         }
     });
 
+    $(document).on('click', '.download_quotation_btn', function(e) {
+        e.preventDefault(); // Prevents default action (optional)
+
+        // Get the href attribute, which contains the URL
+        var url = $(this).attr('href');
+
+        // Navigate to the URL using window.location
+        window.location.href = url;
+    });
     function showApproveFranchiseModal(franchiseId) {
         var form = document.getElementById('approveFranchiseForm');
         var actionUrl = form.action.replace('__franchise_id__', franchiseId); // Replace the placeholder with the actual franchise ID

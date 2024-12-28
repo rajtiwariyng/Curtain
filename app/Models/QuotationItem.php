@@ -11,6 +11,18 @@ class QuotationItem extends Model
 
     protected $guarded = [];
     protected $table='quotation_items';
+
+    public function franchise(){
+        return $this->belongsto(Franchise::class, 'franchise_id', 'id'); 
+    }
+
+    public function appointment(){
+        return $this->belongsto(Appointment::class, 'appointment_id', 'id'); 
+    }
+
+    public function quotation(){
+        return $this->belongsto(Quotation::class, 'quotation_id', 'id'); 
+    }
     
     
 }

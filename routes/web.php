@@ -112,8 +112,9 @@ Route::prefix('quotations')->group(function () {
     Route::post('/store', [QuotationController::class, 'store'])->name('quotation.store');
     Route::get('data', [QuotationController::class, 'getQuotationsData']);
     Route::put('delete/{id}', [QuotationController::class, 'deleteQuotationsData'])->name('quotation.delete');
-
     Route::get('/details/{id}/{type}', [QuotationController::class, 'getAppointmentDetails'])->name('quotations.details');
+
+    Route::get('/download_quotes/{apointment_id}', [QuotationController::class, 'downloadQuotationView']);
 });
 
 

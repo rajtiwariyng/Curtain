@@ -216,4 +216,11 @@ class QuotationController extends Controller
 
         return redirect()->back()->with('success', 'Quotation deleted successfully.');
     }
+
+    public function downloadQuotationView($appointment_id){
+        $qutationsData = QuotationItem::with('franchise','appointment','quotation')->where('quotation_id',$appointment_id)->get();
+        // dd($qutationsData);
+
+        return view('admin.quotation.download_quote',compact('qutationsData'));
+    }
 }
