@@ -481,32 +481,78 @@
                     if(franchiseType == 'confirm'){
                         $('#FranciseViewLabel').text(franchise.user.name);
 
-                        $('#FranciseView .offcanvas-body table tbody').html(`
-                        <tr><th>Company Name</th><td>${franchise.company_name}</td></tr>
-                        <tr><th>Email Id</th><td>${franchise.user.email}</td></tr>
-                        <tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>
-                        <tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>
-                        <tr><th>Address</th><td>${franchise.address}</td></tr>
-                        <tr><th>Pincode</th><td>${franchise.pincode}</td></tr>
-                        <tr><th>Country</th><td>${franchise.country}</td></tr>
-                        <tr><th>State</th><td>${franchise.state}</td></tr>
-                        <tr><th>City</th><td>${franchise.city}</td></tr>
-                    `);
+                        let franchiseDetailsHtml = '';
+
+                            // Check if each value is not null or blank, then append the row to the HTML string
+                            if (franchise.company_name) {
+                                franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
+                            }
+                            if (franchise.user && franchise.user.email) {
+                                franchiseDetailsHtml += `<tr><th>Email Id</th><td>${franchise.user.email}</td></tr>`;
+                            }
+                            if (franchise.mobile) {
+                                franchiseDetailsHtml += `<tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>`;
+                            }
+                            if (franchise.registerationType) {
+                                franchiseDetailsHtml += `<tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>`;
+                            }
+                            if (franchise.address) {
+                                franchiseDetailsHtml += `<tr><th>Address</th><td>${franchise.address}</td></tr>`;
+                            }
+                            if (franchise.pincode) {
+                                franchiseDetailsHtml += `<tr><th>Pincode</th><td>${franchise.pincode}</td></tr>`;
+                            }
+                            if (franchise.country) {
+                                franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
+                            }
+                            if (franchise.state) {
+                                franchiseDetailsHtml += `<tr><th>State</th><td>${franchise.state}</td></tr>`;
+                            }
+                            if (franchise.city) {
+                                franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
+                            }
+
+                            // Inject the constructed HTML into the table body
+                            $('#FranciseView .offcanvas-body table tbody').html(franchiseDetailsHtml);
                     }else{
                         $('#FranciseViewLabel').text(franchise.name);
 
-                        $('#FranciseView .offcanvas-body table tbody').html(`
-                        <tr><th>Company Name</th><td>${franchise.company_name}</td></tr>
-                        <tr><th>Email Id</th><td>${franchise.email}</td></tr>
-                        <tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>
-                        <tr><th>Alternate Mobile Number</th><td>${franchise.alt_mobile}</td></tr>
-                        <tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>
-                        <tr><th>Address</th><td>${franchise.address}</td></tr>
-                        <tr><th>Pincode</th><td>${franchise.pincode}</td></tr>
-                        <tr><th>Country</th><td>${franchise.country}</td></tr>
-                        <tr><th>State</th><td>${franchise.state}</td></tr>
-                        <tr><th>City</th><td>${franchise.city}</td></tr>
-                    `);
+                        let franchiseDetailsHtml = '';
+
+                        // Check if each value is not null, undefined, or blank, then append the row to the HTML string
+                        if (franchise.company_name) {
+                            franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
+                        }
+                        if (franchise.email) {
+                            franchiseDetailsHtml += `<tr><th>Email Id</th><td>${franchise.email}</td></tr>`;
+                        }
+                        if (franchise.mobile) {
+                            franchiseDetailsHtml += `<tr><th>Mobile Number</th><td>${franchise.mobile}</td></tr>`;
+                        }
+                        if (franchise.alt_mobile) {
+                            franchiseDetailsHtml += `<tr><th>Alternate Mobile Number</th><td>${franchise.alt_mobile}</td></tr>`;
+                        }
+                        if (franchise.registerationType) {
+                            franchiseDetailsHtml += `<tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>`;
+                        }
+                        if (franchise.address) {
+                            franchiseDetailsHtml += `<tr><th>Address</th><td>${franchise.address}</td></tr>`;
+                        }
+                        if (franchise.pincode) {
+                            franchiseDetailsHtml += `<tr><th>Pincode</th><td>${franchise.pincode}</td></tr>`;
+                        }
+                        if (franchise.country) {
+                            franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
+                        }
+                        if (franchise.state) {
+                            franchiseDetailsHtml += `<tr><th>State</th><td>${franchise.state}</td></tr>`;
+                        }
+                        if (franchise.city) {
+                            franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
+                        }
+
+                        // Inject the constructed HTML into the table body
+                        $('#FranciseView .offcanvas-body table tbody').html(franchiseDetailsHtml);
                     }
                     
 

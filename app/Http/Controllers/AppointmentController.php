@@ -266,6 +266,40 @@ class AppointmentController extends Controller
             ->with("success", "Franchise assigned successfully.");
     }
 
+    public function reassign(Request $request)
+    {
+        // Validate the input fields
+        $request->validate([
+            "appointment_id1" => "required|exists:appointments,id",
+            "franchise_id" => "required|exists:franchises,id",
+        ]);
+
+        // Find the appointment by ID
+        
+        $appointment = Appointment::findOrFail($request->appointment_id1);
+
+        // Convert the date to a Carbon instance (if it's not already)
+        $appointment->appointment_date = Carbon::parse($request->dateFilter); // Convert the string to Carbon
+
+        // Update the franchise and status
+        $appointment->franchise_id = $request->franchise_id;
+        $appointment->remarks = $request->remarks;
+        $appointment->status = "2"; // Update the status
+
+        // Save the appointment
+        $appointment->save();
+
+        // Send the success email
+        Mail::to($appointment->email)->send(
+            new AppointmentRescheduleMail($appointment)
+        );
+
+        // Redirect back with success message
+        return redirect()
+            ->back()
+            ->with("success", "Franchise assigned successfully.");
+    }
+
     public function getAppointmentDetails($id, $type)
     {
         // Fetch the appointment by ID

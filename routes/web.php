@@ -61,6 +61,7 @@ Route::put('appointment/{id}/reject', [AppointmentController::class, 'reject'])-
 
 // web.php
 Route::post('/appointments/assign', [AppointmentController::class, 'assign'])->name('appointments.assign');
+Route::post('/appointments/reassign', [AppointmentController::class, 'reassign'])->name('appointments.reassign');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('super.admin.dashboard');
 });

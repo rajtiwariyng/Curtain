@@ -306,6 +306,49 @@
 </div>
 <!-- Add Franchise Modal End -->
 
+<!-- Re Assign Franchise -->
+<div class="modal fade" id="reassignAppointmentModal" tabindex="-1" aria-labelledby="reapproveFranchiseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('appointments.reassign') }}" method="POST">
+                @csrf
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="reapproveFranchiseModalLabel">Re-Approve Franchise</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="appointmentId1" name="appointment_id1">
+                    <div class="mb-3">
+                        <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
+                        <select id="franchise" name="franchise_id" class="form-select w-100" required>
+                            <option value="">Select Franchise</option>
+                            @foreach($franchises as $franchise)
+                            <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Appointment Date</label>
+                        <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
+                            class="form-control me-3 w-100">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control me-3 w-100" name="remarks" id="remarks" rows="3" cols="50"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Assign</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Re Assign Franchise -->
+
 
 @endsection
 
@@ -316,6 +359,12 @@
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
         $('#appointmentId').val(appointmentId);
+    }
+
+    function reconfirmAssign(appointmentId1) {
+        // Open modal and set appointment ID
+        $('#reassignAppointmentModal').modal('show');
+        $('#appointmentId1').val(appointmentId1);
     }
 
     $(document).ready(function() {
@@ -378,6 +427,7 @@
                                         statusBadge = '<span class="badge badge-assigned">Assigned</span>';
                                     }
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="reconfirmAssign(\'' + appnt.id + '\')">Re-Assign</a></li>';
                                     actions += '<li><a href="{{url("quotations/create/")}}/' + appnt.id + '" class="dropdown-item small">Create Quote</a></li>';
 
                                     break;
