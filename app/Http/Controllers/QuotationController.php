@@ -7,8 +7,10 @@ use App\Models\Franchise;
 use App\Models\ProductType;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
+use App\Mail\QuotationGeneratedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class QuotationController extends Controller
 {
@@ -128,7 +130,9 @@ class QuotationController extends Controller
         $appointment = Appointment::findOrFail($request->appoint_id);
         $appointment->status = "3"; // Set the new status value
         $appointment->save(); // Save the changes
-
+        Mail::to($appointment->email)->send(
+            new QuotationGeneratedMail($appointment)
+        );
         return redirect()
             ->route("quotations.list")
             ->with("success", "Quotation created successfully!");

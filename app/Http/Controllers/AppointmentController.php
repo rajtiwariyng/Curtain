@@ -254,11 +254,16 @@ class AppointmentController extends Controller
 
         // Save the appointment
         $appointment->save();
+        $franchiseDetail = Franchise::find($request->franchise_id);
+        $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
+        $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
+        $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
 
-        // Send the success email
+        // Pass these to the email
         Mail::to($appointment->email)->send(
-            new AppointmentScheduleMail($appointment)
+            new AppointmentScheduleMail($appointment, $appointmentDate, $appointmentTime, $franchiseName)
         );
+        
 
         // Redirect back with success message
         return redirect()
@@ -288,10 +293,14 @@ class AppointmentController extends Controller
 
         // Save the appointment
         $appointment->save();
+        $franchiseDetail = Franchise::find($request->franchise_id);
+        $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
+        $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
+        $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
 
         // Send the success email
         Mail::to($appointment->email)->send(
-            new AppointmentRescheduleMail($appointment)
+            new AppointmentRescheduleMail($appointment, $appointmentDate, $appointmentTime, $franchiseName)
         );
 
         // Redirect back with success message

@@ -204,7 +204,7 @@
              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
               <tr>
                <!--[if !gte mso 9]><!-- -->
-               <td valign="top" class="pc-w620-padding-0-0-15-0" style="background-image: url('public/images/emails/image-1732469272892.png'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 0px 0px 36px 47px; border-radius: 0px; background-color: #ffffff;" bgcolor="#ffffff" background="public/images/emails/image-1732469272892.png">
+               <td valign="top" class="pc-w620-padding-0-0-15-0" style="background-image: url('https://curtainsandblinds.in/public/images/emails/image-1732469272892.png'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 0px 0px 36px 47px; border-radius: 0px; background-color: #ffffff;" bgcolor="#ffffff" background="https://curtainsandblinds.in/public/images/emails/image-1732469272892.png">
                 <!--<![endif]-->
                 <!--[if gte mso 9]>
                 <td valign="top" align="center" style="background-image: url('images/image-1732469272892.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: #ffffff; border-radius: 0px;" bgcolor="#ffffff" background="images/image-1732469272892.png">
@@ -324,7 +324,7 @@
                  <tr>
                   <td valign="top" align="left">
                    <div class="pc-font-alt" style="line-height: 21px; letter-spacing: -0.2px; font-family: 'Fira Sans', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: normal; font-variant-ligatures: normal; color: #333333; text-align: left; text-align-last: left;">
-                    <div><span>Dear Customer, Your appointment is scheduled with Name (Franchise name or company name) for [15/01/2025] at [16.00hrs] at [(Address)]. We look forward to meeting you <br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
+                    <div><span>Dear {{ $appointment['name'] }}, Your appointment is scheduled with Name {{ $franchiseName }} for {{ $appointmentDate }} at {{ $appointmentTime }} at {{ $appointment['address'] }}. We look forward to meeting you <br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
                     </div>
                    </div>
                   </td>
@@ -432,7 +432,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="{{ asset('images/emails/0bda7e9825d3b14f8123bd47abb0ec36.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="https://curtainsandblinds.in/public/images/emails/0bda7e9825d3b14f8123bd47abb0ec36.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -453,7 +453,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="{{ asset('images/emails/a9bd5b3cdeed12d9f1bdeedc1e5b27bd.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="https://curtainsandblinds.in/public/images/emails/a9bd5b3cdeed12d9f1bdeedc1e5b27bd.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -474,7 +474,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="{{ asset('images/emails/82c2727338d8c9104ae51f974013ee63.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="https://curtainsandblinds.in/public/images/emails/82c2727338d8c9104ae51f974013ee63.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -495,7 +495,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="{{ asset('images/emails/a68bf3f6cfb7a897d500db91e12450e4.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="https://curtainsandblinds.in/public/images/emails/a68bf3f6cfb7a897d500db91e12450e4.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
