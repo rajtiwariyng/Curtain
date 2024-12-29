@@ -70,17 +70,17 @@
 <section class="container-fluid bg-white wrapper" id="registerWithUs">
     <div class="registrationSection pt-0 container wow animate__animated animate__fadeIn">
         <h2 class="NewKansas-medium text-center" id="form-title1">Register with us</h2>
-        @if(session('error'))
+        @if($errors->any())
             <div class="alert alert-danger">
-                @foreach(session('error')->all() as $error)
+                @foreach($errors->all() as $error)
                     <p>{{ $error }}</p>
                 @endforeach
             </div>
         @endif
         @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         @endif
 
         <form action="{{ route('franchise_temp.store') }}" method="POST"

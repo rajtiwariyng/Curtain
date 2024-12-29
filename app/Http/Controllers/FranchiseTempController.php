@@ -48,13 +48,13 @@ class FranchiseTempController extends Controller
 
         // Perform validation
         $validator = Validator::make($request->all(), $rules, $messages);
-        // dd($request->all());
+        
         if ($validator->fails()) {
             return redirect()
                 ->back()
-                ->with("error", $validator->errors())->withFragment('registerWithUs');
+                ->withErrors($validator)
+                ->withFragment('registerWithUs');
         }
-
         try {
             $data = FranchiseTemp::create($request->all());
             if (!empty($request->email)) {
@@ -64,6 +64,7 @@ class FranchiseTempController extends Controller
             return redirect()
                 ->back()
                 ->with("success", "Franchise information saved successfully!")->withFragment('registerWithUs');
+
         } catch (\Exception $e) {
             return redirect()
                 ->back()
