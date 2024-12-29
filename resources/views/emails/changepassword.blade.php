@@ -432,7 +432,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="images/0bda7e9825d3b14f8123bd47abb0ec36.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="{{ asset('images/emails/0bda7e9825d3b14f8123bd47abb0ec36.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -453,7 +453,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="images/a9bd5b3cdeed12d9f1bdeedc1e5b27bd.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="{{ asset('images/emails/a9bd5b3cdeed12d9f1bdeedc1e5b27bd.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -474,7 +474,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="images/82c2727338d8c9104ae51f974013ee63.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="{{ asset('images/emails/82c2727338d8c9104ae51f974013ee63.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
@@ -495,7 +495,7 @@
                                            <table class="pc-w620-halign-right" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                              <td valign="top">
-                                              <img src="images/a68bf3f6cfb7a897d500db91e12450e4.png" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
+                                              <img src="{{ asset('images/emails/a68bf3f6cfb7a897d500db91e12450e4.png') }}" class="" width="12" height="12" style="display: block; border: 0; outline: 0; line-height: 100%; -ms-interpolation-mode: bicubic; width: 12px; height: 12px;" alt="" />
                                              </td>
                                             </tr>
                                            </table>
