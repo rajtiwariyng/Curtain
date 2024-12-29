@@ -30,8 +30,15 @@
                         <div class="mb-1 w-100">
                             <label for="ProductUnitInput" class="form-label mb-1">Unit <span class="text-danger">*</span></label>
                             <select class="form-control w-100" name="product_unit[]" id="product_unit" multiple>
-                                <option value="meter">meter</option>
-                                <option value="inches">inches</option>
+                                <option value="Meter">Meter</option>
+                                <option value="Square Meter">Square Meter</option>
+                                <option value="Feet">Feet</option>
+                                <option value="Square Feet">Square Feet</option>
+                                <option value="Panel">Panel</option>
+                                <option value="Nos">Nos</option>
+                                <option value="Roll">Roll</option>
+                                <option value="Channel fitting">Channel fitting</option>
+                                <option value="Box">Box</option>
                             </select>
                         </div>
                     </div>
@@ -87,35 +94,29 @@
 @section('script')
 <script>
     function editProductType(id) {
-        fetch(`/product-types/${id}/edit`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('ProductTypeInput').value = data.product_type;
-                
-                let productUnitSelect = document.getElementById('product_unit');
-            
-                // Ensure multiple options are selected based on the array returned in the data
-                let selectedUnits = data.product_unit; // Assuming this is an array of selected units
-
-                // Loop through all options and set selected if the unit is in the selectedUnits array
+    fetch(`/product-types/${id}/edit`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('ProductTypeInput').value = data.product_type;
+            let productUnitSelect = document.getElementById('product_unit');
+            let selectedUnits = Array.isArray(data.product_unit) ? data.product_unit : [];
+            if (productUnitSelect && productUnitSelect.options) {
                 for (let option of productUnitSelect.options) {
-                    if (selectedUnits.includes(option.value)) {
-                        option.selected = true;
-                    } else {
-                        option.selected = false;
-                    }
+                    option.selected = selectedUnits.includes(option.value);
                 }
+            }
+            document.getElementById('methodFieldProductType').value = 'PUT';
+            document.querySelector('#productTypeForm').action = `/product-types/${id}`;
+            document.querySelector('#addProductTypeModalLabel').textContent = 'Edit Product Type';
+        })
+        .catch(error => {
+            console.error("Error fetching product type:", error);
+        });
 
-                document.getElementById('methodFieldProductType').value = 'PUT'; // For updating
-                document.querySelector('#productTypeForm').action = `/product-types/${id}`; // Set form action
+    // Show modal
+    new bootstrap.Modal(document.getElementById('addProductTypeModal')).show();
+}
 
-                // Update modal title
-                document.querySelector('#addProductTypeModalLabel').textContent = 'Edit Product Type';
-            });
-
-        // Show modal
-        new bootstrap.Modal(document.getElementById('addProductTypeModal')).show();
-    }
 
     $(document).ready(function() {
         $("#productTypeForm").validate({

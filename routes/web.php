@@ -49,6 +49,7 @@ Route::get('/login', function () { return view('auth.login');});
 Route::get('/dashboard', function () { return view('admin.dashboard');});
 Route::get('/franchise_approval', function () { return view('admin.franchise.approval');});
 Route::get('/user_create', function () { return view('admin.user.create');})->name('user_create');
+Route::get('/emailview', function () { return view('emails.franchise_information');})->name('emails.view');
 
 Auth::routes();
 Route::get('appointments_list', [AppointmentController::class, 'index'])->name('appointments.list.index');

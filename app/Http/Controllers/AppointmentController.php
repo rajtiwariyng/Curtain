@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\ZipCode;
 use App\Mail\AppointmentSuccessMail;
+use App\Mail\AppointmentScheduleMail;
+use App\Mail\AppointmentRescheduleMail;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Models\Franchise;
@@ -255,7 +257,7 @@ class AppointmentController extends Controller
 
         // Send the success email
         Mail::to($appointment->email)->send(
-            new AppointmentSuccessMail($appointment)
+            new AppointmentScheduleMail($appointment)
         );
 
         // Redirect back with success message

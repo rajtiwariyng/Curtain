@@ -21,7 +21,6 @@ class ProductTypeController extends Controller
     public function store(Request $request)
     {
         // $product_unit = implode(',',$request->product_unit);
-        
         $request->validate([
             'product_type' => 'required|string|max:255|unique:product_types,product_type',
             // 'product_unit' => 'required|string|max:255',
@@ -45,12 +44,12 @@ class ProductTypeController extends Controller
 
     public function update(Request $request, ProductType $productType)
     {
-        // $request->validate([
-        //     'product_type' => 'required|string|max:255|unique:product_types,product_type',
-        //     'product_unit' => 'required|string|max:255',
-        // ]);
+        $product_unit = is_array($request->product_unit) ? implode(',', $request->product_unit) : $request->product_unit;
 
-        $productType->update($request->only('product_type','product_unit'));
+        $productType->update([
+            'product_type' => $request->product_type,
+            'product_unit' => $product_unit
+        ]);
 
         return redirect()->route('product-types.index')->with('success', 'Product Type updated successfully.');
     }
