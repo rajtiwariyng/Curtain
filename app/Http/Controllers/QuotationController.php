@@ -100,6 +100,7 @@ class QuotationController extends Controller
     
         // Create the quotation and get the quotation ID
         $quotation = Quotation::create($arrayForInsert);
+        $newQuotationId = $quotation->id;
     
         // Prepare the item data based on the arrays from the form
         $items = [];
@@ -107,7 +108,7 @@ class QuotationController extends Controller
     
         for ($i = 0; $i < $itemCount; $i++) {
             $items[] = [
-                'quotation_id' => $request->appoint_id,  // Associate with the created quotation
+                'quotation_id' => $newQuotationId,  // Associate with the created quotation
                 'appointment_id' => $request->appoint_id ?? '',
                 'franchise_id' =>$request->franchise_id,
                 'item_order' => $i+1,
