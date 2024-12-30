@@ -426,26 +426,25 @@
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="UserEmailInput" class="form-label mb-1">Email ID</label>
-              <input type="email" name="email" value="{{$appointment_data->email  }}" class="form-control w-100" id="email" readonly>
+              <input type="email" name="email" value="{{$appointment_data->email}}" class="form-control w-100" id="email" readonly>
             </div>
           </div>
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="contactNumberInput" class="form-label mb-1">Contact Number</label>
-              <input type="number" name="number" class="form-control w-100" value="{{$appointment_data->mobile  }}" id="contact" readonly>
+              <input type="number" name="number" class="form-control w-100" value="{{$appointment_data->mobile}}" id="contact" readonly>
             </div>
           </div>
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="stateInput" class="form-label mb-1">Date</label>
-              <input type="datetime-local" name="date" class="form-control w-100" value="{{ $appointment_data->appointment_date  }}" id="date" readonly>
+              <input type="datetime-local" name="date" class="form-control w-100" value="{{ $appointment_data->appointment_date }}" id="date" readonly>
             </div>
           </div>
           <div class="col-md-12">
             <div class="mb-3 w-100">
               <label for="AddressInput" class="form-label mb-1">Address</label>
-              <textarea name="address" id="AddressInput"
-                class="form-control w-100" readonly>{{$appointment_data->address }}</textarea>
+              <textarea name="address" id="AddressInput" class="form-control w-100" readonly>{{$appointment_data->address}}</textarea>
             </div>
           </div>
           <div class="col-md-6">
@@ -462,74 +461,11 @@
           </div>
         </div>
         <!-- new section -->
-        <div class="newsection">
-          <!-- section Tittle -->
-          <div class="d-flex align-items-end justify-content-between">
-            <div class="w-100 me-3">
-              <label for="SectionNameInput" class="form-label mb-1">Section Name</label>
-              <input type="text" name="section_name" class="form-control w-100" id="SectionNameInput">
-            </div>
-            <button class="icon-btn m-0" id="deleteSection"><i
-                class="bi bi-trash3"></i></button>
-          </div>
-          <!-- Data Input table -->
-          <div class="table-responsive mt-3">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">Name</th>
-                  <th scope="col">Item</th>
-                  <th scope="col">Height</th>
-                  <th scope="col">Width</th>
-                  <th scope="col">Oty.</th>
-                  <th scope="col">unit</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Discount</th>
-                  <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;"
-                    scope="col"><button class="secondary-btn addBtn m-0 p-0"
-                      style="font-size: 14px !important; width: 105px;">+ Add Items</button></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="text" class="form-control max-w-166"
-                      placeholder="Item Name" name="item_name[]"></td>
-                  <td>
-                    <select class="form-select w-100 max-w-166" id="product_item" name="product_item[]">
-                      <option selected>Select</option>
-                      @foreach ($product_type as $list)
-                      <option value="{{$list['id']}}" data-unit="{{$list['product_unit']}}">{{$list['product_type']}}</option>
-                      @endforeach
-                    </select>
-                  </td>
-                  <td><input type="number" class="form-control max-w-166" name="item_height[]"
-                      placeholder="height"></td>
-                  <td><input type="number" class="form-control max-w-166" name="item_width[]"
-                      placeholder="width"></td>
-                  <td><input type="number" class="form-control max-w-166" name="item_qty[]"
-                      placeholder="Item quantity"></td>
-                  <td>
-
-                    <select class="form-select w-100 max-w-166" id="item_unit" name="item_unit[]">
-                      <option selected>Select</option>
-                      @foreach ($product_type as $list)
-                      <option value="{{$list['product_unit']}}">{{$list['product_unit']}}</option>
-                      @endforeach
-                    </select>
-                  </td>
-                  <td><input type="number" class="form-control max-w-166" name="item_price[]"
-                      placeholder="Item Price"></td>
-                  <td><input type="number" class="form-control max-w-166" name="item_discount[]"
-                      placeholder="Item Discount"></td>
-                  <td><button class="icon-btn m-0"><i class="bi bi-trash3"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="sectionContainer" id="sectionContainer">
+          
         </div>
-        <button class="secondary-btn mt-1 addBtn add-section-btn">Add New Section</button>
-
+        <!-- <button class="secondary-btn mt-1 addBtn add-section-btn">Add New Section</button> -->
+        <p class="secondary-btn mt-1 addBtn add-section-btn">Add New Section</p>
       </div>
 
       <div class="mt-3 d-flex gap-3 mb-4">
@@ -588,61 +524,135 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-  // Add New Section Button
-    document.querySelector('.add-section-btn').addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent form submission
-      const newSection = document.querySelector('.newsection').cloneNode(true);
+  $(document).ready(function() {
+    var sectionCount = 1; // Initialize section count
+    Add_section(sectionCount);
+    
+    function Add_section(sectionCount){
+      let itemCount = 1;
+      // Create a new section with unique ID based on sectionCount
+      let sectionHtml = `<div class="addSectionDiv" id="section_` + sectionCount + `">
+                                <div class="newsection">
+                                  <!-- Section Title -->
+                                  <div class="d-flex align-items-end justify-content-between">
+                                    <div class="w-100 me-3">
+                                      <label for="SectionNameInput" class="form-label mb-1">Section Name</label>
+                                      <input type="text" name="section_name[` + sectionCount + `]" class="form-control w-100" id="SectionNameInput">
+                                    </div>
+                                    <button class="icon-btn m-0 delete-section" data-section-id="` + sectionCount + `">
+                                      <i class="bi bi-trash3"></i>
+                                    </button>
+                                  </div>
+                                  <!-- Data Input Table -->
+                                  <div class="table-responsive mt-3">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">Name</th>
+                                          <th scope="col">Item</th>
+                                          <th scope="col">Height</th>
+                                          <th scope="col">Width</th>
+                                          <th scope="col">Oty.</th>
+                                          <th scope="col">unit</th>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">Discount</th>
+                                          <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;" scope="col">
+                                            <p class="secondary-btn addBtn m-0 p-0" data-section-id="` + sectionCount + `" style="font-size: 14px !important; width: 105px;">+ Add Items </p>
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody class="item-list">
+                                        <tr>
+                                          <td><input type="text" class="form-control max-w-166" placeholder="Item Name" name="item_name[${sectionCount}][`+itemCount+`]"></td>
+                                          <td>
+                                            <select class="form-select w-100 max-w-166" name="product_item[${sectionCount}][`+itemCount+`]">
+                                              <option selected>Select</option>
+                                              <!-- Loop through product items (example shown here) -->
+                                              <option value="1" data-unit="unit1">Product 1</option>
+                                              <option value="2" data-unit="unit2">Product 2</option>
+                                            </select>
+                                          </td>
+                                          <td><input type="number" class="form-control max-w-166" name="item_height[${sectionCount}][`+itemCount+`]" placeholder="height"></td>
+                                          <td><input type="number" class="form-control max-w-166" name="item_width[${sectionCount}][`+itemCount+`]" placeholder="width"></td>
+                                          <td><input type="number" class="form-control max-w-166" name="item_qty[${sectionCount}][`+itemCount+`]" placeholder="Item quantity"></td>
+                                          <td>
+                                            <select class="form-select w-100 max-w-166" name="item_unit[${sectionCount}][`+itemCount+`]">
+                                              <option selected>Select</option>
+                                              <!-- Loop through units (example shown here) -->
+                                              <option value="unit1">Unit 1</option>
+                                              <option value="unit2">Unit 2</option>
+                                            </select>
+                                          </td>
+                                          <td><input type="number" class="form-control max-w-166" name="item_price[${sectionCount}][`+itemCount+`]" placeholder="Item Price"></td>
+                                          <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionCount}][`+itemCount+`]" placeholder="Item Discount"></td>
+                                          <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>`;
 
-      // Clear the inputs in the new section
-      newSection.querySelectorAll('input, select').forEach(input => input.value = '');
-
-      // Add event listeners for buttons in the new section
-      addSectionEventListeners(newSection);
-
-      // Append the new section to the form (appendChild is safer than insertBefore here)
-      document.querySelector('form').appendChild(newSection);
-    });
-
-    // Initial call to set up event listeners for the first section
-    const firstSection = document.querySelector('.newsection');
-    if (firstSection) {
-      addSectionEventListeners(firstSection);
+      // Append the new section HTML to the container (e.g. #sectionsContainer)
+      $('.sectionContainer').append(sectionHtml);
     }
 
-  // Function to add event listeners to a section
-  function addSectionEventListeners(section) {
-    // Add Items to Table
-    section.querySelector('.addBtn').addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent form submission
-      const row = section.querySelector('tbody tr').cloneNode(true);
-
-      // Clear input values in the new row
-      row.querySelectorAll('input').forEach(input => input.value = '');
-
-      // Attach delete row event to new row
-      row.querySelector('.icon-btn').addEventListener('click', function() {
-        row.remove();
-      });
-
-      // Append new row to the table
-      section.querySelector('tbody').appendChild(row);
+    // When the Add Section button is clicked
+    $('.add-section-btn').on('click', function() {
+      sectionCount++; // Increase the section count
+      Add_section(sectionCount);
     });
 
-    // Delete Section
-    section.querySelector('#deleteSection').addEventListener('click', function() {
-      section.remove();
+    // When the Add Item button inside a section is clicked
+    $(document).on('click', '.addBtn', function() {
+      let sectionId = $(this).data('section-id'); // Get the section ID from data-section-id
+      let itemCount = $('#section_' + sectionId + ' .item-list tr').length + 1; // Get the current item count for the section
+
+      // Create new item row for the section
+      let itemRow = `<tr>
+                          <td><input type="text" class="form-control max-w-166" placeholder="Item Name" name="item_name[${sectionId}][`+itemCount+`]"></td>
+                          <td>
+                            <select class="form-select w-100 max-w-166" name="product_item[${sectionId}][`+itemCount+`]">
+                              <option selected>Select</option>
+                              <!-- Loop through product items (example shown here) -->
+                              <option value="1" data-unit="unit1">Product 1</option>
+                              <option value="2" data-unit="unit2">Product 2</option>
+                            </select>
+                          </td>
+                          <td><input type="number" class="form-control max-w-166" name="item_height[${sectionId}][`+itemCount+`]" placeholder="height"></td>
+                          <td><input type="number" class="form-control max-w-166" name="item_width[${sectionId}][`+itemCount+`]" placeholder="width"></td>
+                          <td><input type="number" class="form-control max-w-166" name="item_qty[${sectionId}][`+itemCount+`]" placeholder="Item quantity"></td>
+                          <td>
+                            <select class="form-select w-100 max-w-166" name="item_unit[${sectionId}][`+itemCount+`]">
+                              <option selected>Select</option>
+                              <!-- Loop through units (example shown here) -->
+                              <option value="unit1">Unit 1</option>
+                              <option value="unit2">Unit 2</option>
+                            </select>
+                          </td>
+                          <td><input type="number" class="form-control max-w-166" name="item_price[${sectionId}][`+itemCount+`]" placeholder="Item Price"></td>
+                          <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount"></td>
+                          <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
+                        </tr>`;
+
+      // Append the new item row to the specific section's item list
+      $('#section_' + sectionId + ' .item-list').append(itemRow);
     });
 
-    // Set up delete row event for each existing row in the new section
-    section.querySelectorAll('tbody .icon-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        button.closest('tr').remove();
-      });
+    // Deleting the section
+    $(document).on('click', '.delete-section', function() {
+      let sectionId = $(this).data('section-id');
+      $('#section_' + sectionId).remove(); // Remove the section div
     });
-  }
-});
+
+    // Deleting the item
+    $(document).on('click', '.delete-item', function() {
+      $(this).closest('tr').remove(); // Remove the item row
+    });
+    
+  });
 </script>
+
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 @endsection
