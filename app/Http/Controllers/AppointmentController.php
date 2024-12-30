@@ -31,6 +31,7 @@ class AppointmentController extends Controller
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
+        // echo $userRole;  exit;
 
         // Initialize $appointments to avoid undefined variable error
         $appointments = collect(); // Default to empty collection
@@ -53,7 +54,7 @@ class AppointmentController extends Controller
             } else {
                 $pendingCount = $completedCount = $holdCount = $assignedCount = $rejectedCount = 0;
             }
-        } elseif (in_array($userRole, ["Admin", "Super Admin"])) {
+        } elseif (in_array($userRole, ["Admin", "Super Admin","Help Desk"])) {
             $appointments = $appointmentsQuery->get();
 
             $statusCounts = $appointments->groupBy("status")->map->count();
