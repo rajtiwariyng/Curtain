@@ -401,9 +401,9 @@
                             row += '<td>' + appnt.name + '</td>';
                             row += '<td>' + appnt.mobile + '</td>';
                             row += '<td>' + appnt.pincode + '</td>';
-                            row += '<td>' + appnt.appointment_date + '</td>';
+                            row += '<td>' + (appnt.appointment_date ? appnt.appointment_date : 'N/A') + '</td>';
                             row += '<td>' + (appnt.franchise?.name || 'N/A') + '</td>';
-                            row += '<td>' + (appnt.remarks == null ? '' : appnt.remarks) + '</td>';
+                            row += '<td>' + (appnt.remarks == null ? 'N/A' : appnt.remarks) + '</td>';
 
                             var statusBadge = '';
                             var viewType = '';

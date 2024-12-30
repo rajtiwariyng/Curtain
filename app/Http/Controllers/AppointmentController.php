@@ -31,6 +31,7 @@ class AppointmentController extends Controller
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
+        //dd($userRole);
         // echo $userRole;  exit;
 
         // Initialize $appointments to avoid undefined variable error
@@ -56,7 +57,6 @@ class AppointmentController extends Controller
             }
         } elseif (in_array($userRole, ["Admin", "Super Admin","Help Desk"])) {
             $appointments = $appointmentsQuery->get();
-
             $statusCounts = $appointments->groupBy("status")->map->count();
 
             // Access counts for all statuses
@@ -183,7 +183,7 @@ class AppointmentController extends Controller
                     ->get()
                     ->toArray();
             }
-        } elseif (in_array($userRole, ["Admin", "Super Admin"])) {
+        } elseif (in_array($userRole, ["Admin", "Super Admin","Help Desk"])) {
             $franchises = Appointment::where("status", $status)
                 ->with('franchise')
                 ->get()
