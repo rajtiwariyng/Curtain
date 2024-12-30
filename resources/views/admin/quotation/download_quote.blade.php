@@ -40,7 +40,7 @@
     <nav class="navbar py-3 mb-4 bg-body-tertiary">
         <div class="container">
             <!-- <a class="fs-6" href="quotation.html"><i class="bi bi-arrow-left fs-6 me-2"></i> Back</a> -->
-            <button class="primary-btn addBtn" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
+            <button class="primary-btn addBtn" data-appointmentid="{{$qutationsData[0]['appointment']['uniqueid']}}" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
                 Download Quotation
             </button>
         </div>
@@ -139,9 +139,11 @@
 <script>
     document.querySelector('.primary-btn.addBtn').addEventListener('click', function() {
         var element = document.querySelector("#downloadagble_quote");
+        var appointmentid = $(this).data('appointmentid');
+        let pdfName = appointmentid+'_quotation.pdf';
         html2pdf()
             .from(element)
-            .save('quotation.pdf');
+            .save(pdfName);
     });
 </script>
 @endsection
