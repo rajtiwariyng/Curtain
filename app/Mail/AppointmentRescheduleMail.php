@@ -17,9 +17,12 @@ class AppointmentRescheduleMail extends Mailable
      *
      * @param $appointment
      */
-    public function __construct($appointment)
+    public function __construct($appointment, $appointmentDate, $appointmentTime, $franchiseName)
     {
         $this->appointment = $appointment;
+        $this->appointmentDate = $appointmentDate;
+        $this->appointmentTime = $appointmentTime;
+        $this->franchiseName = $franchiseName;
     }
 
     /**
@@ -33,7 +36,12 @@ class AppointmentRescheduleMail extends Mailable
         if($appointment->appointment_date){
             return $this->subject('Appointment Re-Schduled Successfully')
             ->view('emails.appointment_reschedule')
-            ->with('appointment', $this->appointment);
+            ->with([
+                'appointment' => $this->appointment,
+                'appointmentDate' => $this->appointmentDate,
+                'appointmentTime' => $this->appointmentTime,
+                'franchiseName' => $this->franchiseName,
+            ]);
         }
         
 

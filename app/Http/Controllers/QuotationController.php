@@ -7,8 +7,10 @@ use App\Models\Franchise;
 use App\Models\ProductType;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
+use App\Mail\QuotationGeneratedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class QuotationController extends Controller
 {
@@ -98,6 +100,7 @@ class QuotationController extends Controller
     
         // Create the quotation and get the quotation ID
         $quotation = Quotation::create($arrayForInsert);
+        $newQuotationId = $quotation->id;
     
         // Prepare the item data based on the arrays from the form
         $items = [];
@@ -105,7 +108,7 @@ class QuotationController extends Controller
     
         for ($i = 0; $i < $itemCount; $i++) {
             $items[] = [
-                'quotation_id' => $request->appoint_id,  // Associate with the created quotation
+                'quotation_id' => $newQuotationId,  // Associate with the created quotation
                 'appointment_id' => $request->appoint_id ?? '',
                 'franchise_id' =>$request->franchise_id,
                 'item_order' => $i+1,
@@ -128,7 +131,9 @@ class QuotationController extends Controller
         $appointment = Appointment::findOrFail($request->appoint_id);
         $appointment->status = "3"; // Set the new status value
         $appointment->save(); // Save the changes
-
+        Mail::to($appointment->email)->send(
+            new QuotationGeneratedMail($appointment)
+        );
         return redirect()
             ->route("quotations.list")
             ->with("success", "Quotation created successfully!");
