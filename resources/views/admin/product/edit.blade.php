@@ -255,36 +255,27 @@
     document.addEventListener('DOMContentLoaded', function() {
         // jQuery Form Validation
         $(document).ready(function() {
-            $('#product_name').change(function() {
-                // Get the selected product item ID
-                var selectedProductId = $(this).val();
 
-                // Find the option in the product_item dropdown with the matching value
+            function unitset(){
+                var selectedProductId = $('#product_name').val();
                 var selectedOption = $('#product_name option[value="' + selectedProductId + '"]');
-
-                // Get the product_unit from the selected option's data attribute
                 var productUnit = selectedOption.data('unit');
                 if (typeof productUnit === 'string') {
-                    productUnit = productUnit.split(',');  // Convert "meter,inches" to ["meter", "inches"]
+                    productUnit = productUnit.split(',');
                 }
-
                 var inputBox = $('#unit');
                 var unitSelect = $('#unitSelect');
-
-
                 inputBox.hide();
                 unitSelect.show();
-
-                // Populate the #unit dropdown dynamically
                 unitSelect.empty();
-
-                // Loop through each unit in productUnit and create an option for it
                 productUnit.forEach(function(unit) {
                     unitSelect.append('<option value="' + unit + '">' + unit + '</option>');
                 });
-
-                // Optionally, set the selected value based on the productUnit
                 unitSelect.val(productUnit[0]);
+            }
+            unitset();
+            $('#product_name').change(function() {
+                unitset();
             });
 
             $('#unitSelect').change(function() {

@@ -78,7 +78,7 @@
                             <a class="nav-link" href="/how">How do we work</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/franchise_registration" class="nav-link primary-line-btn pe-4 ps-4 mt-4">Franchise
+                            <a href="/franchise-registration" class="nav-link primary-line-btn pe-4 ps-4 mt-4">Franchise
                                 Registration</a>
                         </li>
                     </ul>

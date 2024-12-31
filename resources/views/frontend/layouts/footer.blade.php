@@ -52,7 +52,7 @@
                         <a class="nav-link" href="/contact">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/terms_and_conditions">Terms & Conditions</a>
+                        <a class="nav-link" href="/terms-and-conditions">Terms & Conditions</a>
                     </li>
 
                     <li class="nav-item">

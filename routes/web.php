@@ -36,7 +36,7 @@ Route::get('/clear-cache', function () {
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::get('/appointments', function () { return view('frontend.schedule_appointment'); });
 Route::get('/contact', function () { return view('frontend.contact'); });
-Route::get('/terms_and_conditions', function () { return view('frontend.terms_and_conditions'); });
+Route::get('/terms-and-conditions', function () { return view('frontend.terms_and_conditions'); });
 Route::get('/how', function () { return view('frontend.how'); });
 Route::get('/privacy-policy', function () { return view('frontend.privacy_policy');});
 Route::get('/faq', function () { return view('frontend.faq');});
@@ -44,7 +44,7 @@ Route::get('/services', function () { return view('frontend.services');});
 Route::get('/our-products', function () { return view('frontend.our_products');});
 Route::get('/about', function () { return view('frontend.about'); });
 Route::get('/', function () { return view('frontend.index'); });
-Route::get('franchise_registration', [FranchiseTempController::class, 'frontend_view']);
+Route::get('/franchise-registration', [FranchiseTempController::class, 'frontend_view']);
 Route::get('/login', function () { return view('auth.login');});
 Route::get('/dashboard', function () { return view('admin.dashboard');});
 Route::get('/franchise_approval', function () { return view('admin.franchise.approval');});

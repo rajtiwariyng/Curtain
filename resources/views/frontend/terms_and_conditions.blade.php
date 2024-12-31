@@ -9,7 +9,7 @@
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
-        <a class="text-white" href="/terms_and_conditions" class="active">T&C</a>
+        <a class="text-white" href="/terms-and-conditions" class="active">T&C</a>
     </div>
     <h1 class="text-white NewKansas-medium">Terms and Conditions</h1>
 </div>
