@@ -24,6 +24,10 @@ class Quotation extends Model
         return $this->belongsTo(QuotationItem::class,'id','quotation_id');
     }
 
+    public function quotaiton_section(){
+        return $this->hasMany(QuotationSection::class,'id','quotation_id');
+    }
+
     // public function quotaitonItem(){
     //     return $this->hasMany(QuotationItem::class,'id','quotation_id');
     // }

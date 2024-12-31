@@ -40,7 +40,7 @@
     <nav class="navbar py-3 mb-4 bg-body-tertiary">
         <div class="container">
             <!-- <a class="fs-6" href="quotation.html"><i class="bi bi-arrow-left fs-6 me-2"></i> Back</a> -->
-            <button class="primary-btn addBtn" data-appointmentid="{{$qutationsData[0]['appointment']['uniqueid']}}" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
+            <button class="primary-btn addBtn" data-quotation-name="{{$quotations->name}}" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
                 Download Quotation
             </button>
         </div>
@@ -56,7 +56,7 @@
                     <div class="m-0">
                         <label class="form-label m-0 me-2">Date: </label>
                         <label for="clientName" class="form-label m-0"><?php
-                                                                        $date = strtotime($qutationsData[0]['quotation']['date']); // Convert to timestamp if it's a string
+                                                                        $date = strtotime($quotations->date); // Convert to timestamp if it's a string
                                                                         echo date('d-M-Y', $date);
                                                                         ?></label>
                     </div>
@@ -67,30 +67,30 @@
                 <div class="col-md-6">
                     <div class="mb-1">
                         <label class="form-label me-2">Client Name: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$qutationsData[0]['appointment']['name']}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->name}}</label>
                     </div>
 
                     <div class="mb-1">
                         <label class="form-label me-2">Quotation For: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold"></label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->quot_for}}</label>
                     </div>
                     <div class="mb-1">
                         <label class="form-label me-2">Cartage: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$qutationsData[0]['quotation']['cartage']}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->cartage}}</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-1">
                         <label class="form-label me-2">Contact Number: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$qutationsData[0]['appointment']['mobile']}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->number}}</label>
                     </div>
                     <div class="mb-1">
                         <label class="form-label me-2">Email ID: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$qutationsData[0]['appointment']['email']}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->email}}</label>
                     </div>
                     <div class="mb-1">
                         <label class="form-label me-2">Address: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$qutationsData[0]['appointment']['address']}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->address}}</label>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
             <thead>
                 <tr>
                     <th scope="col">Item</th>
-                    <th scope="col">Description</th>
+                    <!-- <th scope="col">Description</th> -->
                     <th scope="col">Height(m)</th>
                     <th scope="col">Width(m)</th>
                     <th scope="col">Oty.</th>
@@ -113,21 +113,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($qutationsData as $quotation)
-                <!-- <tr>
-                <th class="fs-6"><u>Section Name</u></th>
-            </tr> -->
+                @foreach($sectionItems as $sectionItem)
                 <tr>
-                    <td>{{$quotation['item']}}</td>
-                    <td>{{$quotation['item_order']}}</td>
-                    <td>{{$quotation['height']}}</td>
-                    <td>{{$quotation['width']}}</td>
-                    <td>{{$quotation['qty']}}</td>
-                    <td>{{$quotation['unit']}}</td>
-                    <td>{{$quotation['price']}}</td>
-                    <td>{{$quotation['discount']}}</td>
-                    <td>{{$quotation['price'] - $quotation['discount']}}</td>
+                    <th class="fs-6"><u>{{$sectionItem['section_name']}}</u></th>
                 </tr>
+                    @foreach ($sectionItem['items'] as $item)
+                    <tr>
+                        <td>{{$item['item']}}</td>
+                        <!-- <td>{{$item['item_order']}}</td> -->
+                        <td>{{$item['height']}}</td>
+                        <td>{{$item['width']}}</td>
+                        <td>{{$item['qty']}}</td>
+                        <td>{{$item['unit']}}</td>
+                        <td>{{$item['price']}}</td>
+                        <td>{{$item['discount']}}</td>
+                        <td>{{$item['price'] - $item['discount']}}</td>
+                    </tr>
+                    @endforeach
+                
                 @endforeach
             </tbody>
         </table>
@@ -139,8 +142,8 @@
 <script>
     document.querySelector('.primary-btn.addBtn').addEventListener('click', function() {
         var element = document.querySelector("#downloadagble_quote");
-        var appointmentid = $(this).data('appointmentid');
-        let pdfName = appointmentid+'_quotation.pdf';
+        var name = $(this).data('quotation-name');
+        let pdfName = name+'_Quotation.pdf';
         html2pdf()
             .from(element)
             .save(pdfName);

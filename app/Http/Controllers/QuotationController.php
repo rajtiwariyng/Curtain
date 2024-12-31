@@ -132,7 +132,7 @@ class QuotationController extends Controller
                                 'appointment_id' => $request->appoint_id ?? '',
                                 'franchise_id' => $request->franchise_id,
                                 'section_order' => $section_name, // Set section ID as the quotation ID temporarily (we'll fix it later)
-                                'item_order' => $j + 1,  // Item order (starting from 1)
+                                'item_order' => $j,  // Item order (starting from 1)
                                 'name' => $request->item_name[$index][$j] ?? '', // Access item name correctly
                                 'item' => $product_item ?? '',
                                 'height' => $request->item_height[$index][$j] ?? '',
@@ -271,9 +271,8 @@ class QuotationController extends Controller
     }
 
     public function downloadQuotationView($appointment_id){
-        $qutationsData = QuotationItem::with('franchise','appointment','quotation')->where('quotation_id',$appointment_id)->get();
-        // dd($qutationsData);
-
-        return view('admin.quotation.download_quote',compact('qutationsData'));
+        $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
+        $quotations = Quotation::find($appointment_id);
+        return view('admin.quotation.download_quote',compact('sectionItems','quotations'));
     }
 }

@@ -11,4 +11,12 @@ class QuotationSection extends Model
     protected $guarded = [];
     
     protected $table = 'quotation_sections';
+
+    public function quotation(){
+        return $this->belongsto(Quotation::class, 'quotation_id', 'id'); 
+    }
+
+    public function items(){
+        return $this->hasMany(QuotationItem::class,'section_order','id');
+    }
 }

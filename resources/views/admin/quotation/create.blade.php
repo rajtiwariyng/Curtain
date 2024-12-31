@@ -527,6 +527,22 @@
   $(document).ready(function() {
     var sectionCount = 1; // Initialize section count
     Add_section(sectionCount);
+    // get_product_type();
+
+    // function get_product_type(){
+    //     let productType = [];
+
+    //     $.ajax({
+    //       type: "GET",
+    //       url: "{{url('product-types')}}",
+    //       contentType: "application/json; charset=utf-8",
+    //       dataType: "json",
+    //       success: function(result) {
+    //           console.log(result);
+    //       }
+    //     });
+        
+    // }
     
     function Add_section(sectionCount){
       let itemCount = 1;

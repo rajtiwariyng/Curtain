@@ -20,8 +20,12 @@ class QuotationItem extends Model
         return $this->belongsto(Appointment::class, 'appointment_id', 'id'); 
     }
 
-    public function quotation(){
+    public function quotation_data(){
         return $this->belongsto(Quotation::class, 'quotation_id', 'id'); 
+    }
+
+    public function section_name(){
+        return $this->hasMany(QuotationSection::class, 'id', 'section_order'); 
     }
     
     
