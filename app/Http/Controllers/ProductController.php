@@ -175,8 +175,9 @@ class ProductController extends Controller
         }
 
         // Paginate the results
-
-        $products = $products->paginate(10);
+        
+        $products = $products->paginate(250);
+        $totalProducts = $products->total();
         $usages = Usage::all();
         $colours = Color::all();
         $compositions = Composition::all();
@@ -190,6 +191,7 @@ class ProductController extends Controller
         return view(
             "admin.product.index",
             compact(
+                "totalProducts",
                 "products",
                 "usages",
                 "colours",

@@ -25,7 +25,7 @@
             <div class="col-md-7 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-medium wow animate__animated animate__fadeIn">Bespoke window furnishings in the
                     comfort of your home</h2>
-                <p>With over 30 years of expertise in the industry, we specialize in crafting custom window furnishings
+                <p class="text-justify">With over 30 years of expertise in the industry, we specialize in crafting custom window furnishings
                     that adhere to the highest standards. Enjoy the convenience of bespoke soft furnishings from the
                     comfort of your home, with smooth delivery facilitated by our advanced production and fulfillment
                     teams. Explore our carefully curated collections, designed by skilled textile designers, and
@@ -41,12 +41,12 @@
         <div class="row align-items-center">
             <div class="col-md-6 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-regular">Hospitality and commercial furnishing solutions</h2>
-                <p>Gone are the days of dull office spaces. Our stunning commercial furnishing solutions are designed to
+                <p  class="text-justify">Gone are the days of dull office spaces. Our stunning commercial furnishing solutions are designed to
                     transform and breathe new life into your workplaces creating a dynamic, inspiring and a vibrant
                     environment that inspires productivity.</p>
-                <p>With extensive experience collaborating with renowned hospitality chains such as Taj, Meridian, and
+                <p  class="text-justify">With extensive experience collaborating with renowned hospitality chains such as Taj, Meridian, and
                     Pullman, we offer comprehensive curtain solutions for all types of hospitality projects.</p>
-                <p>Understanding the unique needs of the hospitality industry, we provide specialized materials such as
+                <p class="text-justify">Understanding the unique needs of the hospitality industry, we provide specialized materials such as
                     blackouts, dim-outs, and fire-resistant fabrics, ensuring every requirement is met with precision
                     and
                     quality.</p>
@@ -67,7 +67,7 @@
             <h2 class="NewKansas-medium">Trendy designs</h2>
             <h1 style="color: #8E2D1F;" class="mb-4">@ Genuine pricing</h1>
 
-            <p>Less is more. Why settle for the ordinary? Today’s design language embraces minimalism and a
+            <p class="text-justify">Less is more. Why settle for the ordinary? Today’s design language embraces minimalism and a
                 clutter-free aesthetic, yet remains trendy and interesting. At CAB, we ensure that these
                 principles are brought to life in every design.</p>
         </div>
@@ -109,8 +109,7 @@
                         <div class="accordion-body">
                             As all our products are custom made-to-measure, we do not accept returns. However, if your
                             order does not meet your expectations, we are committed to working with you to resolve the
-                            issue. For more information, please refer to our full returns and warranty policy on our
-                            'Terms & Conditions' page.
+                            issue.
                         </div>
                     </div>
                 </div>
@@ -235,10 +234,10 @@
 <section class="container wrapper">
     <div class="CTABanner">
         <div class="w-50">
-            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
-            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+            <h2 class="NewKansas-medium">CURTAINS AND BLINDS: Draping Dreams, Unveiling Elegance.</h2>
+            <p>Schedule your design consultation today – let’s bring your dreams to life!</p>
         </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Book Your
             Appointment</a>
     </div>
 </section>

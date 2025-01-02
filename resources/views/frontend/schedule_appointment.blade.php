@@ -19,17 +19,16 @@
 <section class="container wrapper" style="margin-top:124px;">
     <div class="registrationSection">
         <div class="row" id="form-title">
-            <div class="col-md-4 wow animate__animated animate__fadeIn">
-                <h2 class="NewKansas-medium">Get in touch</h2>
-                <p>Add your area pincode to check availability</p>
+            <div class="col-md-12 wow animate__animated animate__fadeIn">
+                <h4 class="NewKansas-medium">At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having access to a real person can make all the difference. Please write to us, and we will call you.</h4>
+                <!--<p>Add your area pincode to check availability</p>-->
             </div>
-            <div class="col-md-8 wow animate__animated animate__fadeIn">
-                <!-- <div class="mb-3 checkPincode" id="check_pincode">
-                    <label for="PincodeInput" class="form-label">Pincode</label>
-                    <input type="text" class="form-control" id="PincodeInput" placeholder="Enter Pincode">
-
-                </div> -->
-            </div>
+            <!--<div class="col-md-8 wow animate__animated animate__fadeIn">-->
+            <!--    <div class="mb-3 checkPincode" id="check_pincode">-->
+            <!--        <label for="PincodeInput" class="form-label">Pincode</label>-->
+            <!--        <input type="text" class="form-control" id="PincodeInput" placeholder="Enter Pincode">-->
+            <!--    </div>-->
+            <!--</div>-->
         </div>
 
 
@@ -39,51 +38,51 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name </label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                        <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email ID</label>
+                        <label for="email" class="form-label">Email ID <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="mobile" class="form-label">Mobile Number</label>
-                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" maxlength="10">
+                        <label for="mobile" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" maxlength="10" required>
 
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
+                        <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3 checkPincode">
-                        <label for="pincode" class="form-label">Pincode</label>
-                        <input type="text" class="form-control" id="PincodeInput" name="PincodeInput" placeholder="Enter Pincode">
+                        <label for="pincode" class="form-label">Pincode <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="PincodeInput" name="PincodeInput" placeholder="Enter Pincode" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter City">
+                        <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter City" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="state" class="form-label">State</label>
-                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter State">
+                        <label for="state" class="form-label">State <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country">
+                        <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country" required>
                     </div>
                 </div>
             </div>
@@ -99,31 +98,50 @@
         </div>
     </div>
 
-    <div class="section-contact-info wow animate__animated animate__fadeIn">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="NewKansas-medium">Connect with us</h3>
-                <p>At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having
-                    access to a real person can make all the difference.</p>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end align-items-center">
-                <div class="d-flex flex-column justify-content-end">
-                    <a href="https://wa.link/7m1rva" class="NewKansas-medium mb-3 form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/whatsapp.svg') }}"
-                            alt=""> +91
-                        7838357850</a>
-                    <a href="mailto:support@curtainsandblinds.in" class="NewKansas-medium mb-3 form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/support.svg') }}"
-                            alt="">
-                        support@curtainsandblinds.in</a>
-                    <a href="mailto:info@curtainsandblinds.in" class="NewKansas-medium form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/mail.svg') }}" alt="">
-                        info@curtainsandblinds.in</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="section-contact-info wow animate__animated animate__fadeIn">-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-6">-->
+    <!--            <h3 class="NewKansas-medium">Connect with us</h3>-->
+    <!--            <p>At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having-->
+    <!--                access to a real person can make all the difference.</p>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-6 d-flex justify-content-end align-items-center">-->
+    <!--            <div class="d-flex flex-column justify-content-end">-->
+    <!--                <a href="https://wa.link/7m1rva" class="NewKansas-medium mb-3 form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/whatsapp.svg') }}"-->
+    <!--                        alt=""> +91-->
+    <!--                    7838357850</a>-->
+    <!--                <a href="mailto:support@curtainsandblinds.in" class="NewKansas-medium mb-3 form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/support.svg') }}"-->
+    <!--                        alt="">-->
+    <!--                    support@curtainsandblinds.in</a>-->
+    <!--                <a href="mailto:info@curtainsandblinds.in" class="NewKansas-medium form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/mail.svg') }}" alt="">-->
+    <!--                    info@curtainsandblinds.in</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 </section>
+
+
+<!--Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-md-11">
+                Oops! Seems we are not servicing your area. But wait! we will be coming to you soon
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
     document.getElementById('PincodeInput').addEventListener('input', function(event) {
         // Allow only numeric values: Replace anything that's not a digit

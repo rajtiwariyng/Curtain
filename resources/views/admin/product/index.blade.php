@@ -6,7 +6,7 @@
 
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
-        <h6 class="fw-bold m-0">All Product <span class="fw-normal text-muted">({{ count($products) }})</span></h6>
+        <h6 class="fw-bold m-0">All Product <span class="fw-normal text-muted">({{ $totalProducts }})</span></h6>
         <a href="{{ route('products.create') }}" class="primary-btn addBtn">+ Add
             Product</a>
     </div>

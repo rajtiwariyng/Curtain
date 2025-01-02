@@ -52,9 +52,9 @@
             </div>
             <div class="col-md-6 content wow animate__animated animate__fadeIn">
                 <h4>Transform Your Personal Space Effortlessly With Our In-house Consultation Service!</h4>
-                <p>By simply filling out our request form, you're one step closer to achieving your transformed home.</p>
-                <p>Selecting the perfect color palette and fabric can feel overwhelming and ensuring timely execution adds to the challenge.</p>
-                <p>Our experts are here to make the entire process seamless and enjoyable. At Curtains and Blinds, we guide you through every step, from selection to stitching and delivery, with utmost care and precision. Let us bring your dream to life!</p>
+                <p class="text-justify">By simply filling out our request form, you're one step closer to achieving your transformed home.</p>
+                <p class="text-justify">Selecting the perfect color palette and fabric can feel overwhelming and ensuring timely execution adds to the challenge.</p>
+                <p class="text-justify">Our experts are here to make the entire process seamless and enjoyable. At Curtains and Blinds, we guide you through every step, from selection to stitching and delivery, with utmost care and precision. Let us bring your dream to life!</p>
             </div>
         </div>
     </div>
@@ -306,7 +306,7 @@
             <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
             <p>Schedule your design consultation today - let's bring your vision to life!</p>
         </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Book Your
             Appointment</a>
     </div>
 </section>

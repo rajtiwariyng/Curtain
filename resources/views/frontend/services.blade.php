@@ -19,7 +19,7 @@
     <div class="row align-items-center">
         <div class="col-md-6 wow animate__animated animate__fadeIn">
             <h3 class="NewKansas-medium">It is all about the customer experience</h3>
-            <p>We are committed to delivering an exceptional customer experience, offering a wide range of trendy and
+            <p class="text-justify">We are committed to delivering an exceptional customer experience, offering a wide range of trendy and
                 stylish window furnishings, all from the comfort of your home. Adopting a zero-clutter approach, we
                 ensure you can explore materials at your convenience, allowing you to make informed decisions alongside
                 your loved ones. Our products are not only affordable, but the entire process is hassle-free, with every
@@ -40,11 +40,11 @@
             </div>
             <div class="col-md-6 wow animate__animated animate__fadeIn">
                 <!-- <h3 class="NewKansas-medium">We are here to help</h3> -->
-                <p>Our stitching facility offers skilled craftsmanship, precision and customization to create
+                <p class="text-justify">Our stitching facility offers skilled craftsmanship, precision and customization to create
                     high-quality, tailor-made curtains ensuring the final product meets the exact specifications of the
                     client.
                 </p>
-                <p class="">Our capacity to work with different types of fabrics, including delicate materials, heavy-duty
+                <p class="text-justify">Our capacity to work with different types of fabrics, including delicate materials, heavy-duty
                     fabrics, or specialty textiles like velvet, linen, or fire-retardant fabrics, we ensure attention to
                     seamless transitions in fabric alignment, especially for complex or bespoke designs like the
                     patterns, seams, hems and finishes. The rigorous inspection of stitching guarantees quality control
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade wow animate__animated animate__fadeIn" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
                     tabindex="0">
                     <div class="row" style="margin-top: 42px;">
                         <div class="service-card-carousel owl-carousel owl-theme">
@@ -179,33 +179,80 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade wow animate__animated animate__fadeIn" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
                     tabindex="0">
                     <div class="row" style="margin-top: 42px;">
-                        <div class="col-md-4">
-                            <div class="card product-card"
-                                style="height:auto !important; min-height:fit-content !important;">
-                                <img src="{{ asset('frontend/images/accessories1.png') }}" alt="">
-                                <div class="card-body p-0 pt-3 text-center NewKansas-medium">
-                                    <h5>Curtain Hooks</h5>
+                        <!--<div class="col-md-4">-->
+                        <!--    <div class="card product-card"-->
+                        <!--        style="height:auto !important; min-height:fit-content !important;">-->
+                        <!--        <img src="{{ asset('frontend/images/accessories1.png') }}" alt="">-->
+                        <!--        <div class="card-body p-0 pt-3 text-center NewKansas-medium">-->
+                        <!--            <h5>Curtain Hooks</h5>-->
+                        <!--        </div>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                        <!--    <div class="card product-card"-->
+                        <!--        style="height:auto !important; min-height:fit-content !important;">-->
+                        <!--        <img src="{{ asset('frontend/images/accessories2.png') }}" alt="">-->
+                        <!--        <div class="card-body p-0 pt-3 text-center NewKansas-medium">-->
+                        <!--            <h5>Curtain Hooks</h5>-->
+                        <!--        </div>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4">-->
+                        <!--    <div class="card product-card"-->
+                        <!--        style="height:auto !important; min-height:fit-content !important;">-->
+                        <!--        <img src="{{ asset('frontend/images/accessories3.png') }}" alt="">-->
+                        <!--        <div class="card-body p-0 pt-3 text-center NewKansas-medium">-->
+                        <!--            <h5>Curtain Pull Rod</h5>-->
+                        <!--        </div>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        <div class="service-card-carousel owl-carousel owl-theme">
+                            <div class="item">
+                                <div class="card product-card"
+                                    style="height:auto !important; min-height:fit-content !important;">
+                                    <img src="{{ asset('frontend/images/Accessories1.png') }}" alt="">
+                                    <div class="card-body p-0 pt-3 text-center NewKansas-medium">
+                                        <h5>Belts</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card product-card"
-                                style="height:auto !important; min-height:fit-content !important;">
-                                <img src="{{ asset('frontend/images/accessories2.png') }}" alt="">
-                                <div class="card-body p-0 pt-3 text-center NewKansas-medium">
-                                    <h5>Curtain Hooks</h5>
+                            <div class="item">
+                                <div class="card product-card"
+                                    style="height:auto !important; min-height:fit-content !important;">
+                                    <img src="{{ asset('frontend/images/Accessories2.png') }}" alt="">
+                                    <div class="card-body p-0 pt-3 text-center NewKansas-medium">
+                                        <h5>Tassels</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card product-card"
-                                style="height:auto !important; min-height:fit-content !important;">
-                                <img src="{{ asset('frontend/images/accessories3.png') }}" alt="">
-                                <div class="card-body p-0 pt-3 text-center NewKansas-medium">
-                                    <h5>Curtain Pull Rod</h5>
+                            <div class="item">
+                                <div class="card product-card"
+                                    style="height:auto !important; min-height:fit-content !important;">
+                                    <img src="{{ asset('frontend/images/Accessories3.png') }}" alt="">
+                                    <div class="card-body p-0 pt-3 text-center NewKansas-medium">
+                                        <h5>Borders</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="card product-card"
+                                    style="height:auto !important; min-height:fit-content !important;">
+                                    <img src="{{ asset('frontend/images/Accessories4.png') }}" alt="">
+                                    <div class="card-body p-0 pt-3 text-center NewKansas-medium">
+                                        <h5>Under Hooks</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="card product-card"
+                                    style="height:auto !important; min-height:fit-content !important;">
+                                    <img src="{{ asset('frontend/images/Accessories5.png') }}" alt="">
+                                    <div class="card-body p-0 pt-3 text-center NewKansas-medium">
+                                        <h5>Under Curtain Pull Rod</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -262,10 +309,10 @@
 <section class="container wrapper wow animate__animated animate__fadeIn" style="padding-top:0px !important;">
     <div class="CTABanner">
         <div class="w-50">
-            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
-            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+            <h2 class="NewKansas-medium">Reimagine Your Home with OUR CURTAINS AND BLINDS</h2>
+            <p>Schedule your design consultation today – let’s bring your dreams to life!</p>
         </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Book Your
             Appointment</a>
     </div>
 </section>
