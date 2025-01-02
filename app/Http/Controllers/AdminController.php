@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Franchise;
 use App\Models\Product;
 use App\Models\Appointment;
+use App\Models\Quotation;
 use App\Models\User;
 use App\Models\ZipCode;
 
@@ -15,15 +16,19 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         $franchise=Franchise::all();
         $product=Product::all();
-        $appointment = Appointment::where('status', "1");
+        $appointment = Appointment::where('status', "!=" ,"0");
 
         if ($request->has('dateFilter')) {
             $appointment->whereDate('created_at', $request->dateFilter);
         }
 
         $appointment = $appointment->get();
+
+
+        $quotations = Quotation::with('appointment')->get();
+        // dd($quotations);
         $user=User::all();
-        return view('admin.dashboard',compact('franchise','product','appointment','user'));
+        return view('admin.dashboard',compact('franchise','product','appointment','user','quotations'));
     }
 
     public function getLocationByPincode(Request $request)

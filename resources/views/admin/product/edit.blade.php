@@ -51,7 +51,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection </label>
+                    <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection <span class="text-danger">*</span></label>
                     <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollections as $supplierCollection)
@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design </label>
+                    <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design <span class="text-danger">*</span></label>
                     <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollectionDesigns as $supplierCollectionDesign)
@@ -127,6 +127,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs) <span class="text-danger">*</span></label>
+                    <?php dd($types); ?>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $type)
                         <option value="{{ $type->type }}"
@@ -134,8 +135,8 @@
                             {{ in_array($type->type, $product->type) ? 'selected' : '' }}
                             @else
                             {{ $type->type == $product->type ? 'selected' : '' }}
-                            @endif>
-                            {{ $usage->usages }}
+                            @endif
+                            {{ $type->type }}
                         </option>
                         @endforeach
 
@@ -256,22 +257,34 @@
         // jQuery Form Validation
         $(document).ready(function() {
 
-            function unitset(){
-                var selectedProductId = $('#product_name').val();
+            function unitset() {
+                var old_unit = $('#unit').val(); // Get the old selected unit
+                var selectedProductId = $('#product_name').val(); // Get the selected product ID
                 var selectedOption = $('#product_name option[value="' + selectedProductId + '"]');
-                var productUnit = selectedOption.data('unit');
+                var productUnit = selectedOption.data('unit'); // Get the units from data-attribute
+
+                // If productUnit is a string, split it into an array
                 if (typeof productUnit === 'string') {
                     productUnit = productUnit.split(',');
                 }
+
                 var inputBox = $('#unit');
                 var unitSelect = $('#unitSelect');
-                inputBox.hide();
-                unitSelect.show();
-                unitSelect.empty();
+                inputBox.hide(); // Hide the input box
+                unitSelect.show(); // Show the unit select dropdown
+                unitSelect.empty(); // Clear the current options
+
+                // Populate the unit select dropdown with options
                 productUnit.forEach(function(unit) {
                     unitSelect.append('<option value="' + unit + '">' + unit + '</option>');
                 });
-                unitSelect.val(productUnit[0]);
+
+                // Automatically select the old unit if it's in the productUnit array
+                if (productUnit.includes(old_unit)) {
+                    unitSelect.val(old_unit);
+                } else {
+                    unitSelect.val(productUnit[0]); // If the old unit isn't in the array, select the first one
+                }
             }
             unitset();
             $('#product_name').change(function() {
@@ -297,12 +310,12 @@
                     supplier_name: {
                         required: true
                     },
-                    // supplier_collection: {
-                    //     required: true
-                    // },
-                    // supplier_collection_design: {
-                    //     required: true
-                    // },
+                    supplier_collection: {
+                        required: true
+                    },
+                    supplier_collection_design: {
+                        required: true
+                    },
                     image_alt: {
                         required: true
                     }
@@ -317,12 +330,12 @@
                     supplier_name: {
                         required: "Please select a supplier."
                     },
-                    // supplier_collection: {
-                    //     required: "Please select a supplier collection."
-                    // },
-                    // supplier_collection_design: {
-                    //     required: "Please select a supplier collection design."
-                    // },
+                    supplier_collection: {
+                        required: "Please select a supplier collection."
+                    },
+                    supplier_collection_design: {
+                        required: "Please select a supplier collection design."
+                    },
                     image_alt: {
                         required: "Please enter an image alt text."
                     }

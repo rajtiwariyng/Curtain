@@ -114,35 +114,84 @@
                         <thead>
                             <tr>
                                 <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N</th>
+                                <th>Appointment ID</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Address</th>
                                 <th>Pincode</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Country</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($appointment as $idx=>$appointments)
                                 <tr>
                                     <td>{{ $idx+1 }}</td>
+                                    <td>{{ $appointments->uniqueid }}</td>
                                     <td>{{ $appointments->name }}</td>
-                                    <td>{{ $appointments->email }}</td>
                                     <td>{{ $appointments->mobile }}</td>
-                                    <td>{{ $appointments->address }}</td>
                                     <td>{{ $appointments->pincode }}</td>
-                                    <td>{{ $appointments->city }}</td>
-                                    <td>{{ $appointments->state }}</td>
-                                    <td>{{ $appointments->country }}</td>
+                                    <td>
+                                        
+                                    @if($appointments->status == "1")
+                                        {{$status = 'Pending';}}
+                                    @elseif($appointments->status == "2")
+                                        {{$status = 'Assigned';}}
+                                    @elseif($appointments->status == "3")
+                                        {{$status = 'Hold';}}
+                                    @elseif($appointments->status == "4")
+                                        {{$status = 'Completed';}}
+                                    @else
+                                        {{$status = 'Query Booked';}} <!-- Or any other fallback status -->
+                                    @endif
+
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0"></div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                <div class="table-responsive">
+                    <table class="table" id="projectsTable">
+                        <thead>
+                            <tr>
+                                <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N</th>
+                                <th>Appointment ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($quotations as $idx=>$quotation)
+                                <tr>
+                                    <td>{{ $idx+1 }}</td>
+                                    <td>{{ $quotation->appointment['uniqueid'] }}</td>
+                                    <td>{{ $quotation->name }}</td>
+                                    <td>{{ $quotation->email }}</td>
+                                    <td>{{ $quotation->number }}</td>
+                                    <td>{{ $quotation->address }}</td>
+                                    <td>
+                                        
+                                    @if($quotation->status == 0)
+                                        {{$status = 'Hold';}}
+                                    @elseif($appointments->status == 0)
+                                        {{$status = 'Completed';}}
+                                    @else
+                                        {{$status = 'Hold';}} <!-- Or any other fallback status -->
+                                    @endif
+
+                                </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 </div>
