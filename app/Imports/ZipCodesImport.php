@@ -16,11 +16,26 @@ class ZipCodesImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+        // Find existing ZipCode entry by the zip_code
+        $zipcode = ZipCode::where('zip_code', $row['zip_code'])->first();
+
+        if ($zipcode) {
+            // Update the existing record
+            $zipcode->update([
+                'country'  => $row['country'],
+                'state'    => $row['state'],
+                'city'     => $row['city'],
+            ]);
+            return $zipcode;
+        }
+
+        // If not found, create a new ZipCode entry
         return new ZipCode([
-            'country'  => $row['country'],  // CSV heading must match
-            'state'    => $row['state'],    // CSV heading must match
-            'city'     => $row['city'],     // CSV heading must match
-            'zip_code' => $row['zip_code'], // CSV heading must match
+            'country'  => $row['country'],
+            'state'    => $row['state'],
+            'city'     => $row['city'],
+            'zip_code' => $row['zip_code'],
         ]);
     }
+
 }

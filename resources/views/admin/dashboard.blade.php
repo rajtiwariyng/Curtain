@@ -62,7 +62,7 @@
                 <p class="m-0 small">Total number of Users</p>
             </div>
         </a>
-    @elseif (Auth::user()->hasRole('Helpdesk'))
+    @elseif (Auth::user()->hasRole('Help Desk'))
         <a href="{{ route('franchise.temp.index') }}">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">

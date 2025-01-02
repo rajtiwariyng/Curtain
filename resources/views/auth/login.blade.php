@@ -26,23 +26,6 @@
                         <div class="section-title mb-4 flex-column align-items-start p-0">
                             <p class="m-0 small">Welcome back!!</p>
                             <h4 class="fw-bold">Please Sign In</h4>
-                            @if(Session::has('error'))
-                                <div class="error-message" style="color: red; font-weight: bold;">
-                                    <strong>Error!</strong> {{ Session::get('error') }}
-                                </div>
-                            @endif
-
-                            @if ($errors->any())
-                                <div class="error-message" style="color: red; font-weight: bold;">
-                                    <ul class="mb-0">
-                                        <strong>Error!</strong>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
                             @if(Session::has('success'))
                                 <div id="smessage" class="success-message" style="color: green; font-weight: bold;">
                                     <strong>Success!</strong> {{ Session::get('success') }}
