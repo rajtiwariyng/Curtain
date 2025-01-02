@@ -174,91 +174,114 @@
         <h6 class="offcanvas-title" id="FilterSidebarLabel">Add Filters</h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <form action="{{ url('products') }}" method="get" id="fiter_form">
-        <div class="offcanvas-body">
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Type</label>
-                <select class="form-select w-100" id="type" name="type" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($types as $type)
-                    <option value="{{ $type->id }}">{{$type->type}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Supplier Name</label>
-                <select name="supplier_name" id="supplier_name" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($suppliers as $supplier)
-                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Supplier Collection</label>
-                <select name="supplier_collection" id="supplier_collection" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Supplier Collection Design</label>
-                <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100" aria-label="Default select example">
-                    <option value="">Select</option>
-                </select>
-            </div>
-            <div class="mb-1 w-100">
-                <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
-                <input type="range" class="w-100" id="TallyCodeInput">
-                <div class="values d-flex justify-content-between">
-                    <span class="text-muted">?100</span>
-                    <span class="text-muted">?1000</span>
-                </div>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Colour</label>
-                <select name="colour" id="colour" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($colours as $colour)
-                    <option value="{{ $colour->id }}">{{ $colour->color }} </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Composition</label>
-                <select name="composition" id="composition" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($compositions as $composition)
-                    <option value="{{ $composition->id }}">{{ $composition->composition }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Usage</label>
-                <select name="usage" id="usage" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($usages as $ug => $usage)
-                    <option value="{{ $usage->id }}">{{ $usage->usages }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2 w-100">
-                <label class="form-label m-0 mb-1">Design Type</label>
-                <select name="design_type" id="design_type" class="form-select w-100" aria-label="Default select example">
-                    <option selected>Select</option>
-                    @foreach ($designTypes as $dt => $designType)
-                    <option value="{{ $designType->id }}"> {{ $designType->design_type }}</option>
-                    @endforeach
-                </select>
+    <form id="filter_form" action="{{ url('products') }}" method="get">
+    <div class="offcanvas-body">
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Type</label>
+            <select class="form-select w-100" id="type" name="type" aria-label="Default select example">
+                <option value="Select" {{ request()->get('type') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type->type }}" {{ request()->get('type') === $type->type ? 'selected' : '' }}>
+                        {{ $type->type }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Supplier Name</label>
+            <select name="supplier_name" id="supplier_name" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('supplier_name') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}" {{ request()->get('supplier_name') == $supplier->id ? 'selected' : '' }}>
+                        {{ $supplier->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Supplier Collection</label>
+            <select name="supplier_collection" id="supplier_collection" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('supplier_collection') === 'Select' ? 'selected' : '' }}>Select</option>
+                <!-- Add options dynamically if needed -->
+            </select>
+        </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Supplier Collection Design</label>
+            <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('supplier_collection_design') === 'Select' ? 'selected' : '' }}>Select</option>
+                <!-- Add options dynamically if needed -->
+            </select>
+        </div>
+
+        <div class="mb-1 w-100">
+            <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
+            <!-- <input type="range" class="w-100" id="TallyCodeInput"> -->
+            <input type="range" class="w-100" id="TallyCodeInput" min="100" max="1000" step="10" value="100">
+            <div class="values d-flex justify-content-between">
+                <span class="text-muted">?100</span>
+                <span class="text-muted">?1000</span>
             </div>
         </div>
-        <div class="offcanvas-footer">
-            <div class="d-flex justify-content-start p-3 border-top">
-                <!-- <button type="button" class="secondary-btn me-2 addBtn" id="clearBtn" name="clearBtn" data-bs-dismiss="offcanvas">Clear</button> -->
-                <button type="button" class="secondary-btn me-2 addBtn" id="clearBtn" name="clearBtn" data-bs-dismiss="offcanvas">Clear</button>
-                <button type="submit" class="primary-btn addBtn">Apply</button>
-            </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Colour</label>
+            <select name="colour" id="colour" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('colour') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($colours as $colour)
+                    <option value="{{ $colour->color }}" {{ request()->get('colour') == $colour->color ? 'selected' : '' }}>
+                        {{ $colour->color }}
+                    </option>
+                @endforeach
+            </select>
         </div>
-    </form>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Composition</label>
+            <select name="composition" id="composition" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('composition') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($compositions as $composition)
+                    <option value="{{ $composition->composition }}" {{ request()->get('composition') == $composition->composition ? 'selected' : '' }}>
+                        {{ $composition->composition }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Usage</label>
+            <select name="usage" id="usage" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('usage') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($usages as $usage)
+                    <option value="{{ $usage->usages }}" {{ request()->get('usage') == $usage->usages ? 'selected' : '' }}>
+                        {{ $usage->usages }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-2 w-100">
+            <label class="form-label m-0 mb-1">Design Type</label>
+            <select name="design_type" id="design_type" class="form-select w-100" aria-label="Default select example">
+                <option value="Select" {{ request()->get('design_type') === 'Select' ? 'selected' : '' }}>Select</option>
+                @foreach ($designTypes as $designType)
+                    <option value="{{ $designType->design_type }}" {{ request()->get('design_type') == $designType->design_type ? 'selected' : '' }}>
+                        {{ $designType->design_type }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="offcanvas-footer">
+        <div class="d-flex justify-content-start p-3 border-top">
+            <button type="button" class="secondary-btn me-2 addBtn" id="clearBtn" name="clearBtn" onclick="clearForm()" data-bs-dismiss="offcanvas">Clear</button>
+            <button type="submit" class="primary-btn addBtn">Apply</button>
+        </div>
+    </div>
+</form>
 </div>
 <!-- Filter Sidebar end -->
 
@@ -292,6 +315,36 @@
 @endsection
 @section('script')
 <script>
+    function clearForm() {
+        document.getElementById("filter_form").reset();
+    }
+    // Function to handle form submission
+    document.getElementById("filter_form").addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent default form submission
+
+        // Construct the URL dynamically based on selected filters
+        const form = new FormData(this);
+        const params = new URLSearchParams();
+
+        form.forEach((value, key) => {
+            if (value && value !== 'Select' && value !== '') {
+                params.append(key, value);
+            }
+        });
+
+        // Build the final URL with selected filters
+        const url = `{{ url('products') }}?${params.toString()}`;
+        
+        // Redirect to the new URL (this simulates submitting the form)
+        window.location.href = url;
+    });
+
+    // Clear form function
+    function clearForm() {
+        document.getElementById("filter_form").reset();
+    }
+</script>
+<script>
     function openDeleteModal(productId) {
         // Update the form action dynamically
         const form = document.getElementById('deleteUserForm');
@@ -305,6 +358,7 @@
 </script>
 <script>
     $(document).ready(function() {
+        
         $('.viewProductLink').on('click', function() {
             var productId = $(this).data('product-id'); // Get the product ID from the clicked link
 
@@ -374,15 +428,35 @@
         });
     });
 
+    const supplierId = '{{ request()->get('supplier_name') }}';
+    const collectionId = '{{ request()->get('supplier_collection') }}';
+    const designId = '{{ request()->get('supplier_collection_design') }}';
+
+    // Pre-select the Supplier Name dropdown
+    if (supplierId && supplierId !== 'Select') {
+        $('#supplier_name').val(supplierId).trigger('change');
+    }
+
+    // Pre-select the Supplier Collection dropdown if a collection ID is available
+    if (collectionId && collectionId !== 'Select') {
+        $('#supplier_collection').val(collectionId).trigger('change');
+    }
+
+    // Pre-select the Supplier Collection Design dropdown if a design ID is available
+    if (designId && designId !== 'Select') {
+        $('#supplier_collection_design').val(designId);
+    }
+
+    // Handle Supplier Name Change
     $('#supplier_name').change(function() {
         const supplierId = $(this).val();
 
-        // Clear dependent dropdowns
-        $('#supplier_collection').empty().append('<option value="">Select Supplier Collection</option>');
-        $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+        // Clear the dependent dropdowns
+        $('#supplier_collection').empty().append('<option value="Select">Select Supplier Collection</option>');
+        $('#supplier_collection_design').empty().append('<option value="Select">Select Supplier Collection Design</option>');
 
-        if (supplierId) {
-            // Fetch Supplier Collections
+        if (supplierId && supplierId !== 'Select') {
+            // Fetch Supplier Collections based on selected Supplier
             $.ajax({
                 url: `/supplier-collection/${supplierId}`,
                 type: 'GET',
@@ -392,7 +466,7 @@
                         $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
                     } else {
                         data.forEach(item => {
-                            $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
+                            $('#supplier_collection').append(`<option value="${item.id}" ${item.id === collectionId ? 'selected' : ''}>${item.collection_name}</option>`);
                         });
                     }
                 },
@@ -403,16 +477,16 @@
         }
     });
 
-    // Supplier Collection Change Handler
+    // Handle Supplier Collection Change
     $('#supplier_collection').change(function() {
         const collectionId = $(this).val();
         const supplierId = $('#supplier_name').val();
 
-        // Clear dependent dropdown
-        $('#supplier_collection_design').empty().append('<option value="">Select Supplier Collection Design</option>');
+        // Clear the dependent dropdown
+        $('#supplier_collection_design').empty().append('<option value="Select">Select Supplier Collection Design</option>');
 
         if (collectionId && supplierId) {
-            // Fetch Supplier Collection Designs
+            // Fetch Supplier Collection Designs based on selected Supplier and Collection
             $.ajax({
                 url: `/supplier-collection-designs/${supplierId}/${collectionId}`,
                 type: 'GET',
@@ -422,7 +496,7 @@
                         $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
                     } else {
                         data.forEach(item => {
-                            $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);
+                            $('#supplier_collection_design').append(`<option value="${item.id}" ${item.id === designId ? 'selected' : ''}>${item.design_name}</option>`);
                         });
                     }
                 },

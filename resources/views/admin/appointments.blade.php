@@ -278,17 +278,19 @@
                     <input type="hidden" id="appointmentId" name="appointment_id">
                     <div class="mb-3">
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="franchise" name="franchise_id" class="form-select w-100" required>
+                        <select id="franchise" name="franchise_id" class="form-select w-100">
                             <option value="">Select Franchise</option>
                             @foreach($franchises as $franchise)
                             <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
                             @endforeach
                         </select>
+                        <div class="error" style="color: red;"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="date" class="form-label">Appointment Date</label>
+                        <label for="date" class="form-label">Appointment Date<span class="requried">*</span></label>
                         <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
+                        <div class="error" style="color: red;"></div>
                     </div>
 
                     <div class="mb-3">
@@ -310,7 +312,7 @@
 <div class="modal fade" id="reassignAppointmentModal" tabindex="-1" aria-labelledby="reapproveFranchiseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('appointments.reassign') }}" method="POST">
+            <form action="{{ route('appointments.reassign') }}" method="POST" id="re_Assign">
                 @csrf
 
                 <div class="modal-header">
@@ -321,22 +323,24 @@
                     <input type="hidden" id="appointmentId1" name="appointment_id1">
                     <div class="mb-3">
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="franchise" name="franchise_id" class="form-select w-100" required>
+                        <select id="re-franchise" name="franchise_id1" class="form-select w-100">
                             <option value="">Select Franchise</option>
                             @foreach($franchises as $franchise)
                             <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
                             @endforeach
                         </select>
+                        <div class="error" style="color: red;"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="date" class="form-label">Appointment Date</label>
-                        <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
+                        <label for="date" class="form-label">Appointment Date<span class="requried">*</span></label>
+                        <input type="datetime-local" name="dateFilter1" id="re-dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
+                        <div class="error" style="color: red;"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="remarks" class="form-label">Remarks</label>
-                        <textarea class="form-control me-3 w-100" name="remarks" id="remarks" rows="3" cols="50"></textarea>
+                        <textarea class="form-control me-3 w-100" name="remarks1" id="re-remarks" rows="3" cols="50"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -370,6 +374,37 @@
     $(document).ready(function() {
         // Initial load for the 'pending' tab data
         loadAppointmentData(1);
+
+        $('#re_Assign').on('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Reset any previous error messages
+            $('.error').remove();
+
+            let valid = true;
+
+            // Validate Franchise selection
+            const franchise = $('#re-franchise').val();
+
+            if (!franchise) {
+                valid = false;
+                $('#re-franchise').after('<div class="error" style="color: red;">Franchise is required.</div>');
+            }
+
+            // Validate Appointment Date
+            const date = $('#re-dateFilter').val();
+            console.log(date);
+            if (!date) {
+                valid = false;
+                $('#re-dateFilter').after('<div class="error" style="color: red;">Appointment date is required.</div>');
+            }
+
+
+            // If all validations pass, submit the form
+            if (valid) {
+                this.submit();
+            }
+        });
 
         // Handle tab change event
         $('#pills-tab button').on('click', function() {

@@ -48,9 +48,9 @@
                 </thead>
                 <tbody>
                    
-                @foreach($appointments as $appointment)
+                @foreach($appointments as $key =>  $appointment)
                 <tr>
-                    <td>#</td>
+                    <td>{{$key+1}}</td>
                     <td>{{ $appointment->name }}</td>
                     <td>{{ $appointment->email }}</td>
                     <td>{{ $appointment->mobile }}</td>

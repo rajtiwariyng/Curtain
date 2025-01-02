@@ -142,6 +142,7 @@ class ProductController extends Controller
 
     public function index()
     {
+        // dd($_GET);
         $products = Product::with(
             "ProductType",
             "Supplier",
@@ -164,19 +165,26 @@ class ProductController extends Controller
 
         foreach ($filters as $key => $column) {
             $value = request()->get($key);
-
             if ($value && $value !== "Select") {
-                if (is_array($value)) {
-                    $products->whereIn($column, $value);
+                if ($column == 'type' || $column == 'colour' || $column == 'composition' || $column == 'usage' || $column == 'design_type') {
+                    // Assuming 'type' is a JSON field, use JSON_CONTAINS to search in the array
+                    $products->whereJsonContains($column, $value);
                 } else {
-                    $products->where($column, $value);
+                    // For other columns, use a regular where clause
+                    if (is_array($value)) {
+                        $products->whereIn($column, $value);
+                    } else {
+                        $products->where($column, $value);
+                    }
                 }
             }
         }
+        // exit;
 
         // Paginate the results
         
         $products = $products->paginate(250);
+
         $totalProducts = $products->total();
         $usages = Usage::all();
         $colours = Color::all();
