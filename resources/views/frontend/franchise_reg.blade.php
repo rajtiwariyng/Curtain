@@ -20,8 +20,8 @@
     <div class="row align-items-center">
         <div class="col-md-6 wow animate__animated animate__fadeIn">
             <h3 class="NewKansas-medium">Become a Franchise and Elevate Your Financial Future</h3>
-            <p class="mt-4">Join our thriving network of entrepreneurs and maximize your returns with minimal investment through our tailored franchise program. We take care of hassle-free order fulfillment on the back end, allowing you to focus on driving growth and building your business. From your first meeting to the final execution, we provide comprehensive training and guidance to ensure a smooth launch and consistent profits. Whether you're an individual or part of a team, we work with you to design a scalable business model with robust growth potential for the future. Once you become our partner, you can rest assured that we will help generate quality leads for your business—both online and offline—ensuring maximum reach and profitability.</p>
-            <p class="mt-4">Our comprehensive training ensures a smooth start and equips you with the tools for long-term success. Whether you’re operating solo or with a team, we’ll help you design a scalable business model that thrives with future growth. As a partner, you’ll benefit from continuous lead generation, both online and offline, driving consistent growth and profitability for your business.</p>
+            <p class="mt-4 text-justify">Join our thriving network of entrepreneurs and maximize your returns with minimal investment through our tailored franchise program. We take care of hassle-free order fulfillment on the back end, allowing you to focus on driving growth and building your business. From your first meeting to the final execution, we provide comprehensive training and guidance to ensure a smooth launch and consistent profits. Whether you're an individual or part of a team, we work with you to design a scalable business model with robust growth potential for the future. Once you become our partner, you can rest assured that we will help generate quality leads for your business—both online and offline—ensuring maximum reach and profitability.</p>
+            <p class="mt-4 text-justify">Our comprehensive training ensures a smooth start and equips you with the tools for long-term success. Whether you’re operating solo or with a team, we’ll help you design a scalable business model that thrives with future growth. As a partner, you’ll benefit from continuous lead generation, both online and offline, driving consistent growth and profitability for your business.</p>
         </div>
         <div class="col-md-6 wow animate__animated animate__fadeIn">
             <img src="{{ asset('frontend/images/img-12.png') }}" alt="" class="img-fluid">
@@ -68,7 +68,7 @@
 </section>
 
 <section class="container-fluid bg-white wrapper" id="registerWithUs">
-    <div class="registrationSection pt-0 container wow animate__animated animate__fadeIn">
+    <div class="registrationSection pt-0 pb-0 container wow animate__animated animate__fadeIn">
         <h2 class="NewKansas-medium text-center" id="form-title1">Register with us</h2>
         @if($errors->any())
             <div class="alert alert-danger">
@@ -214,30 +214,30 @@
         </div>
     </div>
 
-    <div class="section-contact-info container wow animate__animated animate__fadeIn">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="NewKansas-medium">Connect with us</h3>
-                <p>At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having
-                    access to a real person can make all the difference.</p>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end align-items-center">
-                <div class="d-flex flex-column justify-content-end">
-                    <a href="https://wa.link/7m1rva" class="NewKansas-medium mb-3 form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/whatsapp.svg') }}"
-                            alt=""> +91
-                        7838357850</a>
-                    <a href="mailto:support@curtainsandblinds.in" class="NewKansas-medium mb-3 form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/support.svg') }}"
-                            alt="">
-                        support@curtainsandblinds.in</a>
-                    <a href="mailto:info@curtainsandblinds.in" class="NewKansas-medium form-bottom-info"
-                        style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/mail.svg') }}" alt="">
-                        info@curtainsandblinds.in</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="section-contact-info container wow animate__animated animate__fadeIn">-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-6">-->
+    <!--            <h3 class="NewKansas-medium">Connect with us</h3>-->
+    <!--            <p>At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having-->
+    <!--                access to a real person can make all the difference.</p>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-6 d-flex justify-content-end align-items-center">-->
+    <!--            <div class="d-flex flex-column justify-content-end">-->
+    <!--                <a href="https://wa.link/7m1rva" class="NewKansas-medium mb-3 form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/whatsapp.svg') }}"-->
+    <!--                        alt=""> +91-->
+    <!--                    7838357850</a>-->
+    <!--                <a href="mailto:support@curtainsandblinds.in" class="NewKansas-medium mb-3 form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/support.svg') }}"-->
+    <!--                        alt="">-->
+    <!--                    support@curtainsandblinds.in</a>-->
+    <!--                <a href="mailto:info@curtainsandblinds.in" class="NewKansas-medium form-bottom-info"-->
+    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/mail.svg') }}" alt="">-->
+    <!--                    info@curtainsandblinds.in</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 </section>
 
 <section class="wrapper">

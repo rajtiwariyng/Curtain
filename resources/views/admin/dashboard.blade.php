@@ -102,6 +102,7 @@
             </div>
             <div class="d-flex justify-content-start align-items-center">
                 <input type="date" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}" class="form-control me-3">
+                 <input type="date" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}" class="form-control me-3">
                 <a href="{{ route('appointments.list.index') }}" class="small">View All <i class="bi bi-arrow-right-short"></i></a>
             </div>
         </div>

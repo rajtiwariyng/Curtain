@@ -65,7 +65,7 @@
                 <div class="card uspCard d-flex justify-content-start align-items-center flex-column">
                     <img src="{{ asset('frontend/images/usp14.png')}}" class="mb-4" alt="">
                     <h4>FABRICATION UNIT</h4>
-                    <p class="m-0">State of the art Fabrication unit</p>
+                    <p class="m-0">Modern and well equipped infrastructure with skilled work force</p>
                 </div>
             </div>
             <div class="col-md-3 mb-3 wow animate__animated animate__fadeIn">
@@ -285,7 +285,7 @@ HAS NEVER BEEN EASIER</h2>
                         <img src="{{ asset('frontend/images/pro-1.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>We spoil you for choice</h4>
-                            <p class="m-0 text-color">With over 800 SKUs, we offer plenty of options while keeping the
+                            <p class="m-0 text-color text-justify">With over 800 SKUs, we offer plenty of options while keeping the
                                 experience clutter-free. It’s the perfect blend of physical and digital convenience,
                                 tailored just for you.</p>
                         </div>
@@ -296,7 +296,7 @@ HAS NEVER BEEN EASIER</h2>
                         <img src="{{ asset('frontend/images/pro-5.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>Find your perfect match</h4>
-                            <p class="m-0 text-color">Make informed decisions by experiencing our products firsthand.
+                            <p class="m-0 text-color text-justify">Make informed decisions by experiencing our products firsthand.
                                 Match fabrics to your actual surroundings, eliminating guesswork and ensuring the
                                 perfect fit for your space.</p>
                         </div>
@@ -307,7 +307,7 @@ HAS NEVER BEEN EASIER</h2>
                         <img src="{{ asset('frontend/images/pro-3.png') }}" alt="">
                         <div class="card-body p-4">
                             <h4>Affordable and budget-friendly</h4>
-                            <p class="m-0 text-color">At CAB, we ensure genuine pricing with no haggling and zero
+                            <p class="m-0 text-color text-justify">At CAB, we ensure genuine pricing with no haggling and zero
                                 material wastage. What you see is what you get—authentic materials and the final product
                                 exactly as you selected.</p>
                         </div>
@@ -523,7 +523,7 @@ HAS NEVER BEEN EASIER</h2>
             <div class="item wow animate__animated animate__fadeIn">
                 <div class="card testimonial-card">
                     <!--<h4>These guys are well priced</h4>-->
-                    <p>"Different yet exciting concept. From start to finish, the team provided a competitive quote, and working with the designers was an absolute pleasure. The installation process was seamless, fast, and incredibly efficient. Highly recommend these guys for their professionalism and outstanding service!"</p>
+                    <p class="text-justify">"Different yet exciting concept. From start to finish, the team provided a competitive quote, and working with the designers was an absolute pleasure. The installation process was seamless, fast, and incredibly efficient. Highly recommend these guys for their professionalism and outstanding service!"</p>
                     <div class="user-info d-flex justify-content-start align-items-center">
                         <img src="{{ asset('frontend/images/user1.png') }}" alt="user" class="img-fluid me-3" style="max-width: 62px;">
                         <div>
@@ -536,7 +536,7 @@ HAS NEVER BEEN EASIER</h2>
             <div class="item wow animate__animated animate__fadeIn">
                 <div class="card testimonial-card">
                     <!--<h4>These guys are well priced</h4>-->
-                    <p>"I had an amazing experience buying curtains for my new house. The  entire team is highly experienced, offering mindful consultation to help me choose curtains that perfectly matched my home's theme and color palette. They lived up to my expectation on fabric knowledge, pricing and timely delivery. I must recommend their name for their expertise and exceptional customer experience!"</p>
+                    <p class="text-justify">"I had an amazing experience buying curtains for my new house. The  entire team is highly experienced, offering mindful consultation to help me choose curtains that perfectly matched my home's theme and color palette. They lived up to my expectation on fabric knowledge, pricing and timely delivery. I must recommend their name for their expertise and exceptional customer experience!"</p>
                     <div class="user-info d-flex justify-content-start align-items-center">
                         <img src="{{ asset('frontend/images/user2.png') }}" alt="user" class="img-fluid me-3" style="max-width: 62px;">
                         <div>
@@ -549,7 +549,7 @@ HAS NEVER BEEN EASIER</h2>
             <div class="item wow animate__animated animate__fadeIn">
                 <div class="card testimonial-card">
                     <!--<h4>These guys are well priced</h4>-->
-                    <p>
+                    <p class="text-justify">
                         "Let me start with a big thank you! Their timely visit was such a relief, as they brought their entire collection right to my home—I absolutely loved the concept, everything in one bag. I didn’t have to step out to make my selection! We were thoroughly impressed by their value-for-money pricing and professionalism. A special thanks to the designer for her professional approach, extensive product knowledge, and for helping us choose curtains that look absolutely stunning. The installers were equally impressive—skilled and knowledgeable. They did an outstanding job.We couldn’t be happier!"
                     </p>
                     <div class="user-info d-flex justify-content-start align-items-center">
@@ -711,10 +711,10 @@ HAS NEVER BEEN EASIER</h2>
 <section class="container wrapper wow animate__animated animate__fadeIn">
     <div class="CTABanner">
         <div class="w-50">
-            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
-            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS</h2>
+            <p>Schedule your design consultation today – let’s bring your dreams to life!</p>
         </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Book Your
             Appointment</a>
     </div>
 </section>

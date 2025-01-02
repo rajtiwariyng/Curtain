@@ -25,13 +25,13 @@
             </div>
             <div class="col-md-6 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-medium">Make in India</h2>
-                <p>With an unwavering commitment to customer satisfaction, exceptional craftsmanship, and seamless
+                <p class="text-justify">With an unwavering commitment to customer satisfaction, exceptional craftsmanship, and seamless
                     installation, you are assured that your order is crafted with precision and care by some of India’s
                     most skilled and experienced curtain makers. Our competitive pricing ensures that quality remains
                     accessible to all. </p>
-                <p>Rooted in multi-generational expertise, we produce our curtains locally in collaboration with some of
+                <p class="text-justify">Rooted in multi-generational expertise, we produce our curtains locally in collaboration with some of
                     the nation’s finest textile mills, guaranteeing premium fabrics and impeccable design. </p>
-                <p>Our diverse range features stylish borders, refined stitching techniques, durability and high-quality
+                <p class="text-justify">Our diverse range features stylish borders, refined stitching techniques, durability and high-quality
                     hardware. Despite the variety, we remain steadfast in our promise: to deliver superior quality and
                     affordability without compromise.</p>
 
@@ -46,11 +46,11 @@
         <div class="row align-items-center ">
             <div class="col-md-5 wow animate__animated animate__fadeIn">
                 <h2 class="NewKansas-medium">A Legacy of 30 years</h2>
-                <p>For three generations, we have been at the heart of the furnishing industry's evolution. From our
+                <p class="text-justify">For three generations, we have been at the heart of the furnishing industry's evolution. From our
                     modest beginnings as a single store on a vibrant Delhi street, we have grown into a proud PAN-India
                     solution provider in the furnishing sector. Guided by the belief that every home tells a unique
                     story, we continually adapt and innovate to meet the diverse needs of our customers.</p>
-                <p>Our offerings celebrate the rich cultural heritage of the regions we serve, ensuring a touch of
+                <p class="text-justify">Our offerings celebrate the rich cultural heritage of the regions we serve, ensuring a touch of
                     uniqueness for every space. Embracing learning as a cornerstone of our growth, we stay ahead by
                     incorporating global trends into our carefully curated collections, keeping your spaces stylish,
                     modern, and timeless.</p>
@@ -96,16 +96,16 @@
             </div>
             <div class="col-md-6 d-flex justify-content-start align-items-center wow animate__animated animate__fadeIn">
                 <div class="card storycard">
-                    <h4>Our story</h4>
-                    <p>At Curtains and Blinds (CAB), we are your ultimate destination for trendy and hassle-free Curtain
+                    <h2 class="NewKansas-medium">Our story</h2>
+                    <p class="text-justify">At Curtains and Blinds (CAB), we are your ultimate destination for trendy and hassle-free Curtain
                         solutions. Dedicated to simplifying your window dressing, we offer a wide range of stylish
                         Curtains and Blinds - all conveniently accessible from the comfort of your home.</p>
-                    <p>Choosing the perfect décor can feel overwhelming, but CAB makes it effortless. Our expert team
+                    <p class="text-justify">Choosing the perfect décor can feel overwhelming, but CAB makes it effortless. Our expert team
                         takes the guesswork out of the process and handpicks the latest designs to suit your style and
                         preferences, delivering tailored solutions just for you. Whether you lean toward minimalist
                         sophistication, bold patterns, or a blend of both, we have something to match every aesthetic.
                     </p>
-                    <p>At CAB, we don’t just provide furnishings; we create spaces you’ll love to live in.</p>
+                    <p class="text-justify">At CAB, we don’t just provide furnishings; we create spaces you’ll love to live in.</p>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@
 <div class="bg-white">
     <section class="ourTeam wrapper container ">
     <h2 class="NewKansas-medium text-center mb-4 wow animate__animated animate__fadeIn">OUR FOUNDERS</h2>
-    <div class="row mt-4 justify-content-center ">
+    <div class="row mt-4 founderMessage">
         <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
                 <img src="{{ asset('frontend/images/p1.png') }}" alt="" class="img-fluid">
@@ -162,6 +162,34 @@
                     <p class="m-0">Founder</p>
                 </div>
             </div>
+        </div>
+        <div class="col-md-9 messageContent">
+            <p class="text-justify">Founded by Devesh Sharma, Curtains and Blinds was created with a clear vision to revolutionize the window adornment industry, providing innovative and tailored solutions to households around the world. With over 30 years of experience in the furnishings sector, Devesh Sharma brings a wealth of knowledge and expertise in design, global sourcing, and sustainability, which has shaped the brand's commitment to excellence.
+            </p>
+            <p class="text-justify">
+                  At Curtains and Blinds, each project reflects his dedication to creativity, quality, and lasting impact. The brand was established with the mission to simplify and redefine the world of soft furnishings, transforming the industry through design innovation and a focus on customer needs.
+            </p> 
+            <p class="text-justify">
+                Specializing in bespoke and contemporary window dressing, we blend style with affordability, ensuring solutions that suit a wide range of budgets. With cutting-edge technology and a passion for design, we deliver seamless, customized experiences that are tailored to each client's unique requirements.
+            </p>
+            <p class="text-justify">
+                His mission statement : At Curtains and Blinds, we’re not just transforming spaces — we’re elevating the way you live.
+            </p>
+        </div>
+    </div>
+    
+    <div  class="row mt-4 founderMessage founderMessage2">
+        <div class="col-md-9 messageContent">
+            <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            <p class="text-justify">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </p> 
+            <p class="text-justify">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
         </div>
         <div class="col-md-3 wow animate__animated animate__fadeIn">
             <div class="card teamCard mb-4">
@@ -173,63 +201,56 @@
             </div>
         </div>
     </div>
-    <h4 class="w-100 m-auto text-center wow animate__animated animate__fadeIn">STRATEGIC ADVISORS, INDUSTRY LEADERS AND INNOVATORS – OUR CONSULTANTS</h4>
-    <div class="row mt-4">
-        <div class="col-md-3 wow animate__animated animate__fadeIn">
-            <div class="card teamCard mb-4">
-                <img src="{{ asset('frontend/images/p3.png') }}" alt="" class="img-fluid">
-                <div class="card-content text-center">
-                    <p class="mt-2 mb-1 NewKansas-medium">Amit Aurora</p>
-                    <p class="m-0">Our consultants and advisors</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 wow animate__animated animate__fadeIn">
-            <div class="card teamCard mb-4">
-                <img src="{{ asset('frontend/images/p4.png') }}" alt="" class="img-fluid">
-                <div class="card-content text-center">
-                    <p class="mt-2 mb-1 NewKansas-medium">Atul Vashishth</p>
-                    <p class="m-0">Our consultants and advisors</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 wow animate__animated animate__fadeIn">
-            <div class="card teamCard mb-4">
-                <img src="{{ asset('frontend/images/p5.png') }}" alt="" class="img-fluid">
-                <div class="card-content text-center">
-                    <p class="mt-2 mb-1 NewKansas-medium">Suraj Mallik</p>
-                    <p class="m-0">Our consultants and advisors</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 wow animate__animated animate__fadeIn">
-            <div class="card teamCard mb-4">
-                <img src="{{ asset('frontend/images/p6.png') }}" alt="" class="img-fluid">
-                <div class="card-content text-center">
-                    <p class="mt-2 mb-1 NewKansas-medium">Moksh Juneja</p>
-                    <p class="m-0">Our consultants and advisors</p>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="col-md-3">
-                    <div class="card teamCardSub flex-column justify-content-between">
-                        <p>“You miss 100% of the shots you don’t take” - Wayne Gretzky - Michael Scott</p>
-                        <div class="social-link">
-                            <a href="#"><img src="images/linkedin_C.svg" alt=""></a>
-                            <a href="#"><img src="images/facebook_c.svg" alt=""></a>
-                        </div>
-                    </div>
-                </div> -->
+    
+    <!--<h4 class="w-100 m-auto text-center wow animate__animated animate__fadeIn">STRATEGIC ADVISORS, INDUSTRY LEADERS AND INNOVATORS – OUR CONSULTANTS</h4>-->
+    <!--<div class="row mt-4">-->
+    <!--    <div class="col-md-3 wow animate__animated animate__fadeIn">-->
+    <!--        <div class="card teamCard mb-4">-->
+    <!--            <img src="{{ asset('frontend/images/p3.png') }}" alt="" class="img-fluid">-->
+    <!--            <div class="card-content text-center">-->
+    <!--                <p class="mt-2 mb-1 NewKansas-medium">Amit Aurora</p>-->
+    <!--                <p class="m-0">Our consultants and advisors</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="col-md-3 wow animate__animated animate__fadeIn">-->
+    <!--        <div class="card teamCard mb-4">-->
+    <!--            <img src="{{ asset('frontend/images/p4.png') }}" alt="" class="img-fluid">-->
+    <!--            <div class="card-content text-center">-->
+    <!--                <p class="mt-2 mb-1 NewKansas-medium">Atul Vashishth</p>-->
+    <!--                <p class="m-0">Our consultants and advisors</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="col-md-3 wow animate__animated animate__fadeIn">-->
+    <!--        <div class="card teamCard mb-4">-->
+    <!--            <img src="{{ asset('frontend/images/p5.png') }}" alt="" class="img-fluid">-->
+    <!--            <div class="card-content text-center">-->
+    <!--                <p class="mt-2 mb-1 NewKansas-medium">Suraj Mallik</p>-->
+    <!--                <p class="m-0">Our consultants and advisors</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="col-md-3 wow animate__animated animate__fadeIn">-->
+    <!--        <div class="card teamCard mb-4">-->
+    <!--            <img src="{{ asset('frontend/images/p6.png') }}" alt="" class="img-fluid">-->
+    <!--            <div class="card-content text-center">-->
+    <!--                <p class="mt-2 mb-1 NewKansas-medium">Moksh Juneja</p>-->
+    <!--                <p class="m-0">Our consultants and advisors</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 </section>
 </div>
 
 <section class="container wrapper wow animate__animated animate__fadeIn">
     <div class="CTABanner">
         <div class="w-50">
-            <h2 class="NewKansas-medium">Transform your space with perfect CURTAINS AND BLINDS!</h2>
-            <p>Schedule your design consultation today – let’s bring your vision to life!</p>
+            <h2 class="NewKansas-medium">CURTAINS AND BLINDS : Adding Grace, One Fold at a Time</h2>
+            <p>Schedule your design consultation today – let’s bring your dreams to life!</p>
         </div>
-        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Schedule Your
+        <a href="/appointments" class="btn primary-btn bg-white" style="color: #000 !important;">Book Your
             Appointment</a>
     </div>
 </section>
