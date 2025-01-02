@@ -51,7 +51,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection <span class="text-danger">*</span></label>
+                    <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection </label>
                     <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollections as $supplierCollection)
@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design <span class="text-danger">*</span></label>
+                    <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design </label>
                     <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2" required>
                         <option value="">Select</option>
                         @foreach ($supplierCollectionDesigns as $supplierCollectionDesign)
@@ -297,12 +297,12 @@
                     supplier_name: {
                         required: true
                     },
-                    supplier_collection: {
-                        required: true
-                    },
-                    supplier_collection_design: {
-                        required: true
-                    },
+                    // supplier_collection: {
+                    //     required: true
+                    // },
+                    // supplier_collection_design: {
+                    //     required: true
+                    // },
                     image_alt: {
                         required: true
                     }
@@ -317,12 +317,12 @@
                     supplier_name: {
                         required: "Please select a supplier."
                     },
-                    supplier_collection: {
-                        required: "Please select a supplier collection."
-                    },
-                    supplier_collection_design: {
-                        required: "Please select a supplier collection design."
-                    },
+                    // supplier_collection: {
+                    //     required: "Please select a supplier collection."
+                    // },
+                    // supplier_collection_design: {
+                    //     required: "Please select a supplier collection design."
+                    // },
                     image_alt: {
                         required: "Please enter an image alt text."
                     }

@@ -61,8 +61,6 @@ class ProductController extends Controller
             "product_name" => "required|string|max:255",
             "file_number" => "required|string|unique:products,file_number",
             "supplier_name" => "required|integer",
-            "supplier_collection" => "required|integer",
-            "supplier_collection_design" => "required|integer",
             "rubs_martendale" => "nullable|string|max:255",
             "width" => "nullable|string|max:255",
             "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
