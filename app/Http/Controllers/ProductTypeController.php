@@ -60,4 +60,10 @@ class ProductTypeController extends Controller
 
         return redirect()->route('product-types.index')->with('success', 'Product Type deleted successfully.');
     }
+
+    public function getProductTypes(){
+        $productTypes = ProductType::all();
+
+        return $productTypes;
+    }
 }

@@ -143,6 +143,7 @@ Route::prefix('products/')->group(function() {
 
 Route::get('admin/calculator', [AdminController::class, 'calculator']);
 
+Route::get('getProductType', [ProductTypeController::class, 'getProductTypes']);
 Route::resource('product-types', ProductTypeController::class);
 Route::resource('design-types', DesignTypeController::class);
 Route::resource('colors', ColorController::class);
