@@ -127,7 +127,6 @@
                 </div>
                 <div class="col-md-4">
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs) <span class="text-danger">*</span></label>
-                    <?php dd($types); ?>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
                         @foreach ($types as $type)
                         <option value="{{ $type->type }}"
