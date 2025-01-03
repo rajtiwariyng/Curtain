@@ -32,4 +32,11 @@ class Franchise extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function local_appointment()
+    {
+        return $this->belongsTo(Appointment::class,'pincode','pincode');
+    }
+
+
 }

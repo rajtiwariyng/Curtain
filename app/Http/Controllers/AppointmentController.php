@@ -32,11 +32,8 @@ class AppointmentController extends Controller
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
-        //dd($userRole);
-        // echo $userRole;  exit;
-
-        // Initialize $appointments to avoid undefined variable error
-        $appointments = collect(); // Default to empty collection
+        
+        $appointments = collect(); 
 
         $appointmentsQuery = Appointment::with('franchise')->where("status", "!=", "0");
 
@@ -367,5 +364,11 @@ class AppointmentController extends Controller
     public function exportBookQuery()
     {
         return Excel::download(new BookQueryExport, 'book_query.xlsx');
+    }
+
+    public function getFranchiseList($apnt_id){
+        $franchises = Appointment::with('local_franchise')
+        ->findOrFail($apnt_id);
+        return $franchises;
     }
 }

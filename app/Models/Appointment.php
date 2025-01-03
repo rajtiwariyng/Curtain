@@ -14,5 +14,9 @@ class Appointment extends Model
     public function franchise(){
         return $this->belongsto(Franchise::class, 'franchise_id', 'id'); 
     }
+
+    public function local_franchise(){
+        return $this->hasMany(Franchise::class, 'pincode', 'pincode'); 
+    }
     
 }

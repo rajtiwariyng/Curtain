@@ -559,8 +559,6 @@
                                           <select class="form-select w-100 max-w-166" name="product_item[${sectionCount}][`+itemCount+`]" id="itemProduct_${sectionCount}_${itemCount}">
                                           </select>
                                         </td>
-                                        <td><input type="number" class="form-control max-w-166" name="item_height[${sectionCount}][`+itemCount+`]" placeholder="height"></td>
-                                        <td><input type="number" class="form-control max-w-166" name="item_width[${sectionCount}][`+itemCount+`]" placeholder="width"></td>
                                         <td><input type="number" class="form-control max-w-166" name="item_qty[${sectionCount}][`+itemCount+`]" placeholder="Item quantity"></td>
                                         <td>
                                           <select class="form-select w-100 max-w-166" name="item_unit[${sectionCount}][`+itemCount+`]" id="item_unit_${sectionCount}_${itemCount}">
@@ -603,8 +601,6 @@
                                 
                               </select>
                             </td>
-                            <td><input type="number" class="form-control max-w-166" name="item_height[${sectionId}][`+itemCount+`]" placeholder="height"></td>
-                            <td><input type="number" class="form-control max-w-166" name="item_width[${sectionId}][`+itemCount+`]" placeholder="width"></td>
                             <td><input type="number" class="form-control max-w-166" name="item_qty[${sectionId}][`+itemCount+`]" placeholder="Item quantity"></td>
                             <td>
                               <select class="form-select w-100 max-w-166" name="item_unit[${sectionId}][`+itemCount+`]" id="item_unit_${sectionId}_${itemCount}">

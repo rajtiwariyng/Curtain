@@ -135,8 +135,8 @@ class QuotationController extends Controller
                                 'item_order' => $j,  // Item order (starting from 1)
                                 'name' => $request->item_name[$index][$j] ?? '', // Access item name correctly
                                 'item' => $product_item ?? '',
-                                'height' => $request->item_height[$index][$j] ?? '',
-                                'width' => $request->item_width[$index][$j] ?? '',
+                                // 'height' => $request->item_height[$index][$j] ?? '',
+                                // 'width' => $request->item_width[$index][$j] ?? '',
                                 'qty' => $request->item_qty[$index][$j] ?? '',
                                 'unit' => $request->item_unit[$index][$j] ?? '',
                                 'price' => $request->item_price[$index][$j] ?? '',

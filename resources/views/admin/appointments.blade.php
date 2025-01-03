@@ -278,11 +278,8 @@
                     <input type="hidden" id="appointmentId" name="appointment_id">
                     <div class="mb-3">
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="franchise" name="franchise_id" class="form-select w-100">
-                            <option value="">Select Franchise</option>
-                            @foreach($franchises as $franchise)
-                            <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
-                            @endforeach
+                        <select id="approve_franchise" name="franchise_id" class="form-select w-100">
+                            
                         </select>
                         <div class="error" style="color: red;"></div>
                     </div>
@@ -323,11 +320,7 @@
                     <input type="hidden" id="appointmentId1" name="appointment_id1">
                     <div class="mb-3">
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="re-franchise" name="franchise_id1" class="form-select w-100">
-                            <option value="">Select Franchise</option>
-                            @foreach($franchises as $franchise)
-                            <option value="{{ $franchise->id }}">{{ $franchise->name }}</option>
-                            @endforeach
+                        <select id="re_approve_franchise" name="franchise_id1" class="form-select w-100">
                         </select>
                         <div class="error" style="color: red;"></div>
                     </div>
@@ -363,12 +356,36 @@
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
         $('#appointmentId').val(appointmentId);
+        
+        let selectId = "#approve_franchise";
+        get_franchise_list(appointmentId,selectId);
     }
 
     function reconfirmAssign(appointmentId1) {
         // Open modal and set appointment ID
         $('#reassignAppointmentModal').modal('show');
         $('#appointmentId1').val(appointmentId1);
+
+        let selectId = "#re_approve_franchise";
+        get_franchise_list(appointmentId1,selectId);
+    }
+
+    function get_franchise_list(appointment_id,selectId) {
+        $.ajax({
+            type: "GET",
+            url: "{{url('getFranchiseList')}}/"+appointment_id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(result) {
+                $(selectId).empty();
+                
+                let htmlProductType = `<option disabled selected>Select Franchise</option>`;
+                result.local_franchise.forEach(function(item) {
+                    htmlProductType += `<option value="${item.id}">${item.name}</option>`;
+                });
+                $(selectId).append(htmlProductType);
+            }
+        });
     }
 
     $(document).ready(function() {
