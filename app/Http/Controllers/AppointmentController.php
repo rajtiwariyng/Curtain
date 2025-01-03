@@ -13,7 +13,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\Franchise;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use App\Exports\BookQueryExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rules\Unique;
 
 class AppointmentController extends Controller
@@ -361,5 +362,10 @@ class AppointmentController extends Controller
         return redirect()
             ->back()
             ->with("success", "Appointment rejected successfully.");
+    }
+
+    public function exportBookQuery()
+    {
+        return Excel::download(new BookQueryExport, 'book_query.xlsx');
     }
 }
