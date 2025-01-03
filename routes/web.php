@@ -54,6 +54,7 @@ Route::get('/emailview', function () { return view('emails.franchise_information
 Auth::routes();
 Route::get('appointments_list', [AppointmentController::class, 'index'])->name('appointments.list.index');
 Route::get('querybooked', [AppointmentController::class, 'querybooked'])->name('querybooked.list');
+Route::get('/export/book-query', [AppointmentController::class, 'exportBookQuery'])->name('export.book.query');
 Route::get('/appointment/data', [AppointmentController::class, 'getAppointmentData']);
 Route::get('/appointment/details/{id}/{type}', [AppointmentController::class, 'getAppointmentDetails'])->name('appointment.details');
 Route::get('appointment/{id}/assign', [AppointmentController::class, 'assign'])->name('appointment.assign');

@@ -47,13 +47,13 @@
                 </div>
                 <div class="col-md-4">
                     <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection </label>
-                    <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2" required>
+                    <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2">
                         <option value="">Select</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design </label>
-                    <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2" required>
+                    <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2">
                         <option value="">Select</option>
                     </select>
                 </div>
@@ -61,8 +61,8 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="mb-1 w-100">
-                        <label for="design_sku" class="form-label mb-1">Design SKU</label>
-                        <input type="text" class="form-control w-100" id="design_sku" name="design_sku" readonly>
+                        <label for="design_sku" class="form-label mb-1">Color Number</label>
+                        <input type="text" class="form-control w-100" id="design_sku" name="design_sku">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -126,11 +126,7 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <label for="colour" class="form-label m-0 mb-1">Colour<span class="text-danger">*</span></label>
-                    <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
-                        @foreach ($colours as $colour)
-                        <option value="{{ $colour->color }}">{{ $colour->color }} </option>
-                        @endforeach
-                    </select>
+                    <input type="text" class="form-control w-100" id="colour" name="colour" required>
                 </div>
                 <div class="col-md-4">
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
@@ -340,7 +336,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {
-                            $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
+                            $('#supplier_collection').append('<option value="" disabled>No Data Found</option>');
                         } else {
                             data.forEach(item => {
                                 $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
@@ -370,7 +366,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {
-                            $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
+                            $('#supplier_collection_design').append('<option value="" disabled>No Data Found</option>');
                         } else {
                             data.forEach(item => {
                                 $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);

@@ -6,7 +6,7 @@
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
         <h6 class="fw-bold m-0">All Query Booked <span class="fw-normal text-muted">({{ count($appointments) }})</span></h6>
-
+      <a href="{{ route('export.book.query') }}">Export</a>
     </div>
 
     <div class="dataOverview mt-3">

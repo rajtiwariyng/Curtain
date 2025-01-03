@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    // Show the "Add Product" form
-
     public function create()
     {
         $suppliers = Supplier::all();
@@ -52,10 +50,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $lastTallyCode = Product::max("tally_code");
-        $lastDesignSKU = Product::max("design_sku");
         $nextTallyCode = $this->generateNextCode($lastTallyCode, "CAB");
-        $nextDesignSKU = $this->generateNextCode($lastDesignSKU, "SKU");
-        // Validate the incoming request data
 
         $request->validate([
             "product_name" => "required|string|max:255",
@@ -65,8 +60,7 @@ class ProductController extends Controller
             "width" => "nullable|string|max:255",
             "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "image_alt" => "required|string|max:255",
-            "colour" => "required|array|min:1",
-            "colour.*" => "string|max:255",
+            "colour" => "required|string|max:255",
             "composition" => "required|array|min:1",
             "composition.*" => "string|max:255",
             "design_type" => "required|array|min:1",
@@ -83,15 +77,10 @@ class ProductController extends Controller
             "mrp" => "required|numeric|min:0",
         ]);
 
-        // Handle the image upload
-
         $imagePath = null;
-
         if ($request->hasFile("image")) {
             $imagePath = $request->file("image")->store("products", "public");
         }
-
-        // Prepare the data for insertion
 
         $productData = [
             "product_name" => $request->input("product_name"),
@@ -102,12 +91,12 @@ class ProductController extends Controller
             "supplier_collection_design" => $request->input(
                 "supplier_collection_design"
             ),
-            "design_sku" => $nextDesignSKU,
+            "design_sku" => $request->input("design_sku"),
             "rubs_martendale" => $request->input("rubs_martendale"),
             "width" => $request->input("width"),
             "image" => $imagePath,
             "image_alt" => $request->input("image_alt"),
-            "colour" => json_encode($request->input("colour")),
+            "colour" => $request->input("colour"),
             "composition" => json_encode($request->input("composition")),
             "design_type" => json_encode($request->input("design_type")),
             "usage" => json_encode($request->input("usage")),
@@ -142,7 +131,6 @@ class ProductController extends Controller
 
     public function index()
     {
-        // dd($_GET);
         $products = Product::with(
             "ProductType",
             "Supplier",
@@ -166,11 +154,9 @@ class ProductController extends Controller
         foreach ($filters as $key => $column) {
             $value = request()->get($key);
             if ($value && $value !== "Select") {
-                if ($column == 'type' || $column == 'colour' || $column == 'composition' || $column == 'usage' || $column == 'design_type') {
-                    // Assuming 'type' is a JSON field, use JSON_CONTAINS to search in the array
+                if ($column == 'type' || $column == 'composition' || $column == 'usage' || $column == 'design_type') {
                     $products->whereJsonContains($column, $value);
                 } else {
-                    // For other columns, use a regular where clause
                     if (is_array($value)) {
                         $products->whereIn($column, $value);
                     } else {
@@ -179,12 +165,8 @@ class ProductController extends Controller
                 }
             }
         }
-        // exit;
 
-        // Paginate the results
-        
-        $products = $products->paginate(250);
-
+        $products = $products->paginate(500);
         $totalProducts = $products->total();
         $usages = Usage::all();
         $colours = Color::all();
@@ -196,8 +178,7 @@ class ProductController extends Controller
         $supplierCollectionDesign = SupplierCollectionDesign::all();
         $productTypes = ProductType::all();
 
-        return view(
-            "admin.product.index",
+        return view("admin.product.index", 
             compact(
                 "totalProducts",
                 "products",
@@ -217,59 +198,30 @@ class ProductController extends Controller
     function data_log()
     {
         $post = $_POST;
-
-        // Retrieve status from request, defaulting to empty string if not provided
-
         $status = $post["status"] ?? "";
-
-        // Define the columns to be displayed
-
         $columns = [
             "retailer_name",
-
             "uniquecode",
-
             "gst",
-
             "pan",
-
             "email",
-
             "mobile",
-
             "image",
-
             "status",
-
             "created_at",
         ];
-
-        // Default limit to 10 if not provided
-
         $limit = $post["length"] ?? 10;
-
-        // Default start to 0 if not provided
-
         $start = $post["start"] ?? 0;
         $orderColumnIndex = $post["order"][0]["column"] ?? 0;
         $order = $columns[$orderColumnIndex] ?? "created_at";
         $dir = $post["order"][0]["dir"] ?? "desc";
-
-        // Fetch the distributor code
-
         $distri_code = session_uniquecode(session("uniquecode"));
-
-        // Get the retailer codes for the distributor
-
         $mapp_q = \App\Model\RetailerRmMapping::select("retailer_code")->where(
             "distributor_code",
             $distri_code
         );
 
         $retailer_array = $mapp_q->get()->pluck("retailer_code");
-
-        // Query retailers with credit data
-
         $retailers_query = User::select(
             "id",
             "retailer_name",
@@ -282,9 +234,6 @@ class ProductController extends Controller
             "status",
             "created_at"
         )->whereIn("uniquecode", $retailer_array);
-
-        // ->where('status', 'Approved')
-
         if (!empty($_POST["status"])) {
             if ($_POST["status"] == "Disapproved") {
                 $retailers_query->where("status", "like", "%" . $status . "%");
@@ -336,25 +285,12 @@ class ProductController extends Controller
             });
         }
 
-        // Get total records count before pagination
-
         $totalRecords = $retailers_query->count();
-
-        // Order the results
-
         $retailers_query->orderBy($order, $dir);
-
-        // Retrieve retailers for the current page
-
         $retailers = $retailers_query
             ->offset($start)
             ->limit($limit)
             ->get();
-
-        // <a href="rm/change_mapping/'.custom_encode($retailer['id']).'" class="fancybox ajax"><button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></a>
-
-        // Initialize data array to store formatted retailer data
-
         $data_array = [];
 
         foreach ($retailers as $key => $retailer) {
@@ -447,7 +383,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->usage = json_decode($product->usage, true);
-        $product->colour = json_decode($product->colour, true);
         $product->composition = json_decode($product->composition, true);
         $product->design_type = json_decode($product->design_type, true);
         $product->type = json_decode($product->type, true);
@@ -519,7 +454,7 @@ class ProductController extends Controller
             "width" => $request->input("width"),
             "image" => $imagePath,
             "image_alt" => $request->input("image_alt"),
-            "colour" => json_encode($request->input("colour")),
+            "colour" => $request->input("colour"),
             "composition" => json_encode($request->input("composition")),
             "design_type" => json_encode($request->input("design_type")),
             "usage" => json_encode($request->input("usage")),
