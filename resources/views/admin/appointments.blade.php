@@ -436,7 +436,7 @@
                             row += '<td>' + appnt.name + '</td>';
                             row += '<td>' + appnt.mobile + '</td>';
                             row += '<td>' + appnt.pincode + '</td>';
-                            row += '<td>' + (appnt.appointment_date ? appnt.appointment_date : 'N/A') + '</td>';
+                            row += '<td>' + (appnt.appointment_date ? customformatDate(appnt.appointment_date) : 'N/A') + '</td>';
                             row += '<td>' + (appnt.franchise?.name || 'N/A') + '</td>';
                             row += '<td>' + (appnt.remarks == null ? 'N/A' : appnt.remarks) + '</td>';
 
@@ -555,10 +555,10 @@
                         $('#FranciseViewLabel').text(franchise.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
-                                <tr><th>Status</th><td>${franchise.status || 'N/A'}</td></tr>
-                                <tr><th>Appointment Date</th><td>${franchise.appointment_date || 'N/A'}</td></tr>
+                                <tr><th>Status</th><td>${ franchise.status === "1" ? 'Pending' : franchise.status === "2" ? 'Assigned' : franchise.status === "3" ? 'Hold' 
+                                 : franchise.status === "4" ? 'Complete' : 'N/A' }</td></tr>
+                                <tr><th>Appointment Date</th><td>${franchise.appointment_date ? customformatDate(franchise.appointment_date) : 'N/A'}</td></tr>
                                 <tr><th>Mobile Number</th><td>${franchise.mobile || 'N/A'}</td></tr>
-                                <tr><th>Registration Type</th><td>${franchise.registerationType || 'N/A'}</td></tr>
                                 <tr><th>Address</th><td>${franchise.address || 'N/A'}</td></tr>
                                 <tr><th>Pincode</th><td>${franchise.pincode || 'N/A'}</td></tr>
                                 <tr><th>Country</th><td>${franchise.country || 'N/A'}</td></tr>
@@ -736,5 +736,9 @@
             }
         });
     });
+
+    
+
 </script>
+
 @endsection

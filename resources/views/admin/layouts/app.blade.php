@@ -113,6 +113,24 @@
                 }
             });
         });
+        function customformatDate(dateString) {
+        const date = new Date(dateString);
+
+        if (isNaN(date)) {
+            return 'Invalid Date'; // Handle invalid dates
+        }
+
+        const options = {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true, // Enables AM/PM format
+        };
+
+        return date.toLocaleString('en-US', options);
+    }
     </script>
     @yield('script')
 </body>

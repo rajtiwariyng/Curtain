@@ -628,6 +628,19 @@ class ProductController extends Controller
 
         if (!empty($products)) {
             foreach ($products as $product) {
+                $composition = json_decode($product->composition, true);
+                $composition = json_last_error() === JSON_ERROR_NONE ? $composition : "Invalid JSON";
+
+                $design_type = json_decode($product->design_type, true);
+                $design_type = json_last_error() === JSON_ERROR_NONE ? $design_type : "Invalid JSON";
+
+                $usage = json_decode($product->usage, true);
+                $usage = json_last_error() === JSON_ERROR_NONE ? $usage : "Invalid JSON";
+
+                // Convert arrays to strings if needed for CSV
+                $composition_str = is_array($composition) ? implode(", ", $composition) : $composition;
+                $design_type_str = is_array($design_type) ? implode(", ", $design_type) : $design_type;
+                $usage_str = is_array($usage) ? implode(", ", $usage) : $usage;
                 $row = [
                     date("d M Y", strtotime($product->created_at)), // Format the date
                     $product->product_name,
@@ -640,9 +653,9 @@ class ProductController extends Controller
                     $product->design_sku,
                     $product->rubs_martendale,
                     $product->width,
-                    $product->composition,
-                    $product->design_type,
-                    $product->usage,
+                    $composition_str,
+                    $design_type_str,
+                    $usage_str,
                     $product->note,
                     $product->currency,
                     $product->supplier_price,

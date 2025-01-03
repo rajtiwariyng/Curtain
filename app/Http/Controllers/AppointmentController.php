@@ -240,6 +240,7 @@ class AppointmentController extends Controller
         $request->validate([
             "appointment_id" => "required|exists:appointments,id",
             "franchise_id" => "required|exists:franchises,id",
+            "appointment_date" => "required|date|after_or_equal:today",
         ]);
 
         // Find the appointment by ID
@@ -277,7 +278,7 @@ class AppointmentController extends Controller
         // Validate the input fields
         $request->validate([
             "appointment_id1" => "required|exists:appointments,id",
-            "dateFilter" => "required",
+            "appointment_date" => "required|date|after_or_equal:today",
             "franchise_id1" => "required|exists:franchises,id",
         ]);
 
