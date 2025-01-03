@@ -216,16 +216,6 @@
             </select>
         </div>
 
-        <div class="mb-1 w-100">
-            <label for="TallyCodeInput" class="form-label mb-1">MRP From</label>
-            <!-- <input type="range" class="w-100" id="TallyCodeInput"> -->
-            <input type="range" class="w-100" id="TallyCodeInput" min="100" max="1000" step="10" value="100">
-            <div class="values d-flex justify-content-between">
-                <span class="text-muted">?100</span>
-                <span class="text-muted">?1000</span>
-            </div>
-        </div>
-
         <div class="mb-2 w-100">
             <label class="form-label m-0 mb-1">Colour</label>
             <select name="colour" id="colour" class="form-select w-100" aria-label="Default select example">
