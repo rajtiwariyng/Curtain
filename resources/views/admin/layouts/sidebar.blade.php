@@ -65,9 +65,9 @@
                             <li class="{{ request()->is('supplierCollectionDesigns') ? 'active' : '' }}">
                                 <a href="{{ route('supplierCollectionDesigns.index') }}"><span class="text">Supplier Design</span></a>
                             </li>
-                            <li class="{{ request()->is('colors') ? 'active' : '' }}">
+                            <!-- <li class="{{ request()->is('colors') ? 'active' : '' }}">
                                 <a href="{{ route('colors.index') }}"><span class="text">Color</span></a>
-                            </li>
+                            </li> -->
                             <li class="{{ request()->is('compositions') ? 'active' : '' }}">
                                 <a href="{{ route('compositions.index') }}"><span class="text">Composition</span></a>
                             </li>

@@ -52,9 +52,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $lastTallyCode = Product::max("tally_code");
-        $lastDesignSKU = Product::max("design_sku");
+        //$lastDesignSKU = Product::max("design_sku");
         $nextTallyCode = $this->generateNextCode($lastTallyCode, "CAB");
-        $nextDesignSKU = $this->generateNextCode($lastDesignSKU, "SKU");
+        //$nextDesignSKU = $this->generateNextCode($lastDesignSKU, "SKU");
         // Validate the incoming request data
 
         $request->validate([
@@ -65,8 +65,7 @@ class ProductController extends Controller
             "width" => "nullable|string|max:255",
             "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "image_alt" => "required|string|max:255",
-            "colour" => "required|array|min:1",
-            "colour.*" => "string|max:255",
+            "colour" => "required|string|max:255",
             "composition" => "required|array|min:1",
             "composition.*" => "string|max:255",
             "design_type" => "required|array|min:1",
@@ -102,12 +101,12 @@ class ProductController extends Controller
             "supplier_collection_design" => $request->input(
                 "supplier_collection_design"
             ),
-            "design_sku" => $nextDesignSKU,
+            "design_sku" => $request->input("design_sku"),
             "rubs_martendale" => $request->input("rubs_martendale"),
             "width" => $request->input("width"),
             "image" => $imagePath,
             "image_alt" => $request->input("image_alt"),
-            "colour" => json_encode($request->input("colour")),
+            "colour" => $request->input("colour"),
             "composition" => json_encode($request->input("composition")),
             "design_type" => json_encode($request->input("design_type")),
             "usage" => json_encode($request->input("usage")),
@@ -166,7 +165,7 @@ class ProductController extends Controller
         foreach ($filters as $key => $column) {
             $value = request()->get($key);
             if ($value && $value !== "Select") {
-                if ($column == 'type' || $column == 'colour' || $column == 'composition' || $column == 'usage' || $column == 'design_type') {
+                if ($column == 'type' || $column == 'composition' || $column == 'usage' || $column == 'design_type') {
                     // Assuming 'type' is a JSON field, use JSON_CONTAINS to search in the array
                     $products->whereJsonContains($column, $value);
                 } else {
@@ -447,7 +446,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->usage = json_decode($product->usage, true);
-        $product->colour = json_decode($product->colour, true);
         $product->composition = json_decode($product->composition, true);
         $product->design_type = json_decode($product->design_type, true);
         $product->type = json_decode($product->type, true);
@@ -519,7 +517,7 @@ class ProductController extends Controller
             "width" => $request->input("width"),
             "image" => $imagePath,
             "image_alt" => $request->input("image_alt"),
-            "colour" => json_encode($request->input("colour")),
+            "colour" => $request->input("colour"),
             "composition" => json_encode($request->input("composition")),
             "design_type" => json_encode($request->input("design_type")),
             "usage" => json_encode($request->input("usage")),

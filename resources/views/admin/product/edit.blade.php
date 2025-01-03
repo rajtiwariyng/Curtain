@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="supplier_collection" class="form-label m-0 mb-1">Supplier Collection <span class="text-danger">*</span></label>
-                    <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2" required>
+                    <select name="supplier_collection" id="supplier_collection" class="form-select w-100 select2">
                         <option value="">Select</option>
                         @foreach ($supplierCollections as $supplierCollection)
                         <option value="{{ $supplierCollection->id }}" {{ isset($product) && $product->supplier_collection == $supplierCollection->id ? 'selected' : '' }}>{{ $supplierCollection->collection_name }}</option>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="supplier_collection_design" class="form-label m-0 mb-1">Supplier Collection Design <span class="text-danger">*</span></label>
-                    <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2" required>
+                    <select name="supplier_collection_design" id="supplier_collection_design" class="form-select w-100 select2">
                         <option value="">Select</option>
                         @foreach ($supplierCollectionDesigns as $supplierCollectionDesign)
                         <option value="{{ $supplierCollectionDesign->id }}" {{ isset($product) && $product->supplier_collection_design == $supplierCollectionDesign->id ? 'selected' : '' }}>{{ $supplierCollectionDesign->design_name }}</option>
@@ -75,8 +75,8 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="mb-1 w-100">
-                        <label for="design_sku" class="form-label mb-1">Design SKU</label>
-                        <input type="text" class="form-control w-100" id="design_sku" name="design_sku" value="{{ isset($product) ? $product->design_sku : '' }}" readonly>
+                        <label for="design_sku" class="form-label mb-1">Color Number</label>
+                        <input type="text" class="form-control w-100" id="design_sku" name="design_sku" value="{{ isset($product) ? $product->design_sku : '' }}">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -128,13 +128,15 @@
                 <div class="col-md-4">
                     <label for="type" class="form-label m-0 mb-1">Type (Technical specs) <span class="text-danger">*</span></label>
                     <select name="type[]" id="type" class="mySelect for" multiple="multiple" style="width: 100%">
-                        @foreach ($types as $type)
+                    <?php //dd($types); ?>
+                        @foreach ($types as $tp => $type)
+                        
                         <option value="{{ $type->type }}"
                             @if(is_array($product->type))
                             {{ in_array($type->type, $product->type) ? 'selected' : '' }}
                             @else
                             {{ $type->type == $product->type ? 'selected' : '' }}
-                            @endif
+                            @endif>
                             {{ $type->type }}
                         </option>
                         @endforeach
@@ -158,14 +160,7 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <label for="colour" class="form-label m-0 mb-1">Colour <span class="text-danger">*</span></label>
-                    <select name="colour[]" id="colour" class="mySelect for" multiple="multiple" style="width: 100%">
-                        @foreach ($colours as $colour)
-                        <option value="{{ $colour->color }}"
-                            {{ isset($product) && is_array($product->colour) && in_array($colour->color, $product->colour) ? 'selected' : '' }}>
-                            {{ $colour->color }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <input type="text" class="form-control w-100" id="colour" name="colour" value="{{ old('colour', isset($product) ? $product->colour : '') }}" required>
                 </div>
                 <div class="col-md-4">
                     <label for="composition" class="form-label m-0 mb-1">Composition<span class="text-danger">*</span></label>
@@ -309,12 +304,6 @@
                     supplier_name: {
                         required: true
                     },
-                    supplier_collection: {
-                        required: true
-                    },
-                    supplier_collection_design: {
-                        required: true
-                    },
                     image_alt: {
                         required: true
                     }
@@ -328,12 +317,6 @@
                     },
                     supplier_name: {
                         required: "Please select a supplier."
-                    },
-                    supplier_collection: {
-                        required: "Please select a supplier collection."
-                    },
-                    supplier_collection_design: {
-                        required: "Please select a supplier collection design."
                     },
                     image_alt: {
                         required: "Please enter an image alt text."
@@ -373,7 +356,7 @@
                     success: function(data) {
                         console.log(data); // Check the server response
                         if (data.length === 0) {
-                            $('#supplier_collection').append('<option value="" disabled>No collections found</option>');
+                            $('#supplier_collection').append('<option value="" disabled>No Data Found</option>');
                         } else {
                             data.forEach(item => {
                                 $('#supplier_collection').append(`<option value="${item.id}">${item.collection_name}</option>`);
@@ -406,7 +389,7 @@
                     success: function(data) {
                         console.log(data); // Check the server response
                         if (data.length === 0) {
-                            $('#supplier_collection_design').append('<option value="" disabled>No designs found</option>');
+                            $('#supplier_collection_design').append('<option value="" disabled>No Data Found</option>');
                         } else {
                             data.forEach(item => {
                                 $('#supplier_collection_design').append(`<option value="${item.id}">${item.design_name}</option>`);
