@@ -365,7 +365,6 @@
                         var p_usage = JSON.parse(product.usage);
                         var p_type = JSON.parse(product.type);
                         var p_design_type = JSON.parse(product.design_type);
-                        var p_colour = JSON.parse(product.colour);
                         var createdAt = new Date(product.created_at);
                         var pcreatedAt = createdAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
                         var updatedAt = new Date(product.updated_at);
@@ -391,7 +390,7 @@
                         $('#usage').text(p_usage || '-');
                         $('#type').text(p_type || '-');
                         $('#design-type').text(p_design_type || '-');
-                        $('#colour').text(p_colour || '-');
+                        $('#colour').text(product.colour || '-');
                         $('#composition').text(p_composition || '-');
                         $('#note').text(product.note || '-');
                         $('#created-at').text(pcreatedAt || '-');

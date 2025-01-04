@@ -16,7 +16,7 @@ class Appointment extends Model
     }
 
     public function local_franchise(){
-        return $this->hasMany(Franchise::class, 'pincode', 'pincode'); 
+        return $this->hasMany(Franchise::class, 'state', 'state'); 
     }
     
 }

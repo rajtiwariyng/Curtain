@@ -319,7 +319,7 @@
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
                             row += '<td>' + appnt.id + '</td>';
-                            row += '<td>' + appnt.date + '</td>';
+                            row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
                             row += '<td>' + appnt.franchise.name + '</td>';
                             row += '<td>' + appnt.address + '</td>';
                             
@@ -431,7 +431,7 @@
                                 <tr><th>Name</th><td>${quotation.name || 'N/A'}</td></tr>
                                 <tr><th>Email ID</th><td>${quotation.email || 'N/A'}</td></tr>
                                 <tr><th>Contact Number</th><td>${quotation.number || 'N/A'}</td></tr>
-                                <tr><th>Date</th><td>${quotation.date || 'N/A'}</td></tr>
+                                <tr><th>Date</th><td>${quotation.date ? new Date(quotation.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A'}</td></tr>
                                 <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
                                 <tr><th>Quotation For</th><td>${quotation.name || 'N/A'}</td></tr>
                                 <tr><th>Cartage</th><td>${quotation.cartage || 'N/A'}</td></tr>

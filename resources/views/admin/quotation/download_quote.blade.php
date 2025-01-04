@@ -55,10 +55,9 @@
                     <h6 class="m-0 fw-bold">Client Details</h6>
                     <div class="m-0">
                         <label class="form-label m-0 me-2">Date: </label>
-                        <label for="clientName" class="form-label m-0"><?php
-                                                                        $date = strtotime($quotations->date); // Convert to timestamp if it's a string
-                                                                        echo date('d-M-Y', $date);
-                                                                        ?></label>
+                        <label for="clientName" class="form-label m-0">
+                        <?php $date = strtotime($quotations->date); // Convert to timestamp if it's a string
+                        echo date('d-M-Y', $date);?></label>
                     </div>
                 </div>
             </div>
@@ -102,9 +101,6 @@
             <thead>
                 <tr>
                     <th scope="col">Item</th>
-                    <!-- <th scope="col">Description</th> -->
-                    <th scope="col">Height(m)</th>
-                    <th scope="col">Width(m)</th>
                     <th scope="col">Oty.</th>
                     <th scope="col">unit</th>
                     <th scope="col">MRP</th>
@@ -120,9 +116,6 @@
                     @foreach ($sectionItem['items'] as $item)
                     <tr>
                         <td>{{$item['item']}}</td>
-                        <!-- <td>{{$item['item_order']}}</td> -->
-                        <td>{{$item['height']}}</td>
-                        <td>{{$item['width']}}</td>
                         <td>{{$item['qty']}}</td>
                         <td>{{$item['unit']}}</td>
                         <td>{{$item['price']}}</td>

@@ -238,7 +238,7 @@ class AppointmentController extends Controller
         $request->validate([
             "appointment_id" => "required|exists:appointments,id",
             "franchise_id" => "required|exists:franchises,id",
-            "appointment_date" => "required|date|after_or_equal:today",
+            "dateFilter" => "required|date|after_or_equal:today",
         ]);
 
         // Find the appointment by ID
@@ -274,9 +274,10 @@ class AppointmentController extends Controller
     public function reassign(Request $request)
     {
         // Validate the input fields
+        //dd($request->all());
         $request->validate([
             "appointment_id1" => "required|exists:appointments,id",
-            "appointment_date" => "required|date|after_or_equal:today",
+            "dateFilter1" => "required|date|after_or_equal:today",
             "franchise_id1" => "required|exists:franchises,id",
         ]);
 
@@ -285,16 +286,16 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($request->appointment_id1);
 
         // Convert the date to a Carbon instance (if it's not already)
-        $appointment->appointment_date = Carbon::parse($request->dateFilter); // Convert the string to Carbon
+        $appointment->appointment_date = Carbon::parse($request->dateFilter1); // Convert the string to Carbon
 
         // Update the franchise and status
-        $appointment->franchise_id = $request->franchise_id;
-        $appointment->remarks = $request->remarks;
+        $appointment->franchise_id = $request->franchise_id1;
+        $appointment->remarks = $request->remarks1;
         $appointment->status = "2"; // Update the status
 
         // Save the appointment
         $appointment->save();
-        $franchiseDetail = Franchise::find($request->franchise_id);
+        $franchiseDetail = Franchise::find($request->franchise_id1);
         $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
         $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
         $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
@@ -307,7 +308,7 @@ class AppointmentController extends Controller
         // Redirect back with success message
         return redirect()
             ->back()
-            ->with("success", "Franchise assigned successfully.");
+            ->with("success", "Franchise Re-assigned successfully.");
     }
 
     public function getAppointmentDetails($id, $type)

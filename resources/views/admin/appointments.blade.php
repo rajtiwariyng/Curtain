@@ -338,7 +338,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Assign</button>
+                    <button type="submit" class="primary-btn">Re-Assign</button>
                 </div>
             </form>
         </div>
@@ -401,11 +401,11 @@
             let valid = true;
 
             // Validate Franchise selection
-            const franchise = $('#re-franchise').val();
+            const franchise = $('#re_approve_franchise').val();
 
             if (!franchise) {
                 valid = false;
-                $('#re-franchise').after('<div class="error" style="color: red;">Franchise is required.</div>');
+                $('#re_approve_franchise').after('<div class="error" style="color: red;">Franchise is required.</div>');
             }
 
             // Validate Appointment Date

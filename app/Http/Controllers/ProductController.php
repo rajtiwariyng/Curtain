@@ -136,7 +136,7 @@ class ProductController extends Controller
             "Supplier",
             "SupplierCollection",
             "SupplierCollectionDesign"
-        );
+        )->orderBy('created_at', 'desc');
 
         $filters = [
             "type" => "type",

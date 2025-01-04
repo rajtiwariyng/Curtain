@@ -541,8 +541,6 @@
                                       <tr>
                                         <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">Name</th>
                                         <th scope="col">Item</th>
-                                        <th scope="col">Height</th>
-                                        <th scope="col">Width</th>
                                         <th scope="col">Oty.</th>
                                         <th scope="col">unit</th>
                                         <th scope="col">Price</th>
