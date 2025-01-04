@@ -15,7 +15,7 @@
                 @if (Auth::user()->getRoleNames()[0] == 'Franchise')
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="true">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
+                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="true">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
@@ -311,7 +311,6 @@
         <div class="modal-content">
             <form action="{{ route('appointments.reassign') }}" method="POST" id="re_Assign">
                 @csrf
-
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="reapproveFranchiseModalLabel">Re-Approve Franchise</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

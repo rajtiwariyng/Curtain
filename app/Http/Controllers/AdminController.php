@@ -9,26 +9,39 @@ use App\Models\Appointment;
 use App\Models\Quotation;
 use App\Models\User;
 use App\Models\ZipCode;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class AdminController extends Controller
 {
     public function dashboard(Request $request){
-        $franchise=Franchise::all();
+        $userRole = Auth::user()->getRoleNames()[0];
+        
+        $franchise = Franchise::all();
+        
+        
         $product=Product::all();
         $appointment = Appointment::where('status', "!=" ,"0");
 
         if ($request->has('dateFilter')) {
             $appointment->whereDate('created_at', $request->dateFilter);
         }
-
+        if($userRole == "Franchise"){
+            $appointment->where('franchise_id',Auth::user()->id);
+        }
+        $appointmentCount = $appointment->count();
         $appointment = $appointment->get();
 
 
-        $quotations = Quotation::with('appointment')->get();
-        // dd($quotations);
+        $quotations = Quotation::with('appointment');
+        if($userRole == "Franchise"){
+            $quotations->where('franchise_id',Auth::user()->id);
+        }
+        $quotationCount = $quotations->count();
+        $quotations = $quotations->get();
         $user=User::all();
-        return view('admin.dashboard',compact('franchise','product','appointment','user','quotations'));
+        return view('admin.dashboard',compact('franchise','product','appointment','appointmentCount','user','quotations','quotationCount'));
     }
 
     public function getLocationByPincode(Request $request)
