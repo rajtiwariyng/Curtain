@@ -298,6 +298,7 @@
 
         // Function to load appointment data based on the selected status
         function loadQuotationData(status) {
+            console.log(status);
             // Show loading indicator (optional)
             $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
@@ -309,7 +310,6 @@
                     status: status // Pass the selected tab status to the server
                 },
                 success: function(response) {
-
                     // Clear the current table rows before appending new data
                     $('#quotation-table tbody').empty();
 

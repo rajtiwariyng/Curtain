@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use App\Models\SupplierCollection;
+use App\Models\SupplierCollectionDesign;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -47,6 +49,12 @@ class SupplierController extends Controller
         return response()->json($supplier);
     }
 
+    public function collections($supplierId){
+        $supplier = SupplierCollection::where('supplier_id',$supplierId)->get();  // Find the supplier by ID
+        
+        return response()->json($supplier);
+    }
+    
     // Update the specified supplier in the database
     public function update(Request $request, $id)
     {

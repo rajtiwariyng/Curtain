@@ -80,7 +80,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $design->design_name }}</td>
-                        <td>{{ $design->supplierCollection->collection_name }}</td>
+                        <td>{{ $design->supplierCollection->collection_name ?? '' }}</td>
                         <td>{{ $design->supplier->name }}</td>
                         <td>
                             <div class="dropdown">
@@ -109,7 +109,7 @@
 <script>
     // Function to edit a Supplier Collection Design
     function editSupplierCollectionDesign(id) {
-        fetch('/supplierCollectionDesigns/${id}/edit')
+        fetch('/supplierCollectionDesigns/'+id+'/edit')
             .then(response => response.json())
             .then(data => {
                 // Set the design name
@@ -136,7 +136,7 @@
     // Function to update the supplier collection dropdown dynamically based on supplier
     function updateSupplierCollections(supplierId, selectedCollectionId) {
         // Fetch supplier collections based on the selected supplier
-        fetch(`/suppliers/${supplierId}/collections`)
+        fetch(`/suppliers/`+supplierId+`/collections`)
             .then(response => response.json())
             .then(data => {
                 const collectionSelect = document.getElementById('supplierCollectionSelect');

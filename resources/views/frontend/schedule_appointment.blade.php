@@ -126,7 +126,7 @@
 
 
 <!--Modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="books_query" tabindex="-1" aria-labelledby="BookQuery" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -241,12 +241,18 @@
             url: "{{ route('appointments.store') }}",
             data: formData,
             success: function(response) {
+                console.log(response);
                 $("#form-title").hide();
                 $("#contact-form1").hide();
-    
+                
+                if(response.status_check == '0'){
+                    $('#books_query').modal('show');
+                }else{
+                    $('#books_query').hide();
+                }
                 // Show the thank you message with fadeIn animation
                 $("#thankYouMessage1").fadeIn();
-
+                
                 // Reset the form
                 $("#contact-form1")[0].reset();
             },

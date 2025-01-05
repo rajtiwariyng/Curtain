@@ -32,14 +32,15 @@ class AppointmentController extends Controller
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
+        $user = Auth::user();
+       
         
         $appointments = collect(); 
 
         $appointmentsQuery = Appointment::with('franchise')->where("status", "!=", "0");
 
         if ($userRole == "Franchise") {
-            $franchise = Franchise::where("user_id", Auth::user()->id)->first();
-
+            $franchise = Franchise::where("user_id", $user->id)->first();
             if ($franchise) {
                 $appointments = $appointmentsQuery
                     ->where("franchise_id", $franchise->id)
@@ -229,7 +230,7 @@ class AppointmentController extends Controller
             new AppointmentSuccessMail($appointment)
         );
 
-        return response()->json(["message" => $responseMessage], 201);
+        return response()->json(["message" => $responseMessage,'status_check' => $validatedData["status"]], 201);
     }
 
     public function assign(Request $request)

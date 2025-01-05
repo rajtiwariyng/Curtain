@@ -18,8 +18,11 @@ class QuotationController extends Controller
         public function index()
         {
             $user = Auth::user();
+            if(!empty($user)){
+                $franchise = Franchise::where('user_id',$user->id)->first();
+            }
             $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
-        
+          
             // Constants for status values
             $statusPending = "0";
             $statusComplete = "1";
@@ -29,27 +32,21 @@ class QuotationController extends Controller
         
             // If the user is a "Franchise", filter the quotations by franchise_id
             if ($userRole == 'Franchise') {
-                $quotationQuery->where('franchise_id', $user->id);
+                $quotationQuery->where('franchise_id', $franchise->id);
             }
         
             // Retrieve the quotations for the given query
             $quotationList = $quotationQuery->get();
-        
             // Initialize new queries for each status count to avoid interference with the main query
-            $quotationListPending = Quotation::query()
+            $quotationListPending = $quotationQuery
                 ->where('status', $statusPending)
-                ->when($userRole == 'Franchise', function ($query) use ($user) {
-                    return $query->where('franchise_id', $user->id);
-                })
                 ->count();
         
-            $quotationListComplete = Quotation::query()
+            $quotationListComplete = $quotationQuery
                 ->where('status', $statusComplete)
-                ->when($userRole == 'Franchise', function ($query) use ($user) {
-                    return $query->where('franchise_id', $user->id);
-                })
                 ->count();
-        
+                
+
             // Return view with compacted data
             return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
         }
@@ -207,6 +204,9 @@ class QuotationController extends Controller
         // $quotations = Quotation::with('franchise')->where('status','=', $status)->get();
 
         $user = Auth::user();
+        if(!empty($user)){
+            $franchise = Franchise::where('user_id',$user->id)->first();
+        }
         $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
     
         // // Constants for status values
@@ -218,7 +218,7 @@ class QuotationController extends Controller
     
         // If the user is a "Franchise", filter the quotations by franchise_id
         if ($userRole == 'Franchise') {
-            $quotationQuery->where('franchise_id', $user->id);
+            $quotationQuery->where('franchise_id', $franchise->id);
         }
 
         $quotationList = $quotationQuery->with('franchise')->where('status','=', $status)->get();

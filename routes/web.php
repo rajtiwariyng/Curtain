@@ -154,5 +154,6 @@ Route::resource('compositions', CompositionController::class);
 Route::resource('supplier-collections', SupplierCollectionController::class);
 Route::resource('supplierCollectionDesigns', SupplierCollectionDesignController::class);
 Route::resource('suppliers', SupplierController::class);
+Route::get('suppliers/{id}/collections',[SupplierController::class, 'collections']);
 Route::resource('types', TypeController::class);
 Route::resource('usages', UsageController::class);

@@ -52,14 +52,8 @@ class SupplierCollectionDesignController extends Controller
     // Show the form to edit an existing supplier collection design
     public function edit($id)
     {
-        // Fetch the design to be edited
-        $design = SupplierCollectionDesign::findOrFail($id);
-        
-        // Fetch all suppliers and collections for the edit form
-        $suppliers = Supplier::all();
-        $collections = SupplierCollection::all();
-
-        return view('admin.master.suppliercollectiondesign_edit', compact('design', 'suppliers', 'collections'));
+        $supplierCollectionDesigns = SupplierCollectionDesign::with('supplier', 'supplierCollection')->findOrFail($id);
+        return response()->json($supplierCollectionDesigns);
     }
 
     // Update an existing supplier collection design

@@ -17,6 +17,10 @@ class AdminController extends Controller
 {
     public function dashboard(Request $request){
         $userRole = Auth::user()->getRoleNames()[0];
+        $user = Auth::user();
+        if(!empty($user)){
+            $franchiseID = Franchise::where('user_id',$user->id)->first();
+        }
         
         $franchise = Franchise::all();
         
@@ -28,7 +32,7 @@ class AdminController extends Controller
             $appointment->whereDate('created_at', $request->dateFilter);
         }
         if($userRole == "Franchise"){
-            $appointment->where('franchise_id',Auth::user()->id);
+            $appointment->where('franchise_id',$franchiseID->id);
         }
         $appointmentCount = $appointment->count();
         $appointment = $appointment->get();
@@ -36,7 +40,7 @@ class AdminController extends Controller
 
         $quotations = Quotation::with('appointment');
         if($userRole == "Franchise"){
-            $quotations->where('franchise_id',Auth::user()->id);
+            $quotations->where('franchise_id',$franchiseID->id);
         }
         $quotationCount = $quotations->count();
         $quotations = $quotations->get();
