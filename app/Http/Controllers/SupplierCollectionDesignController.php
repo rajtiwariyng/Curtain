@@ -35,7 +35,7 @@ class SupplierCollectionDesignController extends Controller
         $request->validate([
             'supplier_id' => 'required|exists:suppliers,id', // Ensure supplier exists
             'supplier_collection_id' => 'required|exists:supplier_collections,id', // Ensure supplier collection exists
-            'design_name' => 'required|max:255|unique:supplier_collection_designs,design_name',
+            'design_name' => 'required|max:255',
         ]);
 
         // Create a new supplier collection design

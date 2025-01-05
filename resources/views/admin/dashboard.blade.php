@@ -70,18 +70,18 @@
                 <p class="m-0 small">Total number of Franchise</p>
             </div>
         </a>
+        <a href="{{ route('franchise.temp.index') }}">
+            <div class="card info-card">
+                <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
+                <h2 class="fw-bold m-0 mb-1">{{$appointmentCount}}</h2>
+                <p class="m-0 small">Total number of Appointments</p>
+            </div>
+        </a>
         <a href="/products">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_products.svg') }}" alt="">
-                <h2 class="fw-bold m-0 mb-1">{{ count($product) }}</h2>
-                <p class="m-0 small">Total number of Products</p>
-            </div>
-        </a>
-        <a href="/user_list">
-            <div class="card info-card">
-                <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
-                <h2 class="fw-bold m-0 mb-1">{{ count($user) }}</h2>
-                <p class="m-0 small">Total number of Users</p>
+                <h2 class="fw-bold m-0 mb-1">{{$quotationCount}}</h2>
+                <p class="m-0 small">Total number of Quotations</p>
             </div>
         </a>
     @endif

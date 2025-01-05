@@ -240,32 +240,27 @@
         // jQuery Form Validation
         $(document).ready(function() {
             $('#product_name').change(function() {
-                // Get the selected product item ID
+
                 var selectedProductId = $(this).val();
 
-                // Find the option in the product_item dropdown with the matching value
                 var selectedOption = $('#product_name option[value="' + selectedProductId + '"]');
-
-                // Get the product_unit from the selected option's data attribute
                 var productUnit = selectedOption.data('unit');
-                if (typeof productUnit === 'string') {
-                    productUnit = productUnit.split(',');  // Convert "meter,inches" to ["meter", "inches"]
-                }
 
-                // Populate the #unit dropdown dynamically
+                if (typeof productUnit === 'string') {
+                    productUnit = productUnit.split(',');
+                } else {
+                    productUnit = []; 
+                }
                 var unitSelect = $('#unit');
-                
-                // Clear the existing options first
                 unitSelect.empty();
-                
-                // Loop through each unit in productUnit and create an option for it
+                let options = '<option value="" selected>Select</option>';
                 productUnit.forEach(function(unit) {
-                    unitSelect.append('<option value="' + unit + '">' + unit + '</option>');
+                    options += '<option value="' + unit + '">' + unit + '</option>';
                 });
-                
-                // Optionally, you can set the selected options based on productUnit
-                unitSelect.val(productUnit);
+
+                unitSelect.append(options);
             });
+
 
             
             $('#productForm').validate({

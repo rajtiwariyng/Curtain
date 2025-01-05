@@ -152,7 +152,12 @@
                     <li><a href="#"><i class="bi bi-file-earmark-bar-graph"></i><span class="text">Reports</span></a></li>
                 @endif
                 @if (Auth::user()->getRoleNames()[0] == 'Data Entry Operator')
-                    <li class="active"><a href="{{ route('super.admin.dashboard') }}"><i class="bi bi-house"></i><span class="text">Dashboard</span></a></li>
+                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}"><a href="{{ route('super.admin.dashboard') }}"><i class="bi bi-house"></i><span class="text">Dashboard</span></a></li>
+                    <li class="{{ request()->is('products') ? 'active' : '' }}">
+                        <a href="/products">
+                            <i class="bi bi-box2"></i><span class="text">Products</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </div>

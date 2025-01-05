@@ -217,18 +217,6 @@
         </div>
 
         <div class="mb-2 w-100">
-            <label class="form-label m-0 mb-1">Colour</label>
-            <select name="colour" id="colour" class="form-select w-100" aria-label="Default select example">
-                <option value="Select" {{ request()->get('colour') === 'Select' ? 'selected' : '' }}>Select</option>
-                @foreach ($colours as $colour)
-                    <option value="{{ $colour->color }}" {{ request()->get('colour') == $colour->color ? 'selected' : '' }}>
-                        {{ $colour->color }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-2 w-100">
             <label class="form-label m-0 mb-1">Composition</label>
             <select name="composition" id="composition" class="form-select w-100" aria-label="Default select example">
                 <option value="Select" {{ request()->get('composition') === 'Select' ? 'selected' : '' }}>Select</option>

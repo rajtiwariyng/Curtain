@@ -502,14 +502,15 @@
                             if (franchise.pincode) {
                                 franchiseDetailsHtml += `<tr><th>Pincode</th><td>${franchise.pincode}</td></tr>`;
                             }
-                            if (franchise.country) {
-                                franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
+                            
+                            if (franchise.city) {
+                                franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
                             }
                             if (franchise.state) {
                                 franchiseDetailsHtml += `<tr><th>State</th><td>${franchise.state}</td></tr>`;
                             }
-                            if (franchise.city) {
-                                franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
+                            if (franchise.country) {
+                                franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
                             }
 
                             // Inject the constructed HTML into the table body
@@ -541,15 +542,17 @@
                         if (franchise.pincode) {
                             franchiseDetailsHtml += `<tr><th>Pincode</th><td>${franchise.pincode}</td></tr>`;
                         }
-                        if (franchise.country) {
-                            franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
+
+                        if (franchise.city) {
+                            franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
                         }
                         if (franchise.state) {
                             franchiseDetailsHtml += `<tr><th>State</th><td>${franchise.state}</td></tr>`;
                         }
-                        if (franchise.city) {
-                            franchiseDetailsHtml += `<tr><th>City</th><td>${franchise.city}</td></tr>`;
+                        if (franchise.country) {
+                            franchiseDetailsHtml += `<tr><th>Country</th><td>${franchise.country}</td></tr>`;
                         }
+                        
 
                         // Inject the constructed HTML into the table body
                         $('#FranciseView .offcanvas-body table tbody').html(franchiseDetailsHtml);

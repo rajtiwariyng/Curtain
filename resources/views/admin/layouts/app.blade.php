@@ -114,23 +114,26 @@
             });
         });
         function customformatDate(dateString) {
-        const date = new Date(dateString);
+            const date = new Date(dateString);
 
-        if (isNaN(date)) {
-            return 'Invalid Date'; // Handle invalid dates
+            if (isNaN(date)) {
+                return 'Invalid Date';
+            }
+
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            return `${day}-${month}-${year}, ${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
         }
 
-        const options = {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true, // Enables AM/PM format
-        };
+        //console.log(customFormatDate('2025-01-06T19:40:00'));
 
-        return date.toLocaleString('en-US', options);
-    }
     </script>
     @yield('script')
 </body>

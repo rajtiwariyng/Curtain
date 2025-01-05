@@ -312,7 +312,7 @@
             <form action="{{ route('appointments.reassign') }}" method="POST" id="re_Assign">
                 @csrf
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="reapproveFranchiseModalLabel">Re-Approve Franchise</h1>
+                    <h1 class="modal-title fs-5" id="reapproveFranchiseModalLabel">Re-Assign Franchise</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -577,9 +577,9 @@
                                 <tr><th>Mobile Number</th><td>${franchise.mobile || 'N/A'}</td></tr>
                                 <tr><th>Address</th><td>${franchise.address || 'N/A'}</td></tr>
                                 <tr><th>Pincode</th><td>${franchise.pincode || 'N/A'}</td></tr>
-                                <tr><th>Country</th><td>${franchise.country || 'N/A'}</td></tr>
-                                <tr><th>State</th><td>${franchise.state || 'N/A'}</td></tr>
                                 <tr><th>City</th><td>${franchise.city || 'N/A'}</td></tr>
+                                <tr><th>State</th><td>${franchise.state || 'N/A'}</td></tr>
+                                <tr><th>Country</th><td>${franchise.country || 'N/A'}</td></tr>
                             `);
 
 

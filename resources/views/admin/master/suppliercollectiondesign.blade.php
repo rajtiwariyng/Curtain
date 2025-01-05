@@ -69,6 +69,8 @@
                         <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;"
                             scope="col">S/N</th>
                         <th scope="col">Supplier Collection Design</th>
+                        <th scope="col">Supplier Collection</th>
+                        <th scope="col">Supplier Name</th>
                         <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;"
                             scope="col">Action</th>
                     </tr>
@@ -78,6 +80,8 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $design->design_name }}</td>
+                        <td>{{ $design->supplierCollection->collection_name }}</td>
+                        <td>{{ $design->supplier->name }}</td>
                         <td>
                             <div class="dropdown">
                                 <i class="bi bi-three-dots-vertical" type="button"
@@ -105,7 +109,7 @@
 <script>
     // Function to edit a Supplier Collection Design
     function editSupplierCollectionDesign(id) {
-        fetch(`/supplierCollectionDesigns/${id}/edit`)
+        fetch('/supplierCollectionDesigns/${id}/edit')
             .then(response => response.json())
             .then(data => {
                 // Set the design name

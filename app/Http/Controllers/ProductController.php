@@ -583,8 +583,8 @@ class ProductController extends Controller
                     $product->tally_code,
                     $product->file_number,
                     optional($product->Supplier)->name, // Get related data safely using optional
-                    optional($product->SupplierCollection)->name, // Get related data safely using optional
-                    optional($product->SupplierCollectionDesign)->name, // Get related data safely using optional
+                    optional($product->SupplierCollection)->collection_name, // Get related data safely using optional
+                    optional($product->SupplierCollectionDesign)->design_name, // Get related data safely using optional
                     $product->design_sku,
                     $product->rubs_martendale,
                     $product->width,
@@ -601,7 +601,7 @@ class ProductController extends Controller
                     $product->mrp,
                     $product->unit,
                 ];
-
+                //dd($row);
                 $data[] = $row;
             }
         } else {
