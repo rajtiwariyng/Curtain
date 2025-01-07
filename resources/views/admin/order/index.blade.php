@@ -1,49 +1,25 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Customert Appointment List')
+@section('title', 'Customer Orders List')
 
 @section('content')
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
-        <h6 class="fw-bold m-0">All Appointments <span class="fw-normal text-muted">({{ count($appointments) }})</span></h6>
-
+        <h6 class="fw-bold m-0">All Orders <span class="fw-normal text-muted">()</span></h6>
+        
     </div>
 
     <div class="dataOverview mt-3">
         <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                @if (Auth::user()->getRoleNames()[0] == 'Franchise')
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="true">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
+                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Hold <span class="fw-normal small">({{$quotationListPending}})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-hold-tab" data-bs-toggle="pill" data-bs-target="#pills-hold" type="button" role="tab" aria-controls="pills-hold" aria-selected="false">Hold <span class="fw-normal small">({{ $holdCount }})</span></button>
+                    <button class="nav-link " id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{$quotationListComplete}})</span></button>
                 </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{ $completedCount }})</span></button>
-                </li>
-                @else
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
-                </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-assign-tab" data-bs-toggle="pill" data-bs-target="#pills-assign" type="button" role="tab" aria-controls="pills-assign" aria-selected="true">Assigned <span class="fw-normal small">({{ $assignedCount }})</span></button>
-                </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-hold-tab" data-bs-toggle="pill" data-bs-target="#pills-hold" type="button" role="tab" aria-controls="pills-hold" aria-selected="false">Hold <span class="fw-normal small">({{ $holdCount }})</span></button>
-                </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{ $completedCount }})</span></button>
-                </li>
-
-                @endif
-
             </ul>
         </div>
 
@@ -51,7 +27,7 @@
 
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab" tabindex="0">
-                <!-- This content will be dynamically populated -->
+                <!-- This content  will be dynamically populated -->
             </div>
 
             <div class="tab-pane fade" id="pills-assign" role="tabpanel" aria-labelledby="pills-assign-tab" tabindex="0">
@@ -68,6 +44,7 @@
 
 
             <!-- View franchise details Offcanvas -->
+
             <div class="offcanvas FranciseViewSidebar offcanvas-start" tabindex="-1" id="FranciseView" aria-labelledby="FranciseViewLabel">
                 <div class="offcanvas-header border-bottom">
                     <h5 class="offcanvas-title fw-bold" id="FranciseViewLabel"></h5>
@@ -78,27 +55,19 @@
                         <tbody></tbody>
                     </table>
                 </div>
-                <!-- <div class="offcanvas-footer">
-                    <div class="d-flex justify-content-start p-3 border-top">
-                        <button type="button" class="secondary-btn me-2 addBtn" data-bs-dismiss="offcanvas">Reject</button>
-                        <button type="button" class="primary-btn addBtn">Approve</button>
-                    </div>
-                </div> -->
+                
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="table" id="appointment-table">
+            <table class="table" id="quotation-table">
                 <thead>
                     <tr>
                         <th>S/N</th>
-                        <th>Name</th>
-                        <th>Mobile</th>
-                        <th>Pincode</th>
-                        <th>Assigned Date</th>
-                        <th>Assigned To</th>
-                        <th>Remarks</th>
-                        <th>Status</th>
+                        <th>Quotation ID</th>
+                        <th>Date</th>
+                        <th>Client Name</th>
+                        <th>Location</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -122,19 +91,19 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="rejectFranchiseForm" method="POST"
-                action="{{ route('appointment.reject', ['id' => '__appointment_id__']) }}" autocomplete="off">
+                action="{{ route('quotation.delete', ['id' => '__appointment_id__']) }}" autocomplete="off">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="rejectFranchiseModalLabel">Reject Appointment</h1>
+                    <h1 class="modal-title fs-5" id="rejectFranchiseModalLabel">Delete Quotation</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to approve this franchise?</p>
+                    <p>Are you sure you want to delete this quotation?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Reject</button>
+                    <button type="submit" class="primary-btn">Delete</button>
                 </div>
             </form>
         </div>
@@ -267,7 +236,7 @@
 <div class="modal fade" id="assignAppointmentModal" tabindex="-1" aria-labelledby="approveFranchiseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('appointments.assign') }}" method="POST">
+            <form action="" method="POST">
                 @csrf
 
                 <div class="modal-header">
@@ -278,123 +247,27 @@
                     <input type="hidden" id="appointmentId" name="appointment_id">
                     <div class="mb-3">
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="approve_franchise" name="franchise_id" class="form-select w-100">
-                            
+                        <select id="franchise" name="franchise_id" class="form-select w-100" required>
+                            <option value="">Select Franchise</option>
+                     
                         </select>
-                        <div class="error" style="color: red;"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="date" class="form-label">Appointment Date<span class="requried">*</span></label>
+                        <label for="date" class="form-label">Appointment Date</label>
                         <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="remarks" class="form-label">Remarks</label>
-                        <textarea class="form-control me-3 w-100" name="remarks" id="remarks" rows="3" cols="50"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Assign</button>
+                    <!-- <button type="submit" class="primary-btn">Assign</button> -->
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <!-- Add Franchise Modal End -->
-
-<!-- Re Assign Franchise -->
-<div class="modal fade" id="reassignAppointmentModal" tabindex="-1" aria-labelledby="reapproveFranchiseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <form action="{{ route('appointments.reassign') }}" method="POST" id="re_Assign">
-                @csrf
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="reapproveFranchiseModalLabel">Re-Assign Franchise</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="appointmentId1" name="appointment_id1">
-                    <div class="mb-3">
-                        <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="re_approve_franchise" name="franchise_id1" class="form-select w-100">
-                        </select>
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Appointment Date<span class="requried">*</span></label>
-                        <input type="datetime-local" name="dateFilter1" id="re-dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
-                            class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="remarks" class="form-label">Remarks</label>
-                        <textarea class="form-control me-3 w-100" name="remarks1" id="re-remarks" rows="3" cols="50"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Re-Assign</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- End Re Assign Franchise -->
- <!-- updatepaymentModal start -->
-<div class="modal fade" id="updatepaymentModal" tabindex="-1" aria-labelledby="updatepaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <form action="{{ route('order.store') }}" method="POST" id="updatepayment">
-                @csrf
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="updatepaymentModalLabel">Update Payment</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="orderappointmentId" name="orderappointmentId">
-                    <div class="mb-3">
-                        <label for="ordervalue" class="form-label">Order Value<span class="requried">*</span></label>
-                        <input type="text" name="ordervalue" id="ordervalue" placeholder="ordervalue" placeholder="Enter Order Value"  class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modeofpayment" class="form-label">Mode Of Payment(Cash / Online(NEFT/RTGS/IMPS) / UPI / Cheque)<span class="requried">*</span></label>
-                        <input type="text" name="modeofpayment" id="modeofpaymentr" placeholder="modeofpayment"  class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="amountpaid" class="form-label">amountpaid<span class="requried">*</span></label>
-                        <input type="text" name="amountpaid" id="amountpaid" placeholder="amountpaid"  class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="paymenttype" class="form-label">paymenttype<span class="requried">*</span></label>
-                        <select id="paymenttype" name="paymenttype" class="form-select w-100">
-                            <option value="">Select</option>
-                            <option value="">Partial</option>
-                            <option value="">Full</option>
-                            </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="Note" class="form-label">Note</label>
-                        <textarea class="form-control me-3 w-100" name="paymentnote" id="paymentnote" rows="3" cols="50"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Order Create</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- updatepaymentModal end -->
-
 
 @endsection
 
@@ -405,150 +278,71 @@
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
         $('#appointmentId').val(appointmentId);
-        
-        let selectId = "#approve_franchise";
-        get_franchise_list(appointmentId,selectId);
     }
 
-    function reconfirmAssign(appointmentId1) {
-        // Open modal and set appointment ID
-        $('#reassignAppointmentModal').modal('show');
-        $('#appointmentId1').val(appointmentId1);
-
-        let selectId = "#re_approve_franchise";
-        get_franchise_list(appointmentId1,selectId);
-    }
-    function updatepayment(orderappointmentId) {
-        // Open modal and set appointment ID
-        $('#updatepaymentModal').modal('show');
-    }
-
-    function get_franchise_list(appointment_id,selectId) {
-        $.ajax({
-            type: "GET",
-            url: "{{url('getFranchiseList')}}/"+appointment_id,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(result) {
-                $(selectId).empty();
-                
-                let htmlProductType = `<option disabled selected>Select Franchise</option>`;
-                result.local_franchise.forEach(function(item) {
-                    htmlProductType += `<option value="${item.id}">${item.name}</option>`;
-                });
-                $(selectId).append(htmlProductType);
-            }
-        });
-    }
+    // function rejected(appointmentId) {
+    //     // Open modal and set appointment ID
+    //     $('#rejectFranchiseModal').modal('show');
+    //     $('#appointmentId').val(appointmentId);
+    // }
 
     $(document).ready(function() {
         // Initial load for the 'pending' tab data
-        loadAppointmentData(1);
-
-        $('#re_Assign').on('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
-            
-            // Reset any previous error messages
-            $('.error').remove();
-
-            let valid = true;
-
-            // Validate Franchise selection
-            const franchise = $('#re_approve_franchise').val();
-
-            if (!franchise) {
-                valid = false;
-                $('#re_approve_franchise').after('<div class="error" style="color: red;">Franchise is required.</div>');
-            }
-
-            // Validate Appointment Date
-            const date = $('#re-dateFilter').val();
-            console.log(date);
-            if (!date) {
-                valid = false;
-                $('#re-dateFilter').after('<div class="error" style="color: red;">Appointment date is required.</div>');
-            }
-
-
-            // If all validations pass, submit the form
-            if (valid) {
-                this.submit();
-            }
-        });
+        loadQuotationData('pending');
 
         // Handle tab change event
         $('#pills-tab button').on('click', function() {
             var tabId = $(this).attr('id').split('-')[1]; // Extract tab ID (e.g., pending, assign, etc.)
-            loadAppointmentData(tabId); // Load data based on clicked tab
+            loadQuotationData(tabId); // Load data based on clicked tab
         });
 
         // Function to load appointment data based on the selected status
-        function loadAppointmentData(status) {
+        function loadQuotationData(status) {
+            console.log(status);
             // Show loading indicator (optional)
-            $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+            $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
             // AJAX call to fetch data from the server
             $.ajax({
-                url: '/appointment/data', // API endpoint to fetch the data
+                url: '/quotations/data', // API endpoint to fetch the data
                 method: 'GET',
                 data: {
                     status: status // Pass the selected tab status to the server
                 },
                 success: function(response) {
                     // Clear the current table rows before appending new data
-                    $('#appointment-table tbody').empty();
+                    $('#quotation-table tbody').empty();
 
                     // Check if response contains data and populate the table
                     if (response.data && response.data.length > 0) {
                         $.each(response.data, function(idx, appnt) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
-                            row += '<td>' + appnt.name + '</td>';
-                            row += '<td>' + appnt.mobile + '</td>';
-                            row += '<td>' + appnt.pincode + '</td>';
-                            row += '<td>' + (appnt.appointment_date ? customformatDate(appnt.appointment_date) : 'N/A') + '</td>';
-                            row += '<td>' + (appnt.franchise?.name || 'N/A') + '</td>';
-                            row += '<td>' + (appnt.remarks == null ? 'N/A' : appnt.remarks) + '</td>';
-
+                            row += '<td>' + appnt.id + '</td>';
+                            row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
+                            row += '<td>' + appnt.franchise.name + '</td>';
+                            row += '<td>' + appnt.address + '</td>';
+                            
                             var statusBadge = '';
                             var viewType = '';
-                            var actions = '';
+                            var actions = ''; // Store the actions that should be available
 
                             switch (appnt.status) {
-                                case '1':
+                                case '0':
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Assign Franchise</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Rejected</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
-                                case '2':
-                                    viewType = 'assign';
-                                    if (response.role === 'Franchise') {
-                                        statusBadge = '<span class="badge badge-pending">Pending</span>';
-                                        actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Re-Assign</a></li>';
-
-                                    } else {
-                                        statusBadge = '<span class="badge badge-assigned">Assigned</span>';
-                                    }
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="reconfirmAssign(\'' + appnt.id + '\')">Re-Assign</a></li>';
-                                    actions += '<li><a href="{{url("quotations/create/")}}/' + appnt.id + '" class="dropdown-item small">Create Quote</a></li>';
-
-                                    break;
-                                case '4':
+                                case '1':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Assign Franchise</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Rejected</a></li>';
-                                    break;
-                                case '3':
-                                    viewType = 'hold';
-                                    statusBadge = '<span class="badge badge-inactive">Hold</span>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View Quotation</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" onclick="updatepayment(\'' + appnt.id + '\')">Update Payment</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -557,7 +351,6 @@
                                     break;
                             }
 
-                            row += '<td>' + statusBadge + '</td>';
                             row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';
                             row += '<ul class="dropdown-menu">';
                             // Only add the actions if there are any
@@ -566,21 +359,30 @@
                             }
                             row += '</ul></div></td>';
                             row += '</tr>';
-                            $('#appointment-table tbody').append(row);
+                            $('#quotation-table tbody').append(row);
                         });
                     } else {
-                        $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+                        $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }
                 },
                 error: function() {
                     // Handle AJAX request error
                     alert('Error loading franchise data');
-                    $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
+                    $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
                 }
             });
         }
     });
 
+    $(document).on('click', '.download_quotation_btn', function(e) {
+        e.preventDefault(); // Prevents default action (optional)
+
+        // Get the href attribute, which contains the URL
+        var url = $(this).attr('href');
+
+        // Navigate to the URL using window.location
+        window.location.href = url;
+    });
     function showApproveFranchiseModal(franchiseId) {
         var form = document.getElementById('approveFranchiseForm');
         var actionUrl = form.action.replace('__franchise_id__', franchiseId); // Replace the placeholder with the actual franchise ID
@@ -589,9 +391,9 @@
         $('#approveFranchiseModal').modal('show');
     }
 
-    $(document).on('click', '.approve-appointment-btn', function(e) {
+    $(document).on('click', '.approve-quotation-btn', function(e) {
         e.preventDefault();
-        var franchiseId = $(this).data('appointment-id'); // Get the franchise ID from the button's data attribute
+        var franchiseId = $(this).data('quotation-id'); // Get the franchise ID from the button's data attribute
         showApproveFranchiseModal(franchiseId); // Trigger the modal
     });
 
@@ -605,35 +407,34 @@
 
     $(document).on('click', '.reject-franchise-btn', function(e) {
         e.preventDefault();
-        var franchiseId = $(this).data('appointment-id'); // Get the franchise ID from the button's data attribute
+        var franchiseId = $(this).data('quotation-id'); // Get the franchise ID from the button's data attribute
         showRejectAppointmenteModal(franchiseId); // Trigger the modal
     });
 
     $(document).ready(function() {
-        $(document).on('click', '[id^="open-appointment-details-"]', function() {
-            var franchiseId = $(this).data('id'); // Get franchise ID dynamically
-            var franchiseType = $(this).data('checktype'); // Get franchise ID dynamically
+        $(document).on('click', '[id^="open-quotation-details-"]', function() {
+            
+            var quotationId = $(this).data('id'); // Get quotation ID dynamically
+            var quotationType = $(this).data('checktype'); // Get quotation ID dynamically
 
-            // Ajax request to get franchise details
+            // Ajax request to get quotation details
             $.ajax({
-                url: '/appointment/details/' + franchiseId + '/' + franchiseType, // Make sure the URL is correct
+                url: '/quotations/details/' + quotationId + '/' + quotationType, // Make sure the URL is correct
                 method: 'GET',
                 success: function(response) {
                     if (response.status === 'success') {
-                        var franchise = response.data;
+                        var quotation = response.data;
                         // Populate table data dynamically
-                        $('#FranciseViewLabel').text(franchise.name);
+                        $('#FranciseViewLabel').text(quotation.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
-                                <tr><th>Status</th><td>${ franchise.status === "1" ? 'Pending' : franchise.status === "2" ? 'Assigned' : franchise.status === "3" ? 'Hold' 
-                                 : franchise.status === "4" ? 'Complete' : 'N/A' }</td></tr>
-                                <tr><th>Appointment Date</th><td>${franchise.appointment_date ? customformatDate(franchise.appointment_date) : 'N/A'}</td></tr>
-                                <tr><th>Mobile Number</th><td>${franchise.mobile || 'N/A'}</td></tr>
-                                <tr><th>Address</th><td>${franchise.address || 'N/A'}</td></tr>
-                                <tr><th>Pincode</th><td>${franchise.pincode || 'N/A'}</td></tr>
-                                <tr><th>City</th><td>${franchise.city || 'N/A'}</td></tr>
-                                <tr><th>State</th><td>${franchise.state || 'N/A'}</td></tr>
-                                <tr><th>Country</th><td>${franchise.country || 'N/A'}</td></tr>
+                                <tr><th>Name</th><td>${quotation.name || 'N/A'}</td></tr>
+                                <tr><th>Email ID</th><td>${quotation.email || 'N/A'}</td></tr>
+                                <tr><th>Contact Number</th><td>${quotation.number || 'N/A'}</td></tr>
+                                <tr><th>Date</th><td>${quotation.date ? new Date(quotation.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A'}</td></tr>
+                                <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
+                                <tr><th>Quotation For</th><td>${quotation.name || 'N/A'}</td></tr>
+                                <tr><th>Cartage</th><td>${quotation.cartage || 'N/A'}</td></tr>
                             `);
 
 
@@ -806,9 +607,5 @@
             }
         });
     });
-
-    
-
 </script>
-
 @endsection

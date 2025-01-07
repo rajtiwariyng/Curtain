@@ -19,6 +19,7 @@ use App\Http\Controllers\SupplierCollectionDesignController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UsageController;
+use App\Http\Controllers\OrderController;
 use PHPUnit\Framework\Attributes\Group;
 
 Route::get('/clear-cache', function () {
@@ -157,3 +158,15 @@ Route::resource('suppliers', SupplierController::class);
 Route::get('suppliers/{id}/collections',[SupplierController::class, 'collections']);
 Route::resource('types', TypeController::class);
 Route::resource('usages', UsageController::class);
+
+// Quotation Work
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order.list');
+    Route::get('create/{appointment_id}', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('data', [OrderController::class, 'getOrdersData']);
+    Route::put('delete/{id}', [OrderController::class, 'deleteOrdersData'])->name('order.delete');
+    Route::get('/details/{id}/{type}', [OrderController::class, 'getAppointmentDetails'])->name('order.details');
+
+    Route::get('/download_order/{apointment_id}', [OrderController::class, 'downloadOrderView']);
+});
