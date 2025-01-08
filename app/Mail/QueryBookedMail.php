@@ -31,13 +31,13 @@ class QueryBookedMail extends Mailable
     {
         $appointment=$this->appointment;
         if($appointment->appointment_date){
-            return $this->subject('Appointment Schduled Successfully')
-            ->view('emails.appointment_success')
+            return $this->subject('Query Booked Successfully')
+            ->view('emails.query_booked')
             ->with('appointment', $this->appointment);
         }
         else{
-            return $this->subject('Appointment Request Received Successfully')
-            ->view('emails.appointment_success')
+            return $this->subject('Query Booked Request Received Successfully')
+            ->view('emails.query_booked')
             ->with('appointment', $this->appointment);
         }
 
