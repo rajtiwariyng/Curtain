@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\ZipCode;
 use App\Mail\AppointmentSuccessMail;
+use App\Mail\QueryBookedMail;
 use App\Mail\AppointmentScheduleMail;
 use App\Mail\AppointmentRescheduleMail;
 use Illuminate\Support\Facades\Mail;
@@ -224,11 +225,17 @@ class AppointmentController extends Controller
         $validatedData["uniqueid"] = $nextAppointmentId;
 
         $appointment = Appointment::create($validatedData);
-
+        if($validatedData["status"] == 0){
+            Mail::to($appointment->email)->send(
+                new QueryBookedMail($appointment)
+            );
+        }else{
+            Mail::to($appointment->email)->send(
+                new AppointmentSuccessMail($appointment)
+            );
+        }
         // Send success email
-        Mail::to($appointment->email)->send(
-            new AppointmentSuccessMail($appointment)
-        );
+        
 
         return response()->json(["message" => $responseMessage,'status_check' => $validatedData["status"]], 201);
     }
