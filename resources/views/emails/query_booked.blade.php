@@ -324,7 +324,7 @@
                  <tr>
                   <td valign="top" align="left">
                    <div class="pc-font-alt" style="line-height: 21px; letter-spacing: -0.2px; font-family: 'Fira Sans', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: normal; font-variant-ligatures: normal; color: #333333; text-align: left; text-align-last: left;">
-                    <div><span>Dear {{ $appointment['name'] }}, as desired, we have rescheduled your appointment with Name {{ $franchiseName }} for {{ $appointmentDate }} at {{ $appointmentTime }} at {{ $appointment['address'] }}. We look forward to meeting you <br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
+                    <div><span>Welcome to Curtains And Blinds! <br/>Your exciting journey to transformation begins here<br/>Dear {{ $appointment['name'] }}, Thank you for choosing CAB as your furnishing partner. We unfortunately are not servicing your area currently, but will soon be with you. Thank you for your patience.<br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
                     </div>
                    </div>
                   </td>
