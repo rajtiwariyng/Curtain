@@ -356,27 +356,38 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="orderappointmentId" name="orderappointmentId">
+                    <input type="hidden" id="orderfranchisetId" name="orderfranchisetId">
+                    <input type="hidden" id="orderquotationId" name="orderquotationId">
                     <div class="mb-3">
                         <label for="ordervalue" class="form-label">Order Value<span class="requried">*</span></label>
-                        <input type="text" name="ordervalue" id="ordervalue" placeholder="ordervalue" placeholder="Enter Order Value"  class="form-control me-3 w-100">
+                        <input type="text" name="ordervalue" id="ordervalue" placeholder="Enter Order Value"  class="form-control me-3 w-100" disabled>
+                        <div class="error" id="ordervalue_error" style="color: red;"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modeofpayment" class="form-label">Mode Of Payment<span class="requried">*</span></label>
+                        <select class="form-control me-3 w-100" name="payment_mode" id="payment_mode">
+                            <option value="" disabled selected>Select Payment Mode</option>
+                            <option value="cash">Cash</option>
+                            <option value="online">Online</option>
+                            <option value="upi">UPI</option>
+                            <option value="cheque">Cheque</option>
+                        </select>
+                        <div class="error" id="payment_mode_error" style="color: red;"></div>
+                    </div>
+                    <div class="mb-3" id="mode_option">
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="amountpaid" class="form-label">Amount Paid<span class="requried">*</span></label>
+                        <input type="text" name="amountpaid" id="amountpaid" placeholder="Enter Paid Amount"  class="form-control me-3 w-100">
                         <div class="error" style="color: red;"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="modeofpayment" class="form-label">Mode Of Payment(Cash / Online(NEFT/RTGS/IMPS) / UPI / Cheque)<span class="requried">*</span></label>
-                        <input type="text" name="modeofpayment" id="modeofpaymentr" placeholder="modeofpayment"  class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="amountpaid" class="form-label">amountpaid<span class="requried">*</span></label>
-                        <input type="text" name="amountpaid" id="amountpaid" placeholder="amountpaid"  class="form-control me-3 w-100">
-                        <div class="error" style="color: red;"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="paymenttype" class="form-label">paymenttype<span class="requried">*</span></label>
+                        <label for="paymenttype" class="form-label">Payment Type<span class="requried">*</span></label>
                         <select id="paymenttype" name="paymenttype" class="form-select w-100">
-                            <option value="">Select</option>
-                            <option value="">Partial</option>
-                            <option value="">Full</option>
+                            <option value="" disabled selected>Select</option>
+                            <option value="partial">Partial</option>
+                            <option value="full">Full</option>
                             </select>
                     </div>
 
@@ -387,7 +398,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="primary-btn">Order Create</button>
+                    <button type="submit" class="primary-btn" id="order-create-btn">Order Create</button>
                 </div>
             </form>
         </div>
@@ -418,9 +429,80 @@
         let selectId = "#re_approve_franchise";
         get_franchise_list(appointmentId1,selectId);
     }
+    
     function updatepayment(orderappointmentId) {
         // Open modal and set appointment ID
         $('#updatepaymentModal').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "{{url('quotations/get_quotation_data')}}/"+orderappointmentId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(result) {
+                if(result){
+                    const order_value = result.total_price - result.total_discount; 
+
+                    $('#ordervalue').val(order_value);
+                    $('#orderappointmentId').val(orderappointmentId);
+                    $('#orderfranchisetId').val(result.franchise_id);
+                    $('#orderquotationId').val(result.quotation_id);
+                 
+
+                    $('#payment_mode').change(function() {
+                        $('#mode_option').empty();
+                        // Get the selected value
+                        var selectedPaymentMode = $(this).val();
+                        let html = '';
+                        if(selectedPaymentMode  == 'upi' || selectedPaymentMode  == 'cheque'){
+                            let placeholder = '';
+                            if(selectedPaymentMode == 'upi'){
+                                placeholder = 'Enter UPI Number';
+                            }
+                            if(selectedPaymentMode == 'cheque'){
+                                placeholder = 'Enter Chenque Number';
+                            }
+                            html += `<input type="text" name="modeofpayment" id="modeofpaymentr" placeholder="`+placeholder+`"  class="form-control me-3 w-100">
+                            <div class="error" id="modeofpaymentr_error" style="color: red;"></div>`;
+                        }
+                        if(selectedPaymentMode == 'online'){
+                            $('#mode_option').empty();
+                            html += `<select type="text" name="modeofpayment" id="modeofpaymentr" placeholder="modeofpayment"  class="form-control me-3 w-100">
+                                                <option disabled selected>Select Mode Payment</option>
+                                                <option>NEFT</option>
+                                                <option>RTGS</option>
+                                                <option>IMPS</option>
+                                    </select>`;
+                        }
+                        $('#mode_option').append(html);
+
+                    });
+
+                    $('#amountpaid').on('input', function() {
+                        var inputValue = $(this).val();  // Get the current value of the input
+
+                        // Allow only numeric input (no text allowed) and prevent exceeding order_value
+                        // Remove any non-numeric characters
+                        inputValue = inputValue.replace(/[^0-9]/g, '');
+
+                        // If the input value exceeds the order value, reset it to order_value
+                        if (parseInt(inputValue) > order_value) {
+                            inputValue = order_value.toString();  // Reset value to order_value
+                        }
+
+                        // Set the cleaned input value back to the field
+                        $(this).val(inputValue);
+
+                        // Disable submit button if input is greater than order_value or invalid
+                        if (parseInt(inputValue) > order_value || inputValue === '') {
+                            $('#order-create-btn').prop('disabled', true);  // Disable the submit button
+                        } else {
+                            $('#order-create-btn').prop('disabled', false); // Enable the submit button
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     function get_franchise_list(appointment_id,selectId) {
@@ -548,7 +630,7 @@
                                     statusBadge = '<span class="badge badge-inactive">Hold</span>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View Quotation</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" onclick="updatepayment(\'' + appnt.id + '\')">Update Payment</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" onclick="updatepayment('+ appnt.id +')">Update Payment</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -640,7 +722,6 @@
                         // Show the off-canvas modal
                         $('#FranciseView').offcanvas('show');
                     } else {
-                        alert('Franchise details not found.');
                     }
                 },
                 error: function() {

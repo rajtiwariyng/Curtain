@@ -11,6 +11,7 @@ use App\Mail\QuotationGeneratedMail;
 use App\Models\QuotationSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class QuotationController extends Controller
@@ -274,5 +275,42 @@ class QuotationController extends Controller
         $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
         $quotations = Quotation::find($appointment_id);
         return view('admin.quotation.download_quote',compact('sectionItems','quotations'));
+    }
+
+    public function getQuotationData($appointment_id){
+        if(!empty($appointment_id)){
+            $appointment = Appointment::findorfail($appointment_id);
+            if(!empty($appointment)){
+                $quotation = Quotation::where([
+                    'franchise_id' => $appointment->franchise_id,
+                    'appointment_id' => $appointment->id
+                ])->first();
+               
+                if ($quotation) {
+                    $quotation_items = QuotationItem::select(
+                        'quotation_id',
+                        DB::raw('SUM(discount) as total_discount'),
+                        DB::raw('SUM(price) as total_price')
+                    )->where([
+                        'franchise_id' => $quotation->franchise_id,
+                        'appointment_id' => $quotation->appointment_id,
+                        'quotation_id' => $quotation->id
+                    ])->groupBy('quotation_id')->first();
+                        
+                    $quotation_items['franchise_id'] = $appointment->franchise_id;
+                    $quotation_items['appointment_id'] = $appointment->id;
+                    return $quotation_items;
+                } else {
+                    // Handle case where no quotation is found, if necessary
+                    $quotation_items = collect(); // return an empty collection or handle as needed
+                }
+
+                dd($quotation_items);
+            }else{
+                return redirect()->back()->with('error', 'Appointment not found.');
+            }
+        }else{
+            return redirect()->back()->with('error', 'Appointment blank.');
+        }
     }
 }

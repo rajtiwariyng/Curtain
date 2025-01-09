@@ -29,17 +29,19 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'appointment_id' => 'nullable|integer',
-            'franchise_id' => 'nullable|integer',
-            'quotation_id' => 'nullable|integer',
-            'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
-            'pincode' => 'required|string|max:10',
-            'installation_date' => 'nullable|date',
-        ]);
 
-        $order = Order::create($validatedData);
+        $inser_data = [
+            'appointment_id' => $request->orderappointmentId,
+            'franchise_id' => $request->orderfranchisetId,
+            'quotation_id' => $request->orderquotationId,
+            'payment_mode' => $request->payment_mode,
+            'payment_mode_by' => $request->modeofpayment ?? '',
+            'paid_amount' => $request->amountpaid,
+            'payment_type' => $request->paymenttype,
+            'remarks' => $request->paymentnote
+        ];
+
+        $order = Order::create($inser_data);
 
         return response()->json($order, 201);
     }

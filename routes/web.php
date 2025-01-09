@@ -113,6 +113,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 // Quotation Work
 Route::prefix('quotations')->group(function () {
     Route::get('/', [QuotationController::class, 'index'])->name('quotations.list');
+    Route::get('get_quotation_data/{appointment_id}', [QuotationController::class, 'getQuotationData'])->name('quotations.data');
     Route::get('create/{appointment_id}', [QuotationController::class, 'create'])->name('quotations.create');
     Route::post('/store', [QuotationController::class, 'store'])->name('quotation.store');
     Route::get('data', [QuotationController::class, 'getQuotationsData']);
@@ -167,6 +168,6 @@ Route::prefix('orders')->group(function () {
     Route::get('data', [OrderController::class, 'getOrdersData']);
     Route::put('delete/{id}', [OrderController::class, 'deleteOrdersData'])->name('order.delete');
     Route::get('/details/{id}/{type}', [OrderController::class, 'getAppointmentDetails'])->name('order.details');
-
+    
     Route::get('/download_order/{apointment_id}', [OrderController::class, 'downloadOrderView']);
 });

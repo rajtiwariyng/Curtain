@@ -52,7 +52,7 @@ class FranchiseTempController extends Controller
         if ($validator->fails()) {
             return redirect()
                 ->back()
-                ->with("error", $validator->errors())->withFragment('registerWithUs');
+                ->with("errors", $validator->errors())->withFragment('registerWithUs');
         }
 
         try {
@@ -67,7 +67,7 @@ class FranchiseTempController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with("error", "Something Went Wrong!")->withFragment('registerWithUs');
+                ->with("errors", "Something Went Wrong!")->withFragment('registerWithUs');
         }
     }
 
