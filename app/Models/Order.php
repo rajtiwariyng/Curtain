@@ -16,9 +16,16 @@ class Order extends Model
         'appointment_id',
         'franchise_id',
         'quotation_id',
+        'order_value',
+        'payment_mode',
+        'payment_mode_by',
+        'paid_amount',
+        'payment_type',
+        'remarks',
         'name',
         'mobile',
         'pincode',
+        'status',
         'installation_date',
     ];
 

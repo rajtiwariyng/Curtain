@@ -83,7 +83,7 @@
                         </ul>
                     </li>
                     <li class="{{ request()->is('orders') ? 'active' : '' }}">
-                        <a href="#">
+                        <a href="{{route('order.list')}}">
                             <i class="bi bi-truck"></i><span class="text">Orders</span>
                         </a>
                     </li>

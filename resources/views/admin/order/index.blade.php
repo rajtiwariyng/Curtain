@@ -14,11 +14,11 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Hold <span class="fw-normal small">({{$quotationListPending}})</span></button>
+                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{$pendingCount}})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link " id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{$quotationListComplete}})</span></button>
+                    <button class="nav-link " id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{$completedCount}})</span></button>
                 </li>
             </ul>
         </div>
@@ -64,10 +64,12 @@
                 <thead>
                     <tr>
                         <th>S/N</th>
-                        <th>Quotation ID</th>
-                        <th>Date</th>
-                        <th>Client Name</th>
-                        <th>Location</th>
+                        <th>Appointment ID</th>
+                        <th>Total Amount</th>
+                        <th>Payment Mode</th>
+                        <th>Payment Mode By</th>
+                        <th>Paid Amount</th>
+                        <th>Paid Type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -287,62 +289,55 @@
     // }
 
     $(document).ready(function() {
-        // Initial load for the 'pending' tab data
         loadQuotationData('pending');
 
-        // Handle tab change event
         $('#pills-tab button').on('click', function() {
             var tabId = $(this).attr('id').split('-')[1]; // Extract tab ID (e.g., pending, assign, etc.)
             loadQuotationData(tabId); // Load data based on clicked tab
         });
 
-        // Function to load appointment data based on the selected status
         function loadQuotationData(status) {
-            console.log(status);
-            // Show loading indicator (optional)
             $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
-            // AJAX call to fetch data from the server
             $.ajax({
-                url: '/quotations/data', // API endpoint to fetch the data
+            url: '/orders/data', // API endpoint to fetch the data
                 method: 'GET',
                 data: {
                     status: status // Pass the selected tab status to the server
                 },
                 success: function(response) {
-                    // Clear the current table rows before appending new data
                     $('#quotation-table tbody').empty();
-
-                    // Check if response contains data and populate the table
                     if (response.data && response.data.length > 0) {
-                        $.each(response.data, function(idx, appnt) {
+                        $.each(response.data, function(idx, order) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
-                            row += '<td>' + appnt.id + '</td>';
-                            row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
-                            row += '<td>' + appnt.franchise.name + '</td>';
-                            row += '<td>' + appnt.address + '</td>';
+                            row += '<td>' + order.appointment_id + '</td>';
+                            row += '<td>' + order.order_value + '</td>';
+                            row += '<td>' + order.payment_mode + '</td>';
+                            row += '<td>' + order.payment_mode_by + '</td>';
+                            row += '<td>' + order.paid_amount + '</td>';
+                            row += '<td>' + order.payment_type + '</td>';
                             
                             var statusBadge = '';
                             var viewType = '';
                             var actions = ''; // Store the actions that should be available
 
-                            switch (appnt.status) {
+                            switch (order.status) {
                                 case '0':
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + order.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + order.id + '" onclick="showRejectAppointmenteModal(\'' + order.id + '\')">Delete</a></li>';
                                     break;
                                 case '1':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + order.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.id + '" >Download Quotation</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + order.id + '" onclick="showRejectAppointmenteModal(\'' + order.id + '\')">Delete</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -412,14 +407,14 @@
     });
 
     $(document).ready(function() {
-        $(document).on('click', '[id^="open-quotation-details-"]', function() {
+        $(document).on('click', '[id^="open-order-"]', function() {
             
-            var quotationId = $(this).data('id'); // Get quotation ID dynamically
+            var orderId = $(this).data('id'); // Get quotation ID dynamically
             var quotationType = $(this).data('checktype'); // Get quotation ID dynamically
 
             // Ajax request to get quotation details
             $.ajax({
-                url: '/quotations/details/' + quotationId + '/' + quotationType, // Make sure the URL is correct
+                url: '/orders/details/' + orderId + '/' + quotationType, // Make sure the URL is correct
                 method: 'GET',
                 success: function(response) {
                     if (response.status === 'success') {

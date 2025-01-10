@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('payment_mode')->after('quotation_id')->nullable();
+            $table->string('order_value')->after('quotation_id')->nullable();
+            $table->string('payment_mode')->after('order_value')->nullable();
             $table->string('payment_mode_by')->after('payment_mode')->nullable();
             $table->string('paid_amount')->after('payment_mode_by')->nullable();
             $table->string('payment_type')->after('paid_amount')->nullable();
             $table->string('remarks')->after('payment_type')->nullable();
-        });
+            $table->enum('status', [0, 1])
+                ->comment('0 = "Pending", 1 = "Complete" ')->after('installation_date')->default(0);
+            });
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -12,8 +15,74 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-        return response()->json($orders);
+        $userRole = Auth::user()->getRoleNames()[0];
+        $user = Auth::user();
+       
+        $orders = collect(); 
+        $ordersQuery = new Order;
+        $orders = $ordersQuery->get();
+
+        // dd($orders);
+        $statusCounts = $orders->groupBy("status")->map->count();
+
+        // Access counts for all statuses
+        $pendingCount = $statusCounts->get("0", 0);
+        $completedCount = $statusCounts->get("1", 0);
+        
+
+
+        $franchises = Order::orderBy("id", "desc")->get();
+
+        return view(
+            "admin.order.index",
+            compact(
+                "orders",
+                "pendingCount",
+                "completedCount"
+            )
+        );
+    }
+
+    public function getOrdersData(Request $request)
+    {
+        // Define status mapping
+        $statusMap = [
+            "pending" => "0",
+            "complete" => "1"
+        ];
+
+        // Retrieve the 'status' input from the request, default to 'pending' if not set
+        $status = $request->input("status", "0");
+
+        // Get the mapped status from the $statusMap array or fallback to 1
+        $status = $statusMap[$status] ?? "0";
+        
+        $userRole = Auth::user()->getRoleNames()[0];
+
+            // Fetch Franchise-specific appointments
+            $statusMap = [
+                "pending" => "0",
+                "complete" => "1"
+            ];
+
+            $status = $request->input("status");
+
+            $status = $statusMap[$status] ?? "0";
+
+
+            $orders = Order::with('appointment','franchise','quotation_data')
+                ->where("status", $status)
+                ->orderBy('created_at','desc')
+                ->get()
+                ->toArray();
+
+
+            // Return the data as a JSON response
+            return response()->json([
+                "data" => $orders,
+                "role" => Auth::user()->getRoleNames()[0] ?? "",
+            ]);
+        
     }
 
     /**
@@ -30,20 +99,50 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        $inser_data = [
-            'appointment_id' => $request->orderappointmentId,
-            'franchise_id' => $request->orderfranchisetId,
-            'quotation_id' => $request->orderquotationId,
-            'payment_mode' => $request->payment_mode,
-            'payment_mode_by' => $request->modeofpayment ?? '',
-            'paid_amount' => $request->amountpaid,
-            'payment_type' => $request->paymenttype,
-            'remarks' => $request->paymentnote
+        $rules = [
+            // 'company_name' => 'required|string|max:255',
+            "payment_mode" => "required",
+            "paid_amount" => "required",
+            "payment_type" => "required"
         ];
 
-        $order = Order::create($inser_data);
+        $messages = [
+            "payment_mode.required" => "Please Select Payment Mode",
+            "paid_amount.required" => "Please Enter Paid Amount",
+            "payment_type.required" => "Please Select Payment Type"
+        ];
 
-        return response()->json($order, 201);
+        // Perform validation
+        $validator = Validator::make($request->all(), $rules, $messages);
+        // dd($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with("errors", $validator->errors());
+        }
+
+        try {
+            $data = Order::create($request->all());
+
+            if ($data) {
+                $update_array = ['status' => "4"];
+
+                $appointment = Appointment::findOrFail($data['appointment_id']);
+                $appointment->update($update_array);
+            }
+            // if (!empty($request->email)) {
+            //      Mail::to($request->email)->send(new Order($request->all()));
+            // }
+
+            return redirect()
+                ->back()
+                ->with("success", "Order Saved Successfully!");
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with("errors", "Something Went Wrong!");
+        }
+
     }
 
     /**
@@ -91,4 +190,39 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order deleted successfully.']);
     }
+
+
+    public function getOrdersDetails($id, $type)
+    {
+        // Fetch the appointment by ID
+        $order_data = Order::findOrFail($id);
+
+        // Use a switch-case for better readability and easier status mapping
+        switch ($type) {
+            case "pending":
+                $status = 0;
+                break;
+            case "complete":
+                $status = 1;
+                break;
+            default:
+                $status = 0; // Default status
+                break;
+        }
+
+        // Check if the appointment's status matches the type passed
+        if ($order_data && $order_data->status == $status) {
+            return response()->json([
+                "status" => "success",
+                "data" => $order_data,
+                "message" => "Orders details fetched successfully.",
+            ]);
+        } else {
+            return response()->json([
+                "status" => "error",
+                "message" => "Orders not found or status mismatch.",
+            ]);
+        }
+    }
+
 }

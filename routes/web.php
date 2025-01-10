@@ -167,7 +167,7 @@ Route::prefix('orders')->group(function () {
     Route::post('/store', [OrderController::class, 'store'])->name('order.store');
     Route::get('data', [OrderController::class, 'getOrdersData']);
     Route::put('delete/{id}', [OrderController::class, 'deleteOrdersData'])->name('order.delete');
-    Route::get('/details/{id}/{type}', [OrderController::class, 'getAppointmentDetails'])->name('order.details');
+    Route::get('/details/{id}/{type}', [OrderController::class, 'getOrdersDetails'])->name('order.details');
     
-    Route::get('/download_order/{apointment_id}', [OrderController::class, 'downloadOrderView']);
+    Route::get('/download_order/{order_id}', [OrderController::class, 'downloadOrderView']);
 });

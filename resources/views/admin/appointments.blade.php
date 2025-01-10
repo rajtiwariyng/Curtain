@@ -355,9 +355,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="orderappointmentId" name="orderappointmentId">
-                    <input type="hidden" id="orderfranchisetId" name="orderfranchisetId">
-                    <input type="hidden" id="orderquotationId" name="orderquotationId">
+                    <input type="hidden" id="orderappointmentId" name="appointment_id">
+                    <input type="hidden" id="orderfranchisetId" name="franchise_id">
+                    <input type="hidden" id="orderquotationId" name="quotation_id">
+                    <input type="hidden" id="orderValue" name="order_value">
                     <div class="mb-3">
                         <label for="ordervalue" class="form-label">Order Value<span class="requried">*</span></label>
                         <input type="text" name="ordervalue" id="ordervalue" placeholder="Enter Order Value"  class="form-control me-3 w-100" disabled>
@@ -379,12 +380,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="amountpaid" class="form-label">Amount Paid<span class="requried">*</span></label>
-                        <input type="text" name="amountpaid" id="amountpaid" placeholder="Enter Paid Amount"  class="form-control me-3 w-100">
+                        <input type="text" name="paid_amount" id="amountpaid" placeholder="Enter Paid Amount"  class="form-control me-3 w-100">
                         <div class="error" style="color: red;"></div>
                     </div>
                     <div class="mb-3">
                         <label for="paymenttype" class="form-label">Payment Type<span class="requried">*</span></label>
-                        <select id="paymenttype" name="paymenttype" class="form-select w-100">
+                        <select id="paymenttype" name="payment_type" class="form-select w-100">
                             <option value="" disabled selected>Select</option>
                             <option value="partial">Partial</option>
                             <option value="full">Full</option>
@@ -393,7 +394,7 @@
 
                     <div class="mb-3">
                         <label for="Note" class="form-label">Note</label>
-                        <textarea class="form-control me-3 w-100" name="paymentnote" id="paymentnote" rows="3" cols="50"></textarea>
+                        <textarea class="form-control me-3 w-100" name="remarks" id="paymentnote" rows="3" cols="50"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -443,6 +444,7 @@
                     const order_value = result.total_price - result.total_discount; 
 
                     $('#ordervalue').val(order_value);
+                    $('#orderValue').val(order_value);
                     $('#orderappointmentId').val(orderappointmentId);
                     $('#orderfranchisetId').val(result.franchise_id);
                     $('#orderquotationId').val(result.quotation_id);
@@ -461,16 +463,16 @@
                             if(selectedPaymentMode == 'cheque'){
                                 placeholder = 'Enter Chenque Number';
                             }
-                            html += `<input type="text" name="modeofpayment" id="modeofpaymentr" placeholder="`+placeholder+`"  class="form-control me-3 w-100">
+                            html += `<input type="text" name="payment_mode_by" id="modeofpaymentr" placeholder="`+placeholder+`"  class="form-control me-3 w-100">
                             <div class="error" id="modeofpaymentr_error" style="color: red;"></div>`;
                         }
                         if(selectedPaymentMode == 'online'){
                             $('#mode_option').empty();
-                            html += `<select type="text" name="modeofpayment" id="modeofpaymentr" placeholder="modeofpayment"  class="form-control me-3 w-100">
+                            html += `<select type="text" name="payment_mode_by" id="modeofpaymentr" placeholder="modeofpayment"  class="form-control me-3 w-100">
                                                 <option disabled selected>Select Mode Payment</option>
-                                                <option>NEFT</option>
-                                                <option>RTGS</option>
-                                                <option>IMPS</option>
+                                                <option value='NEFT'>NEFT</option>
+                                                <option value='RTGS'>RTGS</option>
+                                                <option value='IMPS'>IMPS</option>
                                     </select>`;
                         }
                         $('#mode_option').append(html);
