@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
+            $table->string('txn_id')->after('id')->nullable();
             $table->string('order_value')->after('quotation_id')->nullable();
             $table->string('payment_mode')->after('order_value')->nullable();
             $table->string('payment_mode_by')->after('payment_mode')->nullable();
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->string('payment_type')->after('paid_amount')->nullable();
             $table->string('remarks')->after('payment_type')->nullable();
             $table->enum('status', [0, 1])
-                ->comment('0 = "Pending", 1 = "Complete" ')->after('installation_date')->default(0);
+                ->comment('0 = "Pending", 1 = "Schedule", 2 = "Complete" ')->after('installation_date')->default(0);
             });
     }
 

@@ -5,7 +5,7 @@
 @section('content')
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
-        <h6 class="fw-bold m-0">All Orders <span class="fw-normal text-muted">()</span></h6>
+        <h6 class="fw-bold m-0">All Orders <span class="fw-normal text-muted">({{$allCount}})</span></h6>
         
     </div>
 
@@ -15,6 +15,10 @@
 
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{$pendingCount}})</span></button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false">Schedule <span class="fw-normal small">({{$scheduleCount}})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
@@ -35,6 +39,10 @@
             </div>
 
             <div class="tab-pane fade" id="pills-complete" role="tabpanel" aria-labelledby="pills-complete-tab" tabindex="0">
+                <!-- This content will be dynamically populated -->
+            </div>
+
+            <div class="tab-pane fade" id="pills-schedule" role="tabpanel" aria-labelledby="pills-schedule-tab" tabindex="0">
                 <!-- This content will be dynamically populated -->
             </div>
 
@@ -238,31 +246,55 @@
 <div class="modal fade" id="assignAppointmentModal" tabindex="-1" aria-labelledby="approveFranchiseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="" method="POST">
+            <form action="{{url('orders/update_schedule')}}" method="POST">
                 @csrf
 
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="approveFranchiseModalLabel">Approve Franchise</h1>
+                    <h1 class="modal-title fs-5" id="approveFranchiseModalLabel">Schedule</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="appointmentId" name="appointment_id">
+                    <input type="hidden" id="orderId" name="order_id">
                     <div class="mb-3">
-                        <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
-                        <select id="franchise" name="franchise_id" class="form-select w-100" required>
-                            <option value="">Select Franchise</option>
-                     
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Appointment Date</label>
+                        <label for="date" class="form-label">Schedule Date</label>
                         <input type="datetime-local" name="dateFilter" id="dateFilter" placeholder="Filter by date" value="{{ request('dateFilter') }}"
                             class="form-control me-3 w-100">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
-                    <!-- <button type="submit" class="primary-btn">Assign</button> -->
+                    <button type="submit" class="primary-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal fade" id="statusOrderUpdate" tabindex="-1" aria-labelledby="statusUpdateOrderLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{url('orders/update_status')}}" method="POST">
+                @csrf
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="statusUpdateOrderLabel">Status Update</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="statusorderId" name="order_id">
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Select Status<span class="requried">*</span></label>
+                        <select id="status" name="status" class="form-select w-100">
+                            <option value="pending">Pending</option>
+                            <option value="complete">Complete</option>
+                        </select>
+                        <div class="error" style="color: red;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Submit</button>
                 </div>
             </form>
         </div>
@@ -276,17 +308,17 @@
 @section('script')
 
 <script>
-    function confirmAssign(appointmentId) {
+    function confirmAssign(orderId) {
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
-        $('#appointmentId').val(appointmentId);
+        $('#orderId').val(orderId);
     }
 
-    // function rejected(appointmentId) {
-    //     // Open modal and set appointment ID
-    //     $('#rejectFranchiseModal').modal('show');
-    //     $('#appointmentId').val(appointmentId);
-    // }
+    function statusUpdate(orderId) {
+        // Open modal and set appointment ID
+        $('#statusOrderUpdate').modal('show');
+        $('#statusorderId').val(orderId);
+    }
 
     $(document).ready(function() {
         loadQuotationData('pending');
@@ -326,18 +358,20 @@
                                 case '0':
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
-                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + order.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.id + '" >Download Quotation</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + order.id + '" onclick="showRejectAppointmenteModal(\'' + order.id + '\')">Delete</a></li>';
+                                    actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="confirmAssign(\'' + order.id + '\')">Quotation Schedule</a></li>';
                                     break;
                                 case '1':
+                                    viewType = 'schedule';
+                                    statusBadge = '<span class="badge badge-active">Schedule</span>';
+                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="statusUpdate(\'' + order.id + '\')">Status Update</a></li>';
+                                    break;
+                                case '2':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
-                                    actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + order.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.id + '" >Download Quotation</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + order.id + '" onclick="showRejectAppointmenteModal(\'' + order.id + '\')">Delete</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -369,7 +403,7 @@
         }
     });
 
-    $(document).on('click', '.download_quotation_btn', function(e) {
+    $(document).on('click', '.download_invoice_btn', function(e) {
         e.preventDefault(); // Prevents default action (optional)
 
         // Get the href attribute, which contains the URL
@@ -418,18 +452,21 @@
                 method: 'GET',
                 success: function(response) {
                     if (response.status === 'success') {
-                        var quotation = response.data;
+                        var orders = response.data;
+                        console.log(orders);
                         // Populate table data dynamically
-                        $('#FranciseViewLabel').text(quotation.name);
+                        $('#FranciseViewLabel').text(orders.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
-                                <tr><th>Name</th><td>${quotation.name || 'N/A'}</td></tr>
-                                <tr><th>Email ID</th><td>${quotation.email || 'N/A'}</td></tr>
-                                <tr><th>Contact Number</th><td>${quotation.number || 'N/A'}</td></tr>
-                                <tr><th>Date</th><td>${quotation.date ? new Date(quotation.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A'}</td></tr>
-                                <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
-                                <tr><th>Quotation For</th><td>${quotation.name || 'N/A'}</td></tr>
-                                <tr><th>Cartage</th><td>${quotation.cartage || 'N/A'}</td></tr>
+                                <tr><th>Appointment</th><td>${orders.appointment.name || 'N/A'}</td></tr>
+                                <tr><th>Franchise</th><td>${orders.franchise.name || 'N/A'}</td></tr>
+                                <tr><th>Quotation</th><td>${orders.quotation_data.name || 'N/A'}</td></tr>
+                                <tr><th>Total Amount</th><td>${orders.order_value || 'N/A'}</td></tr>
+                                <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>
+                                <tr><th>Paid Type</th><td>${orders.payment_type || 'N/A'}</td></tr>
+                                <tr><th>Payment Mode</th><td>${orders.payment_mode || 'N/A'}</td></tr>
+                                <tr><th>Payment Made By</th><td>${orders.payment_mode_by || 'N/A'}</td></tr>
+                                ${orders.installation_date ? `<tr><th>Installation Date</th><td>${orders.installation_date || 'N/A'}</td></tr>` : ''}
                             `);
 
 

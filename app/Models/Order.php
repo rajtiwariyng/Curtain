@@ -13,6 +13,7 @@ class Order extends Model
 
     // Add the columns you want to allow mass assignment
     protected $fillable = [
+        'txn_id',
         'appointment_id',
         'franchise_id',
         'quotation_id',

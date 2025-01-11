@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Order;
+use App\Models\QuotationSection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +15,16 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private function generateNextCode($lastCode, $prefix)
+    {
+        if (!$lastCode) {
+            return $prefix . "00001";
+        }
+        $numberPart = (int) substr($lastCode, strlen($prefix));
+        $nextNumber = str_pad($numberPart + 1, 6, "0", STR_PAD_LEFT);
+        return $prefix . $nextNumber;
+    }
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
@@ -22,12 +34,13 @@ class OrderController extends Controller
         $ordersQuery = new Order;
         $orders = $ordersQuery->get();
 
+        $allCount = count($orders);
         // dd($orders);
         $statusCounts = $orders->groupBy("status")->map->count();
-
         // Access counts for all statuses
         $pendingCount = $statusCounts->get("0", 0);
-        $completedCount = $statusCounts->get("1", 0);
+        $scheduleCount = $statusCounts->get("1", 0);
+        $completedCount = $statusCounts->get("2", 0);
         
 
 
@@ -37,7 +50,9 @@ class OrderController extends Controller
             "admin.order.index",
             compact(
                 "orders",
+                "allCount",
                 "pendingCount",
+                "scheduleCount",
                 "completedCount"
             )
         );
@@ -48,7 +63,8 @@ class OrderController extends Controller
         // Define status mapping
         $statusMap = [
             "pending" => "0",
-            "complete" => "1"
+            "schedule" => "1",
+            "complete" => "2"
         ];
 
         // Retrieve the 'status' input from the request, default to 'pending' if not set
@@ -62,7 +78,8 @@ class OrderController extends Controller
             // Fetch Franchise-specific appointments
             $statusMap = [
                 "pending" => "0",
-                "complete" => "1"
+                "schedule" => "1",
+                "complete" => "2"
             ];
 
             $status = $request->input("status");
@@ -122,6 +139,10 @@ class OrderController extends Controller
         }
 
         try {
+            $lastAppointmentId = Order::max("txn_id");
+            $nextAppointmentId = $this->generateNextCode($lastAppointmentId, "TXN");
+            $request["txn_id"] = $nextAppointmentId;
+
             $data = Order::create($request->all());
 
             if ($data) {
@@ -195,21 +216,23 @@ class OrderController extends Controller
     public function getOrdersDetails($id, $type)
     {
         // Fetch the appointment by ID
-        $order_data = Order::findOrFail($id);
+        $order_data = Order::with('appointment','franchise','quotation_data')->findOrFail($id);
 
         // Use a switch-case for better readability and easier status mapping
         switch ($type) {
             case "pending":
                 $status = 0;
                 break;
-            case "complete":
+            case "schedule":
                 $status = 1;
+                break;
+            case "complete":
+                $status = 2;
                 break;
             default:
                 $status = 0; // Default status
                 break;
         }
-
         // Check if the appointment's status matches the type passed
         if ($order_data && $order_data->status == $status) {
             return response()->json([
@@ -223,6 +246,59 @@ class OrderController extends Controller
                 "message" => "Orders not found or status mismatch.",
             ]);
         }
+    }
+
+    public function downloadOrderView($order_id){
+        $order_data = Order::with('appointment','franchise','quotation_data')->findorfail($order_id);
+        if($order_data){
+            $quotations = $order_data['quotation_data'] ?? '';
+            $sectionItems = QuotationSection::with('items')->where('quotation_id',$order_data['quotation_data']['id'])->get();
+        }
+        return view('admin.order.download_invoice',compact('sectionItems','quotations','order_data'));
+    }
+
+    public function updateSchedule(Request $request)
+    {
+        $orderId = $request->order_id;
+        $installationDate = $request->dateFilter ?? null;
+        if ($installationDate) {
+            // Convert the ISO 8601 string to a proper DateTime format
+            $installationDate = Carbon::parse($installationDate)->format('Y-m-d H:i:s');
+        }
+
+        $order = Order::findOrFail($orderId);
+
+        $order->installation_date = $installationDate;
+        $order->status = "1";
+        $order->save();
+
+        return redirect()->back()->with('success','Quotation Scheduled Successfully');
+
+    }
+
+
+    public function updateStatus(Request $request)
+    {
+        $orderId = $request->order_id;
+        $status = $request->status ?? null;
+
+        switch ($status) {
+            case 'pending':
+                $update_status = '0';
+                break;
+            case 'complete':
+                $update_status = "2";
+                break;
+            default:
+                $update_status = "1";
+                break;
+        }
+
+        $order = Order::findOrFail($orderId);
+        $order->status = $update_status;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status Updated Successfully');
     }
 
 }

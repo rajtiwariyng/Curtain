@@ -170,4 +170,8 @@ Route::prefix('orders')->group(function () {
     Route::get('/details/{id}/{type}', [OrderController::class, 'getOrdersDetails'])->name('order.details');
     
     Route::get('/download_order/{order_id}', [OrderController::class, 'downloadOrderView']);
+    Route::post('/update_schedule', [OrderController::class, 'updateSchedule']);
+    Route::post('/update_status', [OrderController::class, 'updateStatus']);
+
+    
 });
