@@ -245,11 +245,11 @@
                 $("#form-title").hide();
                 $("#contact-form1").hide();
                 
-                if(response.status_check == '0'){
-                    $('#books_query').modal('show');
-                }else{
-                    $('#books_query').hide();
-                }
+                // if(response.status_check == '0'){
+                //     $('#books_query').modal('show');
+                // }else{
+                //     $('#books_query').hide();
+                // }
                 // Show the thank you message with fadeIn animation
                 $("#thankYouMessage1").fadeIn();
                 

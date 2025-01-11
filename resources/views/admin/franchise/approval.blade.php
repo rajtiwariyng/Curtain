@@ -46,15 +46,15 @@
                             <tr>
 
                                 <th>S/N</th>
-                                <th>Company Name</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Address</th>
                                 <th>Pincode</th>
                                 <th>City</th>
                                 <th>State</th>
                                 <th>Country</th>
+                                <th>Address</th>
+                                <th>Registration Type</th>
                                 <th>Action</th>
                                 
                             </tr>
@@ -63,15 +63,15 @@
                             @foreach($franchises  as $idx => $franchise)
                             <tr>
                                 <td>{{ $idx + 1 }}</td>
-                                <td>{{ $franchise->company_name }}</td>
                                 <td>{{ $franchise->user->name }}</td>
                                 <td>{{ $franchise->user->email }}</td>
                                 <td>{{ $franchise->mobile }}</td>
-                                <td>{{ $franchise->address }}</td>
                                 <td>{{ $franchise->pincode }}</td>
                                 <td>{{ $franchise->city }}</td>
                                 <td>{{ $franchise->state }}</td>
                                 <td>{{ $franchise->country }}</td>
+                                <td>{{ $franchise->address }}</td>
+                                <td>{{ $franchise->registerationType }}</td>
                                 <td>
                                     <div>
                                         <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown"
@@ -98,12 +98,12 @@
                         <thead>
                             <tr>
                                 <th>S/N</th>
-                                <th>Company Name</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Pincode</th>
                                 <th>City</th>
+                                <th>Pincode</th>
+                                <th>Registration Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -112,12 +112,12 @@
                             @foreach($franchiseTempsPending as $idx => $franchisePending)
                             <tr>
                                 <td>{{ $idx + 1 }}</td>
-                                <td>{{ $franchisePending->company_name }}</td>
                                 <td>{{ $franchisePending->name }}</td>
                                 <td>{{ $franchisePending->email }}</td>
                                 <td>{{ $franchisePending->mobile }}</td>
-                                <td>{{ $franchisePending->pincode }}</td>
                                 <td>{{ $franchisePending->city }}</td>
+                                <td>{{ $franchisePending->pincode }}</td>
+                                <td>{{ $franchisePending->registerationType }}</td>
                                 <td><span class="badge badge-pending">Pending</span></td>
                                 <td>
                                     <div class="dropdown">
@@ -161,11 +161,11 @@
                                 <th style="border-top-left-radius: 6px; border-bottom-left-radius: 6px;" scope="col">S/N
                                 </th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Individual/Company</th>
-                                <th scope="col">Company Name</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Number</th>
-                                <th scope="col">Pincode</th>
                                 <th scope="col">City</th>
+                                <th scope="col">Pincode</th>
+                                <th scope="col">Registration Type</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
 
@@ -177,10 +177,10 @@
                                 <td>{{ $idx + 1 }}</td>
                                 <td>{{ $franchiseReject->name }}</td>
                                 <td>{{ $franchiseReject->email }}</td>
-                                <td>{{ $franchiseReject->company_name }}</td>
                                 <td>{{ $franchiseReject->mobile }}</td>
-                                <td>{{ $franchiseReject->pincode }}</td>
                                 <td>{{ $franchiseReject->city }}</td>
+                                <td>{{ $franchiseReject->pincode }}</td>
+                                <td>{{ $franchiseReject->registerationType }}</td>
                                 <td><span class="badge badge-inactive">Rejected</span></td>
                                 <td>
                                     <div>
@@ -316,8 +316,8 @@
                                         class="requried">*</span></label>
                                 <select name="registerationType" class="form-control form-select w-100" id="registerationType">
                                     <option value="">Select Registration Type</option>
-                                    <option value="Indiviual">Individual</option>
-                                    <option value="Company">Company</option>
+                                    <option value="individual">Individual</option>
+                                    <option value="company">Company</option>
                                     <option value="proprietor">Proprietor</option>
                                 </select>
                             </div>
@@ -599,74 +599,85 @@
 </script>
 <script>
     $('#addFranchiseModal1').on('shown.bs.modal', function() {
-        $("#contact-form1").validate({
-            rules: {
-                company_name: "required",
-                name: "required",
-                email: {
-                    required: true,
-                    email: true
-                },
-                mobile: {
-                    required: true,
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
-                alt_mobile: {
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 15
-                },
-                employees: {
-                    required: true,
-                    digits: true
-                },
-                address: "required",
-                pincode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6,
-                    maxlength: 6
-                },
-                city: "required",
-                state: "required",
-                country: "required"
+    $("#contact-form1").validate({
+        rules: {
+            company_name: "required",
+            name: "required",
+            email: {
+                required: true,
+                email: true
             },
-            messages: {
-                company_name: "Please enter your company name",
-                name: "Please enter your name",
-                email: {
-                    required: "Please enter your email",
-                    email: "Please enter a valid email address"
-                },
-                mobile: {
-                    required: "Please enter your mobile number",
-                    digits: "Please enter a valid mobile number"
-                },
-                employees: "Please enter the number of employees",
-                address: "Please enter your address",
-                pincode: {
-                    required: "Please enter your pincode",
-                    digits: "Please enter a valid pincode"
-                },
-                city: "Please enter your city",
-                state: "Please enter your state",
-                country: "Please enter your country"
+            mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 15
             },
-            errorElement: "div", // Use div to display errors
-            errorPlacement: function(error, element) {
-                error.addClass("form-text text-danger xsmall");
-                error.insertAfter(element); // Place the error directly after the input element
+            alt_mobile: {
+                digits: true,
+                minlength: 10,
+                maxlength: 15,
+                notEqualTo: "#mobile"
             },
-            highlight: function(element) {
-                $(element).addClass("is-invalid").removeClass("is-valid");
+            employees: {
+                required: true,
+                digits: true
             },
-            unhighlight: function(element) {
-                $(element).removeClass("is-invalid").addClass("is-valid");
-            }
-        });
+            address: "required",
+            pincode: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 6
+            },
+            city: "required",
+            state: "required",
+            country: "required"
+        },
+        messages: {
+            company_name: "Please enter your company name",
+            name: "Please enter your name",
+            email: {
+                required: "Please enter your email",
+                email: "Please enter a valid email address"
+            },
+            mobile: {
+                required: "Please enter your mobile number",
+                digits: "Please enter a valid mobile number"
+            },
+            alt_mobile: {
+                digits: "Please enter a valid alternative mobile number",
+                minlength: "Alternative mobile number should be at least 10 digits",
+                maxlength: "Alternative mobile number should not exceed 15 digits",
+                notEqualTo: "Alternative mobile number should not be the same as the mobile number"
+            },
+            employees: "Please enter the number of employees",
+            address: "Please enter your address",
+            pincode: {
+                required: "Please enter your pincode",
+                digits: "Please enter a valid pincode"
+            },
+            city: "Please enter your city",
+            state: "Please enter your state",
+            country: "Please enter your country"
+        },
+        errorElement: "div", // Use div to display errors
+        errorPlacement: function(error, element) {
+            error.addClass("form-text text-danger xsmall");
+            error.insertAfter(element); // Place the error directly after the input element
+        },
+        highlight: function(element) {
+            $(element).addClass("is-invalid").removeClass("is-valid");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("is-invalid").addClass("is-valid");
+        },
+        submitHandler: function(form) {
+            // If validation passes, submit the form
+            form.submit(); // This triggers the form submission
+        }
     });
+});
 </script>
 
 <script>

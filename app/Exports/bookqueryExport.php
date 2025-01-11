@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -13,7 +14,7 @@ class BookQueryExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return Appointment::where('status', '0')
+        $appointments = Appointment::where('status', '0')
             ->select([
                 'id',
                 'uniqueid',
@@ -28,6 +29,21 @@ class BookQueryExport implements FromCollection, WithHeadings
                 'created_at',
             ])
             ->get();
+
+        // Transform the collection to set serial number and format created_at to only show date
+        $appointments->transform(function ($appointment, $key) {
+            // Set serial number
+            $appointment->id = $key + 1;
+
+            // Check if created_at is a valid date and format it to 'Y-m-d'
+            if ($appointment->created_at) {
+                $appointment->created_at = Carbon::parse($appointment->created_at)->toDateString(); // Formats to 'Y-m-d'
+            }
+
+            return $appointment;
+        });
+
+        return $appointments;
     }
 
     /**

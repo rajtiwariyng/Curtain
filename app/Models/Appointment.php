@@ -18,5 +18,10 @@ class Appointment extends Model
     public function local_franchise(){
         return $this->hasMany(Franchise::class, 'state', 'state'); 
     }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->format('d-m-Y'); // Change the format as needed
+    }
     
 }

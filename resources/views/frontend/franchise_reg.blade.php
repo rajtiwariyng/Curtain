@@ -206,6 +206,7 @@
         </form>
 
         <div id="thankYouMessage1 wow animate__animated animate__fadeIn" style=" margin-top: 20px; display: none;">
+            <h3 class="NewKansas-medium">Oops! Seems we are not servicing your area. But wait! we will be coming to you soon</h3>
             <h3 class="NewKansas-medium">Thank you for register with us!</h3>
             <p class="mb-2">We will get back to you shortly.</p>
             <a href="#" id="sendAnother" onclick="resetForm()"
