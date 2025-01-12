@@ -15,14 +15,7 @@
         <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-confirm-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-confirm" type="button" role="tab" aria-controls="pills-confirm"
-                        aria-selected="false">Confirmed <span
-                            class="fw-normal small">({{ count($franchises) }})</span></button>
-                </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-pending-tab" data-bs-toggle="pill"
+                    <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending"
                         aria-selected="true">Pending <span
                             class="fw-normal small">({{ count($franchiseTempsPending) }})</span></button>
@@ -34,11 +27,17 @@
                         aria-selected="false">Rejected <span class="fw-normal small">({{ count($franchiseTempsReject) }})</span></button>
                 </li>
 
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link " id="pills-confirm-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-confirm" type="button" role="tab" aria-controls="pills-confirm"
+                        aria-selected="false">Confirmed <span
+                            class="fw-normal small">({{ count($franchises) }})</span></button>
+                </li>
             </ul>
         </div>
         <div class="tab-content" id="pills-tabContent">
             <!-- for configm -->
-            <div class="tab-pane fade show active" id="pills-confirm" role="tabpanel" aria-labelledby="pills-confirm-tab"
+            <div class="tab-pane fade " id="pills-confirm" role="tabpanel" aria-labelledby="pills-confirm-tab"
                 tabindex="0">
                 <div class="table-responsive">
                     <table class="table" id="confirmFranchise">
@@ -91,7 +90,7 @@
             </div>
 
             <!-- for pending -->
-            <div class="tab-pane fade" id="pills-pending" role="tabpanel"
+            <div class="tab-pane fade show active" id="pills-pending" role="tabpanel"
                 aria-labelledby="pills-pending-tab" tabindex="0">
                 <div class="table-responsive">
                     <table class="table" id="projectsTable">
@@ -467,8 +466,6 @@
         var franchiseId = $(this).data('id'); // Get franchise ID dynamically
         var franchiseType = $(this).data('checktype'); // Get franchise ID dynamically
         
-        console.log('Franchise ID:', franchiseId);
-        console.log('Check Type:', franchiseType);
 
         // Ajax request to get franchise details
         $.ajax({

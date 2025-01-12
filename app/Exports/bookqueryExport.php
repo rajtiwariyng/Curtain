@@ -17,7 +17,6 @@ class BookQueryExport implements FromCollection, WithHeadings
         $appointments = Appointment::where('status', '0')
             ->select([
                 'id',
-                'uniqueid',
                 'name',
                 'email',
                 'mobile',
@@ -25,19 +24,16 @@ class BookQueryExport implements FromCollection, WithHeadings
                 'pincode',
                 'city',
                 'country',
-                'status',
                 'created_at',
             ])
             ->get();
 
-        // Transform the collection to set serial number and format created_at to only show date
         $appointments->transform(function ($appointment, $key) {
             // Set serial number
             $appointment->id = $key + 1;
 
-            // Check if created_at is a valid date and format it to 'Y-m-d'
             if ($appointment->created_at) {
-                $appointment->created_at = Carbon::parse($appointment->created_at)->toDateString(); // Formats to 'Y-m-d'
+                $appointment->created_at = Carbon::parse($appointment->created_at)->format('Y-m-d h:i:s'); // Formats to 'Y-m-d'
             }
 
             return $appointment;
@@ -55,7 +51,6 @@ class BookQueryExport implements FromCollection, WithHeadings
     {
         return [
             'ID',
-            'Unique ID',
             'Name',
             'Email',
             'Mobile',
@@ -63,7 +58,6 @@ class BookQueryExport implements FromCollection, WithHeadings
             'Pincode',
             'City',
             'Country',
-            'Status',
             'Created At',
         ];
     }

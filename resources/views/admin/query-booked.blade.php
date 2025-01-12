@@ -10,13 +10,13 @@
     </div>
 
     <div class="dataOverview mt-3">
-        <div>
+        <!-- <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{ $pendingCount }})</span></button>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <!-- all data view -->
 
@@ -25,8 +25,6 @@
                 <!-- This content will be dynamically populated -->
             </div>
 
-
-        
         </div>
 
         <div class="table-responsive">
