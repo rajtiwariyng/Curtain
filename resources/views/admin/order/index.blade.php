@@ -86,7 +86,7 @@
                         <th>Phone Number</th>
                         <th>Pincode</th>
                         <th>Franchise Assign</th>
-                        <th>Installation Date & Time</th>
+                        <th class="installation-date-header">Installation Date & Time</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -358,6 +358,12 @@
                     console.log(response.role);
                     $('#quotation-table tbody').empty();
                     if (response.data && response.data.length > 0) {
+                        var hasInstallationDate = response.data.some(order => order.installation_date);
+
+                            // If no installation date, hide the header and related columns
+                            if (!hasInstallationDate) {
+                                $('.installation-date-header').hide(); // Hide the header
+                            }
                         $.each(response.data, function(idx, order) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
@@ -367,7 +373,10 @@
                             row += '<td>' + order.appointment.mobile + '</td>';
                             row += '<td>' + order.appointment.pincode + '</td>';
                             row += '<td>' + order.franchise.name + '</td>';
-                            row += '<td>' + customformatDate(order.installation_date) + '</td>';
+                            if (hasInstallationDate) {
+                                var installationDate = order.installation_date ? customformatDate(order.installation_date) : 'N/A';
+                                row += '<td>' + installationDate + '</td>';
+                            }
                             
                             var statusBadge = '';
                             var viewType = '';
@@ -493,10 +502,9 @@
                                 <tr><th>Appointment Pincode</th><td>${orders.appointment.pincode || 'N/A'}</td></tr>
                                 <tr><th>Quotation Id Id</th><td>${orders.quotation_data.id || 'N/A'}</td></tr>
                                 <tr><th>Franchise</th><td>${orders.franchise.name || 'N/A'}</td></tr>
-                                <tr><th>Quotation</th><td>${orders.quotation_data.name || 'N/A'}</td></tr>
                                 <tr><th>Paid Type</th><td>${orders.payment_type || 'N/A'}</td></tr>
                                 <tr><th>Payment Mode</th><td>${orders.payment_mode || 'N/A'}</td></tr>
-                                ${orders.payment_mode_by ? `<tr><th>Payment Made By</th><td>${orders.payment_mode_by || 'cash'}</td></tr>` : ''}
+                                ${orders.payment_mode_by ? `<tr><th>Payment details</th><td>${orders.payment_mode_by || 'cash'}</td></tr>` : ''}
                                 ${orders.installation_date ? `<tr><th>Installation Date</th><td>${customformatDate(orders.installation_date) || 'N/A'}</td></tr>` : ''}
                                 <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>
                                 <tr><th>Total Amount</th><td>${orders.order_value || 'N/A'}</td></tr>
