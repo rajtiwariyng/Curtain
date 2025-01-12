@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Franchise;
 use App\Models\Order;
 use App\Models\QuotationSection;
 use Carbon\Carbon;
@@ -29,11 +30,20 @@ class OrderController extends Controller
     {
         $userRole = Auth::user()->getRoleNames()[0];
         $user = Auth::user();
-       
-        $orders = collect(); 
+
+        $franchise_data = Franchise::where('user_id',$user['id'])->first();
+        $orders = collect();
+        
         $ordersQuery = new Order;
+        if($userRole == 'Franchise'){
+            $ordersQuery = $ordersQuery->where('franchise_id', $franchise_data->id);
+        }
+        if($userRole == 'Fulfillment Desk'){
+            $ordersQuery = $ordersQuery->whereIn('status', ['1','2']);
+        }
         $orders = $ordersQuery->get();
 
+        
         $allCount = count($orders);
         // dd($orders);
         $statusCounts = $orders->groupBy("status")->map->count();
@@ -43,9 +53,8 @@ class OrderController extends Controller
         $completedCount = $statusCounts->get("2", 0);
         
 
-
         $franchises = Order::orderBy("id", "desc")->get();
-
+        
         return view(
             "admin.order.index",
             compact(
@@ -60,6 +69,10 @@ class OrderController extends Controller
 
     public function getOrdersData(Request $request)
     {
+        $userRole = Auth::user()->getRoleNames()[0];
+        $user = Auth::user();
+        
+        $franchise_data = Franchise::where('user_id',$user['id'])->first();
         // Define status mapping
         $statusMap = [
             "pending" => "0",
@@ -72,26 +85,25 @@ class OrderController extends Controller
 
         // Get the mapped status from the $statusMap array or fallback to 1
         $status = $statusMap[$status] ?? "0";
-        
-        $userRole = Auth::user()->getRoleNames()[0];
-
             // Fetch Franchise-specific appointments
-            $statusMap = [
-                "pending" => "0",
-                "schedule" => "1",
-                "complete" => "2"
-            ];
-
-            $status = $request->input("status");
+            
+                $statusMap = [
+                    "pending" => "0",
+                    "schedule" => "1",
+                    "complete" => "2"
+                ];
+              $status = $request->input("status");
 
             $status = $statusMap[$status] ?? "0";
 
-
-            $orders = Order::with('appointment','franchise','quotation_data')
-                ->where("status", $status)
-                ->orderBy('created_at','desc')
-                ->get()
-                ->toArray();
+            $orders_query = Order::with('appointment','franchise','quotation_data')
+            ->where("status", $status);
+            if($userRole == 'Franchise'){
+                $orders_query->where('franchise_id', $franchise_data->id);
+            }
+            $orders = $orders_query->orderBy('created_at','desc')
+            ->get()
+            ->toArray();
 
 
             // Return the data as a JSON response

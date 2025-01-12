@@ -18,10 +18,11 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         $userRole = Auth::user()->getRoleNames()[0];
         $user = Auth::user();
+        // dd($user->id);
         if(!empty($user)){
             $franchiseID = Franchise::where('user_id',$user->id)->first();
         }
-        
+
         $franchise = Franchise::all();
         
         

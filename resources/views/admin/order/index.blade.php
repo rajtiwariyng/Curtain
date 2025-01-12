@@ -13,13 +13,21 @@
         <div>
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
+                @if(Auth::user()->getRoleNames()[0] == 'Fulfillment Desk')
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false"> Pending <span class="fw-normal small">({{$scheduleCount}})</span></button>
+                </li>
+                @else
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">Pending <span class="fw-normal small">({{$pendingCount}})</span></button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false">Schedule <span class="fw-normal small">({{$scheduleCount}})</span></button>
+                    <button class="nav-link" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false"> Schedule <span class="fw-normal small">({{$scheduleCount}})</span></button>
                 </li>
+                @endif
+
+                
 
                 <li class="nav-item" role="presentation">
                     <button class="nav-link " id="pills-complete-tab" data-bs-toggle="pill" data-bs-target="#pills-complete" type="button" role="tab" aria-controls="pills-complete" aria-selected="false">Completed <span class="fw-normal small">({{$completedCount}})</span></button>
@@ -73,11 +81,12 @@
                     <tr>
                         <th>S/N</th>
                         <th>Appointment ID</th>
-                        <th>Total Amount</th>
-                        <th>Payment Mode</th>
-                        <th>Payment Mode By</th>
-                        <th>Paid Amount</th>
-                        <th>Paid Type</th>
+                        <th>Quotation ID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Pincode</th>
+                        <th>Franchise Assign</th>
+                        <th>Installation Date & Time</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -320,8 +329,16 @@
         $('#statusorderId').val(orderId);
     }
 
-    $(document).ready(function() {
-        loadQuotationData('pending');
+    $(document).ready(function() {   
+        var userRole = @json(Auth::user()->getRoleNames()[0]);
+        
+        if(userRole == 'Fulfillment Desk'){
+
+            loadQuotationData('schedule');
+        }else{
+
+            loadQuotationData('pending');
+        }
 
         $('#pills-tab button').on('click', function() {
             var tabId = $(this).attr('id').split('-')[1]; // Extract tab ID (e.g., pending, assign, etc.)
@@ -338,40 +355,52 @@
                     status: status // Pass the selected tab status to the server
                 },
                 success: function(response) {
+                    console.log(response.role);
                     $('#quotation-table tbody').empty();
                     if (response.data && response.data.length > 0) {
                         $.each(response.data, function(idx, order) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
                             row += '<td>' + order.appointment_id + '</td>';
-                            row += '<td>' + order.order_value + '</td>';
-                            row += '<td>' + order.payment_mode + '</td>';
-                            row += '<td>' + order.payment_mode_by + '</td>';
-                            row += '<td>' + order.paid_amount + '</td>';
-                            row += '<td>' + order.payment_type + '</td>';
+                            row += '<td>' + order.quotation_data.id + '</td>';
+                            row += '<td>' + order.appointment.name + '</td>';
+                            row += '<td>' + order.appointment.mobile + '</td>';
+                            row += '<td>' + order.appointment.pincode + '</td>';
+                            row += '<td>' + order.franchise.name + '</td>';
+                            row += '<td>' + customformatDate(order.installation_date) + '</td>';
                             
                             var statusBadge = '';
                             var viewType = '';
                             var actions = ''; // Store the actions that should be available
+                            
+                            let check_status = order.status;
+                            if(response.role == 'Fulfillment Desk'){
+                                check_status = '1';
+                            }
 
-                            switch (order.status) {
+                            switch (check_status) {
                                 case '0':
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
                                     actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="confirmAssign(\'' + order.id + '\')">Quotation Schedule</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
+                                    (response.role == 'Help Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="confirmAssign(\'' + order.id + '\')">Assign Fulfillment Desk</a></li>' : '';
                                     break;
                                 case '1':
                                     viewType = 'schedule';
                                     statusBadge = '<span class="badge badge-active">Schedule</span>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="statusUpdate(\'' + order.id + '\')">Status Update</a></li>';
+                                    actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
+                                    (response.role == 'Fulfillment Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="statusUpdate(\'' + order.id + '\')">Update Installation</a></li>' : '';
                                     break;
                                 case '2':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -458,15 +487,19 @@
                         $('#FranciseViewLabel').text(orders.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
-                                <tr><th>Appointment</th><td>${orders.appointment.name || 'N/A'}</td></tr>
+                                <tr><th>Transaction Id</th><td>${orders.txn_id || 'N/A'}</td></tr>
+                                <tr><th>Appointment Id</th><td>${orders.appointment.id || 'N/A'}</td></tr>
+                                <tr><th>Appointment Name</th><td>${orders.appointment.name || 'N/A'}</td></tr>
+                                <tr><th>Appointment Pincode</th><td>${orders.appointment.pincode || 'N/A'}</td></tr>
+                                <tr><th>Quotation Id Id</th><td>${orders.quotation_data.id || 'N/A'}</td></tr>
                                 <tr><th>Franchise</th><td>${orders.franchise.name || 'N/A'}</td></tr>
                                 <tr><th>Quotation</th><td>${orders.quotation_data.name || 'N/A'}</td></tr>
-                                <tr><th>Total Amount</th><td>${orders.order_value || 'N/A'}</td></tr>
-                                <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>
                                 <tr><th>Paid Type</th><td>${orders.payment_type || 'N/A'}</td></tr>
                                 <tr><th>Payment Mode</th><td>${orders.payment_mode || 'N/A'}</td></tr>
-                                <tr><th>Payment Made By</th><td>${orders.payment_mode_by || 'N/A'}</td></tr>
-                                ${orders.installation_date ? `<tr><th>Installation Date</th><td>${orders.installation_date || 'N/A'}</td></tr>` : ''}
+                                ${orders.payment_mode_by ? `<tr><th>Payment Made By</th><td>${orders.payment_mode_by || 'cash'}</td></tr>` : ''}
+                                ${orders.installation_date ? `<tr><th>Installation Date</th><td>${customformatDate(orders.installation_date) || 'N/A'}</td></tr>` : ''}
+                                <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>
+                                <tr><th>Total Amount</th><td>${orders.order_value || 'N/A'}</td></tr>
                             `);
 
 

@@ -114,7 +114,11 @@
                             <li><a href="{{ route('design-types.index') }}"><span class="text">Design Type</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><i class="bi bi-truck"></i><span class="text">Orders</span></a></li>
+                    <li class="{{ request()->is('orders') ? 'active' : '' }}">
+                        <a href="{{route('order.list')}}">
+                            <i class="bi bi-truck"></i><span class="text">Orders</span>
+                        </a>
+                    </li>
                     <li><a href="#"><i class="bi bi-file-earmark-bar-graph"></i><span class="text">Reports</span></a></li>
                 @endif
                 @if (Auth::user()->getRoleNames()[0] == 'Franchise')
@@ -131,6 +135,11 @@
                             <i class="bi bi-receipt-cutoff"></i><span class="text">Quotations</span>
                         </a>
                     </li>
+                    <li class="{{ request()->is('orders') ? 'active' : '' }}">
+                        <a href="{{route('order.list')}}">
+                            <i class="bi bi-truck"></i><span class="text">Orders</span>
+                        </a>
+                    </li>
                     <li><a href="#"><i class="bi bi-file-earmark-bar-graph"></i><span class="text">Reports</span></a></li>
 
                 @endif
@@ -143,12 +152,20 @@
                             <i class="bi bi-receipt-cutoff"></i><span class="text">Quotations</span>
                         </a>
                     </li>
-                    <li><a href="#"><i class="bi bi-truck"></i><span class="text">Orders</span></a></li>
+                    <li class="{{ request()->is('orders') ? 'active' : '' }}">
+                        <a href="{{route('order.list')}}">
+                            <i class="bi bi-truck"></i><span class="text">Orders</span>
+                        </a>
+                    </li>
                     <li><a href="#"><i class="bi bi-file-earmark-bar-graph"></i><span class="text">Reports</span></a></li>
                 @endif
                 @if (Auth::user()->getRoleNames()[0] == 'Fulfillment Desk')
-                    <li class="active"><a href="{{ route('super.admin.dashboard') }}"><i class="bi bi-house"></i><span class="text">Dashboard</span></a></li>
-                    <li><a href="#"><i class="bi bi-truck"></i><span class="text">Orders</span></a></li>
+                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}"><a href="{{ route('super.admin.dashboard') }}"><i class="bi bi-house"></i><span class="text">Dashboard</span></a></li>
+                    <li class="{{ request()->is('orders') ? 'active' : '' }}">
+                        <a href="{{route('order.list')}}">
+                            <i class="bi bi-truck"></i><span class="text">Orders</span>
+                        </a>
+                    </li>
                     <li><a href="#"><i class="bi bi-file-earmark-bar-graph"></i><span class="text">Reports</span></a></li>
                 @endif
                 @if (Auth::user()->getRoleNames()[0] == 'Data Entry Operator')
