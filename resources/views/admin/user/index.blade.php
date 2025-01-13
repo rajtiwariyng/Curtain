@@ -63,8 +63,6 @@
                                 @if ($user->hasAnyRole(['Super Admin', 'Admin']))
                                     
                                 @else
-                                    <option value="Franchise">Franchise</option>
-                                    <option value="Franchise Team Member">Franchise Team Member</option>
                                 @endif
                                 
                                 

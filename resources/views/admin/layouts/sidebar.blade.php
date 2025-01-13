@@ -99,7 +99,11 @@
                     <li class="{{ request()->is('franchise_approval') ? 'active' : '' }}"><a href="{{ route('franchise.temp.index') }}"><i class="bi bi-building-add"></i><span class="text">Franchise</span></a></li>
                     <li class="{{ request()->is('products') ? 'active' : '' }}"><a href="/products"><i class="bi bi-box2"></i><span class="text">Products</span></a></li>
                     <li class="{{ request()->is('appointments_list') ? 'active' : '' }}"><a href="{{ route('appointments.list.index') }}"><i class="bi bi-journal"></i></i><span class="text">Appointments</span></a></li>
-                    <li class="{{ request()->is('quotations.list') ? 'active' : '' }}"><a href="{{ route('appointments.list.index') }}"><i class="bi bi-receipt-cutoff"></i><span class="text">Quotations</span></a></li>
+                    <li class="{{ request()->is('quotations') ? 'active' : '' }}">
+                        <a href="{{ route('quotations.list') }}">
+                            <i class="bi bi-receipt-cutoff"></i><span class="text">Quotations</span>
+                        </a>
+                    </li>
                     <li><a href="#"><i class="bi bi-database"></i><span class="text">Masters</span><i class="arrow ph-bold ph-caret-down"></i></a>
                         <ul class="sub-menu">
                             <li><a href="{{ route('zipcodes.index') }}"><span class="text">ZIP Codes</span></a></li>

@@ -120,7 +120,7 @@
                         <td>{{$item['unit']}}</td>
                         <td>{{$item['price']}}</td>
                         <td>{{$item['discount']}}</td>
-                        <td>{{$item['price'] - $item['discount']}}</td>
+                        <td>{{ floatval($item['price']) - floatval($item['discount']) }}</td>
                     </tr>
                     @endforeach
                 

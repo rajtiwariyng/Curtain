@@ -70,8 +70,8 @@
                                 <option value="Fulfillment Desk">Fulfillment Desk</option>
                                 <option value="Data Entry Operator">Data Entry Operator</option>
                                 <option value="Accounts">Accounts</option>
-                                <option value="Franchise">Franchise</option>
-                                <option value="Franchise Team Member">Franchise Team Member</option>
+                                <!-- <option value="Franchise">Franchise</option>
+                                <option value="Franchise Team Member">Franchise Team Member</option> -->
                             </select>
                         </div>
                         
