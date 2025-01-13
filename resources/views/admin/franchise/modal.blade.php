@@ -321,7 +321,7 @@
                                         class="requried">*</span></label>
                                 <select name="registerationType" class="form-control form-select w-100" id="registerationType">
                                     <option value="">Select Registration Type</option>
-                                    <option value="Indiviual">Individual</option>
+                                    <option value="Individual">Individual</option>
                                     <option value="Company">Company</option>
                                     <option value="proprietor">Proprietor</option>
                                 </select>

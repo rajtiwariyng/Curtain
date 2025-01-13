@@ -141,7 +141,7 @@
                         <select name="registerationType" class="form-control form-select" id="registerationType"
                             required>
                             <option value="">Select Registration Type</option>
-                            <option value="Indiviual">Individual</option>
+                            <option value="Individual">Individual</option>
                             <option value="Company">Company</option>
                             <option value="proprietor">Proprietor</option>
                         </select>
