@@ -117,11 +117,7 @@
 
                     <div class="mb-1">
                         <label class="form-label me-2">Paid Amount: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->paid_amount}}</label>
-                    </div>
-                    <div class="mb-1">
-                        <label class="form-label me-2">Payment Type: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->payment_type}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->order_value}}</label>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -166,7 +162,7 @@
                         <td>{{$item['unit']}}</td>
                         <td>{{$item['price']}}</td>
                         <td>{{$item['discount']}}</td>
-                        <td>{{$item['price'] - $item['discount']}}</td>
+                        <td>{{ (float)$item['price'] - (float)$item['discount'] }}</td>
                     </tr>
                     @endforeach
                 

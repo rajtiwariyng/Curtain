@@ -90,7 +90,7 @@ class QuotationController extends Controller
             'email' => $request->email ?? '',
             'number' => $request->number ?? '',
             'address' => $request->address ?? '',
-            'quot_for' => $request->quot_for ?? '',
+            'quot_for' => $request->quotation_for ?? '',
             'cartage' => $request->cartage ?? '',
             // 'section_name' => $request->section_name ?? '',
             'date' => date('Y-m-d'),  // using Y-m-d format

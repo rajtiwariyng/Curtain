@@ -282,6 +282,7 @@
             </div>
             <form action="{{ route('franchise_temp.store_admin') }}" method="POST" id="contact-form1">
                 @csrf
+                <input type="hidden" name="status" id="status" value="pending">
                 <div class="modal-body">
 
                     <div class="mb-3 w-100">
@@ -315,9 +316,9 @@
                                         class="requried">*</span></label>
                                 <select name="registerationType" class="form-control form-select w-100" id="registerationType">
                                     <option value="">Select Registration Type</option>
-                                    <option value="individual">Individual</option>
-                                    <option value="company">Company</option>
-                                    <option value="proprietor">Proprietor</option>
+                                    <option value="Individual">Individual</option>
+                                    <option value="Company">Company</option>
+                                    <option value="Proprietor">Proprietor</option>
                                 </select>
                             </div>
                         </div>
@@ -339,32 +340,6 @@
                         </div>
 
                     </div>
-                    <!-- <div class="mb-3 w-100">
-                        <label for="registrationTypeInput" class="form-label mb-1">Registration Type</label>
-                        <select class="form-select w-100" id="registrationTypeInput" aria-label="Default select example"
-                            onchange="toggleCompanyFields()">
-                            <option selected>Open this select menu</option>
-                            <option value="individual">Individual</option>
-                            <option value="proprietor">Proprietor</option>
-                            <option value="company">Company</option>
-                        </select>
-                    </div> 
-                    <div class="row" id="companyFields">
-                        <div class="col-md-6">
-                            <div class="mb-3 w-100">
-                                <label for="companyNameInput" class="form-label mb-1">Company Name<span
-                                        class="requried">*</span></label>
-                                <input type="text" class="form-control w-100" id="company_name" name="company_name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3 w-100">
-                                <label for="numberOfEmployeeInput" class="form-label mb-1">Number of
-                                    Employee<span class="requried">*</span></label>
-                                <input type="number" class="form-control w-100" id="employees" name="employees">
-                            </div>
-                        </div>
-                    </div> -->
 
                     <div class="mb-3 w-100">
                         <label for="franchiseAddress" class="form-label mb-1">Address<span
@@ -481,9 +456,7 @@
                         let franchiseDetailsHtml = '';
 
                             // Check if each value is not null or blank, then append the row to the HTML string
-                            if (franchise.company_name) {
-                                franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
-                            }
+                            
                             if (franchise.user && franchise.user.email) {
                                 franchiseDetailsHtml += `<tr><th>Email Id</th><td>${franchise.user.email}</td></tr>`;
                             }
@@ -492,6 +465,12 @@
                             }
                             if (franchise.registerationType) {
                                 franchiseDetailsHtml += `<tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>`;
+                            }
+                            if (franchise.company_name) {
+                                franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
+                            }
+                            if (franchise.employees) {
+                            franchiseDetailsHtml += `<tr><th>Number of Employees</th><td>${franchise.employees}</td></tr>`;
                             }
                             if (franchise.address) {
                                 franchiseDetailsHtml += `<tr><th>Address</th><td>${franchise.address}</td></tr>`;
@@ -518,9 +497,7 @@
                         let franchiseDetailsHtml = '';
 
                         // Check if each value is not null, undefined, or blank, then append the row to the HTML string
-                        if (franchise.company_name) {
-                            franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
-                        }
+                        
                         if (franchise.email) {
                             franchiseDetailsHtml += `<tr><th>Email Id</th><td>${franchise.email}</td></tr>`;
                         }
@@ -532,6 +509,12 @@
                         }
                         if (franchise.registerationType) {
                             franchiseDetailsHtml += `<tr><th>Registration Type</th><td>${franchise.registerationType}</td></tr>`;
+                        }
+                        if (franchise.company_name) {
+                            franchiseDetailsHtml += `<tr><th>Company Name</th><td>${franchise.company_name}</td></tr>`;
+                        }
+                        if (franchise.employees) {
+                            franchiseDetailsHtml += `<tr><th>Number of Employees</th><td>${franchise.employees}</td></tr>`;
                         }
                         if (franchise.address) {
                             franchiseDetailsHtml += `<tr><th>Address</th><td>${franchise.address}</td></tr>`;
@@ -731,7 +714,7 @@
         registrationType.addEventListener("change", function() {
             const selectedValue = registrationType.value;
 
-            if (selectedValue === "Company" || selectedValue === "proprietor") {
+            if (selectedValue === "Company" || selectedValue === "Proprietor") {
                 companyNameField.style.display = "block";
                 employeesField.style.display = "block";
             } else {
@@ -751,7 +734,7 @@
                 $('#registerationType').on('change', function() {
                     var registrationType = $(this).val();
 
-                    if (registrationType === "Company" || registrationType === "proprietor") {
+                    if (registrationType === "Company" || registrationType === "Proprietor") {
                         // Make company name and employees fields required if Company or Proprietor is selected
                         $('#company_name').prop('required', true);
                         $('#employees').prop('required', true);

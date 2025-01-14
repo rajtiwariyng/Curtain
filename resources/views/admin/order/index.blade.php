@@ -508,6 +508,7 @@
                                 ${orders.installation_date ? `<tr><th>Installation Date</th><td>${customformatDate(orders.installation_date) || 'N/A'}</td></tr>` : ''}
                                 <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>
                                 <tr><th>Total Amount</th><td>${orders.order_value || 'N/A'}</td></tr>
+                                ${(orders.order_value - orders.paid_amount) !== 0 ? `<tr><th>Pending Amount</th><td>${(orders.order_value - orders.paid_amount) || 'N/A'}</td></tr>` : ''}
                             `);
 
 

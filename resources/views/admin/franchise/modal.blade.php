@@ -288,6 +288,7 @@
             </div>
             <form action="{{ route('franchise_temp.store_admin') }}" method="POST" id="contact-form1">
                 @csrf
+                <input type="hidden" name="status" id="status" value="pending">
                 <div class="modal-body">
 
                     <div class="mb-3 w-100">
@@ -323,7 +324,7 @@
                                     <option value="">Select Registration Type</option>
                                     <option value="Individual">Individual</option>
                                     <option value="Company">Company</option>
-                                    <option value="proprietor">Proprietor</option>
+                                    <option value="Proprietor">Proprietor</option>
                                 </select>
                             </div>
                         </div>
@@ -345,32 +346,6 @@
                         </div>
 
                     </div>
-                    <!-- <div class="mb-3 w-100">
-                        <label for="registrationTypeInput" class="form-label mb-1">Registration Type</label>
-                        <select class="form-select w-100" id="registrationTypeInput" aria-label="Default select example"
-                            onchange="toggleCompanyFields()">
-                            <option selected>Open this select menu</option>
-                            <option value="individual">Individual</option>
-                            <option value="proprietor">Proprietor</option>
-                            <option value="company">Company</option>
-                        </select>
-                    </div> 
-                    <div class="row" id="companyFields">
-                        <div class="col-md-6">
-                            <div class="mb-3 w-100">
-                                <label for="companyNameInput" class="form-label mb-1">Company Name<span
-                                        class="requried">*</span></label>
-                                <input type="text" class="form-control w-100" id="company_name" name="company_name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3 w-100">
-                                <label for="numberOfEmployeeInput" class="form-label mb-1">Number of
-                                    Employee<span class="requried">*</span></label>
-                                <input type="number" class="form-control w-100" id="employees" name="employees">
-                            </div>
-                        </div>
-                    </div> -->
 
                     <div class="mb-3 w-100">
                         <label for="franchiseAddress" class="form-label mb-1">Address<span
@@ -597,7 +572,7 @@
         registrationType.addEventListener("change", function() {
             const selectedValue = registrationType.value;
 
-            if (selectedValue === "Company" || selectedValue === "proprietor") {
+            if (selectedValue === "Company" || selectedValue === "Proprietor") {
                 companyNameField.style.display = "block";
                 employeesField.style.display = "block";
             } else {

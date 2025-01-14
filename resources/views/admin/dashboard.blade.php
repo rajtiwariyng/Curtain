@@ -166,27 +166,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($quotations as $idx=>$quotation)
+                        @if($quotations->isEmpty())
+                            <tr>
+                                <td colspan="7" class="text-center">No data found</td>
+                            </tr>
+                        @else
+                            @foreach ($quotations as $idx => $quotation)
                                 <tr>
-                                    <td>{{ $idx+1 }}</td>
-                                    <td>{{ $quotation->appointment['uniqueid'] }}</td>
+                                    <td>{{ $idx + 1 }}</td>
+                                    <td>{{ optional($quotation->appointment)['uniqueid'] }}</td>
                                     <td>{{ $quotation->name }}</td>
                                     <td>{{ $quotation->email }}</td>
                                     <td>{{ $quotation->number }}</td>
                                     <td>{{ $quotation->address }}</td>
                                     <td>
-                                        
-                                    @if($quotation->status == 0)
-                                        {{$status = 'Hold';}}
-                                    @elseif($appointments->status == 0)
-                                        {{$status = 'Completed';}}
-                                    @else
-                                        {{$status = 'Hold';}} <!-- Or any other fallback status -->
-                                    @endif
-
-                                </td>
+                                        @if($quotation->status == 0)
+                                            {{ $status = 'Hold' }}
+                                        @elseif($quotation->status == 1)
+                                            {{ $status = 'Completed' }}
+                                        @else
+                                            {{ $status = 'Pending' }} <!-- Fallback status -->
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
+                        @endif
+
+
                         </tbody>
                     </table>
                 </div>

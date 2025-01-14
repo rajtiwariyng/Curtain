@@ -478,29 +478,34 @@
                         $('#mode_option').append(html);
 
                     });
-
                     $('#amountpaid').on('input', function() {
-                        var inputValue = $(this).val();  // Get the current value of the input
-
-                        // Allow only numeric input (no text allowed) and prevent exceeding order_value
-                        // Remove any non-numeric characters
+                        var inputValue = $(this).val();
                         inputValue = inputValue.replace(/[^0-9]/g, '');
 
-                        // If the input value exceeds the order value, reset it to order_value
                         if (parseInt(inputValue) > order_value) {
-                            inputValue = order_value.toString();  // Reset value to order_value
+                            inputValue = order_value.toString();
                         }
 
-                        // Set the cleaned input value back to the field
                         $(this).val(inputValue);
 
-                        // Disable submit button if input is greater than order_value or invalid
-                        if (parseInt(inputValue) > order_value || inputValue === '') {
-                            $('#order-create-btn').prop('disabled', true);  // Disable the submit button
+                        if (parseInt(inputValue) === order_value) {
+                            $('#paymenttype').val('full');
+                        } else if (parseInt(inputValue) > 0 && parseInt(inputValue) < order_value) {
+                            $('#paymenttype').val('partial');
                         } else {
-                            $('#order-create-btn').prop('disabled', false); // Enable the submit button
+                            $('#paymenttype').val('');
                         }
+
+                        $('#paymenttype').prop('disabled', true);  // Disable manual selection of the dropdown
+                        $('#order-create-btn').prop('disabled', inputValue === '' || parseInt(inputValue) > order_value);
                     });
+
+                    // Enable paymenttype dropdown before form submission
+                    $('#updatepayment').on('submit', function() {
+                        $('#paymenttype').prop('disabled', false);  // Enable before submission
+                    });
+
+
                 }
             }
         });
@@ -712,6 +717,7 @@
                                 <tr><th>Status</th><td>${ franchise.status === "1" ? 'Pending' : franchise.status === "2" ? 'Assigned' : franchise.status === "3" ? 'Hold' 
                                  : franchise.status === "4" ? 'Complete' : 'N/A' }</td></tr>
                                 <tr><th>Appointment Date</th><td>${franchise.appointment_date ? customformatDate(franchise.appointment_date) : 'N/A'}</td></tr>
+                                <tr><th>Email Id</th><td>${franchise.email ? franchise.email : 'N/A'}</td></tr>
                                 <tr><th>Mobile Number</th><td>${franchise.mobile || 'N/A'}</td></tr>
                                 <tr><th>Address</th><td>${franchise.address || 'N/A'}</td></tr>
                                 <tr><th>Pincode</th><td>${franchise.pincode || 'N/A'}</td></tr>

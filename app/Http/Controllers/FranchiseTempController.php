@@ -28,16 +28,18 @@ class FranchiseTempController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            // 'company_name' => 'required|string|max:255',
-            "name" => "nullable|string|max:255",
-            "email" => "nullable|email|max:255|unique:users,email",
-            "mobile" => "nullable|string|max:20",
-            "alt_mobile" => "nullable|string|max:20",
-            "address" => "nullable|string|max:255",
-            "pincode" => "nullable|integer",
-            "city" => "nullable|string|max:255",
-            "state" => "nullable|string|max:255",
-            "country" => "nullable|string|max:255",
+            "name" => "required|string|max:255",
+            "email" => "required|email|max:255|unique:users,email",
+            "mobile" => "required|string|max:20",
+            "alt_mobile" => "nullable|string|max:20|different:mobile",
+            "address" => "required|string|max:255",
+            'registerationType' => 'required|in:Individual,Company,Proprietor',
+            'company_name' => 'required_if:registerationType,Company,Proprietor|string|max:255',
+            'employees' => 'required_if:registerationType,Company,Proprietor|integer|min:1',
+            "pincode" => "required|integer",
+            "city" => "required|string|max:255",
+            "state" => "required|string|max:255",
+            "country" => "required|string|max:255",
         ];
 
         $messages = [
@@ -73,26 +75,47 @@ class FranchiseTempController extends Controller
 
     public function store_admin(Request $request)
     {
-        $request->validate([
-            "name" => "nullable|string|max:255",
-            "email" => "nullable|email|max:255",
-            "mobile" => "nullable|string|max:20",
-            "alt_mobile" => "nullable|string|max:20",
-            "address" => "nullable|string|max:255",
-            "pincode" => "nullable|integer",
-            "city" => "nullable|string|max:255",
-            "state" => "nullable|string|max:255",
-            "country" => "nullable|string|max:255",
-        ]);
+        $rules = [
+            "name" => "required|string|max:255",
+            "email" => "required|email|max:255|unique:users,email",
+            "mobile" => "required|string|max:20",
+            "alt_mobile" => "nullable|string|max:20|different:mobile",
+            "address" => "required|string|max:255",
+            'registerationType' => 'required|in:Individual,Company,Proprietor',
+            'company_name' => 'required_if:registerationType,Company,Proprietor|string|max:255',
+            'employees' => 'required_if:registerationType,Company,Proprietor|integer|min:1',
+            "pincode" => "required|integer",
+            "city" => "required|string|max:255",
+            "state" => "required|string|max:255",
+            "country" => "required|string|max:255",
+        ];
 
-        $data = FranchiseTemp::create($request->all());
+        $messages = [
+            "email.email" => "Please enter a valid email address.",
+            "email.unique" => "The email has already been taken.",
+            "pincode.integer" => "Pincode must be a number.",
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with("errors", $validator->errors());
+        }
 
-        $mail = Mail::to($request->email)->send(
-            new FranchiseInformationMail($request->all())
-        );
-        return redirect()
-            ->back()
-            ->with("success", "Franchise created successfully.");
+        try {
+            $data = FranchiseTemp::create($request->all());
+            if (!empty($request->email)) {
+                 Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
+            }
+
+            return redirect()
+                ->back()
+                ->with("success", "Franchise information saved successfully!");
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with("errors", "Something Went Wrong!");
+        }
     }
 
     public function index()

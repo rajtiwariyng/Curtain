@@ -215,30 +215,6 @@
         </div>
     </div>
 
-    <!--<div class="section-contact-info container wow animate__animated animate__fadeIn">-->
-    <!--    <div class="row">-->
-    <!--        <div class="col-md-6">-->
-    <!--            <h3 class="NewKansas-medium">Connect with us</h3>-->
-    <!--            <p>At CAB, we understand that when you're choosing, measuring or installing curtains and blinds, having-->
-    <!--                access to a real person can make all the difference.</p>-->
-    <!--        </div>-->
-    <!--        <div class="col-md-6 d-flex justify-content-end align-items-center">-->
-    <!--            <div class="d-flex flex-column justify-content-end">-->
-    <!--                <a href="https://wa.link/7m1rva" class="NewKansas-medium mb-3 form-bottom-info"-->
-    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/whatsapp.svg') }}"-->
-    <!--                        alt=""> +91-->
-    <!--                    7838357850</a>-->
-    <!--                <a href="mailto:support@curtainsandblinds.in" class="NewKansas-medium mb-3 form-bottom-info"-->
-    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/support.svg') }}"-->
-    <!--                        alt="">-->
-    <!--                    support@curtainsandblinds.in</a>-->
-    <!--                <a href="mailto:info@curtainsandblinds.in" class="NewKansas-medium form-bottom-info"-->
-    <!--                    style="font-size: 18px;"><img class="me-1" src="{{ asset('frontend/images/mail.svg') }}" alt="">-->
-    <!--                    info@curtainsandblinds.in</a>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</div>-->
 </section>
 
 <section class="wrapper">
