@@ -310,6 +310,37 @@
     </div>
 </div>
 
+
+<!-- Status Update Payment Modal -->
+<div class="modal fade" id="paymentOrderUpdate" tabindex="-1" aria-labelledby="paymentUpdateOrderLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{url('orders/update_payment')}}" method="POST">
+                @csrf
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="paymentUpdateOrderLabel">Payment Update</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="paidorderId" name="order_id">
+                    <input type="hidden" id="paidorderAmount" name="order_paid_amount">
+                    <input type="hidden" id="orderValue" name="order_value">
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Amount<span class="requried">*</span></label>
+                        <p style="font-size: 14px; color:red">Remaining Amount (<span id="remaingAmount"></span>)</p>
+                        <input type="text" id="update_amount" name="update_amount" class="form-control w-100" placeholder="Enter Amount" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Paid</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Add Franchise Modal End -->
 
 @endsection
@@ -327,6 +358,31 @@
         // Open modal and set appointment ID
         $('#statusOrderUpdate').modal('show');
         $('#statusorderId').val(orderId);
+    }   
+
+    $(document).on('click', '.update-orders-btn', function() {
+        // Retrieve data attributes
+        var orderId = $(this).data('orders-id');
+        var orderValue = $(this).data('orders-order-value');
+        var paidAmount = $(this).data('orders-paid-amount');
+
+        $('#paymentOrderUpdate').modal('show');
+            $('#paidorderId').val(orderId);
+            $('#paidorderAmount').val(paidAmount);
+            $('#orderValue').val(orderValue);
+
+            $('#remaingAmount').text(orderValue-paidAmount);
+            $('#update_amount').val(orderValue-paidAmount);
+            $('#remaindAmount').addClass('text-danger');
+        
+    });
+
+    function updatePayment(orderId,orderValue,paidAmount){
+        console.log([orderId,orderValue,paidAmount]);
+        
+
+        
+
     }
 
     $(document).ready(function() {   
@@ -355,7 +411,7 @@
                     status: status // Pass the selected tab status to the server
                 },
                 success: function(response) {
-                    console.log(response.role);
+                    console.log(response);
                     $('#quotation-table tbody').empty();
                     if (response.data && response.data.length > 0) {
                         var hasInstallationDate = response.data.some(order => order.installation_date);
@@ -368,12 +424,13 @@
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
                             row += '<td>' + order.appointment_id + '</td>';
-                            row += '<td>' + order.quotation_data.id + '</td>';
+                            row += '<td>' + order.quotation_id + '</td>';
                             row += '<td>' + order.appointment.name + '</td>';
                             row += '<td>' + order.appointment.mobile + '</td>';
                             row += '<td>' + order.appointment.pincode + '</td>';
                             row += '<td>' + order.franchise.name + '</td>';
                             if (hasInstallationDate) {
+                                $('.installation-date-header').show();
                                 var installationDate = order.installation_date ? customformatDate(order.installation_date) : 'N/A';
                                 row += '<td>' + installationDate + '</td>';
                             }
@@ -403,6 +460,7 @@
                                     actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
                                     actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
                                     (response.role == 'Fulfillment Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="statusUpdate(\'' + order.id + '\')">Update Installation</a></li>' : '';
+                                    (response.role == 'Help Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" data-orders-paid-amount="' + order.paid_amount + '" data-orders-order-value="' + order.order_value + '" >Update Payment</a></li>' : '';
                                     break;
                                 case '2':
                                     viewType = 'complete';

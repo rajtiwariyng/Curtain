@@ -288,7 +288,7 @@ class OrderController extends Controller
         $order->status = "1";
         $order->save();
 
-        return redirect()->back()->with('success','Quotation Scheduled Successfully');
+        return redirect()->back()->with('success','Order Scheduled Successfully');
 
     }
 
@@ -315,6 +315,20 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Status Updated Successfully');
+    }
+
+    public function updatePayment(Request $request)
+    {
+        $orderId = $request->order_id;
+        $paid_amount = $request->update_amount ?? null;
+        $prev_paid_amount = $request->order_paid_amount ?? null;
+
+        $order = Order::findOrFail($orderId);
+        $order->paid_amount = $paid_amount + $prev_paid_amount;
+        $order->payment_type = 'full';
+        $order->save();
+
+        return redirect()->back()->with('success', 'Payment Updated Successfully');
     }
 
 }
