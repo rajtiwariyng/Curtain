@@ -124,6 +124,7 @@ class OrderController extends Controller
         // Return a view for creating an order (if applicable)
     }
 
+    //test
     public function store(Request $request)
     {
         $rules = [
