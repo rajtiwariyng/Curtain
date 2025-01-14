@@ -172,6 +172,8 @@ Route::prefix('orders')->group(function () {
     Route::get('/download_order/{order_id}', [OrderController::class, 'downloadOrderView']);
     Route::post('/update_schedule', [OrderController::class, 'updateSchedule']);
     Route::post('/update_status', [OrderController::class, 'updateStatus']);
+    Route::post('/update_payment', [OrderController::class, 'updatePayment']);
+    
 
     
 });

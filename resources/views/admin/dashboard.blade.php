@@ -67,7 +67,7 @@
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{ count($franchise) }}</h2>
-                <p class="m-0 small">Total number of Franchise</p>
+                <p class="m-0 small">Total number of Order</p>
             </div>
         </a>
         <a href="{{ route('franchise.temp.index') }}">
