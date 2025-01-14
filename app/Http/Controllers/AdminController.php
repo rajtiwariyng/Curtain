@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Franchise;
 use App\Models\Product;
 use App\Models\Appointment;
+use App\Models\FranchiseTemp;
 use App\Models\Quotation;
 use App\Models\User;
 use App\Models\ZipCode;
@@ -18,13 +19,10 @@ class AdminController extends Controller
     public function dashboard(Request $request){
         $userRole = Auth::user()->getRoleNames()[0];
         $user = Auth::user();
-        // dd($user->id);
+
         if(!empty($user)){
             $franchiseID = Franchise::where('user_id',$user->id)->first();
         }
-
-        $franchise = Franchise::all();
-        
         
         $product=Product::all();
         $appointment = Appointment::where('status', "!=" ,"0");
@@ -33,7 +31,7 @@ class AdminController extends Controller
             $appointment->whereDate('created_at', $request->dateFilter);
         }
         if($userRole == "Franchise"){
-            $appointment->where('franchise_id',$franchiseID->id);
+            $appointment->where('id',$franchiseID->id);
         }
         $appointmentCount = $appointment->count();
         $appointment = $appointment->get();
@@ -41,12 +39,30 @@ class AdminController extends Controller
 
         $quotations = Quotation::with('appointment');
         if($userRole == "Franchise"){
-            $quotations->where('franchise_id',$franchiseID->id);
+            $quotations->where('id',$franchiseID->id);
         }
         $quotationCount = $quotations->count();
         $quotations = $quotations->get();
         $user=User::all();
-        return view('admin.dashboard',compact('franchise','product','appointment','appointmentCount','user','quotations','quotationCount'));
+
+        $franchiseQuery = new Franchise;
+        $franchiseTemp = new FranchiseTemp;
+        $total_franchise = 0;
+        if($userRole == 'Franchise'){
+            $franchise = $franchiseQuery->where('franchise_id', $franchiseID)->get();
+            $franchiseCount = $franchise->count();
+            $total_franchise = $franchiseCount;
+        }else{
+            $franchise = $franchiseQuery->all();
+            $franchiseCount = $franchiseQuery->count();
+
+            $franchiseTempCount = $franchiseTemp->count(); 
+
+            $total_franchise =   $franchiseCount + $franchiseTempCount;
+        }
+        
+
+        return view('admin.dashboard',compact('franchise','total_franchise','product','appointment','appointmentCount','user','quotations','quotationCount'));
     }
 
     public function getLocationByPincode(Request $request)
