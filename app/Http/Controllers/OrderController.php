@@ -165,8 +165,8 @@ class OrderController extends Controller
                 $appointment = Appointment::findOrFail($data['appointment_id']);
                 $appointment->update($update_array);
 
-                $appointment = Quotation::where('appointment_id', $data['appointment_id'])->where('quotation_id',$request->quotation_id);
-                $appointment->update($update_quotation);
+                $quotations = Quotation::where('appointment_id', $data['appointment_id'])->where('id',$request->quotation_id);
+                $quotations->update($update_quotation);
             }
             // if (!empty($request->email)) {
             //      Mail::to($request->email)->send(new Order($request->all()));

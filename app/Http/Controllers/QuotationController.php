@@ -28,25 +28,32 @@ class QuotationController extends Controller
             $statusPending = "0";
             $statusComplete = "1";
         
-            // Initialize default query builder for all quotations
             $quotationQuery = Quotation::query();
-        
+
             // If the user is a "Franchise", filter the quotations by franchise_id
-            if ($userRole == 'Franchise') {
+            if ($userRole === 'Franchise') {
                 $quotationQuery->where('franchise_id', $franchise->id);
             }
-        
-            // Retrieve the quotations for the given query
+
+            // Get the list of all quotations (without filtering by status)
             $quotationList = $quotationQuery->get();
-            // Initialize new queries for each status count to avoid interference with the main query
-            $quotationListPending = $quotationQuery
+
+            // Clone the query builder for counting quotations by status
+            $quotationQueryForCount = clone $quotationQuery;
+
+            // Count the number of pending quotations
+            $quotationListPending = $quotationQueryForCount
                 ->where('status', $statusPending)
                 ->count();
-        
-            $quotationListComplete = $quotationQuery
+
+            // Clone the query builder again for fetching completed quotations
+            $quotationQueryForComplete = clone $quotationQuery;
+
+            // Retrieve the list of completed quotations
+            $quotationListComplete = $quotationQueryForComplete
                 ->where('status', $statusComplete)
                 ->count();
-                
+            
 
             // Return view with compacted data
             return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
