@@ -98,34 +98,48 @@
     <div class="container bg-white py-4 px-4 mb-4 rounded">
         <h6 class="mb-2 fw-bold">Quotation Details</h6>
         <table class="table table-responsive">
-            <thead>
+    <thead>
+        <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Oty.</th>
+            <th scope="col">unit</th>
+            <th scope="col">MRP</th>
+            <th scope="col">Discount(%)</th>
+            <th scope="col">Discounted Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @php
+            $totalPrice = 0; // Initialize total price variable
+        @endphp
+
+        @foreach($sectionItems as $sectionItem)
+            <tr>
+                <th class="fs-6"><u>{{$sectionItem['section_name']}}</u></th>
+            </tr>
+            @foreach ($sectionItem['items'] as $item)
+                @php
+                    $discountedPrice = floatval($item['price']) - floatval($item['discount']);
+                    $totalPrice += $discountedPrice; // Add discounted price to the total
+                @endphp
                 <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col">Oty.</th>
-                    <th scope="col">unit</th>
-                    <th scope="col">MRP</th>
-                    <th scope="col">Discount(%)</th>
-                    <th scope="col">Discounted Price</th>
+                    <td>{{$item['item']}}</td>
+                    <td>{{$item['qty']}}</td>
+                    <td>{{$item['unit']}}</td>
+                    <td>{{$item['price']}}</td>
+                    <td>{{$item['discount']}}</td>
+                    <td>{{$discountedPrice}}</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($sectionItems as $sectionItem)
-                <tr>
-                    <th class="fs-6"><u>{{$sectionItem['section_name']}}</u></th>
-                </tr>
-                    @foreach ($sectionItem['items'] as $item)
-                    <tr>
-                        <td>{{$item['item']}}</td>
-                        <td>{{$item['qty']}}</td>
-                        <td>{{$item['unit']}}</td>
-                        <td>{{$item['price']}}</td>
-                        <td>{{$item['discount']}}</td>
-                        <td>{{ floatval($item['price']) - floatval($item['discount']) }}</td>
-                    </tr>
-                    @endforeach               
-                @endforeach
-            </tbody>
-        </table>
+            @endforeach        
+        @endforeach
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="5" class="text-end">Total Price:</th>
+            <th>{{ number_format($totalPrice, 2) }}</th> <!-- Display total price with 2 decimal places -->
+        </tr>
+    </tfoot>
+</table>
     </div>
 </div>
 

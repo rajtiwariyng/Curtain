@@ -339,10 +339,10 @@
                                 case '1':
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    // actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
+                                    // actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    // actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';

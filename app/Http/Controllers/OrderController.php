@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Franchise;
 use App\Models\Order;
+use App\Models\Quotation;
 use App\Models\QuotationSection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -127,7 +128,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = [
             // 'company_name' => 'required|string|max:255',
             "payment_mode" => "required",
@@ -160,8 +160,13 @@ class OrderController extends Controller
             if ($data) {
                 $update_array = ['status' => "4"];
 
+                $update_quotation = ['status' => '1'];
+
                 $appointment = Appointment::findOrFail($data['appointment_id']);
                 $appointment->update($update_array);
+
+                $appointment = Quotation::where('appointment_id', $data['appointment_id'])->where('quotation_id',$request->quotation_id);
+                $appointment->update($update_quotation);
             }
             // if (!empty($request->email)) {
             //      Mail::to($request->email)->send(new Order($request->all()));

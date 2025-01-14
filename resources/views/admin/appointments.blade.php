@@ -629,8 +629,6 @@
                                     viewType = 'complete';
                                     statusBadge = '<span class="badge badge-active">Completed</span>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="confirmAssign(\'' + appnt.id + '\')">Assign Franchise</a></li>';
-                                    actions += '<li><a href="javascript:" class="dropdown-item small approve-appointment-btn" data-appointment-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Rejected</a></li>';
                                     break;
                                 case '3':
                                     viewType = 'hold';
