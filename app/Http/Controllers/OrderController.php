@@ -123,9 +123,6 @@ class OrderController extends Controller
         // Return a view for creating an order (if applicable)
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
