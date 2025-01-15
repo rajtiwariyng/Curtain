@@ -15,7 +15,7 @@ class UsageController extends Controller
     // Display a listing of all usages
     public function index()
     {
-        $usages = Usage::all();  // Retrieve all usages from the database
+        $usages = Usage::orderBy('id', 'desc')->get();  // Retrieve all usages from the database
         return view('admin.master.usage', compact('usages'));  // Return the view with the usages
     }
 

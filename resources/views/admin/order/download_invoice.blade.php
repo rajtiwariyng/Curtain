@@ -114,11 +114,6 @@
                         <label class="form-label me-2">Total Amount: </label>
                         <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->order_value}}</label>
                     </div>
-
-                    <div class="mb-1">
-                        <label class="form-label me-2">Paid Amount: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->order_value}}</label>
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-1">

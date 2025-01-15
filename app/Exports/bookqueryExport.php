@@ -16,7 +16,6 @@ class BookQueryExport implements FromCollection, WithHeadings
     {
         $appointments = Appointment::where('status', '0')
             ->select([
-                'id',
                 'name',
                 'email',
                 'mobile',
@@ -28,15 +27,21 @@ class BookQueryExport implements FromCollection, WithHeadings
             ])
             ->get();
 
-        $appointments->transform(function ($appointment, $key) {
-            // Set serial number
-            $appointment->id = $key + 1;
-
-            if ($appointment->created_at) {
-                $appointment->created_at = Carbon::parse($appointment->created_at)->format('Y-m-d h:i:s'); // Formats to 'Y-m-d'
-            }
-
-            return $appointment;
+        // Add serial numbers
+        $appointments = $appointments->map(function ($appointment, $key) {
+            return [
+                'S.No' => $key + 1, // Add serial number starting from 1
+                'Name' => $appointment->name,
+                'Email' => $appointment->email,
+                'Mobile' => $appointment->mobile,
+                'Address' => $appointment->address,
+                'Pincode' => $appointment->pincode,
+                'City' => $appointment->city,
+                'Country' => $appointment->country,
+                'Created At' => $appointment->created_at 
+                    ? Carbon::parse($appointment->created_at)->format('Y-m-d h:i:s')
+                    : null,
+            ];
         });
 
         return $appointments;
@@ -50,7 +55,7 @@ class BookQueryExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
+            'S.No',
             'Name',
             'Email',
             'Mobile',
@@ -62,3 +67,4 @@ class BookQueryExport implements FromCollection, WithHeadings
         ];
     }
 }
+

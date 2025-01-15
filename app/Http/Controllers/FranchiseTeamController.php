@@ -12,7 +12,7 @@ class FranchiseTeamController extends Controller
     public function index()
     {
         $franchise = auth()->user();
-        $teamMembers = User::where('franchise_id', $franchise->id)->get();
+        $teamMembers = User::where('franchise_id', $franchise->id)->orderBy('id', 'desc')->get();
 
         return view('franchise.team.index', compact('teamMembers'));
     }

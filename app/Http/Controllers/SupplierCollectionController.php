@@ -9,7 +9,7 @@ class SupplierCollectionController extends Controller
 {
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy('id', 'desc')->get();
         $collections = SupplierCollection::with('supplier')->get();
         return view('admin.master.suppliercollection', compact('collections', 'suppliers'));
     }

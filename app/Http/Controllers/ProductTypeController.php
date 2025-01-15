@@ -9,7 +9,7 @@ class ProductTypeController extends Controller
 {
     public function index()
     {
-        $productTypes = ProductType::all();
+        $productTypes = ProductType::orderBy('id', 'desc')->get();
         return view('admin.master.producttype', compact('productTypes'));
     }
 

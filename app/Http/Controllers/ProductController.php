@@ -166,7 +166,7 @@ class ProductController extends Controller
             }
         }
 
-        $products = $products->paginate(500);
+        $products = $products->paginate(5000);
         $totalProducts = $products->total();
         $usages = Usage::all();
         $colours = Color::all();
@@ -523,7 +523,7 @@ class ProductController extends Controller
             "Supplier",
             "SupplierCollection",
             "SupplierCollectionDesign"
-        );
+        )->orderBy('id', 'desc');
 
         $products = $query->get();
 

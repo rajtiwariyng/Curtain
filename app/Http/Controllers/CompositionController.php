@@ -10,7 +10,7 @@ class CompositionController extends Controller
     // Display all compositions
     public function index()
     {
-        $compositions = Composition::all();
+        $compositions = Composition::orderBy('id', 'desc')->get();
         return view('admin.master.composition', compact('compositions'));
     }
 

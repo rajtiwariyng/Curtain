@@ -12,7 +12,7 @@ class ZipCodeController extends Controller
 {
     public function index()
     {
-        $zipCodes = ZipCode::all();
+        $zipCodes = ZipCode::orderBy('id', 'desc')->get();
         return view('admin.master.zipcode', compact('zipCodes'));
     }
 

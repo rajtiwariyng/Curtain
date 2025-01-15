@@ -360,7 +360,7 @@
         $('#statusorderId').val(orderId);
     }   
 
-    $(document).on('click', '.update-orders-btn', function() {
+    $(document).on('click', '.udateayment', function() {
         // Retrieve data attributes
         var orderId = $(this).data('orders-id');
         var orderValue = $(this).data('orders-order-value');
@@ -460,7 +460,7 @@
                                     actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
                                     actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
                                     (response.role == 'Fulfillment Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="statusUpdate(\'' + order.id + '\')">Update Installation</a></li>' : '';
-                                    (response.role == 'Help Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" data-orders-paid-amount="' + order.paid_amount + '" data-orders-order-value="' + order.order_value + '" >Update Payment</a></li>' : '';
+                                    (response.role == 'Help Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn udateayment" data-orders-id="' + order.id + '" data-orders-paid-amount="' + order.paid_amount + '" data-orders-order-value="' + order.order_value + '" >Update Payment</a></li>' : '';
                                     break;
                                 case '2':
                                     viewType = 'complete';
@@ -559,9 +559,9 @@
                                 <tr><th>Appointment Name</th><td>${orders.appointment.name || 'N/A'}</td></tr>
                                 <tr><th>Appointment Pincode</th><td>${orders.appointment.pincode || 'N/A'}</td></tr>
                                 <tr><th>Quotation Id</th><td>${orders.quotation_data.id || 'N/A'}</td></tr>
-                                <tr><th>Franchise</th><td>${orders.franchise.name || 'N/A'}</td></tr>
-                                <tr><th>Paid Type</th><td>${orders.payment_type || 'N/A'}</td></tr>
-                                <tr><th>Payment Mode</th><td>${orders.payment_mode || 'N/A'}</td></tr>
+                                <tr><th>Franchise</th><td class="text-capitalize">${orders.franchise.name || 'N/A'}</td></tr>
+                                <tr><th>Paid Type</th><td class="text-capitalize">${orders.payment_type || 'N/A'}</td></tr>
+                                <tr><th>Payment Mode</th><td class="text-capitalize">${orders.payment_mode || 'N/A'}</td></tr>
                                 ${orders.payment_mode_by ? `<tr><th>Payment details</th><td>${orders.payment_mode_by || 'cash'}</td></tr>` : ''}
                                 ${orders.installation_date ? `<tr><th>Installation Date</th><td>${customformatDate(orders.installation_date) || 'N/A'}</td></tr>` : ''}
                                 <tr><th>Total Paid Amount</th><td>${orders.paid_amount || 'N/A'}</td></tr>

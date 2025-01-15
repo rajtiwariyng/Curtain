@@ -10,7 +10,7 @@ class DesignTypeController extends Controller
     // Display a listing of the resource
     public function index()
     {
-        $designTypes = DesignType::all();
+        $designTypes = DesignType::orderBy('id', 'desc')->get();
         return view('admin.master.designtype', compact('designTypes'));
     }
 

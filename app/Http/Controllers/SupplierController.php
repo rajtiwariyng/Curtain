@@ -17,7 +17,7 @@ class SupplierController extends Controller
     // Display a listing of the suppliers
     public function index()
     {
-        $suppliers = Supplier::all();  // Retrieve all suppliers
+        $suppliers = Supplier::orderBy('id', 'desc')->get();  // Retrieve all suppliers
         return view('admin.master.suppliername', compact('suppliers'));
     }
 

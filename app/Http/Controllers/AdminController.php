@@ -25,7 +25,7 @@ class AdminController extends Controller
         }
         
         $product=Product::all();
-        $appointment = Appointment::where('status', "!=" ,"0");
+        $appointment = Appointment::where('status', "!=" ,"0")->orderBy('created_at', 'desc');
 
         if ($request->has('dateFilter')) {
             $appointment->whereDate('created_at', $request->dateFilter);
@@ -37,7 +37,7 @@ class AdminController extends Controller
         $appointment = $appointment->get();
 
 
-        $quotations = Quotation::with('appointment');
+        $quotations = Quotation::with('appointment')->orderBy('created_at', 'desc');
         if($userRole == "Franchise"){
             $quotations->where('id',$franchiseID->id);
         }
@@ -80,7 +80,7 @@ class AdminController extends Controller
     public function quotation_list()
     {
         // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where('status', '!=', "0")->get();
+        $appointments = Appointment::where('status', '!=', "0")->orderBy('created_at', 'desc')->get();
         
         $statusCounts = $appointments->groupBy('status')->map(function ($appointments) {
             return $appointments->count();
@@ -119,7 +119,7 @@ class AdminController extends Controller
         }
 
         // Fetch appointments based on the mapped status
-        $quotations = Appointment::where('status','=', $status)->get();
+        $quotations = Appointment::where('status','=', $status)->orderBy('created_at', 'desc')->get();
 
         // Return the data as JSON response
         return response()->json(['data' => $quotations]);

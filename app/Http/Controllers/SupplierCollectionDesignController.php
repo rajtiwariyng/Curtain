@@ -12,7 +12,7 @@ class SupplierCollectionDesignController extends Controller
     // Display all supplier collection designs
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy('id', 'desc')->get();
         $supplierCollectionDesigns = SupplierCollectionDesign::with('supplier', 'supplierCollection')->get();
         
         return view('admin.master.suppliercollectiondesign', compact('supplierCollectionDesigns','suppliers'));

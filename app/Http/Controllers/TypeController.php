@@ -11,7 +11,7 @@ class TypeController extends Controller
     public function index()
     {
         // Retrieve all types from the database
-        $types = Type::all();
+        $types = Type::orderBy('id', 'desc')->get();
 
         // Return the view with types data
         return view('admin.master.type', compact('types'));
