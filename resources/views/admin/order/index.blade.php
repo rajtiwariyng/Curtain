@@ -558,7 +558,7 @@
                                 <tr><th>Appointment Id</th><td>${orders.appointment.id || 'N/A'}</td></tr>
                                 <tr><th>Appointment Name</th><td>${orders.appointment.name || 'N/A'}</td></tr>
                                 <tr><th>Appointment Pincode</th><td>${orders.appointment.pincode || 'N/A'}</td></tr>
-                                <tr><th>Quotation Id Id</th><td>${orders.quotation_data.id || 'N/A'}</td></tr>
+                                <tr><th>Quotation Id</th><td>${orders.quotation_data.id || 'N/A'}</td></tr>
                                 <tr><th>Franchise</th><td>${orders.franchise.name || 'N/A'}</td></tr>
                                 <tr><th>Paid Type</th><td>${orders.payment_type || 'N/A'}</td></tr>
                                 <tr><th>Payment Mode</th><td>${orders.payment_mode || 'N/A'}</td></tr>

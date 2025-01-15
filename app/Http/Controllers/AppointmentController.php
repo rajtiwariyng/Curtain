@@ -99,7 +99,7 @@ class AppointmentController extends Controller
     public function querybooked()
     {
         // Fetch appointments with status 'Pending'
-        $appointments = Appointment::where("status", "=", "0")->get();
+        $appointments = Appointment::where("status", "=", "0")->orderBy("created_at", "desc")->get();
 
         $statusCounts = $appointments
             ->groupBy("status")

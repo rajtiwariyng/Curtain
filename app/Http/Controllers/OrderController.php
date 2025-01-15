@@ -264,14 +264,23 @@ class OrderController extends Controller
         }
     }
 
-    public function downloadOrderView($order_id){
-        $order_data = Order::with('appointment','franchise','quotation_data')->findorfail($order_id);
-        if($order_data){
+    public function downloadOrderView($order_id)
+    {
+        $order_data = Order::with('appointment', 'franchise', 'quotation_data')->findOrFail($order_id);
+
+        if ($order_data) {
             $quotations = $order_data['quotation_data'] ?? '';
-            $sectionItems = QuotationSection::with('items')->where('quotation_id',$order_data['quotation_data']['id'])->get();
+            $sectionItems = QuotationSection::with('items')
+                ->where('quotation_id', $order_data['quotation_data']['id'] ?? null)
+                ->get();
+
+            // Retrieve appointment data
+            $appointment = $order_data->appointment;
         }
-        return view('admin.order.download_invoice',compact('sectionItems','quotations','order_data'));
+
+        return view('admin.order.download_invoice', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
     }
+
 
     public function updateSchedule(Request $request)
     {
