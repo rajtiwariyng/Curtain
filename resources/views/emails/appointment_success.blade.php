@@ -324,7 +324,10 @@
                  <tr>
                   <td valign="top" align="left">
                    <div class="pc-font-alt" style="line-height: 21px; letter-spacing: -0.2px; font-family: 'Fira Sans', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: normal; font-variant-ligatures: normal; color: #333333; text-align: left; text-align-last: left;">
-                    <div><span>Dear {{ $appointment['name'] }}, Thank you for choosing CAB as your furnishing partner. Let's begin this transformation journey together. We will soon call you to set up an appointment <br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
+                    <div><span>Dear {{ $appointment['name'] }},<br/>
+                    Thank you for choosing Curtains And Blinds as your furnishing partner. Let's begin this transformation journey together. We will soon call you to set up an appointment. 
+                    
+                    <br/><br/>Best regards, <br/>Team CAB <br/>support@curtainsandblinds.in</span>
                     </div>
                    </div>
                   </td>

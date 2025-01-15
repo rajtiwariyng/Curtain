@@ -149,13 +149,8 @@ class AppointmentController extends Controller
             "hold" => "3",
         ];
 
-        // Retrieve the 'status' input from the request, default to 'pending' if not set
         $status = $request->input("status", "1");
-
-        // Get the mapped status from the $statusMap array or fallback to 1
         $status = $statusMap[$status] ?? "1";
-
-        // Initialize $franchises variable to store the appointment data
         $franchises = [];
 
         // Check if the user is a Franchise or Admin/Super Admin
@@ -170,7 +165,6 @@ class AppointmentController extends Controller
             ];
 
             $status = $request->input("status");
-
             $status = $statusMap[$status] ?? "2";
             $franchiseDetail = Franchise::where(
                 "user_id",
@@ -180,12 +174,14 @@ class AppointmentController extends Controller
                 $franchises = Appointment::where("status", $status)
                     ->where("franchise_id", $franchiseDetail->id)
                     ->with('franchise')
+                    ->orderBy('id', 'desc')
                     ->get()
                     ->toArray();
             }
         } elseif (in_array($userRole, ["Admin", "Super Admin","Help Desk"])) {
             $franchises = Appointment::where("status", $status)
                 ->with('franchise')
+                ->orderBy('id', 'desc')
                 ->get()
                 ->toArray();
         }

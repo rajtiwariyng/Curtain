@@ -245,7 +245,7 @@
                                 <tr>
                                  <td valign="top" align="left" style="padding: 20px 0px 0px 0px;">
                                   <div class="pc-font-alt pc-w620-fontSize-21px pc-w620-lineHeight-16" style="line-height: 21px; letter-spacing: -0.2px; font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: normal; font-variant-ligatures: normal; color: #444444; text-align: left; text-align-last: left;">
-                                   <div><span style="font-family: 'Arial', Helvetica, sans-serif;font-weight: 700;font-style: normal;color: rgb(68, 68, 68);letter-spacing: 0px;">Welcome to Family!</span>
+                                   <div><span style="font-family: 'Arial', Helvetica, sans-serif;font-weight: 700;font-style: normal;color: rgb(68, 68, 68);letter-spacing: 0px;">Welcome to Curtains And Blinds!</span>
                                    </div>
                                   </div>
                                  </td>
@@ -265,7 +265,7 @@
                                 <tr>
                                  <td valign="top" align="left" style="padding: 3px 0px 0px 0px;">
                                   <div class="pc-font-alt pc-w620-fontSize-9px" style="line-height: 26px; letter-spacing: -0.2px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; font-variant-ligatures: normal; color: #333333; text-align: left; text-align-last: left;">
-                                   <div><span style="font-family: 'Arial', Helvetica, sans-serif;font-weight: 400;font-style: normal;letter-spacing: 0px;">Your Exciting Journey to Success Begins Here.</span>
+                                   <div><span style="font-family: 'Arial', Helvetica, sans-serif;font-weight: 400;font-style: normal;letter-spacing: 0px;">Your exciting journey to transformation begins here.</span>
                                    </div>
                                   </div>
                                  </td>
@@ -324,7 +324,7 @@
                  <tr>
                   <td valign="top" align="left">
                    <div class="pc-font-alt" style="line-height: 21px; letter-spacing: -0.2px; font-family: 'Fira Sans', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: normal; font-variant-ligatures: normal; color: #333333; text-align: left; text-align-last: left;">
-                    <div><span>Welcome to Curtains And Blinds! <br/>Your exciting journey to transformation begins here<br/>Dear {{ $appointment['name'] }}, Thank you for choosing CAB as your furnishing partner. We unfortunately are not servicing your area currently, but will soon be with you. Thank you for your patience.<br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
+                    <div><span>Dear {{ $appointment['name'] }}, <br>Thank you for choosing CAB as your furnishing partner. We unfortunately are not servicing your area currently, but will soon be with you. Thank you for your patience.<br/><br/>Best regards, <br/>Curtains and Blinds <br/>support@curtainsandblinds.in</span>
                     </div>
                    </div>
                   </td>
