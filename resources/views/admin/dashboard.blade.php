@@ -19,14 +19,14 @@
             </div>
         </a>
     @elseif (Auth::user()->hasRole('Franchise'))
-        <a href="{{ route('franchise.temp.index') }}">
+        <a href="/appointments_list">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{$appointmentCount}}</h2>
                 <p class="m-0 small">Total number of Appointments</p>
             </div>
         </a>
-        <a href="/products">
+        <a href="/quotations">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_products.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{$quotationCount}}</h2>
@@ -63,21 +63,21 @@
             </div>
         </a>
     @elseif (Auth::user()->hasRole('Help Desk'))
-        <a href="{{ route('franchise.temp.index') }}">
+        <a href="/orders">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{ count($franchise) }}</h2>
                 <p class="m-0 small">Total number of Order</p>
             </div>
         </a>
-        <a href="{{ route('franchise.temp.index') }}">
+        <a href="/appointments_list">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{$appointmentCount}}</h2>
                 <p class="m-0 small">Total number of Appointments</p>
             </div>
         </a>
-        <a href="/products">
+        <a href="/quotations">
             <div class="card info-card">
                 <img src="{{ asset('admin/images/tab_products.svg') }}" alt="">
                 <h2 class="fw-bold m-0 mb-1">{{$quotationCount}}</h2>

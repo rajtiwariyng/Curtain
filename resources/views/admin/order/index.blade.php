@@ -551,7 +551,7 @@
                         var orders = response.data;
                         console.log(orders);
                         // Populate table data dynamically
-                        $('#FranciseViewLabel').text(orders.name);
+                        $('#FranciseViewLabel').text(orders.appointment.name);
 
                         $('#FranciseView .offcanvas-body table tbody').html(`
                                 <tr><th>Transaction Id</th><td>${orders.txn_id || 'N/A'}</td></tr>
