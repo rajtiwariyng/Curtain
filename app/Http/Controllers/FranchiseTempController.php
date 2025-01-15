@@ -34,8 +34,9 @@ class FranchiseTempController extends Controller
             "alt_mobile" => "nullable|string|max:20|different:mobile",
             "address" => "required|string|max:255",
             'registerationType' => 'required|in:Individual,Company,proprietor',
-            'company_name' => 'required_if:registerationType,Company,proprietor|string|max:255',
-            'employees' => 'required_if:registerationType,Company,proprietor|integer|min:1',
+            'company_name' => 'nullable|required_if:registerationType,Company,proprietor|string|max:255',
+            'employees' => 'nullable|required_if:registerationType,Company,proprietor|integer|min:1',
+
             "pincode" => "required|integer",
             "city" => "required|string|max:255",
             "state" => "required|string|max:255",
@@ -82,8 +83,9 @@ class FranchiseTempController extends Controller
             "alt_mobile" => "nullable|string|max:20|different:mobile",
             "address" => "required|string|max:255",
             'registerationType' => 'required|in:Individual,Company,Proprietor',
-            'company_name' => 'required_if:registerationType,Company,Proprietor|string|max:255',
-            'employees' => 'required_if:registerationType,Company,Proprietor|integer|min:1',
+            'company_name' => 'nullable|required_if:registerationType,Company,Proprietor|string|max:255',
+            'employees' => 'nullable|required_if:registerationType,Company,Proprietor|integer|min:1',
+
             "pincode" => "required|integer",
             "city" => "required|string|max:255",
             "state" => "required|string|max:255",
@@ -128,7 +130,7 @@ class FranchiseTempController extends Controller
             ->get()
             ->groupBy("status");
 
-        $franchises = Franchise::with("user")->get();
+        $franchises = Franchise::with("user")->orderBy('id', 'desc')->get();
         $cityStateData = MasterCity::all();
         $groupedCityStateData = $cityStateData->groupBy("state_name");
 
