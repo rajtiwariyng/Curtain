@@ -131,7 +131,7 @@
                     </div>
                     <div class="mb-1">
                         <label class="form-label me-2">Installation Date: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$order_data->installation_date}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{ \Carbon\Carbon::parse($order_data->installation_date)->format('d-m-Y, h:i A') }}</label>
                     </div>
                 </div>
             </div>

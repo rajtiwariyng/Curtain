@@ -35,7 +35,6 @@
         margin-bottom: 12px;
     }
 </style>
-
 <div class="container-fluid p-0">
     <nav class="navbar py-3 mb-4 bg-body-tertiary">
         <div class="container">
@@ -89,7 +88,7 @@
                     </div>
                     <div class="mb-1">
                         <label class="form-label me-2">Address: </label>
-                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->address}}</label>
+                        <label for="clientName" class="form-label text-dark fw-bold">{{$quotations->address}}, {{$appointment->city}}, {{$appointment->state}} - {{$appointment->pincode}}, {{$appointment->country}}</label>
                     </div>
                 </div>
             </div>

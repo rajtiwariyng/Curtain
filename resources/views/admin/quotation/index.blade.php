@@ -423,7 +423,9 @@
                 method: 'GET',
                 success: function(response) {
                     if (response.status === 'success') {
-                        var quotation = response.data;
+                        var quotation = response.data.quotation;
+                        var appointment = response.data.appointment;
+                        console.log(quotation);
                         // Populate table data dynamically
                         $('#FranciseViewLabel').text(quotation.name);
 
@@ -432,9 +434,14 @@
                                 <tr><th>Email ID</th><td>${quotation.email || 'N/A'}</td></tr>
                                 <tr><th>Contact Number</th><td>${quotation.number || 'N/A'}</td></tr>
                                 <tr><th>Date</th><td>${quotation.date ? new Date(quotation.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A'}</td></tr>
-                                <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
                                 <tr><th>Quotation For</th><td>${quotation.quot_for || 'N/A'}</td></tr>
                                 <tr><th>Cartage</th><td>${quotation.cartage || 'N/A'}</td></tr>
+                                <tr><th>Address</th><td>${quotation.address || 'N/A'}</td></tr>
+                                <tr><th>City</th><td>${appointment.city || 'N/A'}</td></tr>
+                                <tr><th>State</th><td>${appointment.state || 'N/A'}</td></tr>
+                                <tr><th>Pincode</th><td>${appointment.pincode || 'N/A'}</td></tr>
+                                <tr><th>Country</th><td>${appointment.country || 'N/A'}</td></tr>
+                                
                             `);
 
 

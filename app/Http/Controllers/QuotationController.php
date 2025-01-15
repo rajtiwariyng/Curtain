@@ -239,7 +239,7 @@ class QuotationController extends Controller
     {
         // Fetch the appointment by ID
         $quotation = Quotation::with('quotaitonItem')->findOrFail($id);
-
+        $appointment = Appointment::find($quotation->appointment_id);
         // Use a switch-case for better readability and easier status mapping
         switch ($type) {
             case 'pending':
@@ -257,7 +257,10 @@ class QuotationController extends Controller
         if ($quotation && $quotation->status == $status) {
             return response()->json([
                 'status' => 'success',
-                'data' => $quotation,
+                'data' => [
+                    'quotation' => $quotation,
+                    'appointment' => $appointment,
+                ],
                 'message' => 'Quotations details fetched successfully.'
             ]);
         } else {
@@ -280,8 +283,11 @@ class QuotationController extends Controller
 
     public function downloadQuotationView($appointment_id){
         $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
+        
         $quotations = Quotation::find($appointment_id);
-        return view('admin.quotation.download_quote',compact('sectionItems','quotations'));
+        $appointment = Appointment::find($quotations->appointment_id);
+        
+        return view('admin.quotation.download_quote',compact('sectionItems','quotations', 'appointment'));
     }
 
     public function getQuotationData($appointment_id){
@@ -305,6 +311,7 @@ class QuotationController extends Controller
                     ])->groupBy('quotation_id')->first();
                         
                     $quotation_items['franchise_id'] = $appointment->franchise_id;
+                    $quotation_items['appointment_id'] = $appointment->id;
                     $quotation_items['appointment_id'] = $appointment->id;
                     return $quotation_items;
                 } else {
