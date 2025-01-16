@@ -11,11 +11,11 @@
             </div>
         </a>
     @elseif(auth()->user()->hasRole('Fulfillment Desk'))
-        <a href="/user_list">
+        <a href="/orders">
             <div class="card info-card">
-                <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
-                <h2 class="fw-bold m-0 mb-1">{{ count($user) }}</h2>
-                <p class="m-0 small">Total number of Users</p>
+                <img src="{{ asset('admin/images/tab_franchise.svg') }}" alt="">
+                <h2 class="fw-bold m-0 mb-1">{{ count($franchise) }}</h2>
+                <p class="m-0 small">Total number of Order</p>
             </div>
         </a>
     @elseif (Auth::user()->hasRole('Franchise'))
@@ -33,13 +33,6 @@
                 <p class="m-0 small">Total number of Quotations</p>
             </div>
         </a>
-        <!-- <a href="/user_list">
-            <div class="card info-card">
-                <img src="{{ asset('admin/images/tab_users.svg') }}" alt="">
-                <h2 class="fw-bold m-0 mb-1">0</h2>
-                <p class="m-0 small">Total number of Orders</p>
-            </div>
-        </a> -->
     @elseif (Auth::user()->hasRole('Super Admin') || Auth::user()->hasRole('Admin'))
         <a href="{{ route('franchise.temp.index') }}">
             <div class="card info-card">
@@ -86,7 +79,7 @@
         </a>
     @endif
 </div>
-
+@if(Auth::user()->hasRole('Super Admin') || Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Help Desk') || Auth::user()->hasRole('Franchise'))
 <div class="dataOverviewSection">
     <div class="dataOverview">
         <div class="d-flex justify-content-between">
@@ -231,6 +224,8 @@
         </div>
     </div>
 </div>
+@endif
+
 
 @endsection
 

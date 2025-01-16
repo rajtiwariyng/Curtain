@@ -9,6 +9,8 @@ use App\Models\Quotation;
 use App\Models\QuotationSection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Mail\InvoiceGeneratedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -162,14 +164,15 @@ class OrderController extends Controller
                 $update_quotation = ['status' => '1'];
 
                 $appointment = Appointment::findOrFail($data['appointment_id']);
+                //dd($appointment);
                 $appointment->update($update_array);
 
                 $quotations = Quotation::where('appointment_id', $data['appointment_id'])->where('id',$request->quotation_id);
                 $quotations->update($update_quotation);
             }
-            // if (!empty($request->email)) {
-            //      Mail::to($request->email)->send(new Order($request->all()));
-            // }
+            Mail::to($appointment->email)->send(
+                new InvoiceGeneratedMail($appointment)
+            );
 
             return redirect()
                 ->back()
