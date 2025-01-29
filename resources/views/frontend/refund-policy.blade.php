@@ -9,9 +9,9 @@
     <div class="breadcrumbs">
         <a class="text-white" href="/">Home </a>
         <i class="bi bi-arrow-right"></i>
-        <a class="text-white" href="/privacy_policy" class="active">Privacy Policy</a>
+        <a class="text-white" href="/refund-policy" class="active">Refund Policy</a>
     </div>
-    <h1 class="text-white NewKansas-medium">Privacy Policy</h1>
+    <h1 class="text-white NewKansas-medium">Refund Policy</h1>
 </div>
 @endsection
 @section('content')
