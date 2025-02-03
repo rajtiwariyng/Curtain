@@ -66,7 +66,7 @@ class FranchiseTempController extends Controller
 
             return redirect()
                 ->back()
-                ->with("success", "Franchise information saved successfully!")->withFragment('registerWithUs');
+                ->with("success", "We will get back to you Shortly!")->withFragment('registerWithUs');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -112,7 +112,7 @@ class FranchiseTempController extends Controller
 
             return redirect()
                 ->back()
-                ->with("success", "Franchise information saved successfully!");
+                ->with("success", "We will get back to you Shortly!");
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -131,7 +131,7 @@ class FranchiseTempController extends Controller
             ->groupBy("status");
 
         $franchises = Franchise::with("user")->orderBy('id', 'desc')->get();
-        $cityStateData = MasterCity::all();
+        $cityStateData = MasterCity::orderBy('state_name','asc')->get();
         $groupedCityStateData = $cityStateData->groupBy("state_name");
 
         return view("admin.franchise.approval", [
@@ -299,7 +299,7 @@ class FranchiseTempController extends Controller
     public function frontend_view()
     {
         // Retrieve all cities from the database
-        $cityStateData = MasterCity::all();
+        $cityStateData = MasterCity::orderBy('state_name','asc')->get();
 
         // Group cities by state
         $groupedCityStateData = $cityStateData->groupBy("state_name"); // Assuming 'state_name' and 'city_name' are columns in the table

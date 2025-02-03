@@ -455,7 +455,7 @@
           </div>
           <div class="col-md-6">
             <div class="mb-3 w-100">
-              <label for="cartageInput" class="form-label mb-1">Cartage</label>
+              <label for="cartageInput" class="form-label mb-1">Remarks</label>
               <input type="text" name="cartage" class="form-control w-100" id="cartageInput">
             </div>
           </div>

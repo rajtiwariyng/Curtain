@@ -752,10 +752,13 @@
                 $('#state').on('change', function() {
                     var selectedState = $(this).val();
                     var cities = cityStateData[selectedState] || [];
-
+                    
                     $('#city').empty();
-                    $('#city').append('<option value="">Select City</option>');
-
+                    $('#city').append('<option value="" disabled selected>Select City</option>');
+   
+                    cities.sort(function(a, b) {
+                        return a.city_name.localeCompare(b.city_name); // Sort in ascending order
+                    });
                     $.each(cities, function(index, city) {
                         $('#city').append('<option value="' + city.city_name + '">' + city.city_name + '</option>');
                     });
