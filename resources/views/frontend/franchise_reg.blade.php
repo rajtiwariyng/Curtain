@@ -91,8 +91,6 @@
                 <div class="col-md-3">
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pincode<span class="requried">*</span></label>
-                        <!-- <input type="number" class="form-control" id="pincode" name="pincode"
-                            placeholder="Enter Pincode" required min="100000" max="999999"> -->
                             <input type="text" class="form-control" id="pincode" name="pincode"
                             placeholder="Enter Pincode" required min="100000" max="999999">
                         <div class="invalid-feedback">Please enter a valid 6-digit pincode.</div>
@@ -200,6 +198,15 @@
                             required>
                         <div class="invalid-feedback">Please enter your address.</div>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="consent" name="consent" required>
+                    <label class="form-check-label" for="consent">
+                        I authorize CAB and its representatives to Call, SMS, Email, or WhatsApp me about its products and offers. This consent overrides any registration for DNC/NDNC.
+                    </label>
+                    <div class="invalid-feedback">You must agree before submitting.</div>
                 </div>
             </div>
             <button type="submit" class="primary-btn mt-2">Submit</button>

@@ -40,6 +40,7 @@ Route::get('/contact', function () { return view('frontend.contact'); });
 Route::get('/terms-and-conditions', function () { return view('frontend.terms_and_conditions'); });
 Route::get('/how', function () { return view('frontend.how'); });
 Route::get('/privacy-policy', function () { return view('frontend.privacy_policy');});
+Route::get('/refund-policy', function () { return view('frontend.refund-policy');});
 Route::get('/faq', function () { return view('frontend.faq');});
 Route::get('/services', function () { return view('frontend.services');});
 Route::get('/our-products', function () { return view('frontend.our_products');});

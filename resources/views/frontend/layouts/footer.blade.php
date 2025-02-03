@@ -83,15 +83,15 @@
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
                     </li> -->
-                    <!--<li class="nav-item">-->
-                    <!--    <a class="nav-link" href="/contact">Contact Us</a>-->
-                    <!--</li>-->
+                    <li class="nav-item">
+                       <a class="nav-link" href="/refund-policy">Refund Policy</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/terms-and-conditions">Terms & Conditions</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/privacy_policy">Privacy Policy</a>
+                        <a class="nav-link" href="/privacy-policy">Privacy Policy</a>
                     </li>
                 </ul>
             </nav>
