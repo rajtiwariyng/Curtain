@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
 
@@ -65,5 +66,13 @@ class ProductTypeController extends Controller
         $productTypes = ProductType::all();
 
         return $productTypes;
+    }
+
+    public function getProductAll(){
+        $productData = Product::with('ProductType')
+        ->distinct()
+        ->get();
+
+        return $productData;
     }
 }

@@ -8,6 +8,7 @@ use App\Models\ProductType;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
 use App\Mail\QuotationGeneratedMail;
+use App\Models\Product;
 use App\Models\QuotationSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,8 +64,7 @@ class QuotationController extends Controller
     {   
         $data['appointment_id'] = $appointment_id;
         $data['appointment_data'] = Appointment::where('id',$appointment_id)->first();
-        $data['product_type'] = ProductType::distinct('product_type')->get();
-
+        $data['product_type'] = Product::distinct('design_sku')->with('ProductType')->get();
         // dd($data['appointment_data']);
         return view("admin.quotation.create", $data);
     }

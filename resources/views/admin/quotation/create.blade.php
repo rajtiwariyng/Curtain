@@ -545,6 +545,7 @@
                                         <th scope="col">unit</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Discount</th>
+                                        <th scope="col">Amount</th>
                                         <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;" scope="col">
                                           <p class="secondary-btn addBtn m-0 p-0" data-section-id="` + sectionCount + `" style="font-size: 14px !important; width: 105px;">+ Add Items </p>
                                         </th>
@@ -563,8 +564,9 @@
                                             <option selected>Select</option>
                                           </select>
                                         </td>
-                                        <td><input type="number" class="form-control max-w-166" name="item_price[${sectionCount}][`+itemCount+`]" placeholder="Item Price"></td>
-                                        <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionCount}][`+itemCount+`]" placeholder="Item Discount"></td>
+                                        <td><input type="number" class="form-control max-w-166" name="item_price[${sectionCount}][`+itemCount+`]" placeholder="Item Price" readonly></td>
+                                        <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionCount}][`+itemCount+`]" placeholder="Item Discount" readonly></td>
+                                        <td><input type="number" class="form-control max-w-166" name="item_mrp[${sectionCount}][`+itemCount+`]" placeholder="Item Mrp" readonly></td>
                                         <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
                                       </tr>
                                     </tbody>
@@ -588,6 +590,7 @@
 
     // When the Add Item button inside a section is clicked
     $(document).on('click', '.addBtn', function() {
+      
         let sectionId = $(this).data('section-id'); // Get the section ID from data-section-id
         let itemCount = $('#section_' + sectionId + ' .item-list tr').length + 1; // Get the current item count for the section
 
@@ -605,8 +608,9 @@
                                 <option selected>Select</option>
                               </select>
                             </td>
-                            <td><input type="number" class="form-control max-w-166" name="item_price[${sectionId}][`+itemCount+`]" placeholder="Item Price"></td>
-                            <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount"></td>
+                            <td><input type="number" class="form-control max-w-166" name="item_price[${sectionId}][`+itemCount+`]" placeholder="Item Price" readonly></td>
+                            <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount" readonly></td>
+                            <td><input type="number" class="form-control max-w-166" name="item_mrp[${sectionId}][`+itemCount+`]" placeholder="Item Mrp" readonly></td>
                             <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
                           </tr>`;
 
@@ -630,13 +634,13 @@
     function get_product_type(sectionId, itemCount) {
         $.ajax({
             type: "GET",
-            url: "{{url('getProductType')}}",
+            url: "{{url('getProduct')}}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(result) {
-                let htmlProductType = `<option disabled selected>Select Item</option>`;
-                result.forEach(function(item) {
-                    htmlProductType += `<option value="${item.id}" data-unit="${item.product_unit}">${item.product_type}</option>`;
+              let htmlProductType = `<option disabled selected>Select Item</option>`;
+              result.forEach(function(item) {
+                    htmlProductType += `<option value="${item.id}" data-unit="${item.product_type.product_unit}" data-price="${item.supplier_price}" data-mrp="${item.mrp}" data-profit="${item.profit_percentage}">${item.product_type.product_type}</option>`;
                 });
                 $("#itemProduct_" + sectionId + "_" + itemCount).append(htmlProductType);
             }
@@ -649,10 +653,19 @@
 
         // Get the selected product item ID
         var selectedProductId = $(this).val();
-
         // Find the selected product and get its unit
         var selectedOption = $("#itemProduct_" + sectionId + "_" + itemCount + " option[value='" + selectedProductId + "']");
         var productUnit = selectedOption.data('unit');
+        var profit = selectedOption.data('profit');
+        var mrp = selectedOption.data('mrp');
+        var supplier_price = selectedOption.data('price');
+
+   
+        $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(supplier_price);
+
+        // Set the value for item_discount
+        $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(mrp);
 
         // Split the unit if there are multiple values
         if (typeof productUnit === 'string') {
