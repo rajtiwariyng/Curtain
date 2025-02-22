@@ -20,6 +20,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UsageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RazorpayController;
 use PHPUnit\Framework\Attributes\Group;
 
 Route::get('/clear-cache', function () {
@@ -179,3 +180,8 @@ Route::prefix('orders')->group(function () {
 
     
 });
+
+
+Route::post('razorpay-order', [RazorpayController::class, 'createOrder'])->name('razorpay.order');
+Route::post('razorpay-success', [RazorpayController::class, 'paymentSuccess'])->name('razorpay.success');
+Route::get('razorpay-fail', [RazorpayController::class, 'paymentFail'])->name('razorpay.fail');

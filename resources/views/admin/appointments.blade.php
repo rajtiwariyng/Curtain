@@ -348,7 +348,7 @@
 <div class="modal fade" id="updatepaymentModal" tabindex="-1" aria-labelledby="updatepaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('order.store') }}" method="POST" id="updatepayment">
+            <form action="{{ route('razorpay.order') }}" method="POST" id="updatepayment">
                 @csrf
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="updatepaymentModalLabel">Update Payment</h1>
@@ -411,6 +411,74 @@
 @endsection
 
 @section('script')
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="text/javascript">
+        // Handle order creation and payment
+        document.getElementById('updatepayment').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var orderValue = document.getElementById('ordervalue').value;
+            var payment_mode = document.getElementById('payment_mode').value;
+            var payment_type = document.getElementById('paymenttype').value;
+            var payment_note = document.getElementById('paymentnote').value;
+            var amount = document.getElementById('amountpaid').value;
+            var orderappointmentId = document.getElementById('orderappointmentId').value;
+            var orderfranchisetId = document.getElementById('orderfranchisetId').value;
+            var orderquotationId = document.getElementById('orderquotationId').value;
+
+            fetch('/razorpay-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $("input[name='_token']").val()
+                },
+                body: JSON.stringify({ order_value: orderValue, payment_mode: payment_mode ,payment_type: payment_type, remarks: payment_note, paid_amount: amount,appointment_id : orderappointmentId ,franchise_id : orderfranchisetId,quotation_id : orderquotationId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.order) {
+                    var options = {
+                        key: '{{ env('RAZORPAY_KEY_ID') }}', 
+                        amount: data.order.amount,
+                        currency: 'INR',
+                        name: 'Your Company',
+                        description: 'Payment for your order',
+                        order_id: data.order.id,
+                        handler: function (response) {
+                            // On successful payment
+                            var paymentData = {
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature
+                            };
+                            
+                            fetch('/razorpay-success', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify(paymentData)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                alert('Payment successful');
+                            })
+                            .catch(error => console.log('Payment verification failed', error));
+                        },
+                        prefill: {
+                            name: 'Customer Name',
+                            email: 'customer@example.com',
+                            contact: '9876543210'
+                        }
+                    };
+                    var rzp = new Razorpay(options);
+                    rzp.open();
+                }
+            });
+        });
+    </script>
 
 <script>
     function confirmAssign(appointmentId) {
@@ -894,8 +962,7 @@
         });
     });
 
-    
-
 </script>
+
 
 @endsection
