@@ -328,11 +328,14 @@ class AppointmentController extends Controller
             case "assign":
                 $status = 2;
                 break;
+            case "hold":
+                $status = 3;
+                break;
             case "complete":
                 $status = 4;
                 break;
             default:
-                $status = 1; // Default status
+                $status = 0; // Default status
                 break;
         }
 

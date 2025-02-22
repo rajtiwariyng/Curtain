@@ -309,10 +309,16 @@ class QuotationController extends Controller
                         'appointment_id' => $quotation->appointment_id,
                         'quotation_id' => $quotation->id
                     ])->groupBy('quotation_id')->first();
+
+                    // print_r([
+                    //     'franchise_id' => $quotation->franchise_id,
+                    //     'appointment_id' => $quotation->appointment_id,
+                    //     'quotation_id' => $quotation->id
+                    // ]); exit;
                         
                     $quotation_items['franchise_id'] = $appointment->franchise_id;
                     $quotation_items['appointment_id'] = $appointment->id;
-                    $quotation_items['appointment_id'] = $appointment->id;
+
                     return $quotation_items;
                 } else {
                     // Handle case where no quotation is found, if necessary
