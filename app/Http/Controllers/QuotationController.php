@@ -146,6 +146,7 @@ class QuotationController extends Controller
                                 'unit' => $request->item_unit[$index][$j] ?? '',
                                 'price' => $request->item_price[$index][$j] ?? '',
                                 'discount' => $request->item_discount[$index][$j] ?? '',
+                                'total_amount' => $request->total_amount[$index][$j] ?? '',
                                 'created_at' => now(),
                                 'updated_at' => now(),
                             ];
