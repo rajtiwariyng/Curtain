@@ -280,6 +280,9 @@ class OrderController extends Controller
             // Retrieve appointment data
             $appointment = $order_data->appointment;
         }
+        // echo '<pre>';print_r([
+        //     'order_data' => $order_data, 'quotations' => $quotations, 'sectionItems' => $sectionItems, 'appointment' =>$appointment
+        // ]); exit;
 
         return view('admin.order.download_invoice', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
     }
