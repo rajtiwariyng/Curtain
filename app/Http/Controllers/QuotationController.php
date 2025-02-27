@@ -191,6 +191,23 @@ class QuotationController extends Controller
         $appointment = Appointment::findOrFail($request->appoint_id);
         $appointment->status = "3"; // Set the new status value
         $appointment->save(); // Save the changes
+
+        $franchise_data = Franchise::find($request->franchise_id);
+        $appointData = Appointment::find($request->appoint_id);
+
+         // send whatsaap Message
+        //  $parameters = [
+        //     [
+        //         'type' => 'text',
+        //         'text' => $request->name
+        //     ]  
+        // ];
+
+        $this->whatsAppService->sendMessage('91'.$franchise_data->mobile, 'quotation', $parameters = '');
+        $this->whatsAppService->sendMessage('91'.$appointData->mobile, 'quotation', $parameters = '');
+        // end send whatsaap Message
+
+
         Mail::to($appointment->email)->send(
             new QuotationGeneratedMail($appointment)
         );
@@ -317,12 +334,6 @@ class QuotationController extends Controller
                         'quotation_id' => $quotation->id
                     ])->groupBy('quotation_id')->first();
 
-                    // print_r([
-                    //     'franchise_id' => $quotation->franchise_id,
-                    //     'appointment_id' => $quotation->appointment_id,
-                    //     'quotation_id' => $quotation->id
-                    // ]); exit;
-                        
                     $quotation_items['franchise_id'] = $appointment->franchise_id;
                     $quotation_items['appointment_id'] = $appointment->id;
 
@@ -331,8 +342,6 @@ class QuotationController extends Controller
                     // Handle case where no quotation is found, if necessary
                     $quotation_items = collect(); // return an empty collection or handle as needed
                 }
-
-                dd($quotation_items);
             }else{
                 return redirect()->back()->with('error', 'Appointment not found.');
             }
@@ -342,16 +351,33 @@ class QuotationController extends Controller
     }
 
     public function whatsapptest(){
+       
         $parameters = [
             [
                 'type' => 'text',
-                'text' => 'Rahul'
+                'text' => 'R1'
+            ],
+            [
+                'type' => 'text',
+                'text' => 'R2'
+            ],
+            [
+                'type' => 'text',
+                'text' => 'R3'
+            ],
+            [
+                'type' => 'text',
+                'text' => 'R4'
+            ],
+            [
+                'type' => 'text',
+                'text' => 'R5'
             ]
         ];
 
         try {
             // Call the sendMessage function
-            $response = $this->whatsAppService->sendMessage('919718392908', 'newfranchise', $parameters);
+            $response = $this->whatsAppService->sendMessage('919718392908', 'installationscheduled', $parameters);
 
             return response()->json([
                 'success' => true,

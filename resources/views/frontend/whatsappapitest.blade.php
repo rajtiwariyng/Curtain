@@ -17,7 +17,7 @@ curl_setopt_array($curl, array(
   "to": "919718392908",
   "type": "template",
   "template": {
-    "name": "newfranchise",
+    "name": "newfranchi",
     "language": {
       "code": "en"
     },
@@ -27,7 +27,7 @@ curl_setopt_array($curl, array(
         "parameters": [
           {
             "type": "text",
-            "text": "Rahul"
+            "text": "Rahul_Testing"
           }
         ]
       }

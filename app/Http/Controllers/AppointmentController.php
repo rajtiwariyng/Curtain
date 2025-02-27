@@ -15,11 +15,18 @@ use App\Models\Franchise;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\BookQueryExport;
+use App\Services\WhatsAppService;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rules\Unique;
 
 class AppointmentController extends Controller
 {
+    protected $whatsAppService;
+    public function __construct(WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+
     private function generateNextCode($lastCode, $prefix)
     {
         if (!$lastCode) {
@@ -221,11 +228,34 @@ class AppointmentController extends Controller
         $validatedData["uniqueid"] = $nextAppointmentId;
 
         $appointment = Appointment::create($validatedData);
+
         if($validatedData["status"] == 0){
+
+            // send whatsaap Message
+            $parameters = [
+                
+            ];
+
+            $this->whatsAppService->sendMessage('91'.$request->mobile, 'triggersforcustomerservicingtheirarea', $parameters);
+            // end send whatsaap Message
+
+
+
             Mail::to($appointment->email)->send(
                 new QueryBookedMail($appointment)
             );
         }else{
+            // send whatsaap Message
+            $parameters = [
+                [
+                    'type' => 'text',
+                    'text' => $request->name
+                ]
+            ];
+
+            $this->whatsAppService->sendMessage('91'.$request->mobile, 'thankyour', $parameters);
+            // end send whatsaap Message
+
             Mail::to($appointment->email)->send(
                 new AppointmentSuccessMail($appointment)
             );
@@ -262,6 +292,23 @@ class AppointmentController extends Controller
         $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
         $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
         $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
+
+
+        // send whatsaap Message
+        $parameters = [
+            [
+                'type' => 'text',
+                'text' => $franchiseName
+            ],
+            [
+                'type' => 'text',
+                'text' => $appointmentDate .' '.$appointmentTime
+            ]
+        ];
+
+        $this->whatsAppService->sendMessage('91'.$franchiseDetail->mobile, 'appointmentscheduled', $parameters); // send to franchise
+        $this->whatsAppService->sendMessage('91'.$$appointment->mobile, 'appointmentscheduled', $parameters); // send to customer
+        // end send whatsaap Message
 
         // Pass these to the email
         Mail::to($appointment->email)->send(
@@ -303,6 +350,23 @@ class AppointmentController extends Controller
         $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
         $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
         $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
+
+
+        // send whatsaap Message
+        $parameters = [
+            [
+                'type' => 'text',
+                'text' => $franchiseName
+            ],
+            [
+                'type' => 'text',
+                'text' => $appointmentDate .' '.$appointmentTime
+            ]
+        ];
+
+        $this->whatsAppService->sendMessage('91'.$franchiseDetail->mobile, 'rescheduledappointment', $parameters);  // send to franchise
+        $this->whatsAppService->sendMessage('91'.$$appointment->mobile, 'rescheduledappointment', $parameters); // send to customer
+        // end send whatsaap Message
 
         // Send the success email
         Mail::to($appointment->email)->send(
