@@ -278,7 +278,7 @@ class OrderController extends Controller
     {
 
         $order_data = Order::with('appointment', 'franchise', 'quotation_data')->findOrFail($order_id);
-        echo '<pre>'; print_r($order_data['franchise']['mobile']); exit;
+        // echo '<pre>'; print_r($order_data['franchise']['mobile']); exit;
 
         if ($order_data) {
             $quotations = $order_data['quotation_data'] ?? '';
