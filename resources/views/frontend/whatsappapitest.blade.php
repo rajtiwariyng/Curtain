@@ -14,10 +14,10 @@ curl_setopt_array($curl, array(
   CURLOPT_POSTFIELDS =>'{
   "messaging_product": "whatsapp",
   "recipient_type": "individual",
-  "to": "919718392908",
+  "to": "919319927634",
   "type": "template",
   "template": {
-    "name": "newfranchi",
+    "name": "purchaseorder",
     "language": {
       "code": "en"
     },
