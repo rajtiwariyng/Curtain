@@ -17,10 +17,21 @@ curl_setopt_array($curl, array(
   "to": "919319927634",
   "type": "template",
   "template": {
-    "name": "purchaseorder",
+    "name": "newfranchise",
     "language": {
       "code": "en"
     },
+    "components": [
+      {
+        "type": "body",
+        "parameters": [
+          {
+            "type": "text",
+            "text": "Rahul"
+          }
+        ]
+      }
+    ]
     "components": [
       {
         "type": "body",
