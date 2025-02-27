@@ -10,12 +10,19 @@ use App\Models\QuotationSection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Mail\InvoiceGeneratedMail;
+use App\Services\WhatsAppService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    protected $whatsAppService;
+    public function __construct(WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -269,7 +276,9 @@ class OrderController extends Controller
 
     public function downloadOrderView($order_id)
     {
+
         $order_data = Order::with('appointment', 'franchise', 'quotation_data')->findOrFail($order_id);
+        // echo '<pre>'; print_r($order_data['franchise']['mobile']); exit;
 
         if ($order_data) {
             $quotations = $order_data['quotation_data'] ?? '';
@@ -280,6 +289,17 @@ class OrderController extends Controller
             // Retrieve appointment data
             $appointment = $order_data->appointment;
         }
+
+         // send whatsaap Message
+         $parameters = [
+            
+        ];
+
+        $this->whatsAppService->sendMessage('91'.$order_data['appointment']['mobile'], 'purchaseorder', $parameters);
+        $this->whatsAppService->sendMessage('91'.$order_data['franchise']['mobile'], 'purchaseorder', $parameters);
+        // end send whatsaap Message
+
+
         // echo '<pre>';print_r([
         //     'order_data' => $order_data, 'quotations' => $quotations, 'sectionItems' => $sectionItems, 'appointment' =>$appointment
         // ]); exit;

@@ -52,14 +52,14 @@ class WhatsAppService
         // Execute the cURL request and handle errors
         $response = curl_exec($curl);
 
-        if ($response === false) {
-            throw new Exception('cURL error: ' . curl_error($curl));
-        }
+        // if ($response === false) {
+        //     throw new Exception('cURL error: ' . curl_error($curl));
+        // }
 
-        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if ($httpCode != 200) {
-            throw new Exception("HTTP error: $httpCode - $response");
-        }
+        // $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        // if ($httpCode != 200) {
+        //     throw new Exception("HTTP error: $httpCode - $response");
+        // }
 
         curl_close($curl);
 

@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\MasterCity;
 use App\Models\Franchise;
+use App\Services\WhatsAppService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class FranchiseTempController extends Controller
 {
+    protected $whatsAppService;
+    public function __construct(WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+    
     private function generateNextCode($lastCode, $prefix)
     {
         if (!$lastCode) {
@@ -26,7 +33,7 @@ class FranchiseTempController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
         $rules = [
             "name" => "required|string|max:255",
             "email" => "required|email|max:255|unique:users,email",
@@ -64,6 +71,17 @@ class FranchiseTempController extends Controller
                  Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
             }
 
+            // send whatsaap Message
+            $parameters = [
+                [
+                    'type' => 'text',
+                    'text' => $request->name
+                ]
+            ];
+
+            $this->whatsAppService->sendMessage('91'.$request->mobile, 'newfranchi', $parameters);
+            // end send whatsaap Message
+
             return redirect()
                 ->back()
                 ->with("success", "We will get back to you shortly.")->withFragment('registerWithUs');
@@ -76,6 +94,8 @@ class FranchiseTempController extends Controller
 
     public function store_admin(Request $request)
     {
+        // echo '<pre>';
+        // print_r($request->all()); exit;
         $rules = [
             "name" => "required|string|max:255",
             "email" => "required|email|max:255|unique:users,email",
@@ -109,6 +129,16 @@ class FranchiseTempController extends Controller
             if (!empty($request->email)) {
                  Mail::to($request->email)->send(new FranchiseInformationMail($request->all()));
             }
+
+            // send whatsaap Message
+            $parameters = [
+                [
+                    'type' => 'text',
+                    'text' => $request->name
+                ]
+            ];
+            $this->whatsAppService->sendMessage('91'.$request->mobile, 'newfranchi', $parameters);
+            // end send whatsaap Message
 
             return redirect()
                 ->back()
@@ -247,6 +277,26 @@ class FranchiseTempController extends Controller
         Mail::to($franchiseTemp->email)->send(
             new FranchiseRegistrationMail($data)
         );
+
+         // send whatsaap Message
+         $parameters = [
+            [
+                'type' => 'text',
+                'text' => $franchiseTemp->name
+            ],
+            [
+                'type' => 'text',
+                'text' => $franchiseTemp->name
+            ],
+            [
+                'type' => 'text',
+                'text' => $password
+            ]
+        ];
+
+        $this->whatsAppService->sendMessage('91'.$franchiseTemp->mobile, 'confirmedfranchisess', $parameters);
+        // end send whatsaap Message
+
 
         return redirect()
             ->back()
