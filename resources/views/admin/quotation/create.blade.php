@@ -546,7 +546,6 @@
                                         <th scope="col">Price</th>
                                         <th scope="col">Discount</th>
                                         <th scope="col">Amount</th>
-                                        <th scope="col">Total Amount</th>
                                         <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;" scope="col">
                                           <p class="secondary-btn addBtn m-0 p-0" data-section-id="` + sectionCount + `" style="font-size: 14px !important; width: 105px;">+ Add Items </p>
                                         </th>
@@ -566,9 +565,8 @@
                                           </select>
                                         </td>
                                         <td><input type="number" class="form-control max-w-166" name="item_price[${sectionCount}][`+itemCount+`]" placeholder="Item Price" readonly></td>
-                                        <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionCount}][`+itemCount+`]" placeholder="Item Discount" readonly></td>
+                                        <td><input type="text" class="form-control max-w-166" name="item_discount[${sectionCount}][`+itemCount+`]" id="itemDiscount_${sectionCount}_${itemCount}" placeholder="Item Discount"></td>
                                         <td><input type="number" class="form-control max-w-166" name="item_mrp[${sectionCount}][`+itemCount+`]" placeholder="Item Mrp" readonly></td>
-                                        <td><input type="number" class="form-control max-w-166" name="total_amount[${sectionCount}][`+itemCount+`]" placeholder="Total Amount" readonly></td>
                                         <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
                                       </tr>
                                     </tbody>
@@ -611,9 +609,8 @@
                               </select>
                             </td>
                             <td><input type="number" class="form-control max-w-166" name="item_price[${sectionId}][`+itemCount+`]" placeholder="Item Price" readonly></td>
-                            <td><input type="number" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount" readonly></td>
+                            <td><input type="text" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount"></td>
                             <td><input type="number" class="form-control max-w-166" name="item_mrp[${sectionId}][`+itemCount+`]" placeholder="Item Mrp" readonly></td>
-                            <td><input type="number" class="form-control max-w-166" name="total_amount[${sectionId}][`+itemCount+`]" placeholder="Total Amount" readonly></td>
                             <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
                           </tr>`;
 
@@ -664,12 +661,12 @@
         var supplier_price = selectedOption.data('price');
 
    
-        $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(supplier_price);
+        $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(mrp);
 
         // Set the value for item_discount
-        $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
-        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(supplier_price - profit);
-        $("input[name='total_amount[" + sectionId + "][" + itemCount + "]']").val(supplier_price - profit);
+        // $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(mrp);
+        // $("input[name='total_amount[" + sectionId + "][" + itemCount + "]']").val(supplier_price - profit);
 
         // Split the unit if there are multiple values
         if (typeof productUnit === 'string') {
@@ -691,13 +688,29 @@
         let itemCount = $(this).attr('id').split('_')[2];  // Get item count
         var inputValue = $(this).val();
 
-        console.log([sectionId, itemCount , inputValue]);
-      // Replace any character that is not a number (0-9)
       inputValue = inputValue.replace(/[^0-9]/g, '');
 
-      let amount = $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val();
+      let amount = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
 
-        $("input[name='total_amount[" + sectionId + "][" + itemCount + "]']").val(amount * inputValue);
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(amount * inputValue);
+      
+      // Update the value of the input box with the sanitized input
+      $(this).val(inputValue);
+    
+    });
+
+
+    $(document).on('input', '[id^="itemDiscount_"]', function() {
+        let sectionId = $(this).attr('id').split('_')[1];  // Get section ID
+        let itemCount = $(this).attr('id').split('_')[2];  // Get item count
+        var inputValue = $(this).val();
+
+      inputValue = inputValue.replace(/[^0-9]/g, '');
+
+      let qty = $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val();
+      let price = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
+      
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val((price * qty) - inputValue );
       
       // Update the value of the input box with the sanitized input
       $(this).val(inputValue);

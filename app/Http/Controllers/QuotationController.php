@@ -14,9 +14,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Services\WhatsAppService;
 
 class QuotationController extends Controller
 {
+    protected $whatsAppService;
+    public function __construct(WhatsAppService $whatsAppService)
+    {
+        $this->whatsAppService = $whatsAppService;
+    }
+
         public function index()
         {
             $user = Auth::user();
@@ -146,7 +153,6 @@ class QuotationController extends Controller
                                 'unit' => $request->item_unit[$index][$j] ?? '',
                                 'price' => $request->item_price[$index][$j] ?? '',
                                 'discount' => $request->item_discount[$index][$j] ?? '',
-                                'total_amount' => $request->total_amount[$index][$j] ?? '',
                                 'created_at' => now(),
                                 'updated_at' => now(),
                             ];
@@ -333,5 +339,30 @@ class QuotationController extends Controller
         }else{
             return redirect()->back()->with('error', 'Appointment blank.');
         }
+    }
+
+    public function whatsapptest(){
+        $parameters = [
+            [
+                'type' => 'text',
+                'text' => 'Rahul'
+            ]
+        ];
+
+        try {
+            // Call the sendMessage function
+            $response = $this->whatsAppService->sendMessage('919718392908', 'newfranchise', $parameters);
+
+            return response()->json([
+                'success' => true,
+                'response' => json_decode($response)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+        
     }
 }
