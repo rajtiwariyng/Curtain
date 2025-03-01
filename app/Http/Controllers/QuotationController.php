@@ -203,8 +203,8 @@ class QuotationController extends Controller
         //     ]  
         // ];
 
-        $this->whatsAppService->sendMessage('91'.$franchise_data->mobile, 'quotation', $parameters = '');
-        $this->whatsAppService->sendMessage('91'.$appointData->mobile, 'quotation', $parameters = '');
+        $this->whatsAppService->sendMessageWp('91'.$franchise_data->mobile, 'quotation');
+        $this->whatsAppService->sendMessageWp('91'.$appointData->mobile, 'quotation');
         // end send whatsaap Message
 
 

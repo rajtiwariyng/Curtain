@@ -236,7 +236,7 @@ class AppointmentController extends Controller
                 
             ];
 
-            $this->whatsAppService->sendMessage('91'.$request->mobile, 'triggersforcustomerservicingtheirarea', $parameters);
+            $this->whatsAppService->sendMessageWp('91'.$request->mobile, 'triggersforcustomerservicingtheirarea');
             // end send whatsaap Message
 
 

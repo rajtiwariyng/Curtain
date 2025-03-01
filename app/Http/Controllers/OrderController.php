@@ -295,8 +295,8 @@ class OrderController extends Controller
             
         ];
 
-        $this->whatsAppService->sendMessage('91'.$order_data['appointment']['mobile'], 'purchaseorder', $parameters);
-        $this->whatsAppService->sendMessage('91'.$order_data['franchise']['mobile'], 'purchaseorder', $parameters);
+        $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
+        $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');
         // end send whatsaap Message
 
 
