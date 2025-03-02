@@ -36,6 +36,7 @@ class OrderController extends Controller
         $nextNumber = str_pad($numberPart + 1, 6, "0", STR_PAD_LEFT);
         return $prefix . $nextNumber;
     }
+
     public function index()
     {
         $userRole = Auth::user()->getRoleNames()[0];
@@ -278,7 +279,6 @@ class OrderController extends Controller
     {
 
         $order_data = Order::with('appointment', 'franchise', 'quotation_data')->findOrFail($order_id);
-        // echo '<pre>'; print_r($order_data['franchise']['mobile']); exit;
 
         if ($order_data) {
             $quotations = $order_data['quotation_data'] ?? '';
@@ -298,11 +298,6 @@ class OrderController extends Controller
         $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
         $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');
         // end send whatsaap Message
-
-
-        // echo '<pre>';print_r([
-        //     'order_data' => $order_data, 'quotations' => $quotations, 'sectionItems' => $sectionItems, 'appointment' =>$appointment
-        // ]); exit;
 
         return view('admin.order.download_invoice', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
     }

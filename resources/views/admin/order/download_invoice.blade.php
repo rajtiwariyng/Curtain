@@ -2,6 +2,7 @@
 
 @section('title', 'Download Quotation')
 
+
 @section('content')
 <style>
     .info-tabs {
@@ -98,38 +99,38 @@
             <td>
                 <table class="no-border">
                     <tr>
-                        <td><strong>Voucher No.</strong> SO 0001</td>
+                        <td><strong>Voucher No.</strong> {{$quotations->voucher_no}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Dated:</strong> 1-Feb-25</td>
+                        <td><strong>Dated:</strong> {{ \Carbon\Carbon::parse($quotations->date)->format('d-M-Y') }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Mode/Terms of Payment:</strong> Advance</td>
+                        <td><strong>Mode/Terms of Payment:</strong> Online</td>
                     </tr>
                     <tr>
-                        <td><strong>Buyer's Ref/Order No:</strong> ABC*</td>
+                        <td><strong>Buyer's Ref/Order No:</strong> {{$quotations->buyer_ref}}</td>
                     </tr>
                 </table>
             </td>
             <td>
                 <table class="no-border">
                     <tr>
-                        <td><strong>Other References:</strong> ABC*</td>
+                        <td><strong>Other References:</strong> {{$quotations->other_ref ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Dispatched through:</strong> Xyz</td>
+                        <td><strong>Dispatched through:</strong> {{$quotations->dispatch ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Destination:</strong> Xyz</td>
+                        <td><strong>Destination:</strong> {{$quotations->destination}}</td>
                     </tr>
                     <tr>
-                        <td><strong>City/Port of Loading:</strong> DELHI</td>
+                        <td><strong>City/Port of Loading:</strong> {{$quotations->destination}}</td>
                     </tr>
                     <tr>
-                        <td><strong>City/Port of Discharge:</strong> DELHI</td>
+                        <td><strong>City/Port of Discharge:</strong> {{ $appointment->state}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Terms of Delivery:</strong> Xyz</td>
+                        <td><strong>Terms of Delivery:</strong> {{$quotations->terms_delivery}}</td>
                     </tr>
                 </table>
             </td>
@@ -140,7 +141,7 @@
                 <p>{{ $order_data['franchise']['name'] ?? $order_data['franchise']['company_name'] }}</p>
                 <p>{{ $order_data['franchise']['mobile'] }}</p>
                 <p>{{ $order_data['franchise']['address'] ?? '' }}</p>
-                <p><strong>GSTIN/UIN</strong>: </p>
+                <p><strong>GSTIN/UIN</strong>:  {{ $quotations->gst_no }}</p>
             </td>
         </tr>
         <tr>
@@ -148,7 +149,7 @@
                 <p><strong>Buyer (Bill to)</strong></p>
                 <p>{{ $appointment['name'] ?? '' }}</p>
                 <p>{{ $appointment['address'] ?? '' }}</p>
-                <p><strong>GSTIN/UIN</strong>: </p>
+                <p><strong>GSTIN/UIN</strong>: {{ $quotations->gst_no }}</p>
             </td>
         </tr>
     </table>
