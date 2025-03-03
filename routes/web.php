@@ -124,7 +124,7 @@ Route::prefix('quotations')->group(function () {
     Route::put('delete/{id}', [QuotationController::class, 'deleteQuotationsData'])->name('quotation.delete');
     Route::get('/details/{id}/{type}', [QuotationController::class, 'getAppointmentDetails'])->name('quotations.details');
 
-    Route::get('/download_quotes/{apointment_id}', [QuotationController::class, 'downloadQuotationView']);
+    Route::get('/download_quotes/{quotation_Id}', [QuotationController::class, 'downloadQuotationView']);
 });
 
 
@@ -174,7 +174,7 @@ Route::prefix('orders')->group(function () {
     Route::put('delete/{id}', [OrderController::class, 'deleteOrdersData'])->name('order.delete');
     Route::get('/details/{id}/{type}', [OrderController::class, 'getOrdersDetails'])->name('order.details');
     
-    Route::get('/download_order/{order_id}', [OrderController::class, 'downloadOrderView']);
+    Route::get('/download_order/{quotation_id}', [OrderController::class, 'downloadOrderView']);
     Route::post('/update_schedule', [OrderController::class, 'updateSchedule']);
     Route::post('/update_status', [OrderController::class, 'updateStatus']);
     Route::post('/update_payment', [OrderController::class, 'updatePayment']);

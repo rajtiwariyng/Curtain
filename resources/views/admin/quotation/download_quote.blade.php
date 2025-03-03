@@ -1,8 +1,5 @@
 @extends('admin.layouts.app')
-
 @section('title', 'Download Quotation')
-
-
 @section('content')
 <style>
     .info-tabs {
@@ -68,12 +65,12 @@
             text-align: right !important;
         }
 </style>
-<?php //dd($appointment); ?>
+<?php //dd($order_data); ?>
 <div class="container-fluid p-0">
     <nav class="navbar py-3 mb-4 bg-body-tertiary">
         <div class="container">
             <!-- <a class="fs-6" href="quotation.html"><i class="bi bi-arrow-left fs-6 me-2"></i> Back</a> -->
-            <button class="primary-btn addBtn" data-quotation-name="{{$quotations->name}}" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
+            <button class="primary-btn addBtn" data-quotation-name="{{$order_data['name']}}" type="button"><i class="bi bi-cloud-arrow-down-fill fs-6 me-2"></i>
                 Download Quotation
             </button>
         </div>
@@ -97,40 +94,41 @@
                 <p><b>E-Mail: </b> info@pretfab.com</p>
             </td>
             <td>
+                <?php //dd($order_data); ?>
                 <table class="no-border">
                     <tr>
-                        <td><strong>Voucher No.</strong> {{$quotations->voucher_no ?? 'N/A'}}</td>
+                        <td><strong>Voucher No.</strong> {{$order_data['unique_id'] ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Dated:</strong> {{ \Carbon\Carbon::parse($quotations->date)->format('d-M-Y') }}</td>
+                        <td><strong>Dated:</strong> {{ \Carbon\Carbon::parse($order_data['date'])->format('d-M-Y') }}</td>
                     </tr>
                     <tr>
                         <td><strong>Mode/Terms of Payment:</strong> Online</td>
                     </tr>
                     <tr>
-                        <td><strong>Buyer's Ref/Order No:</strong> {{$quotations->buyer_ref ?? 'N/A'}}</td>
+                        <td><strong>Buyer's Ref/Order No:</strong> {{$order_data['buyer_ref'] ?? 'N/A'}}</td>
                     </tr>
                 </table>
             </td>
             <td>
                 <table class="no-border">
                     <tr>
-                        <td><strong>Other References:</strong> {{$quotations->other_ref ?? 'N/A'}}</td>
+                        <td><strong>Other References:</strong> {{$order_data['other_ref'] ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Dispatched through:</strong> {{$quotations->dispatch ?? 'N/A'}}</td>
+                        <td><strong>Dispatched through:</strong> {{$order_data['dispatch'] ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Destination:</strong> {{$quotations->destination ?? 'N/A'}}</td>
+                        <td><strong>Destination:</strong> {{$order_data['destination'] ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>City/Port of Loading:</strong> {{$quotations->destination ?? 'N/A'}}</td>
+                        <td><strong>City/Port of Loading:</strong> {{$order_data['destination'] ?? 'N/A'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>City/Port of Discharge:</strong> {{ $appointment->state ?? 'N/A'}}</td>
+                        <td><strong>City/Port of Discharge:</strong> {{ $order_data['appointment']['state'] ?? '' }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Terms of Delivery:</strong> {{$quotations->terms_delivery ?? 'N/A'}}</td>
+                        <td><strong>Terms of Delivery:</strong> {{$order_data['terms_delivery'] ?? 'N/A'}}</td>
                     </tr>
                 </table>
             </td>
@@ -138,18 +136,19 @@
         <tr>
             <td colspan="4">
                 <p><strong>Consignee (Ship to)</strong></p>
-                <p>{{ $order_data['franchise']['name'] ?? $order_data['franchise']['company_name'] }}</p>
-                <p>{{ $order_data['franchise']['mobile'] }}</p>
-                <p>{{ $order_data['franchise']['address'] ?? '' }}</p>
-                <p><strong>GSTIN/UIN</strong>:  {{ $quotations->gst_no }}</p>
+                <p>{{ $order_data['appointment']['name'] ?? $order_data['appointment']['company_name'] }}</p>
+                <p>{{ $order_data['appointment']['mobile'] }}</p>
+                <p>{{ $order_data['appointment']['address'] ?? '' }}</p>
+                <p><strong>GSTIN/UIN</strong>:  {{ $order_data['gst_no'] ?? 'N/A' }}</p>
             </td>
         </tr>
         <tr>
             <td colspan="4">
                 <p><strong>Buyer (Bill to)</strong></p>
-                <p>{{ $appointment['name'] ?? '' }}</p>
-                <p>{{ $appointment['address'] ?? '' }}</p>
-                <p><strong>GSTIN/UIN</strong>: {{ $quotations->gst_no }}</p>
+                <p>{{ $order_data['appointment']['name'] ?? $order_data['appointment']['company_name'] }}</p>
+                <p>{{ $order_data['appointment']['mobile'] }}</p>
+                <p>{{ $order_data['appointment']['address'] ?? '' }}</p>
+                <p><strong>GSTIN/UIN</strong>:  {{ $order_data['gst_no'] ?? 'N/A' }}</p>
             </td>
         </tr>
     </table>
@@ -157,41 +156,49 @@
     <table>
         <tr>
             <th class="table-heading">Description of Goods and Services</th>
-            <th class="table-heading">HSN/SAC</th>
             <th class="table-heading">GST Rate</th>
             <th class="table-heading">Quantity</th>
+            <th class="table-heading">Unit</th>
             <th class="table-heading">Rate</th>
             <th class="table-heading">Discount %</th>
             <th class="table-heading">Amount</th>
         </tr>
-        @foreach($sectionItems as $sectionItem)
+        @foreach($order_data['quotaiton_section'] as $sectionItem)
         <tr>
             <th class="fs-6"><u>{{$sectionItem['section_name']}}</u></th>
         </tr>
             @foreach ($sectionItem['items'] as $item)
             <tr>
-                <td>{{$item['item']}}</td>
+                <td>{{$item['name']}}</td>
+                <td></td>
                 <td>{{$item['qty']}}</td>
                 <td>{{$item['unit']}}</td>
                 <td>{{$item['price']}}</td>
                 <td>{{$item['discount']}}</td>
-                <td>{{ (float)$item['price'] - (float)$item['discount'] }}</td>
+                <td>{{$item['total_amount']}}</td>
             </tr>
             @endforeach
         
         @endforeach
         
     </table>
-
     <table>
+        @if($order_data['appointment']['state'] == 'delhi' || $order_data['appointment']['state'] == 'Delhi')
         <tr>
-            <td style="text-align: right; width: 35.20%;">SGST-OUTPUT</td>
+            <td style="text-align: right; width: 35.20%;">IGST-OUTPUT (18%)</td>
+            <td class="align-right">185.44</td>
+        </tr>
+        @else
+        <tr>
+            <td style="text-align: right; width: 35.20%;">SGST-OUTPUT (9%)</td>
             <td class="align-right">185.44</td>
         </tr>
         <tr>
-            <td style="text-align: right; width: 35.20%;">CGST-OUTPUT</td>
+            <td style="text-align: right; width: 35.20%;">CGST-OUTPUT (9%)</td>
             <td class="align-right">185.44</td>
         </tr>
+        @endif
+        
         <tr>
             <td style="text-align: right; width: 35.20%;"><span style="float: left; font-style: italic; font-weight: 200;">Less: </span>Round Off</td>
             <td class="align-right">-0.38</td>

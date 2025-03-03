@@ -161,7 +161,7 @@ class OrderController extends Controller
 
         try {
             $lastAppointmentId = Order::max("txn_id");
-            $nextAppointmentId = $this->generateNextCode($lastAppointmentId, "TXN");
+            $nextAppointmentId = $this->generateNextCode($lastAppointmentId, "INV");
             $request["txn_id"] = $nextAppointmentId;
 
             $data = Order::create($request->all());
@@ -275,31 +275,18 @@ class OrderController extends Controller
         }
     }
 
-    public function downloadOrderView($order_id)
+    public function downloadOrderView($quotation_id)
     {
 
-        $order_data = Order::with('appointment', 'franchise', 'quotation_data')->findOrFail($order_id);
-
-        if ($order_data) {
-            $quotations = $order_data['quotation_data'] ?? '';
-            $sectionItems = QuotationSection::with('items')
-                ->where('quotation_id', $order_data['quotation_data']['id'] ?? null)
-                ->get();
-
-            // Retrieve appointment data
-            $appointment = $order_data->appointment;
-        }
-
-         // send whatsaap Message
-         $parameters = [
-            
-        ];
+        $order_data = Quotation::with('appointment', 'franchise', 'quotaitonItem','quotaiton_section')->find($quotation_id);
+        
 
         $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
         $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');
         // end send whatsaap Message
 
-        return view('admin.order.download_invoice', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
+        // return view('admin.order.download_invoice', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
+        return view('admin.quotation.download_quote', compact('order_data'));
     }
 
 

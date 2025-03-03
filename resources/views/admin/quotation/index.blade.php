@@ -315,6 +315,7 @@
 
                     // Check if response contains data and populate the table
                     if (response.data && response.data.length > 0) {
+                        console.log(response.data);
                         $.each(response.data, function(idx, appnt) {
                             var row = '<tr>';
                             row += '<td>' + (idx + 1) + '</td>';
