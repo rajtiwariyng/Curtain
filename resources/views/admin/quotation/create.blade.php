@@ -441,10 +441,23 @@
               <input type="datetime-local" name="date" class="form-control w-100" value="{{ $appointment_data->appointment_date }}" id="date" readonly>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-4">
             <div class="mb-3 w-100">
               <label for="AddressInput" class="form-label mb-1">Address</label>
               <textarea name="address" id="AddressInput" class="form-control w-100" readonly>{{$appointment_data->address}}</textarea>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mb-3 w-100">
+              <label for="AddressInput" class="form-label mb-1">GSTIN/UIN</label>
+              <input type="text" name="gst_uin" id="gst_uin" class="form-control w-100">
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="mb-3 w-100">
+              <label for="voucherInput" class="form-label mb-1">Voucher No</label>
+              <input type="text" name="voucher_no" class="form-control w-100" id="voucherInput">
             </div>
           </div>
           <div class="col-md-3">
@@ -453,10 +466,50 @@
               <input type="text" name="quotation_for" class="form-control w-100" id="QuotationForInput">
             </div>
           </div>
+          
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="buyer_ref_Input" class="form-label mb-1">Buyer's Ref/Order No</label>
+              <input type="text" name="buyer_ref" class="form-control w-100" id="buyer_ref_Input">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="other_ref_Input" class="form-label mb-1">Other References</label>
+              <input type="text" name="other_ref" class="form-control w-100" id="other_ref_Input">
+            </div>
+          </div>
+          
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="cartageInput" class="form-label mb-1">Remarks</label>
               <input type="text" name="cartage" class="form-control w-100" id="cartageInput">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="dispatch_Input" class="form-label mb-1">Dispatched through</label>
+              <input type="text" name="dispatch" class="form-control w-100" id="dispatch_Input">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="destination_Input" class="form-label mb-1">Destination</label>
+              <input type="text" name="destination" class="form-control w-100" id="destination_Input">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="city_port_Input" class="form-label mb-1">City/Port of Loading</label>
+              <input type="text" name="city_port" class="form-control w-100" id="city_port_Input">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3 w-100">
+              <label for="terms_deliver_Input" class="form-label mb-1">Terms of Delivery</label>
+              <input type="text" name="terms_deliver" class="form-control w-100" id="terms_deliver_Input">
             </div>
           </div>
         </div>
@@ -544,7 +597,7 @@
                                         <th scope="col">Oty.</th>
                                         <th scope="col">unit</th>
                                         <th scope="col">Price</th>
-                                        <th scope="col">Discount</th>
+                                        <th scope="col">Discount %</th>
                                         <th scope="col">Amount</th>
                                         <th style="border-top-right-radius: 6px; border-bottom-right-radius: 6px; width: 160px !important;" scope="col">
                                           <p class="secondary-btn addBtn m-0 p-0" data-section-id="` + sectionCount + `" style="font-size: 14px !important; width: 105px;">+ Add Items </p>
@@ -555,7 +608,7 @@
                                       <tr>
                                         <td><input type="text" class="form-control max-w-166" placeholder="Item Name" name="item_name[${sectionCount}][`+itemCount+`]"></td>
                                         <td>
-                                          <select class="form-select w-100 max-w-166" name="product_item[${sectionCount}][`+itemCount+`]" id="itemProduct_${sectionCount}_${itemCount}">
+                                          <select class="select2 form-select w-100 max-w-166" name="product_item[${sectionCount}][`+itemCount+`]" id="itemProduct_${sectionCount}_${itemCount}">
                                           </select>
                                         </td>
                                         <td><input type="text" class="form-control max-w-166" name="item_qty[${sectionCount}][`+itemCount+`]" id="itemQty_${sectionCount}_${itemCount}" placeholder="Item quantity"></td>
@@ -598,7 +651,7 @@
         let itemRow = `<tr>
                             <td><input type="text" class="form-control max-w-166" placeholder="Item Name" name="item_name[${sectionId}][`+itemCount+`]"></td>
                             <td>
-                              <select class="form-select w-100 max-w-166" name="product_item[${sectionId}][`+itemCount+`]" id="itemProduct_${sectionId}_${itemCount}">
+                              <select class="select2 form-select w-100 max-w-166" name="product_item[${sectionId}][`+itemCount+`]" id="itemProduct_${sectionId}_${itemCount}">
                                 
                               </select>
                             </td>
@@ -662,6 +715,7 @@
 
    
         $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(mrp);
+        $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val(1);
 
         // Set the value for item_discount
         // $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
@@ -709,8 +763,9 @@
 
       let qty = $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val();
       let price = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
-      
-        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val((price * qty) - inputValue );
+      let total_price = (price * qty) * inputValue / 100;
+
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val((price * qty) - total_price);
       
       // Update the value of the input box with the sanitized input
       $(this).val(inputValue);
@@ -718,6 +773,8 @@
     });
     
 });
+
+$('.select2').select2();
 
 
 

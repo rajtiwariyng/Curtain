@@ -24,6 +24,16 @@ class QuotationController extends Controller
         $this->whatsAppService = $whatsAppService;
     }
 
+    private function generateNextCode($lastCode, $prefix)
+    {
+        if (!$lastCode) {
+            return $prefix . "00001";
+        }
+        $numberPart = (int) substr($lastCode, strlen($prefix));
+        $nextNumber = str_pad($numberPart + 1, 6, "0", STR_PAD_LEFT);
+        return $prefix . $nextNumber;
+    }
+
         public function index()
         {
             $user = Auth::user();
@@ -78,6 +88,7 @@ class QuotationController extends Controller
 
     public function store(Request $request)
     {
+        // echo '<pre>'; print_r($request->all()); exit;
        
         // dd($request->all());
         $request->validate([
@@ -95,9 +106,15 @@ class QuotationController extends Controller
             // 'item_price' => 'required|array',
             // 'item_discount' => 'required|array',
         ]);
+
+        $lastAppointmentId = Quotation::max("unique_id");
+        $nextAppointmentId = $this->generateNextCode($lastAppointmentId, "CAB");
+        $request["unique_id"] = $nextAppointmentId;
     
         // Prepare the quotation data
+        
         $arrayForInsert = [
+            'unique_id' => $request->unique_id,
             'appointment_id' => $request->appoint_id ?? '',
             'franchise_id' =>$request->franchise_id,
             'name' => $request->name ?? '',
@@ -106,8 +123,19 @@ class QuotationController extends Controller
             'address' => $request->address ?? '',
             'quot_for' => $request->quotation_for ?? '',
             'cartage' => $request->cartage ?? '',
+
+            'gst_no' =>  $request->gst_uin ?? '',
+            'voucher_no' => $request->voucher_no ?? '',
+            'buyer_ref' => $request->buyer_ref ?? '',
+            'other_ref' =>  $request->other_ref ?? '',
+            'dispatch' => $request->dispatch ?? '',
+            'destination' => $request->destination ?? '',
+            'city_port' => $request->city_port ?? '',
+            'terms_delivery' => $request->terms_deliver ?? '',
+
             // 'section_name' => $request->section_name ?? '',
             'date' => date('Y-m-d'),  // using Y-m-d format
+
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -203,8 +231,8 @@ class QuotationController extends Controller
         //     ]  
         // ];
 
-        $this->whatsAppService->sendMessageWp('91'.$franchise_data->mobile, 'quotation');
-        $this->whatsAppService->sendMessageWp('91'.$appointData->mobile, 'quotation');
+        // $this->whatsAppService->sendMessageWp('91'.$franchise_data->mobile, 'quotation');
+        // $this->whatsAppService->sendMessageWp('91'.$appointData->mobile, 'quotation');
         // end send whatsaap Message
 
 
@@ -306,12 +334,22 @@ class QuotationController extends Controller
     }
 
     public function downloadQuotationView($appointment_id){
-        $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
+        $order_data = QuotationItem::with('appointment', 'franchise', 'quotation_data')->where('appointment_id',$appointment_id)->first();
+
+        if ($order_data) {
+            $quotations = $order_data['quotation_data'] ?? '';
+            $sectionItems = QuotationSection::with('items')
+                ->where('quotation_id', $order_data['quotation_data']['id'] ?? null)
+                ->get();
+
+            $appointment = $order_data->appointment;
+        }
+
+        // $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
+        // $quotations = Quotation::find($appointment_id);
+        // $appointment = Appointment::find($quotations->appointment_id);
         
-        $quotations = Quotation::find($appointment_id);
-        $appointment = Appointment::find($quotations->appointment_id);
-        
-        return view('admin.quotation.download_quote',compact('sectionItems','quotations', 'appointment'));
+        return view('admin.quotation.download_quote', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
     }
 
     public function getQuotationData($appointment_id){
