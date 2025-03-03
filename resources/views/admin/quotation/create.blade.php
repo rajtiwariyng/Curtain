@@ -447,13 +447,13 @@
               <textarea name="address" id="AddressInput" class="form-control w-100" readonly>{{$appointment_data->address}}</textarea>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="QuotationForInput" class="form-label mb-1">Quotation For</label>
               <input type="text" name="quotation_for" class="form-control w-100" id="QuotationForInput">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="cartageInput" class="form-label mb-1">Remarks</label>
               <input type="text" name="cartage" class="form-control w-100" id="cartageInput">

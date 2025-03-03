@@ -80,7 +80,7 @@
     <script src="{{ asset('admin/JS/menu.js') }}"></script>
     <script src="{{ asset('admin/JS/franchise.js') }}"></script>
     <script src="{{ asset('admin/JS/multiselectInput.js') }}"></script>
-    <script src="{{ asset('admin/JS/searchableselect.js') }}"></script>
+    <!-- <script src="{{ asset('admin/JS/searchableselect.js') }}"></script> -->
     <!-- <script src="{{ asset('admin/JS/createquote.js') }}"></script> -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
