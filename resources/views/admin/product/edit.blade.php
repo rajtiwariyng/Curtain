@@ -424,9 +424,9 @@
         var cpf = supplierPrice + freight;
         var profit = cpf * (profitPercentage / 100);
         var mrpBeforeGST = cpf + profit;
-        var gstAmount = mrpBeforeGST * (gstPercentage / 100);
-        var finalMRP = mrpBeforeGST + gstAmount;
-        finalMRP = Math.round(finalMRP);
+        // var gstAmount = mrpBeforeGST * (gstPercentage / 100);
+        // var finalMRP = mrpBeforeGST + gstAmount;
+        finalMRP = Math.round(mrpBeforeGST);
 
         // Display MRP
         document.getElementById("mrpInput").value = finalMRP;

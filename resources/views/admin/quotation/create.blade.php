@@ -695,7 +695,7 @@
             success: function(result) {
               let htmlProductType = `<option disabled selected>Select Item</option>`;
               result.forEach(function(item) {
-                    htmlProductType += `<option value="${item.id}" data-unit="${item.product_type.product_unit}" data-price="${item.supplier_price}" data-mrp="${item.mrp}" data-profit="${item.profit_percentage}">${item.product_type.product_type}</option>`;
+                    htmlProductType += `<option value="${item.id}" data-unit="${item.product_type.product_unit}" data-price="${item.supplier_price}" data-mrp="${item.mrp}" data-profit="${item.profit_percentage}" data-gst_percentage="${item.gst_percentage}">${item.product_type.product_type}</option>`;
                 });
                 $("#itemProduct_" + sectionId + "_" + itemCount).append(htmlProductType);
             }
@@ -714,17 +714,19 @@
         var profit = selectedOption.data('profit');
         var mrp = selectedOption.data('mrp');
         var supplier_price = selectedOption.data('price');
-
+        var gst_percent = selectedOption.data('gst_percentage');
+        
    
         $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(mrp);
         // $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val(1);
 
         // Set the value for item_discount
-        // $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
-        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(mrp);
-        // $("input[name='total_amount[" + sectionId + "][" + itemCount + "]']").val(supplier_price - profit);
-
-        // Split the unit if there are multiple values
+        $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(gst_percent);
+        let withgstMrp = mrp * (gst_percent / 100);
+        let finalMRP = Math.round(mrp) + Math.round(withgstMrp);
+        
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(finalMRP);
+        
         if (typeof productUnit === 'string') {
             productUnit = productUnit.split(',');
         }
@@ -748,7 +750,12 @@
 
       let amount = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
 
-        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(amount * inputValue);
+       let gst_val = $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val();
+       let withgstMrp = (amount * inputValue) * (gst_val / 100);
+      
+        let finalMRP = Math.round(amount) * inputValue + Math.round(withgstMrp);
+
+        $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val(finalMRP);
       
       // Update the value of the input box with the sanitized input
       $(this).val(inputValue);
@@ -762,10 +769,14 @@
         var inputValue = $(this).val();
 
       inputValue = inputValue.replace(/[^0-9]/g, '');
-      console.log(inputValue);  
+      
       let qty = $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val();
       let price = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
-      let total_price = (price * qty) * inputValue / 100;
+      let gst = $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val();
+      let mrp = (price * qty) * inputValue / 100;
+      var gstAmount = mrp * (gst / 100);
+      var finalMRP = mrp + gstAmount;
+      let total_price = finalMRP;
 
         $("input[name='item_mrp[" + sectionId + "][" + itemCount + "]']").val((price * qty) - total_price);
       

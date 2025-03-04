@@ -23,8 +23,9 @@ class RazorpayController extends Controller
         return $prefix . $nextNumber;
     }
 
-    public function createOrder(Request $request)
+    public function createOrder(Request $request,$appointment_id)
     {
+        print_r($appointment_id); exit;
         
         $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
         $rules = [
