@@ -21,11 +21,11 @@ class Quotation extends Model
     }
 
     public function quotaitonItem(){
-        return $this->belongsTo(QuotationItem::class,'id','quotation_id');
+        return $this->hasMany(QuotationItem::class,'quotation_id','id');
     }
 
     public function quotaiton_section(){
-        return $this->hasMany(QuotationSection::class,'id','quotation_id');
+        return $this->hasMany(QuotationSection::class,'quotation_id','id');
     }
 
     // public function quotaitonItem(){

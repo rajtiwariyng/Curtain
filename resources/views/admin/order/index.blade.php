@@ -449,7 +449,7 @@
                                     viewType = 'pending';
                                     statusBadge = '<span class="badge badge-pending">Pending</span>';
                                     actions = '<li><a href="javascript:" id="open-order-' + order.id + '" class="dropdown-item" data-id="' + order.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="orders/download_order/' + order.id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.id + '" >Download Invoice</a></li>';
+                                    actions += '<li><a href="orders/download_order/' + order.quotation_id + '" class="dropdown-item small download_invoice_btn" data-quotation-id="' + order.quotation_id + '" >Download Invoice</a></li>';
                                     actions += '<li><a href="quotations/download_quotes/' + order.quotation_id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + order.quotation_id + '" >Download Quotation</a></li>';
                                     (response.role == 'Help Desk' || response.role == 'Super Admin') ? actions += '<li><a href="javascript:" class="dropdown-item small update-orders-btn" data-orders-id="' + order.id + '" onclick="confirmAssign(\'' + order.id + '\')">Assign Fulfillment Desk</a></li>' : '';
                                     break;

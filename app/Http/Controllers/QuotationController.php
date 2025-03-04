@@ -37,10 +37,11 @@ class QuotationController extends Controller
         public function index()
         {
             $user = Auth::user();
-            if(!empty($user)){
+            $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
+            if(!empty($user) && $userRole != 'Super Admin'){
                 $franchise = Franchise::where('user_id',$user->id)->first();
             }
-            $userRole = $user->getRoleNames()->first();  // Get first role if there are multiple
+            // print_r($userRole); exit;
           
             // Constants for status values
             $statusPending = "0";
@@ -55,7 +56,7 @@ class QuotationController extends Controller
 
             // Get the list of all quotations (without filtering by status)
             $quotationList = $quotationQuery->get();
-
+            
             // Clone the query builder for counting quotations by status
             $quotationQueryForCount = clone $quotationQuery;
 
@@ -73,6 +74,7 @@ class QuotationController extends Controller
                 ->count();
             
 
+                // dd([$quotationList, $quotationListPending, $quotationListComplete]);
             // Return view with compacted data
             return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
         }
@@ -181,6 +183,7 @@ class QuotationController extends Controller
                                 'unit' => $request->item_unit[$index][$j] ?? '',
                                 'price' => $request->item_price[$index][$j] ?? '',
                                 'discount' => $request->item_discount[$index][$j] ?? '',
+                                'total_amount' => $request->item_mrp[$index][$j] ?? '',
                                 'created_at' => now(),
                                 'updated_at' => now(),
                             ];
@@ -280,9 +283,7 @@ class QuotationController extends Controller
         if ($userRole == 'Franchise') {
             $quotationQuery->where('franchise_id', $franchise->id);
         }
-
-        $quotationList = $quotationQuery->with('franchise')->where('status','=', $status)->get();
-
+        $quotationList = $quotationQuery->with('franchise')->where('status','=', (string) $status)->get();
         // Return the data as JSON response
         return response()->json(['data' => $quotationList]);
     }
@@ -333,23 +334,14 @@ class QuotationController extends Controller
         return redirect()->back()->with('success', 'Quotation deleted successfully.');
     }
 
-    public function downloadQuotationView($appointment_id){
-        $order_data = QuotationItem::with('appointment', 'franchise', 'quotation_data')->where('appointment_id',$appointment_id)->first();
-
-        if ($order_data) {
-            $quotations = $order_data['quotation_data'] ?? '';
-            $sectionItems = QuotationSection::with('items')
-                ->where('quotation_id', $order_data['quotation_data']['id'] ?? null)
-                ->get();
-
-            $appointment = $order_data->appointment;
-        }
-
-        // $sectionItems = QuotationSection::with('items')->where('quotation_id',$appointment_id)->get();
-        // $quotations = Quotation::find($appointment_id);
-        // $appointment = Appointment::find($quotations->appointment_id);
+    public function downloadQuotationView($quotation_Id){
+        $order_data = Quotation::with('appointment', 'franchise', 'quotaitonItem','quotaiton_section')->find($quotation_Id);
         
-        return view('admin.quotation.download_quote', compact('sectionItems', 'quotations', 'order_data', 'appointment'));
+
+        $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
+        $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');
+        
+        return view('admin.quotation.download_quote', compact('order_data'));
     }
 
     public function getQuotationData($appointment_id){

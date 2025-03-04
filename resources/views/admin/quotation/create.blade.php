@@ -454,12 +454,12 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <div class="mb-3 w-100">
               <label for="voucherInput" class="form-label mb-1">Voucher No</label>
               <input type="text" name="voucher_no" class="form-control w-100" id="voucherInput">
             </div>
-          </div>
+          </div> -->
           <div class="col-md-3">
             <div class="mb-3 w-100">
               <label for="QuotationForInput" class="form-label mb-1">Quotation For</label>
@@ -630,6 +630,7 @@
 
         // Append the new section HTML to the container (e.g. #sectionsContainer)
         $('.sectionContainer').append(sectionHtml);
+        $('.select2').select2();
 
         itemCount++;
     }
@@ -662,13 +663,14 @@
                               </select>
                             </td>
                             <td><input type="number" class="form-control max-w-166" name="item_price[${sectionId}][`+itemCount+`]" placeholder="Item Price" readonly></td>
-                            <td><input type="text" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" placeholder="Item Discount"></td>
+                            <td><input type="text" class="form-control max-w-166" name="item_discount[${sectionId}][`+itemCount+`]" id="itemDiscount_${sectionCount}_${itemCount}" placeholder="Item Discount"></td>
                             <td><input type="number" class="form-control max-w-166" name="item_mrp[${sectionId}][`+itemCount+`]" placeholder="Item Mrp" readonly></td>
                             <td><button class="icon-btn m-0 delete-item"><i class="bi bi-trash3"></i></button></td>
                           </tr>`;
 
         // Append the new item row to the specific section's item list
         $('#section_' + sectionId + ' .item-list').append(itemRow);
+        $('.select2').select2();
 
         get_product_type(sectionId, itemCount);
     });
@@ -715,7 +717,7 @@
 
    
         $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val(mrp);
-        $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val(1);
+        // $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val(1);
 
         // Set the value for item_discount
         // $("input[name='item_discount[" + sectionId + "][" + itemCount + "]']").val(profit);
@@ -760,7 +762,7 @@
         var inputValue = $(this).val();
 
       inputValue = inputValue.replace(/[^0-9]/g, '');
-
+      console.log(inputValue);  
       let qty = $("input[name='item_qty[" + sectionId + "][" + itemCount + "]']").val();
       let price = $("input[name='item_price[" + sectionId + "][" + itemCount + "]']").val();
       let total_price = (price * qty) * inputValue / 100;
