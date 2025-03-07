@@ -86,9 +86,9 @@
                 </div> -->
             </div>
         </div>
-
+        
         <div class="table-responsive">
-            <table class="table" id="appointment-table">
+            <table class="table" id="projectsTable">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -642,7 +642,7 @@
         // Function to load appointment data based on the selected status
         function loadAppointmentData(status) {
             // Show loading indicator (optional)
-            $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+            $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
             // AJAX call to fetch data from the server
             $.ajax({
@@ -653,7 +653,7 @@
                 },
                 success: function(response) {
                     // Clear the current table rows before appending new data
-                    $('#appointment-table tbody').empty();
+                    $('#projectsTable tbody').empty();
 
                     // Check if response contains data and populate the table
                     if (response.data && response.data.length > 0) {
@@ -721,16 +721,16 @@
                             }
                             row += '</ul></div></td>';
                             row += '</tr>';
-                            $('#appointment-table tbody').append(row);
+                            $('#projectsTable tbody').append(row);
                         });
                     } else {
-                        $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+                        $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }
                 },
                 error: function() {
                     // Handle AJAX request error
                     alert('Error loading franchise data');
-                    $('#appointment-table tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
+                    $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
                 }
             });
         }

@@ -60,7 +60,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table" id="quotation-table">
+            <table class="table" id="projectsTable">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -274,6 +274,7 @@
 @section('script')
 
 <script>
+    
     function confirmAssign(appointmentId) {
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
@@ -300,7 +301,7 @@
         function loadQuotationData(status) {
             console.log(status);
             // Show loading indicator (optional)
-            $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+            $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
             // AJAX call to fetch data from the server
             $.ajax({
@@ -311,7 +312,7 @@
                 },
                 success: function(response) {
                     // Clear the current table rows before appending new data
-                    $('#quotation-table tbody').empty();
+                    $('#projectsTable tbody').empty();
 
                     // Check if response contains data and populate the table
                     if (response.data && response.data.length > 0) {
@@ -360,16 +361,20 @@
                             }
                             row += '</ul></div></td>';
                             row += '</tr>';
-                            $('#quotation-table tbody').append(row);
+                            $('#projectsTable tbody').append(row);
+
+                            
                         });
+                        $('#projectsTable').DataTable().clear().destroy();
+                            $('#projectsTable').DataTable()
                     } else {
-                        $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+                        $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }
                 },
                 error: function() {
                     // Handle AJAX request error
                     alert('Error loading franchise data');
-                    $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
+                    $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
                 }
             });
         }

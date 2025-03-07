@@ -76,7 +76,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table" id="quotation-table">
+            <table class="table projectsTable" id="projectsTable">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -402,7 +402,7 @@
         });
 
         function loadQuotationData(status) {
-            $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+            $('.projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
             $.ajax({
             url: '/orders/data', // API endpoint to fetch the data
@@ -412,7 +412,7 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    $('#quotation-table tbody').empty();
+                    $('.projectsTable tbody').empty();
                     if (response.data && response.data.length > 0) {
                         var hasInstallationDate = response.data.some(order => order.installation_date);
 
@@ -484,16 +484,16 @@
                             }
                             row += '</ul></div></td>';
                             row += '</tr>';
-                            $('#quotation-table tbody').append(row);
+                            $('.projectsTable tbody').append(row);
                         });
                     } else {
-                        $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+                        $('.projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }
                 },
                 error: function() {
                     // Handle AJAX request error
                     alert('Error loading franchise data');
-                    $('#quotation-table tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
+                    $('.projectsTable tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
                 }
             });
         }

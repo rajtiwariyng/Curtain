@@ -13,7 +13,7 @@
 
     <div class="dataOverview mt-3">
         <div class="table-responsive">
-            <table class="table" id="querybooked-table">
+            <table class="table" id="projectsTable">
                 <thead>
                     <tr>
                         <th>S/N</th>
