@@ -307,7 +307,7 @@ class AppointmentController extends Controller
         ];
 
         $this->whatsAppService->sendMessage('91'.$franchiseDetail->mobile, 'appointmentscheduled', $parameters); // send to franchise
-        $this->whatsAppService->sendMessage('91'.$$appointment->mobile, 'appointmentscheduled', $parameters); // send to customer
+        $this->whatsAppService->sendMessage('91'.$appointment->mobile, 'appointmentscheduled', $parameters); // send to customer
         // end send whatsaap Message
 
         // Pass these to the email
