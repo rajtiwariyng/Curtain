@@ -299,7 +299,7 @@
 
         // Function to load appointment data based on the selected status
         function loadQuotationData(status) {
-            console.log(status);
+            //console.log(status);
             // Show loading indicator (optional)
             $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
@@ -328,7 +328,7 @@
                             var statusBadge = '';
                             var viewType = '';
                             var actions = ''; // Store the actions that should be available
-
+                            //alert(appnt.status);
                             switch (appnt.status) {
                                 case '0':
                                     viewType = 'pending';
@@ -361,12 +361,13 @@
                             }
                             row += '</ul></div></td>';
                             row += '</tr>';
+							//alert(row);
                             $('#projectsTable tbody').append(row);
 
                             
                         });
-                        $('#projectsTable').DataTable().clear().destroy();
-                            $('#projectsTable').DataTable()
+                        //$('#projectsTable').DataTable().clear().destroy();
+                            //$('#projectsTable').DataTable()
                     } else {
                         $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }

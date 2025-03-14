@@ -357,7 +357,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="orderappointmentId" name="appointment_id">
                     <input type="hidden" id="orderfranchisetId" name="franchise_id">
-                    <input type="hidden" id="orderquotationId" name="quotation_id">
+                    <input type="hidden" id="orderquotationId" name="quotation_id">    
                     <input type="hidden" id="orderValue" name="order_value">
                     <div class="mb-3">
                         <label for="ordervalue" class="form-label">Order Value<span class="requried">*</span></label>
@@ -368,29 +368,29 @@
                         <label for="modeofpayment" class="form-label">Mode Of Payment<span class="requried">*</span></label>
                         <select class="form-control me-3 w-100" name="payment_mode" id="payment_mode">
                             <option value="" disabled selected>Select Payment Mode</option>
-                            <option value="cash">Cash</option>
                             <option value="online">Online</option>
-                            <option value="upi">UPI</option>
-                            <option value="cheque">Cheque</option>
+                           <!-- <option value="upi">UPI</option>
+						   <option value="cash">Cash</option>
+                            <option value="cheque">Cheque</option>-->
                         </select>
                         <div class="error" id="payment_mode_error" style="color: red;"></div>
                     </div>
                     <div class="mb-3" id="mode_option">
                         
                     </div>
-                    <div class="mb-3">
+                   <!-- <div class="mb-3">
                         <label for="amountpaid" class="form-label">Amount Paid<span class="requried">*</span></label>
                         <input type="text" name="paid_amount" id="amountpaid" placeholder="Enter Paid Amount"  class="form-control me-3 w-100">
                         <div class="error" style="color: red;"></div>
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                         <label for="paymenttype" class="form-label">Payment Type<span class="requried">*</span></label>
                         <select id="paymenttype" name="payment_type" class="form-select w-100">
                             <option value="" disabled selected>Select</option>
-                            <option value="partial">Partial</option>
+                           <!-- <option value="partial">Partial</option> -->
                             <option value="full">Full</option>
                             </select>
-                    </div>
+                    </div> 
 
                     <div class="mb-3">
                         <label for="Note" class="form-label">Note</label>
@@ -419,10 +419,11 @@
             e.preventDefault();
             
             var orderValue = document.getElementById('ordervalue').value;
+			
             var payment_mode = document.getElementById('payment_mode').value;
-            var payment_type = document.getElementById('paymenttype').value;
+           var payment_type = document.getElementById('paymenttype').value;
             var payment_note = document.getElementById('paymentnote').value;
-            var amount = document.getElementById('amountpaid').value;
+            //var amount = document.getElementById('amountpaid').value;
             var orderappointmentId = document.getElementById('orderappointmentId').value;
             var orderfranchisetId = document.getElementById('orderfranchisetId').value;
             var orderquotationId = document.getElementById('orderquotationId').value;
@@ -431,9 +432,9 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': $("input[name='_token']").val()
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ order_value: orderValue, payment_mode: payment_mode ,payment_type: payment_type, remarks: payment_note, paid_amount: amount,appointment_id : orderappointmentId ,franchise_id : orderfranchisetId,quotation_id : orderquotationId })
+                body: JSON.stringify({ order_value: orderValue, payment_mode: payment_mode , payment_type:payment_type ,remarks: payment_note,appointment_id : orderappointmentId ,franchise_id : orderfranchisetId,quotation_id : orderquotationId })
             })
             .then(response => response.json())
             .then(data => {
@@ -509,10 +510,10 @@
             dataType: "json",
             success: function(result) {
                 if(result){
-                    const order_value = result.total_price - result.total_discount; 
+                    const order_value = result.total_order_value; 
 
                     $('#ordervalue').val(order_value);
-                    $('#orderValue').val(order_value);
+                    //$('#orderValue').val(order_value);
                     $('#orderappointmentId').val(orderappointmentId);
                     $('#orderfranchisetId').val(result.franchise_id);
                     $('#orderquotationId').val(result.quotation_id);
@@ -546,7 +547,7 @@
                         $('#mode_option').append(html);
 
                     });
-                    $('#amountpaid').on('input', function() {
+                    $('#ordervalue').on('input', function() {
                         var inputValue = $(this).val();
                         inputValue = inputValue.replace(/[^0-9]/g, '');
 
@@ -620,7 +621,7 @@
 
             // Validate Appointment Date
             const date = $('#re-dateFilter').val();
-            console.log(date);
+            //console.log(date);
             if (!date) {
                 valid = false;
                 $('#re-dateFilter').after('<div class="error" style="color: red;">Appointment date is required.</div>');
@@ -703,7 +704,7 @@
                                     statusBadge = '<span class="badge badge-inactive">Hold</span>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
                                     actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View Quotation</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" onclick="updatepayment('+ appnt.id +')">Update Payment</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-appointment-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '" onclick="updatepayment('+ appnt.id +')">Update Payment</a></li>';
                                     break;
                                 default:
                                     viewType = 'pending';
@@ -768,7 +769,7 @@
         $(document).on('click', '[id^="open-appointment-details-"]', function() {
             var franchiseId = $(this).data('id'); // Get franchise ID dynamically
             var franchiseType = $(this).data('checktype'); // Get franchise ID dynamically
-
+            //alert(franchiseType);
             // Ajax request to get franchise details
             $.ajax({
                 url: '/appointment/details/' + franchiseId + '/' + franchiseType, // Make sure the URL is correct

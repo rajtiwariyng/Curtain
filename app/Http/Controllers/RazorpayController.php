@@ -23,21 +23,24 @@ class RazorpayController extends Controller
         return $prefix . $nextNumber;
     }
 
-    public function createOrder(Request $request,$appointment_id)
+    public function createOrder(Request $request,$appointment_id=NULL)
     {
-        print_r($appointment_id); exit;
+        //print_r($request->all()); exit;
         
-        $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
+        //$api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
+        $api = new Api('rzp_test_IX6EFCqGoyCt59', 'DlyvBZWmJuigIHM81VpCwKvw'); // Static test credentials
+
+		 
         $rules = [
             // 'company_name' => 'required|string|max:255',
             "payment_mode" => "required",
-            "paid_amount" => "required",
+            //"paid_amount" => "required",
             "payment_type" => "required"
         ];
 
         $messages = [
             "payment_mode.required" => "Please Select Payment Mode",
-            "paid_amount.required" => "Please Enter Paid Amount",
+            //"paid_amount.required"  => "Please Enter Paid Amount",
             "payment_type.required" => "Please Select Payment Type"
         ];
 
@@ -52,16 +55,17 @@ class RazorpayController extends Controller
 
         $orderData = [
             'receipt'         => '123',
-            'amount'          => $request['paid_amount'] * 100, // Razorpay takes amount in paise (1 INR = 100 paise)
+            'amount'          => $request['order_value'], // Razorpay takes amount in paise (1 INR = 100 paise)
             'currency'        => 'INR',
             'payment_capture' => 1, // Automatically capture payment
         ];
 
-
+    
         try {
             // Create the order
+			
             $order = $api->order->create($orderData);
-            
+            // print_r($order);die;  
             $lastAppointmentId = Order::max("txn_id");
             $nextAppointmentId = $this->generateNextCode($lastAppointmentId, "TXN");
             $request["txn_id"] = $nextAppointmentId;
@@ -80,9 +84,9 @@ class RazorpayController extends Controller
                 $quotations = Quotation::where('appointment_id', $data['appointment_id'])->where('id',$request->quotation_id);
                 $quotations->update($update_quotation);
             }
-            Mail::to($appointment->email)->send(
+           Mail::to($appointment->email)->send(
                 new InvoiceGeneratedMail($appointment)
-            );
+            ); 
 
             return response()->json(['order' => $order]);
         } catch (\Exception $e) {
@@ -100,7 +104,8 @@ class RazorpayController extends Controller
             'razorpay_signature' => $request->razorpay_signature
         ];
 
-        $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
+        //$api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
+        $api = new Api('rzp_test_IX6EFCqGoyCt59', 'DlyvBZWmJuigIHM81VpCwKvw'); // Static test credentials
 
         $order = $api->order->fetch($request->razorpay_order_id);
 

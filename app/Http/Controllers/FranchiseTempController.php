@@ -286,7 +286,7 @@ class FranchiseTempController extends Controller
             ],
             [
                 'type' => 'text',
-                'text' => $franchiseTemp->name
+                'text' => $franchiseTemp->email
             ],
             [
                 'type' => 'text',

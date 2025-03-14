@@ -75,7 +75,7 @@ class QuotationController extends Controller
             
 
                 // dd([$quotationList, $quotationListPending, $quotationListComplete]);
-            // Return view with compacted data
+            // Return view with compacted data   
             return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
         }
 
@@ -169,6 +169,8 @@ class QuotationController extends Controller
                     foreach ($request->product_item[$index] as $j => $product_item) {
                         if (isset($request->item_name[$index][$j])) {
                             // Add item data to the items array
+							$product_data=Product::where('id',$product_item)->first();
+							//echo "<pre>";print_r($product_data);die; 
                             $items[] = [
                                 'quotation_id' => $newQuotationId, // Associate with the created quotation
                                 'appointment_id' => $request->appoint_id ?? '',
@@ -183,6 +185,7 @@ class QuotationController extends Controller
                                 'unit' => $request->item_unit[$index][$j] ?? '',
                                 'price' => $request->item_price[$index][$j] ?? '',
                                 'discount' => $request->item_discount[$index][$j] ?? '',
+								'gst_percentage' =>!empty($product_data->gst_percentage)?$product_data->gst_percentage:NULL,
                                 'total_amount' => $request->item_mrp[$index][$j] ?? '',
                                 'created_at' => now(),
                                 'updated_at' => now(),
@@ -213,7 +216,7 @@ class QuotationController extends Controller
 
         // Insert items in bulk
         if (!empty($items)) {
-            QuotationItem::insert($items);
+            QuotationItem::insert($items);  
         }
 
         // Insert all items into the database at once
@@ -336,7 +339,7 @@ class QuotationController extends Controller
 
     public function downloadQuotationView($quotation_Id){
         $order_data = Quotation::with('appointment', 'franchise', 'quotaitonItem','quotaiton_section')->find($quotation_Id);
-        
+        //echo "<pre>";print_r($order_data);die; 
 
         // $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
         // $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');
@@ -352,18 +355,26 @@ class QuotationController extends Controller
                     'franchise_id' => $appointment->franchise_id,
                     'appointment_id' => $appointment->id
                 ])->first();
-               
+                //echo "<pre>";print_r($quotation);die;
                 if ($quotation) {
-                    $quotation_items = QuotationItem::select(
-                        'quotation_id',
-                        DB::raw('SUM(discount) as total_discount'),
-                        DB::raw('SUM(price) as total_price')
+                    $quotation_data = QuotationItem::select(
+                        'quotation_id','discount','qty','price','gst_percentage'
                     )->where([
                         'franchise_id' => $quotation->franchise_id,
                         'appointment_id' => $quotation->appointment_id,
                         'quotation_id' => $quotation->id
-                    ])->groupBy('quotation_id')->first();
-
+                    ])->get();
+					$total=0;
+                   if($quotation_data){
+					   foreach($quotation_data as $datas){
+						  if($datas['price'] != '' && $datas['gst_percentage'] != ''){
+						  $total=$total+(($datas['price']*$datas['qty'])+ ($datas['price']*$datas['qty']*$datas['gst_percentage']/100)-($datas['price']*$datas['qty']*$datas['discount']/100)); 
+                          }						  
+					   }
+				   } 
+                    //echo $total;die; 	  			   
+                    $quotation_items['quotation_id'] = $datas['quotation_id']; 
+                    $quotation_items['total_order_value'] = !empty($total)?$total:0;					
                     $quotation_items['franchise_id'] = $appointment->franchise_id;
                     $quotation_items['appointment_id'] = $appointment->id;
 

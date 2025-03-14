@@ -279,7 +279,7 @@ class OrderController extends Controller
     {
 
         $order_data = Quotation::with('appointment', 'franchise', 'quotaitonItem','quotaiton_section')->find($quotation_id);
-        
+       // echo "<pre>";print_r($order_data['quotaitonItem']);die; 
 
         $this->whatsAppService->sendMessageWp('91'.$order_data['appointment']['mobile'], 'purchaseorder');
         $this->whatsAppService->sendMessageWp('91'.$order_data['franchise']['mobile'], 'purchaseorder');

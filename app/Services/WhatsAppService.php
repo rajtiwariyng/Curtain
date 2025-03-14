@@ -43,7 +43,8 @@ class WhatsAppService
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($data),
             CURLOPT_HTTPHEADER => [
-                'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN'),
+                //'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN'),
+                'Authorization: Bearer dYjPebs9fU67IeafcZbL6g',
                 'Content-Type: application/json'
             ],
             CURLOPT_SSL_VERIFYPEER => false,
@@ -62,7 +63,7 @@ class WhatsAppService
         // }
 
         curl_close($curl);
-
+        //dd($response);
         return $response;
     }
 
@@ -99,7 +100,8 @@ class WhatsAppService
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($data),
             CURLOPT_HTTPHEADER => [
-                'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN'),
+                //'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN'),
+                'Authorization: Bearer dYjPebs9fU67IeafcZbL6g',
                 'Content-Type: application/json'
             ],
             CURLOPT_SSL_VERIFYPEER => false,
