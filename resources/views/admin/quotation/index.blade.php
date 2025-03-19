@@ -6,7 +6,7 @@
 <div class="dataOverviewSection mt-3">
     <div class="section-title">
         <h6 class="fw-bold m-0">All Quotations <span class="fw-normal text-muted">({{ count($quotationList) }})</span></h6>
-        
+
     </div>
 
     <div class="dataOverview mt-3">
@@ -55,7 +55,7 @@
                         <tbody></tbody>
                     </table>
                 </div>
-                
+
             </div>
         </div>
 
@@ -249,7 +249,7 @@
                         <label for="franchise" class="form-label">Select Franchise<span class="requried">*</span></label>
                         <select id="franchise" name="franchise_id" class="form-select w-100" required>
                             <option value="">Select Franchise</option>
-                     
+
                         </select>
                     </div>
                     <div class="mb-3">
@@ -274,7 +274,6 @@
 @section('script')
 
 <script>
-    
     function confirmAssign(appointmentId) {
         // Open modal and set appointment ID
         $('#assignAppointmentModal').modal('show');
@@ -297,87 +296,108 @@
             loadQuotationData(tabId); // Load data based on clicked tab
         });
 
+
         // Function to load appointment data based on the selected status
         function loadQuotationData(status) {
-            console.log(status);
-            // Show loading indicator (optional)
-            $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+    console.log(status);
+    // Show loading indicator (optional)
+    $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
-            // AJAX call to fetch data from the server
-            $.ajax({
-                url: '/quotations/data', // API endpoint to fetch the data
-                method: 'GET',
-                data: {
-                    status: status // Pass the selected tab status to the server
-                },
-                success: function(response) {
-                    // Clear the current table rows before appending new data
-                    $('#projectsTable tbody').empty();
+    // AJAX call to fetch data from the server
+    $.ajax({
+        url: '/quotations/data', // API endpoint to fetch the data
+        method: 'GET',
+        data: {
+            status: status // Pass the selected tab status to the server
+        },
+        success: function(response) {
+            // Clear the current table rows before appending new data
+            $('#projectsTable tbody').empty();
 
-                    // Check if response contains data and populate the table
-                    if (response.data && response.data.length > 0) {
-                        console.log(response.data);
-                        $.each(response.data, function(idx, appnt) {
-                            var row = '<tr>';
-                            row += '<td>' + (idx + 1) + '</td>';
-                            row += '<td>' + appnt.id + '</td>';
-                            row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
-                            row += '<td>' + appnt.franchise.name + '</td>';
-                            row += '<td>' + appnt.address + '</td>';
-                            
-                            var statusBadge = '';
-                            var viewType = '';
-                            var actions = ''; // Store the actions that should be available
+            // Check if response contains data and populate the table
+            if (response.data && response.data.length > 0) {
+                $.each(response.data, function(idx, appnt) {
+                    var row = '<tr>';
+                    row += '<td>' + (idx + 1) + '</td>';
+                    row += '<td>' + appnt.id + '</td>';
+                    row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
+                    row += '<td>' + appnt.franchise.name + '</td>';
+                    row += '<td>' + appnt.address + '</td>';
 
-                            switch (appnt.status) {
-                                case '0':
-                                    viewType = 'pending';
-                                    statusBadge = '<span class="badge badge-pending">Pending</span>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                                    // actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
-                                    break;
-                                case '1':
-                                    viewType = 'complete';
-                                    statusBadge = '<span class="badge badge-active">Completed</span>';
-                                    // actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
-                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                                    // actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                                    // actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
-                                    break;
-                                default:
-                                    viewType = 'pending';
-                                    statusBadge = '<span class="badge badge-unknown">Unknown</span>';
-                                    actions = ''; // Default to no actions
-                                    break;
-                            }
+                    var statusBadge = '';
+                    var viewType = '';
+                    var actions = '';
 
-                            row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';
-                            row += '<ul class="dropdown-menu">';
-                            // Only add the actions if there are any
-                            if (actions) {
-                                row += actions;
-                            }
-                            row += '</ul></div></td>';
-                            row += '</tr>';
-                            $('#projectsTable tbody').append(row);
-
-                            
-                        });
-                        $('#projectsTable').DataTable().clear().destroy();
-                            $('#projectsTable').DataTable()
-                    } else {
-                        $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+                    switch (appnt.status) {
+                        case '0':
+                            viewType = 'pending';
+                            statusBadge = '<span class="badge badge-pending">Pending</span>';
+                            actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                            actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                            break;
+                        case '1':
+                            viewType = 'complete';
+                            statusBadge = '<span class="badge badge-active">Completed</span>';
+                            actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                            break;
+                        default:
+                            viewType = 'pending';
+                            statusBadge = '<span class="badge badge-unknown">Unknown</span>';
+                            actions = '';
+                            break;
                     }
-                },
-                error: function() {
-                    // Handle AJAX request error
-                    alert('Error loading franchise data');
-                    $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
+
+                    row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';
+                    row += '<ul class="dropdown-menu">';
+                    if (actions) {
+                        row += actions;
+                    }
+                    row += '</ul></div></td>';
+                    row += '</tr>';
+
+                    $('#projectsTable tbody').append(row);
+                });
+
+                // Destroy any existing DataTable instance
+                if ($.fn.dataTable.isDataTable('#projectsTable')) {
+                    $('#projectsTable').DataTable().clear().destroy();
                 }
-            });
+
+                // Reinitialize DataTable with updated settings
+                $('#projectsTable').DataTable({
+                    "processing": true,
+                    "serverSide": false,  // Set this to false for client-side pagination
+                    "paging": true,  // Enable pagination
+                    "searching": true,  // Enable search
+                    "info": true,  // Show total records info
+                    "lengthChange": true,  // Allow changing page length
+                    "pageLength": 10,  // Set initial page length
+                    "lengthMenu": [10, 25, 50, 75, 100],  // Page size options
+                    "language": {
+                        "paginate": {
+                            "previous": "&laquo;",
+                            "next": "&raquo;"
+                        }
+                    },
+                    // Update the info panel with the total records
+                    "drawCallback": function(settings) {
+                        var totalRecords = response.total;  // Get total records count from the server
+                        var displayedRecords = settings.fnRecordsDisplay();
+                        $('#projectsTable_info').html('Showing ' + displayedRecords + ' of ' + totalRecords + ' entries');
+                    }
+                });
+
+            } else {
+                $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
+            }
+        },
+        error: function() {
+            // Handle AJAX request error
+            alert('Error loading franchise data');
+            $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Failed to load data</td></tr>');
         }
+    });
+}
     });
 
     $(document).on('click', '.download_quotation_btn', function(e) {
@@ -389,6 +409,7 @@
         // Navigate to the URL using window.location
         window.location.href = url;
     });
+
     function showApproveFranchiseModal(franchiseId) {
         var form = document.getElementById('approveFranchiseForm');
         var actionUrl = form.action.replace('__franchise_id__', franchiseId); // Replace the placeholder with the actual franchise ID
@@ -419,7 +440,7 @@
 
     $(document).ready(function() {
         $(document).on('click', '[id^="open-quotation-details-"]', function() {
-            
+
             var quotationId = $(this).data('id'); // Get quotation ID dynamically
             var quotationType = $(this).data('checktype'); // Get quotation ID dynamically
 

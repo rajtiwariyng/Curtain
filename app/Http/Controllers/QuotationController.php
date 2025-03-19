@@ -74,8 +74,6 @@ class QuotationController extends Controller
                 ->count();
             
 
-                // dd([$quotationList, $quotationListPending, $quotationListComplete]);
-            // Return view with compacted data
             return view('admin.quotation.index', compact('quotationList', 'quotationListPending', 'quotationListComplete'));
         }
 
@@ -285,7 +283,7 @@ class QuotationController extends Controller
         }
         $quotationList = $quotationQuery->with('franchise')->where('status','=', (string) $status)->get();
         // Return the data as JSON response
-        return response()->json(['data' => $quotationList]);
+        return response()->json(['data' => $quotationList,'total' => count($quotationList)]);
     }
 
     public function getAppointmentDetails($id, $type)
