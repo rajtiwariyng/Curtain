@@ -192,7 +192,7 @@
                     <td>{{$item['price']}}</td>
 					<td>{{$item['gst_percentage']}}</td>  
                     <td>{{$item['discount']}}</td>
-                    <td>{{((($item['price']*$item['qty'])+$per_item_gst_amount)-$per_item_discount)}}</td>
+                    <td>{{((($item['price']*$item['qty'])))}}</td>
                 </tr>
                 @endforeach
 
@@ -226,7 +226,7 @@
                 <tr class="table-heading">
                     <td style="text-align: right; width: 35.20%;">Total</td>
                     <!-- <td style="text-align: right; width: 36%;"><strong>75.5 <span>MTRS</span></strong></td> -->
-                    <td class="align-right"><strong>₹ {{ ($total+$gst_amount)- ($per_item_total_discount) }}</strong></td>     
+                    <td class="align-right"><strong>₹ {{ ($total+$gst_amount) }}</strong></td>     
                 </tr>
             </table>
 
@@ -236,7 +236,12 @@
                     <td class="align-right">E. & O.E</td>
                 </tr>
                 <tr>
-                    <td style="width: 62%;"><strong>{{ number_to_words($total) }}</strong></td>
+				<?php use NumberToWords\NumberToWords;
+						$numberToWords = new NumberToWords();
+						$numberTransformer = $numberToWords->getNumberTransformer('en'); // 'en' for English
+
+						 ?>
+                    <td style="width: 62%;"><strong><?php echo ucwords($numberTransformer->toWords(($total+$gst_amount)))?></strong></td>
                     <td><strong>For Curtains and Blinds</strong></td>
                 </tr>
             </table>

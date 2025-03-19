@@ -111,7 +111,7 @@
                                 <option value="Data Entry Operator">Data Entry Operator</option>
                                 <option value="Accounts">Accounts</option>
                                 <option value="Franchise">Franchise</option>
-                                <option value="Franchise Team Member">Franchise Team Member</option>
+                                
                             </select>
                             <div class="form-text text-danger" id="edit_role_error"></div> <!-- Validation message -->
                         </div>
