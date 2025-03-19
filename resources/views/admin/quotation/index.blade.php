@@ -299,9 +299,9 @@
 
         // Function to load appointment data based on the selected status
         function loadQuotationData(status) {
-    console.log(status);
-    // Show loading indicator (optional)
-    $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
+            //console.log(status);
+            // Show loading indicator (optional)
+            $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">Loading...</td></tr>');
 
     // AJAX call to fetch data from the server
     $.ajax({
@@ -314,37 +314,62 @@
             // Clear the current table rows before appending new data
             $('#projectsTable tbody').empty();
 
-            // Check if response contains data and populate the table
-            if (response.data && response.data.length > 0) {
-                $.each(response.data, function(idx, appnt) {
-                    var row = '<tr>';
-                    row += '<td>' + (idx + 1) + '</td>';
-                    row += '<td>' + appnt.id + '</td>';
-                    row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
-                    row += '<td>' + appnt.franchise.name + '</td>';
-                    row += '<td>' + appnt.address + '</td>';
+                    // Check if response contains data and populate the table
+                    if (response.data && response.data.length > 0) {
+                        console.log(response.data);
+                        $.each(response.data, function(idx, appnt) {
+                            var row = '<tr>';
+                            row += '<td>' + (idx + 1) + '</td>';
+                            row += '<td>' + appnt.id + '</td>';
+                            row += '<td>' + (appnt.date ? new Date(appnt.date).toLocaleDateString('en-GB').replace(/\//g, '-') : 'N/A') + '</td>';
+                            row += '<td>' + appnt.franchise.name + '</td>';
+                            row += '<td>' + appnt.address + '</td>';
+                            
+                            var statusBadge = '';
+                            var viewType = '';
+                            var actions = ''; // Store the actions that should be available
+                            //alert(appnt.status);
+                            switch (appnt.status) {
+                                case '0':
+                                    viewType = 'pending';
+                                    statusBadge = '<span class="badge badge-pending">Pending</span>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    // actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
+                                    break;
+                                case '1':
+                                    viewType = 'complete';
+                                    statusBadge = '<span class="badge badge-active">Completed</span>';
+                                    // actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">Edit</a></li>';
+                                    actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
+                                    // actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
+                                    // actions += '<li><a href="javascript:" class="dropdown-item small approve-quotation-btn" data-quotation-id="' + appnt.id + '" onclick="showRejectAppointmenteModal(\'' + appnt.id + '\')">Delete</a></li>';
+                                    break;
+                                default:
+                                    viewType = 'pending';
+                                    statusBadge = '<span class="badge badge-unknown">Unknown</span>';
+                                    actions = ''; // Default to no actions
+                                    break;
+                            }
 
-                    var statusBadge = '';
-                    var viewType = '';
-                    var actions = '';
+                            row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';
+                            row += '<ul class="dropdown-menu">';
+                            // Only add the actions if there are any
+                            if (actions) {
+                                row += actions;
+                            }
+                            row += '</ul></div></td>';
+                            row += '</tr>';
+							//alert(row);
+                            $('#projectsTable tbody').append(row);
 
-                    switch (appnt.status) {
-                        case '0':
-                            viewType = 'pending';
-                            statusBadge = '<span class="badge badge-pending">Pending</span>';
-                            actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                            actions += '<li><a href="quotations/download_quotes/' + appnt.id + '" class="dropdown-item small download_quotation_btn" data-quotation-id="' + appnt.id + '" >Download Quotation</a></li>';
-                            break;
-                        case '1':
-                            viewType = 'complete';
-                            statusBadge = '<span class="badge badge-active">Completed</span>';
-                            actions = '<li><a href="javascript:" id="open-quotation-details-' + appnt.id + '" class="dropdown-item" data-id="' + appnt.id + '" data-checkType="' + viewType + '">View</a></li>';
-                            break;
-                        default:
-                            viewType = 'pending';
-                            statusBadge = '<span class="badge badge-unknown">Unknown</span>';
-                            actions = '';
-                            break;
+                            
+                        });
+                        //$('#projectsTable').DataTable().clear().destroy();
+                            //$('#projectsTable').DataTable()
+                    } else {
+                        $('#projectsTable tbody').html('<tr><td colspan="10" class="text-center">No data found</td></tr>');
                     }
 
                     row += '<td><div><i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>';

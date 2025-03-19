@@ -165,26 +165,34 @@
                     <th class="table-heading">Quantity</th>
                     <th class="table-heading">Unit</th>
                     <th class="table-heading">Rate</th>
+					<th class="table-heading">GST %</th>
                     <th class="table-heading">Discount %</th>
                     <th class="table-heading">Amount</th>
                 </tr>
-                <?php $total = 0; ?>
+                <?php $total = 0; $gst_amount=0; $total_gst_per=0;$per_item_discount=0; $per_item_total_discount=0;   ?>
                 @foreach($order_data['quotaiton_section'] as $sectionItem)
                 <tr>
                     <th class="fs-6"><u>{{$sectionItem['section_name']}}</u></th>
                 </tr>
                 @foreach ($sectionItem['items'] as $item)
-                <?php $total = $total + $item['price']; ?>
+                <?php $total = $total + $item['price']*$item['qty']; ?>
+				<?php  $gst_amount =$gst_amount+($item['price']*$item['qty']*$item['gst_percentage']/100) ?>
+				<?php $per_item_gst_amount=($item['price']*$item['qty']*$item['gst_percentage']/100)?>
+				<?php $total_gst_per=$total_gst_per + $item['gst_percentage'];?>
+				<?php if(!empty($item['discount'])){
+				$per_item_discount=($item['price']*$item['qty']*$item['discount']/100); } ?>
+				<?php $per_item_total_discount= $per_item_total_discount + $per_item_discount ?>
                 <tr>
-                    <!-- <?php //echo '<pre>';print_r($item); exit; 
+                    <!-- <?php // echo'<pre>';print_r($order_data['appointment']['state']); exit; 
                             ?> -->
                     <td>{{$item['name']}}</td>
                     <!-- <td>{{$item['qty']}}</td> -->
                     <td>{{$item['qty']}}</td>
                     <td>{{$item['unit']}}</td>
                     <td>{{$item['price']}}</td>
+					<td>{{$item['gst_percentage']}}</td>  
                     <td>{{$item['discount']}}</td>
-                    <td>{{$item['price']}}</td>
+                    <td>{{((($item['price']*$item['qty'])))}}</td>
                 </tr>
                 @endforeach
 
@@ -194,17 +202,18 @@
             <table>
                 @if($order_data['appointment']['state'] == 'delhi' || $order_data['appointment']['state'] == 'Delhi')
                 <tr>
-                    <td style="text-align: right; width: 35.20%;">IGST-OUTPUT (18%)</td>
-                    <td class="align-right">{{ $total * 18 / 100 }}</td>
+			<!--{{$total_gst_per}}%  -->
+                    <td style="text-align: right; width: 35.20%;">IGST-OUTPUT ()</td>
+                    <td class="align-right">{{ $gst_amount }}</td>
                 </tr>
                 @else
                 <tr>
-                    <td style="text-align: right; width: 35.20%;">SGST-OUTPUT (9%)</td>
-                    <td class="align-right">{{ $total * 9 / 100 }}</td>
+                    <td style="text-align: right; width: 35.20%;">SGST-OUTPUT ({{$total_gst_per/2}}%)</td>
+                    <td class="align-right">{{ $gst_amount/2 }}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right; width: 35.20%;">CGST-OUTPUT (9%)</td>
-                    <td class="align-right">{{ $total * 9 / 100 }}</td>
+                    <td style="text-align: right; width: 35.20%;">CGST-OUTPUT ({{$total_gst_per/2}}%)</td>
+                    <td class="align-right">{{ $gst_amount/2 }}</td>
                 </tr>
                 @endif
 
@@ -217,7 +226,7 @@
                 <tr class="table-heading">
                     <td style="text-align: right; width: 35.20%;">Total</td>
                     <!-- <td style="text-align: right; width: 36%;"><strong>75.5 <span>MTRS</span></strong></td> -->
-                    <td class="align-right"><strong>₹ {{$total + ($total * 18 / 100)}}</strong></td>
+                    <td class="align-right"><strong>₹ {{ ( $total+$gst_amount ) }}</strong></td>     
                 </tr>
             </table>
 
@@ -227,7 +236,13 @@
                     <td class="align-right">E. & O.E</td>
                 </tr>
                 <tr>
-                    <td style="width: 62%;"><strong>{{ number_to_words($total) }}</strong></td>
+				<?php
+                        // use NumberToWords\NumberToWords;
+						// $numberToWords = new NumberToWords();
+						// $numberTransformer = number_to_words($numberToWords); // 'en' for English
+
+						 ?>
+                    <td style="width: 62%;"><strong><?php echo ucwords( number_to_words($total+$gst_amount))?></strong></td>
                     <td><strong>For Curtains and Blinds</strong></td>
                 </tr>
             </table>

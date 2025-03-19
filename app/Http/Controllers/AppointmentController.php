@@ -290,6 +290,7 @@ class AppointmentController extends Controller
         $appointment->save();
         $franchiseDetail = Franchise::find($request->franchise_id);
         $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
+        $franchiseEmail = $franchiseDetail ? $franchiseDetail->email : 'N/A';
         $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
         $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
 
@@ -307,11 +308,11 @@ class AppointmentController extends Controller
         ];
 
         $this->whatsAppService->sendMessage('91'.$franchiseDetail->mobile, 'appointmentscheduled', $parameters); // send to franchise
-        $this->whatsAppService->sendMessage('91'.$$appointment->mobile, 'appointmentscheduled', $parameters); // send to customer
+        $this->whatsAppService->sendMessage('91'.$appointment->mobile, 'appointmentscheduled', $parameters); // send to customer
         // end send whatsaap Message
 
         // Pass these to the email
-        Mail::to($appointment->email)->send(
+        Mail::to($appointment->email)->cc($franchiseEmail)->send(
             new AppointmentScheduleMail($appointment, $appointmentDate, $appointmentTime, $franchiseName)
         );
         
@@ -348,6 +349,7 @@ class AppointmentController extends Controller
         $appointment->save();
         $franchiseDetail = Franchise::find($request->franchise_id1);
         $franchiseName = $franchiseDetail ? $franchiseDetail->name : 'N/A';
+        $franchiseEmail = $franchiseDetail ? $franchiseDetail->email : 'N/A';
         $appointmentDate = Carbon::parse($appointment->appointment_date)->format('d/m/Y');
         $appointmentTime = Carbon::parse($appointment->appointment_date)->format('H.i').'hrs';
 
@@ -365,11 +367,11 @@ class AppointmentController extends Controller
         ];
 
         $this->whatsAppService->sendMessage('91'.$franchiseDetail->mobile, 'rescheduledappointment', $parameters);  // send to franchise
-        $this->whatsAppService->sendMessage('91'.$$appointment->mobile, 'rescheduledappointment', $parameters); // send to customer
+        $this->whatsAppService->sendMessage('91'.$appointment->mobile, 'rescheduledappointment', $parameters); // send to customer
         // end send whatsaap Message
 
         // Send the success email
-        Mail::to($appointment->email)->send(
+        Mail::to($appointment->email)->cc($franchiseEmail)->send(
             new AppointmentRescheduleMail($appointment, $appointmentDate, $appointmentTime, $franchiseName)
         );
 
@@ -379,8 +381,9 @@ class AppointmentController extends Controller
             ->with("success", "Franchise Re-assigned successfully.");
     }
 
-    public function getAppointmentDetails($id, $type)
+    public function getAppointmentDetails($id, $type=null)
     {
+		 //echo $type;die; 
         // Fetch the appointment by ID
         $appointment = Appointment::findOrFail($id);
 

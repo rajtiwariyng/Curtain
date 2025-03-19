@@ -69,7 +69,7 @@ class ProductTypeController extends Controller
     }
 
     public function getProductAll(){
-        $productData = Product::with('ProductType')
+        $productData = Product::with('ProductType')->where('design_sku', '!=' ,'NULL')
         ->distinct()
         ->get();
 
